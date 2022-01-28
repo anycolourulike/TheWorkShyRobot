@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: ec30cec372c6cab4a996949fcfb00fee
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: LT Asus
+  fontNames:
+  - LT Asus
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: a4e325be882f7e348b26f03d46b03f44, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
