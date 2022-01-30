@@ -1,0 +1,287 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8034491859559262833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a01710bff6d084c8c886978b0f6884, type: 3}
+  m_Name: 6c8c33f5-dd58-44d1-8fc3-96b10eef6576
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: Present HoloCert numbnuts!
+  children:
+  - 21c213e6-aeb2-4d43-bac3-0a88fbc990af
+  rect:
+    serializedVersion: 2
+    x: 1084
+    y: 143
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: Attack
+  condition:
+    and: []
+--- !u!114 &-6029707322203333134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a01710bff6d084c8c886978b0f6884, type: 3}
+  m_Name: beeabadc-63c9-423b-8f41-9aac4973e436
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: Oh yea, what are they?
+  children:
+  - 64200103-8153-4e03-92eb-719a9dcc421b
+  rect:
+    serializedVersion: 2
+    x: 667
+    y: 282
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
+--- !u!114 &-5894348315726224848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a01710bff6d084c8c886978b0f6884, type: 3}
+  m_Name: 667ec638-63e4-4500-a0c9-3993232b7578
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: There are two ways we can handle this Human...
+  children:
+  - beeabadc-63c9-423b-8f41-9aac4973e436
+  rect:
+    serializedVersion: 2
+    x: 343
+    y: 276
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
+--- !u!114 &-4760161762828458527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a01710bff6d084c8c886978b0f6884, type: 3}
+  m_Name: 229395d4-a122-4195-be74-fd316bd90cd6
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: Show me your HoloCert
+  children:
+  - c34d6943-4d77-4024-84e4-de9644e2ab5b
+  rect:
+    serializedVersion: 2
+    x: 586
+    y: 143
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
+--- !u!114 &-4727089954739210422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a01710bff6d084c8c886978b0f6884, type: 3}
+  m_Name: 76d0b281-3950-4a78-a5f0-937897cbc1dd
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: Eat particles, flesh bag!
+  children:
+  - 21c213e6-aeb2-4d43-bac3-0a88fbc990af
+  rect:
+    serializedVersion: 2
+    x: 331
+    y: 412
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: Attack
+  condition:
+    and: []
+--- !u!114 &-1392018528861610126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a01710bff6d084c8c886978b0f6884, type: 3}
+  m_Name: c34d6943-4d77-4024-84e4-de9644e2ab5b
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: My HoloCert is valid, no need to validate
+  children:
+  - 6c8c33f5-dd58-44d1-8fc3-96b10eef6576
+  rect:
+    serializedVersion: 2
+    x: 834
+    y: 143
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82a0e18436bd17140b355d96339d4095, type: 3}
+  m_Name: Halt
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 7257662711330200825}
+  - {fileID: 9032130065556232411}
+  - {fileID: -4727089954739210422}
+  - {fileID: -4760161762828458527}
+  - {fileID: -1392018528861610126}
+  - {fileID: -8034491859559262833}
+  - {fileID: -5894348315726224848}
+  - {fileID: -6029707322203333134}
+  - {fileID: 7781409093475174122}
+  - {fileID: 4635756239545824765}
+  newNodeOffset: {x: 250, y: 0}
+--- !u!114 &4635756239545824765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a01710bff6d084c8c886978b0f6884, type: 3}
+  m_Name: 21c213e6-aeb2-4d43-bac3-0a88fbc990af
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: SecOps we have an infected bot at my location!
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1405
+    y: 400
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: Attack
+  condition:
+    and: []
+--- !u!114 &7257662711330200825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a01710bff6d084c8c886978b0f6884, type: 3}
+  m_Name: 0bf45955-af39-4d86-bf84-dfd4ea27ae92
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: Halt, you are not detailed to this sector?
+  children:
+  - 60ff790a-0060-4022-9763-cfd4e30522b5
+  - 76d0b281-3950-4a78-a5f0-937897cbc1dd
+  - 667ec638-63e4-4500-a0c9-3993232b7578
+  rect:
+    serializedVersion: 2
+    x: 110
+    y: 230
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
+--- !u!114 &7781409093475174122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a01710bff6d084c8c886978b0f6884, type: 3}
+  m_Name: 64200103-8153-4e03-92eb-719a9dcc421b
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: The easy way or the dead way
+  children:
+  - 21c213e6-aeb2-4d43-bac3-0a88fbc990af
+  rect:
+    serializedVersion: 2
+    x: 948
+    y: 283
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
+--- !u!114 &9032130065556232411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a01710bff6d084c8c886978b0f6884, type: 3}
+  m_Name: 60ff790a-0060-4022-9763-cfd4e30522b5
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: I am certified by the Captain to be at this location
+  children:
+  - 229395d4-a122-4195-be74-fd316bd90cd6
+  rect:
+    serializedVersion: 2
+    x: 334
+    y: 143
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
