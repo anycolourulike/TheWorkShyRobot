@@ -26,7 +26,8 @@ namespace Rambler.Combat
         Vector3 hitPoint;
         Vector3 aimPoint; 
         Animator anim;
-        Health target;    
+        Health target; 
+        Mover mover;        
              
         
         private void Start()
@@ -34,8 +35,9 @@ namespace Rambler.Combat
            rigController = GetComponent<Fighter>().rigController; 
            combatTarget = GetComponent<CombatTarget>();           
            anim = GetComponent<Animator>();
+           mover = GetComponent<Mover>();
            EquipWeapon(weaponConfig);   
-           ActiveWeaponInit();                                
+           ActiveWeaponInit();                                          
         }
 
         private void Update()
@@ -58,7 +60,8 @@ namespace Rambler.Combat
         
         private void AttackBehaviour()
         {                 
-            transform.LookAt(target.transform);           
+            transform.LookAt(target.transform); 
+            if(gameObject.tag == "Player" && target.gameObject.tag == "Player") return;          
             
             if (timeSinceLastAttack > timeBetweenAttacks)
             {
@@ -117,19 +120,34 @@ namespace Rambler.Combat
                         
             if(weapon.isMelee == true)
             { 
-                rig.weight = 0f;
+                mover.RigWeaponUnequipped();
+                RigWeightToZero();
                 rigController.Play("equip_" + weapon.weaponTitle);                
            }
            else
-           {
-                rig.weight = 1f;
-                rigController.Play("equip_" + weapon.weaponTitle);   
+           {                             
+                RigWeightToOne();
+                rigController.Play("equip_" + weapon.weaponTitle);  
+                mover.RigWeaponEquipped(); 
            }         
         }
 
         public void EquipUnarmed()
         {
-            EquipWeapon(unarmed);
+            RigWeightToZero();
+            EquipWeapon(unarmed);                                      
+        }
+
+        public void RigWeightToZero() 
+        {    
+            mover.RigWeaponUnequipped();       
+            rig.weight = 0f;
+        }
+
+        public void RigWeightToOne() 
+        {
+            mover.RigWeaponEquipped();
+            rig.weight = 1f;
         }
 
         public void Spawn(Transform handTransform, Animator animator)
@@ -151,7 +169,7 @@ namespace Rambler.Combat
         {            
             var oldWeapon =  GameObject.FindWithTag("weapon");
             if (oldWeapon == null) return;            
-            Debug.Log("weapon destroyed");            
+            Debug.Log("weapon destroyed");                    
             Destroy(oldWeapon);                            
         }        
 

@@ -7,7 +7,7 @@ namespace Rambler.Combat
 {
     [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/new", order = 0)]
     public class Weapon : ScriptableObject, ISerializationCallbackReceiver
-    {
+    {       
         [SerializeField] AnimatorOverrideController animatorOverride = null;  
         public ActiveWeapon activeWeapon;        
         public GameObject equippedPrefab;

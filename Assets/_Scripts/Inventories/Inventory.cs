@@ -26,7 +26,7 @@ namespace Rambler.Inventories
             public int number;
         }
 
-        // PUBLIC
+        // PUBLIC  
 
         /// <summary>
         /// Broadcasts when the items in the slots are added/removed.
@@ -173,7 +173,7 @@ namespace Rambler.Inventories
         /// Find a slot that can accomodate the given item.
         /// </summary>
         /// <returns>-1 if no slot is found.</returns>
-        private int FindSlot(Weapon weaponConfig)
+        public int FindSlot(Weapon weaponConfig)
         {
             int i = FindStack(weaponConfig);
             if (i < 0)

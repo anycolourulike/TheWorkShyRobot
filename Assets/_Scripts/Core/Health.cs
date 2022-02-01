@@ -13,7 +13,7 @@ using UnityEngine.Animations.Rigging;
 namespace Rambler.Core // To Do Stop Movement
 {
     public class Health : MonoBehaviour, ISaveable
-    {
+    {        
         [SerializeField] float healthPoints = 100f; 
         [SerializeField] AIController aIScript;  
         [SerializeField] GameObject RigLayer;
@@ -23,13 +23,15 @@ namespace Rambler.Core // To Do Stop Movement
         [SerializeField] GameObject legFX;        
         [SerializeField] GameObject arm; 
         [SerializeField] GameObject armFX;
+        [SerializeField] Fighter fighter;
 
         PlayerController playerController;
         bool isDead = false;          
         Animator anim;
+         int dieRanNum; 
+        int hitRanNum;
         Rigidbody rb;
-        int dieRanNum; 
-        int hitRanNum;              
+                     
 
         void Start() 
         {            
@@ -38,26 +40,34 @@ namespace Rambler.Core // To Do Stop Movement
             playerController = GetComponent<PlayerController>();        
         }
 
+        void Update() 
+        {
+            if(isDead == true) return;
+            HealthCheck();
+        }
+
         public bool IsDead()
         {
             return isDead;
         } 
 
         public void TakeDamage(float damage)
-        { 
-           if(isDead == true) return; 
-           print(gameObject.name + " took damage: " + damage);
-           healthPoints = Mathf.Max(healthPoints - damage, 0);
-           
-           if(healthPoints <= 0)
-           {  
-              healthPoints = 0;              
-              Die();
-           }  
-           else
-           {
-              HitAnim();
-           }    
+        {
+            if (isDead == true) return;
+            print(gameObject.name + " took damage: " + damage);
+            healthPoints = Mathf.Max(healthPoints - damage, 0);
+            HealthCheck();
+            HitAnim();
+        }
+
+        private void HealthCheck()
+        {
+            if (healthPoints <= 0)
+            {
+                healthPoints = 0;
+                isDead = true;
+                Die();
+            }            
         }
 
         private void HitAnim()
@@ -106,7 +116,7 @@ namespace Rambler.Core // To Do Stop Movement
             isDead = true;  
             StopMovement();         
             dieRanNum = Random.Range(1, 3); 
-            print(gameObject.name + " " + dieRanNum);    
+            print(gameObject.name + " " + "death" + dieRanNum);    
             if (gameObject.name == "Rambler")
             {
                 playerController.ToggelShields();
@@ -129,16 +139,16 @@ namespace Rambler.Core // To Do Stop Movement
                 anim.SetTrigger("Die3");                
                 leg.SetActive(false);
                 legFX.SetActive(true);
-            }
+            }          
         }
 
         private void StopMovement()
-        {            
-            var rig = RigLayer.GetComponent<Rig>();
-            rig.weight = 0;
-            //add if statement to check if Player or enemy
-            var weapon = GameObject.Find("Equipped Rifle Crewman(Clone)");
-            weapon.SetActive(false);
+        {  
+            if(fighter != null) 
+            {
+                fighter.RigWeightToZero();
+            }
+           
             rb.detectCollisions = false;
             rb.velocity = Vector3.zero;
             GetComponent<ActionScheduler>().CancelCurrentAction();

@@ -17,31 +17,33 @@ using Rambler.Core;
 namespace Rambler.Control
 {    
     public class PlayerController : MonoBehaviour  
-    {               
-        [SerializeField] Button holsterButton;  
-        [SerializeField] PlayerVitals vitals;   
-        [SerializeField] GameObject shield;             
-        protected Animator rigController;  
-        public bool isHolstered;       
-        float holdDuration = 1f;        
+    {              
+         
+        [SerializeField] PlayerVitals vitals;          
+        [SerializeField] GameObject shield; 
+        [SerializeField] Fighter fighter;   
+        [SerializeField] Animator anim; 
+        public bool isHolstered;  
+
+        ActiveWeapon activeWeapon;         
+        float holdDuration = 1f;               
         Transform handTransform;  
-        bool pickedUp = false;                      
+        Animator rigController;
+        bool pickedUp = false; 
         GameObject interact;    
         GameObject weaponPU; 
         WeaponPickUp pickUp;  
         int interactions;    
-        bool shieldsUp;                             
-        Animator anim;
+        bool shieldsUp; 
         Health target;        
        
         private void Start()
         {                  
            rigController = rigController = GetComponent<Fighter>().rigController;       
            handTransform = GetComponent<Fighter>().handTransform;  
-           interact = GameObject.FindGameObjectWithTag("Interact");         
-           anim = GetComponent<Animator>();       
+           interact = GameObject.FindGameObjectWithTag("Interact"); 
            target = GetComponent<Health>();  
-           interact.SetActive(false);                                                 
+           interact.SetActive(false);                                                          
         }
 
         private void Update()
@@ -49,17 +51,16 @@ namespace Rambler.Control
            if (target.IsDead()) return;                     
            if (InteractWithCombat()) return;
            if (InteractWithMovement()) return;      
-           holsterButton.onClick.AddListener(HolsterWeapon); 
-
+           
            if(shieldsUp == true) 
            {
-              ShieldsUp();
-              vitals.SetEnergyBurnRate = 1f;
+            ShieldsUp();
+            vitals.SetEnergyBurnRate = 1f;
            } 
            else
            {              
-              ShieldsDown();
-              vitals.SetEnergyBurnRate = 0.1f; 
+            ShieldsDown();
+            vitals.SetEnergyBurnRate = 0.1f; 
            }
         }              
 
@@ -77,7 +78,7 @@ namespace Rambler.Control
 
                 if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Ended)
                 {
-                    if(target == this.gameObject) break;                                       
+                    if(target == gameObject) return false;                                       
                     GetComponent<Fighter>().Attack(target.gameObject); 
                 }
                 return true;
@@ -164,15 +165,22 @@ namespace Rambler.Control
         public void HolsterWeapon()
         {  
             isHolstered = true;
-            //rigController.ResetTrigger("holster_weapon");
+            rigController.ResetTrigger("holster_weapon");
             rigController.SetTrigger("holster_weapon"); 
-            var rig = GetComponent<Fighter>().rig;
-            rig.weight = 0f;                                          
+            var fighter = GetComponent<Fighter>();
+            fighter.RigWeightToZero();                                                  
         }      
 
        public void ToggelShields()
-       {          
+       {         
           shieldsUp = !shieldsUp;
+       }
+
+       public void ReloadActiveWeapon() 
+       {
+           anim.SetTrigger("reload");
+           activeWeapon = fighter.activeWeapon;
+           activeWeapon.Reload();
        }
 
        void ShieldsUp() 

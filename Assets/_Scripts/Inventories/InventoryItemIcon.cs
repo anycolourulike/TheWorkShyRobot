@@ -16,15 +16,16 @@ namespace Rambler.Inventories
     public class InventoryItemIcon : MonoBehaviour
     {
         [SerializeField] Button equipBtn;
-        [SerializeField] Button dropBtn;
-        public int slotIndex;        
-        Inventory inventory;    
-        GameObject player;    
+        [SerializeField] Button dropBtn;                
+        Inventory inventory;                 
+        GameObject player;  
+        Weapon thisWeapon; 
+        int slotIndex;  
  
         void Start() 
         {
             player = GameObject.FindWithTag("Player");
-            inventory = player.GetComponent<Inventory>();
+            inventory = player.GetComponent<Inventory>();                 
         }
         
         // PUBLIC
@@ -40,7 +41,8 @@ namespace Rambler.Inventories
                 iconImage.enabled = true;
                 iconImage.sprite = weaponConfig.GetIcon();    
                 equipBtn.onClick.AddListener(() => OnEquipBtnClick(weaponConfig));
-                dropBtn.onClick.AddListener(() => OnDropBtnClick(weaponConfig, number));            
+                dropBtn.onClick.AddListener(() => OnDropBtnClick(weaponConfig, number));
+                thisWeapon = weaponConfig;            
             }
         }        
  
@@ -50,9 +52,10 @@ namespace Rambler.Inventories
         }
  
         public void OnDropBtnClick(Weapon dropWeapon, int number)
-        {
-            player.GetComponent<ItemDropper>().DropItem(dropWeapon, 1);  
-            player.GetComponent<Fighter>().EquipUnarmed();  
+        {           
+            player.GetComponent<ItemDropper>().DropItem(thisWeapon, number);  
+            player.GetComponent<Fighter>().EquipUnarmed(); 
+            slotIndex = inventory.FindSlot(thisWeapon);          
             inventory.RemoveFromSlot(slotIndex, number);
         }
     }

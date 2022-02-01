@@ -111,8 +111,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f53e916254630b24a9fa83a8977fbaa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  magazineAmount: 0
+  totalAmmo: 150
+  reloadTime: 0
+  bulletsFired: 0
+  readyToShoot: 0
+  isShooting: 0
+  reloading: 0
   MuzzleFlash: {fileID: 4383607771926476973, guid: e50067b35f017c14197e95844a67fce3,
     type: 3}
+  ammoCountObj: {fileID: 0}
   weaponRange: 35
   weaponDamage: 50
   destroyTime: 1.3
@@ -120,6 +128,7 @@ MonoBehaviour:
   MuzzlePosition: {fileID: 4173875349698956522}
   projectile: {fileID: -5846359617922092927, guid: dda3df55525ee234e9c43b54ca2f61de,
     type: 3}
+  thisWeapon: 4
   weaponName: Laser Rifle
 --- !u!1 &6793397232687600213
 GameObject:

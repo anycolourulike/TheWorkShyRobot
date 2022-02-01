@@ -9,11 +9,12 @@ namespace Rambler.Inventories
     /// </summary>
     public class PickUp : MonoBehaviour
     {
-        // STATE
+        
         Weapon weaponConfig;
         int number = 1;
+       
 
-        // CACHED REFERENCE
+        
         Inventory inventory;
 
         // LIFECYCLE METHODS

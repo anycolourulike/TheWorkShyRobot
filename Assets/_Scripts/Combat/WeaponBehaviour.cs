@@ -7,7 +7,7 @@ namespace Rambler.Combat
 {
     public abstract class WeaponBehaviour: MonoBehaviour
     {         
-        public int magSize;
+        public int magazineAmount;
         public int totalAmmo;        
         public float reloadTime;        
         public int bulletsFired;       
