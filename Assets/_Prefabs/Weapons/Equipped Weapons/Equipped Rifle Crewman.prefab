@@ -259,8 +259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f53e916254630b24a9fa83a8977fbaa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magSize: 30
-  totalAmmo: 100
+  magazineAmount: 30
+  totalAmmo: 1000
   reloadTime: 0
   bulletsFired: 0
   readyToShoot: 0
@@ -276,6 +276,7 @@ MonoBehaviour:
   MuzzlePosition: {fileID: 1226417156805770438}
   projectile: {fileID: -5846359617922092927, guid: 502287e93b383df478408c604fc1b675,
     type: 3}
+  thisWeapon: 7
   weaponName: rifle
 --- !u!114 &6226887575381296431
 MonoBehaviour:

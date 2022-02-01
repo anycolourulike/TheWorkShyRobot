@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f53e916254630b24a9fa83a8977fbaa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magazineAmount: 0
+  magazineAmount: 30
   totalAmmo: 150
   reloadTime: 0
   bulletsFired: 0
