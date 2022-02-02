@@ -17,26 +17,23 @@ namespace Rambler.Combat
        public float SetEnergyBurnRate {set {energyBurnRate = value;}}
          
        float playerMaxEnergy = 100;              
-       float playerMaxHP = 5000;      
-       float playerCurEnergy;      
-
-       float playerCurHP;
+       float playerMaxHP = 100f;      
+       float playerCurEnergy;  
+       float playerCurHP;       
        Health health;      
        
        void Start()
        {             
            health = GameObject.FindWithTag("Player").GetComponent<Health>(); 
-           MaxHealth();
-           playerMaxHP = health.GetHealthPoints();
+           playerCurHP = health.HealthPoints;
+           MaxHealth();           
            MaxEnergy();
        }
 
        void FixedUpdate()
-       {  
+        {
             ReduceEnergy();
-            var fillHealth = playerCurHP / 100; 
-            fillHealth = healthbarFill.fillAmount;              
-
+           
             if (playerCurHP <= 0f)
             {
                 playerCurHP = 0f;
@@ -46,17 +43,23 @@ namespace Rambler.Combat
                 }
                 health.Die();
             }
- 
+
             if (playerCurEnergy <= 0)
             {
                 playerCurEnergy = 0;
-                if(health.IsDead() == true)
+                if (health.IsDead() == true)
                 {
                     return;
                 }
                 health.Die();
-            } 
-        }        
+            }
+        }
+        
+        public void Restore() 
+        {
+            MaxHealth();
+            MaxEnergy();
+        }
 
         public void TakeDamage(float weaponDamage)
         {
@@ -64,21 +67,23 @@ namespace Rambler.Combat
             healthbarFill.fillAmount -= fillDecrease;
         }      
 
-        public void MaxHealth()
+        void MaxHealth()
         {
-            playerCurHP = playerMaxHP;
-        }
+            health.HealthPoints = playerMaxHP;  
+            healthbarFill.fillAmount = 1;         
+        }        
 
-        public void MaxEnergy()
+        void MaxEnergy()
         {
             playerCurEnergy = playerMaxEnergy;
+            energybarFill.fillAmount = 1;
         }
 
-        public void ReduceEnergy()
+        void ReduceEnergy()
         {
             playerCurEnergy -= energyBurnRate * Time.deltaTime;
             var fillEnergy = playerCurEnergy / 100;
             energybarFill.fillAmount = fillEnergy;             
-        }    
+        }  
     }
 }

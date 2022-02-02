@@ -933,9 +933,10 @@ GameObject:
   - component: {fileID: 6475548595211274428}
   - component: {fileID: 2316832421424740126}
   - component: {fileID: 3998671443771982189}
+  - component: {fileID: 8360243554591616798}
   m_Layer: 0
   m_Name: CrewmanRifle Quest Giver
-  m_TagString: AIConversant
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -947,7 +948,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4862672953808041680}
-  m_LocalRotation: {x: -0, y: -0.6257443, z: -0, w: 0.78002834}
+  m_LocalRotation: {x: 0, y: -0.6257465, z: 0, w: 0.78002656}
   m_LocalPosition: {x: 2.51, y: 0, z: 11.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -989,7 +990,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 4862672953808041680}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   m_Radius: 0.52139163
   m_Height: 2.1613128
   m_Direction: 1
@@ -1045,6 +1046,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthPoints: 40
+  playervitals: {fileID: 0}
   aIScript: {fileID: 2316832421424740127}
   RigLayer: {fileID: 1535304248337949896}
   head: {fileID: 3993766112796527505}
@@ -1053,6 +1055,7 @@ MonoBehaviour:
   legFX: {fileID: 6146123451149063746}
   arm: {fileID: 4284713613882509924}
   armFX: {fileID: 5458989997724925126}
+  fighter: {fileID: 2316832421424740112}
 --- !u!114 &2316832421424740112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1060,19 +1063,20 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4862672953808041680}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3702648cfa491df47a44f706fc6cadfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   animatorOverride: {fileID: 0}
-  timeBetweenAttacks: 0.5
+  timeBetweenAttacks: 0.9
   unarmed: {fileID: 11400000, guid: 34da56491855c734b9ad6e561e374ac6, type: 2}
+  mover: {fileID: 2316832421424740124}
   activeWeapon: {fileID: 0}
   handTransform: {fileID: 4512500406760000807}
   rigController: {fileID: 1535304248337949902}
   weaponConfig: {fileID: 11400000, guid: 34da56491855c734b9ad6e561e374ac6, type: 2}
-  rig: {fileID: 1535304248337949903}
+  rig: {fileID: 7013836698215358768}
 --- !u!114 &2316832421424740115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1123,6 +1127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 16
+  rig: {fileID: 7013836698215358768}
 --- !u!114 &2316832421424740127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1141,7 +1146,7 @@ MonoBehaviour:
   waypointTolerence: 1
   waypointDwellTime: 1.7
   patrolSpeedFraction: 0.15
-  chaseDistance: 5
+  chaseDistance: 3.7
 --- !u!114 &6475548595211274428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1157,7 +1162,7 @@ MonoBehaviour:
   dialogue: {fileID: 11400000, guid: b1ffdc42c072cd54789102e22011f222, type: 2}
   conversantName: Crewman
   playerConversant: {fileID: 0}
-  mover: {fileID: 0}
+  mover: {fileID: 2316832421424740124}
 --- !u!114 &2316832421424740126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1183,10 +1188,23 @@ BoxCollider:
   m_GameObject: {fileID: 4862672953808041680}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 5.413092, y: 2.6206028, z: 4.4487176}
   m_Center: {x: -0.5528779, y: 0.8103014, z: 1.724375}
+--- !u!114 &8360243554591616798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4862672953808041680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64a9e6ad5058dd143952bec9e0a99845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quest: {fileID: 0}
 --- !u!1 &4915297550102149605
 GameObject:
   m_ObjectHideFlags: 0
@@ -69469,7 +69487,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7013836697011306033}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.674, y: -0, z: -0.062}
+  m_LocalPosition: {x: 0.529, y: 0.006, z: -0.056}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7793928241836588585}
@@ -69499,7 +69517,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7013836698176282424}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.627, y: -0, z: -2.026}
+  m_LocalPosition: {x: -0.646, y: 0.105, z: 0.191}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2985190505761977720}

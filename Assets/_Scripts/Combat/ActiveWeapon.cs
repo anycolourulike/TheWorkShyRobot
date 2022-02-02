@@ -25,10 +25,9 @@ namespace Rambler.Combat
 
         TextMeshProUGUI magDisplay;
         TextMeshProUGUI totalAmmoDisplay;
-
-        int ammoNeededToRefillClip; 
-        int maxAvailableAmmoForClip;      
-        int curAmmoInClip;
+                    
+        int curClip;
+        int ammoSpent; 
         Health target;        
         
         void Start() 
@@ -70,14 +69,25 @@ namespace Rambler.Combat
         {
             if (thisWeapon == WeaponType.melee) return;
             if (thisWeapon == WeaponType.NPCWeapon) return;
-            
-            //save ammo spent for weapon switching           
-            
+                       
             RefreshClipDisplay();            
             
-            if(curAmmoInClip == 0)
+            if(curClip == 0)
             {
-                //display mag empty flash ammo Counter & reload btn red
+                magDisplay.color = Color.red;
+            }
+            else 
+            {
+                magDisplay.color = Color.white;
+            }
+
+            if(totalAmmo == 0)
+            {
+                totalAmmoDisplay.color = Color.red;
+            }
+            else 
+            {
+                totalAmmoDisplay.color = Color.white;
             }
         }
 
@@ -85,32 +95,29 @@ namespace Rambler.Combat
         {                                
             if(totalAmmo >= 0)
             {  
-                ammoNeededToRefillClip = magazineAmount - curAmmoInClip;  
+                ammoSpent = magazineAmount - curClip;  
                                        
-                if (ammoNeededToRefillClip >= totalAmmo)
+                if (ammoSpent >= totalAmmo)
                 {
-                   ammoNeededToRefillClip = totalAmmo;                  
+                   ammoSpent = totalAmmo;                  
                 }
-                else if (ammoNeededToRefillClip <= totalAmmo)
+                else if (ammoSpent <= totalAmmo)
                 {
-                    totalAmmo -= ammoNeededToRefillClip;
+                    totalAmmo -= ammoSpent;
                 }
                 RefreshTotalAmmo();
                 FullMag();                
-            } 
-            //display out of ammo
-           
+            }           
         }
 
         public void LaunchProjectile(Transform MuzzlePosition, Health target)
         {  
-            if(curAmmoInClip > 0)
-            {
-              Projectile Firedprojectile = Instantiate(projectile, MuzzlePosition.position, Quaternion.identity);
-              MuzzleFlash = Instantiate(MuzzleFlash, MuzzlePosition.position, Quaternion.LookRotation(transform.forward));
-              Firedprojectile.SetTarget(target, weaponDamage);    
-              curAmmoInClip --;            
-            }                                          
+           
+            Projectile Firedprojectile = Instantiate(projectile, MuzzlePosition.position, Quaternion.identity);
+            MuzzleFlash = Instantiate(MuzzleFlash, MuzzlePosition.position, Quaternion.LookRotation(transform.forward));
+            Firedprojectile.SetTarget(target, weaponDamage);    
+            curClip --;            
+                                                    
         }
 
         void RefreshTotalAmmo() 
@@ -120,7 +127,7 @@ namespace Rambler.Combat
 
         void RefreshClipDisplay() 
         {
-            magDisplay.text = (curAmmoInClip.ToString());
+            magDisplay.text = (curClip.ToString());
         }
        
 
@@ -155,7 +162,7 @@ namespace Rambler.Combat
             {
                 magazineAmount = 5;
             }
-            curAmmoInClip = magazineAmount;
+            curClip = magazineAmount;
             RefreshTotalAmmo();         
         }        
     } 

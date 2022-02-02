@@ -14,7 +14,8 @@ namespace Rambler.Core // To Do Stop Movement
 {
     public class Health : MonoBehaviour, ISaveable
     {        
-        [SerializeField] float healthPoints = 100f; 
+        public float healthPoints = 100f; 
+        public float HealthPoints { get{return healthPoints;} set{healthPoints = value;}}  
         [SerializeField] AIController aIScript;  
         [SerializeField] GameObject RigLayer;
         [SerializeField] GameObject head;
@@ -72,8 +73,7 @@ namespace Rambler.Core // To Do Stop Movement
 
         private void HitAnim()
         {     
-            if (isDead) return;       
-            anim.ResetTrigger("HitAnim");
+            if (isDead) return; 
             anim.SetTrigger("HitAnim");
             if (gameObject.tag == "Enemy")
             {
@@ -81,11 +81,6 @@ namespace Rambler.Core // To Do Stop Movement
                aIScript.chaseDistance = 30f;
             }                                    
         }
-
-        public float GetHealthPoints()
-        {
-            return healthPoints;
-        }  
         
         private void OnParticleCollision(GameObject particleProj)
         {
@@ -108,8 +103,7 @@ namespace Rambler.Core // To Do Stop Movement
             {
               Destroy(proj.gameObject);
             }       
-        }             
-                 
+        }        
  
         public void Die()
         {  
@@ -143,12 +137,8 @@ namespace Rambler.Core // To Do Stop Movement
         }
 
         private void StopMovement()
-        {  
-            if(fighter != null) 
-            {
-                fighter.RigWeightToZero();
-            }
-           
+        {             
+            fighter.RigWeightToZero();
             rb.detectCollisions = false;
             rb.velocity = Vector3.zero;
             GetComponent<ActionScheduler>().CancelCurrentAction();

@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: -864140810577933904}
   m_Layer: 0
   m_Name: Equipped Rifle Crewman
-  m_TagString: Untagged
+  m_TagString: NPCWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

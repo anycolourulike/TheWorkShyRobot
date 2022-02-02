@@ -12,6 +12,7 @@ namespace Rambler.Combat
         [SerializeField] AnimatorOverrideController animatorOverride;
         [SerializeField] float timeBetweenAttacks = 1.7f;    
         [SerializeField] Weapon unarmed;
+        [SerializeField] Mover mover;
         
         public ActiveWeapon activeWeapon;        
         public Transform handTransform;        
@@ -26,16 +27,14 @@ namespace Rambler.Combat
         Vector3 hitPoint;
         Vector3 aimPoint; 
         Animator anim;
-        Health target; 
-        Mover mover;        
+        Health target;          
              
         
         private void Start()
         {    
            rigController = GetComponent<Fighter>().rigController; 
            combatTarget = GetComponent<CombatTarget>();           
-           anim = GetComponent<Animator>();
-           mover = GetComponent<Mover>();
+           anim = GetComponent<Animator>();           
            EquipWeapon(weaponConfig);   
            ActiveWeaponInit();                                          
         }

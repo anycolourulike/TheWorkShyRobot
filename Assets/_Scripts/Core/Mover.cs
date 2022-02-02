@@ -60,7 +60,8 @@ namespace Rambler.Movement
         public float MaxSpeed()
         {
             return  maxSpeed;
-        }     
+        }
+          
 
         public void StartMoveAction(Vector3 destination, float speedFraction)
         {
