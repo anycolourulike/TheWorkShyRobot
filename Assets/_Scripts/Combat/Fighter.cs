@@ -13,12 +13,13 @@ namespace Rambler.Combat
         [SerializeField] float timeBetweenAttacks = 1.7f;    
         [SerializeField] Weapon unarmed;
         [SerializeField] Mover mover;
+
         
         public ActiveWeapon activeWeapon;        
         public Transform handTransform;        
         public Animator rigController;         
-        public Weapon weaponConfig;                
-        public Rig rig;
+        public Weapon weaponConfig;               
+        
         
         float timeSinceLastAttack = 
         Mathf.Infinity; 
@@ -139,14 +140,12 @@ namespace Rambler.Combat
 
         public void RigWeightToZero() 
         {    
-            mover.RigWeaponUnequipped();       
-            rig.weight = 0f;
+            mover.RigWeightToZero(); 
         }
 
         public void RigWeightToOne() 
         {
-            mover.RigWeaponEquipped();
-            rig.weight = 1f;
+            mover.RigWeaponEquipped();            
         }
 
         public void Spawn(Transform handTransform, Animator animator)

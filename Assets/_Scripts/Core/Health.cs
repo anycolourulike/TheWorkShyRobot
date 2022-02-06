@@ -5,6 +5,7 @@ using Rambler.Saving;
 using Rambler.Combat;
 using Rambler.Control;
 using Rambler.Core;
+using Rambler.Movement;
 using System;
 using Random = UnityEngine.Random;
 using UnityEngine.Animations.Rigging;
@@ -24,16 +25,15 @@ namespace Rambler.Core // To Do Stop Movement
         [SerializeField] GameObject legFX;        
         [SerializeField] GameObject arm; 
         [SerializeField] GameObject armFX;
-        [SerializeField] Fighter fighter;
+        [SerializeField] Mover mover;
 
         PlayerController playerController;
         bool isDead = false;          
         Animator anim;
          int dieRanNum; 
         int hitRanNum;
-        Rigidbody rb;
-                     
-
+        Rigidbody rb;                     
+       
         void Start() 
         {            
             anim = GetComponent<Animator>(); 
@@ -137,8 +137,8 @@ namespace Rambler.Core // To Do Stop Movement
         }
 
         private void StopMovement()
-        {             
-            fighter.RigWeightToZero();
+        {  
+            mover.RigWeightToZero();         
             rb.detectCollisions = false;
             rb.velocity = Vector3.zero;
             GetComponent<ActionScheduler>().CancelCurrentAction();

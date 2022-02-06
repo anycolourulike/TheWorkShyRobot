@@ -16,13 +16,12 @@ namespace Rambler.Movement
 {
     public class Mover : MonoBehaviour, IAction, ISaveable
     { 
-        [SerializeField] float maxSpeed = 6f; 
-        [SerializeField] Rig rig;
+        [SerializeField] float maxSpeed = 6f;         
+        [SerializeField] Rig mainRig;
         NavMeshAgent navMeshAgent;
         bool rigWeaponEquipped;
         Health health;
-        
-        
+
 
         public void Start()
         {
@@ -35,16 +34,16 @@ namespace Rambler.Movement
             navMeshAgent.enabled = !health.IsDead();            
             UpdateAnimator();
             if(rigWeaponEquipped == true)
-            {                
+            { 
                 if(navMeshAgent.velocity.magnitude > 0.15f)
                 {
-                   rig.weight = 0.6f; 
-                }
-                else 
-                {
-                   rig.weight = 1f;                   
+                   mainRig.weight = 0.7f; 
                 } 
-            }         
+                else
+                {
+                   mainRig.weight = 1f;
+                }               
+            }                      
         }
 
         public void RigWeaponEquipped()
@@ -55,13 +54,18 @@ namespace Rambler.Movement
         public void RigWeaponUnequipped()
         {            
             rigWeaponEquipped = false;
+        } 
+
+        public void RigWeightToZero() 
+        {
+            mainRig.weight = 0;
+            RigWeaponUnequipped();
         }
 
         public float MaxSpeed()
         {
             return  maxSpeed;
-        }
-          
+        }          
 
         public void StartMoveAction(Vector3 destination, float speedFraction)
         {
@@ -70,8 +74,7 @@ namespace Rambler.Movement
         }
 
         public void MoveTo(Vector3 destination, float speedFraction)
-        {
-            
+        {            
             navMeshAgent.destination = destination; 
             navMeshAgent.speed = maxSpeed * Mathf.Clamp01(speedFraction);
             navMeshAgent.isStopped = false;
