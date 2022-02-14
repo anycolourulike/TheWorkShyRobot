@@ -27,18 +27,21 @@ namespace Rambler.Core // To Do Stop Movement
         [SerializeField] GameObject armFX;
         [SerializeField] Mover mover;
 
-        PlayerController playerController;
-        bool isDead = false;          
+        PlayerController playerCont;
+        bool isDead = false;  
+        Fighter fighter;
         Animator anim;
-         int dieRanNum; 
+        int dieRanNum; 
         int hitRanNum;
+        
         Rigidbody rb;                     
        
         void Start() 
         {            
             anim = GetComponent<Animator>(); 
             rb = GetComponent<Rigidbody>();    
-            playerController = GetComponent<PlayerController>();        
+            playerCont = GetComponent<PlayerController>(); 
+            fighter = GetComponent<Fighter>();       
         }
 
         void Update() 
@@ -113,7 +116,7 @@ namespace Rambler.Core // To Do Stop Movement
             print(gameObject.name + " " + "death" + dieRanNum);    
             if (gameObject.name == "Rambler")
             {
-                playerController.ToggelShields();
+                playerCont.ToggelShields();
             }            
 
             if(dieRanNum == 1)

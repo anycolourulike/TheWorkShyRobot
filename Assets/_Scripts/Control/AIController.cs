@@ -5,6 +5,7 @@ using Rambler.Combat;
 using Rambler.Core;
 using Rambler.Movement;
 using System;
+using UnityEngine.AI;
 
 namespace Rambler.Control
 {
@@ -16,37 +17,44 @@ namespace Rambler.Control
         [SerializeField] float waypointTolerence = 1f;
         [SerializeField] float waypointDwellTime = 1.7f;
         [Range(0,1)]
-        [SerializeField] float patrolSpeedFraction = 0.2f;    
-          
+        [SerializeField] float patrolSpeedFraction = 0.2f;   
+
         float timeSinceArrivedAtWaypoint
          = Mathf.Infinity;
         float timeSinceLastSawPlayer
          = Mathf.Infinity;
         public float chaseDistance = 5f;
         int currentWaypointIndex = 0;        
-        float TimerForNextAttack;
-        Vector3 guardPosition;
+        float TimerForNextAttack; 
+        float waypointProximity = 1f;       
         
-        GameObject player;
+        Transform agentTransform;
+        NavMeshAgent agent;        
+        GameObject player;        
         Fighter fighter;
         Health health;        
         Mover mover;
         float Cool;  
 
+        
+        float maxTime =1f;
+        float timer = 0.0f;
+        float maxDistance = 1f;
+
         private void Start()
         {
             player = GameObject.FindWithTag("Player");
+            agent = GetComponent<NavMeshAgent>();
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();            
-            mover = GetComponent<Mover>();
-            guardPosition = transform.position;            
+            mover = GetComponent<Mover>();                        
             TimerForNextAttack = Cool;
             Cool = 2.5f;
         }
 
         private void Update()
-        {           
-            if (health.IsDead()) return;
+        {                       
+            if (health.IsDead()) return;            
 
             if (InAttackRangeOfPlayer() && fighter.CanAttack(player))
             {
@@ -78,9 +86,7 @@ namespace Rambler.Control
         }
 
         private void PatrolBehaviour()
-        {            
-            nextPosition = guardPosition;
-
+        {  
             if (patrolPath != null)
             {
                 if (AtWaypoint())
@@ -94,15 +100,13 @@ namespace Rambler.Control
             {
                 mover.StartMoveAction(nextPosition, patrolSpeedFraction);
             }            
-        }
-
-        public Vector3 nextPos {get{ return nextPosition; }}
+        }     
 
         private bool AtWaypoint()
         {
             float distanceToWaypoint = Vector3.Distance(transform.position, GetCurrentWaypoint());
             return distanceToWaypoint < waypointTolerence;
-        }
+        }       
 
         private void CycleWaypoint()
         {
@@ -135,7 +139,7 @@ namespace Rambler.Control
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, chaseDistance);
+            Gizmos.DrawWireSphere(transform.position, chaseDistance);            
         }       
     }
 }

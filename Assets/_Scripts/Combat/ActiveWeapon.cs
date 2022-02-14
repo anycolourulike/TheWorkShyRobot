@@ -9,31 +9,28 @@ namespace Rambler.Combat
 {
     public class ActiveWeapon : WeaponBehaviour
     {   
-        public enum WeaponType {melee, pistol, smg, shotgun, rifle, plasma, launcher, NPCWeapon};          
-        [SerializeField] GameObject MuzzleFlash;       
-        [SerializeField] GameObject ammoCountObj;            
-        [SerializeField ] float weaponRange; 
-        [SerializeField] float weaponDamage;
-        [SerializeField] float destroyTime;
-        [SerializeField] float speed;
-        
-        public Transform MuzzlePosition;  
-        public Projectile projectile; 
-        public WeaponType thisWeapon;
-        public string weaponName;
-        
+        public enum WeaponType {melee, pistol, smg, shotgun, rifle, plasma, launcher, NPCWeapon};      
+        [SerializeField] Transform muzzleTransform; 
+        [SerializeField] GameObject ammoCountObj;
+        [SerializeField] Transform aimTransform;      
 
-        TextMeshProUGUI magDisplay;
-        TextMeshProUGUI totalAmmoDisplay;
-                    
+        [SerializeField] GameObject MuzzleFlash; 
+        [SerializeField] Projectile projectile;           
+        [SerializeField] float weaponDamage;   
+        [SerializeField] float weaponRange;
+        TextMeshProUGUI totalAmmoDisplay;  
+        TextMeshProUGUI magDisplay;  
+               
+        WeaponType thisWeapon;        
+        string weaponName; 
+        int ammoSpent;                   
         int curClip;
-        int ammoSpent; 
-        Health target;        
         
         void Start() 
-        {
+        {            
             if (thisWeapon == WeaponType.melee) return;
-            if (thisWeapon == WeaponType.NPCWeapon) return;            
+            if (thisWeapon == WeaponType.NPCWeapon) return;  
+                   
 
             if(gameObject.tag == "weapon")
             {               
@@ -53,7 +50,17 @@ namespace Rambler.Combat
         void Update() 
         {           
            AmmoDisplay();        
+        }  
+
+        public Transform AimTransform()
+        {
+            return aimTransform;
         }
+
+        public Transform MuzPos() 
+        {
+            return muzzleTransform;
+        }    
 
         public float GetDamage()
         {
@@ -109,15 +116,17 @@ namespace Rambler.Combat
                 FullMag();                
             }           
         }
-
-        public void LaunchProjectile(Transform MuzzlePosition, Health target)
+        
+        public void LaunchProjectile(Transform muzzleTransform, Health target)
         {  
-           
-            Projectile Firedprojectile = Instantiate(projectile, MuzzlePosition.position, Quaternion.identity);
-            MuzzleFlash = Instantiate(MuzzleFlash, MuzzlePosition.position, Quaternion.LookRotation(transform.forward));
-            Firedprojectile.SetTarget(target, weaponDamage);    
-            curClip --;            
-                                                    
+            Projectile Firedprojectile = Instantiate(projectile, muzzleTransform.position, muzzleTransform.rotation);
+            Firedprojectile.SetTarget(target, weaponDamage);
+                          
+            GameObject Muzzle = Instantiate(MuzzleFlash, muzzleTransform.position, muzzleTransform.rotation) as GameObject;            
+            Muzzle.transform.parent = muzzleTransform.transform; 
+               
+            Destroy(Firedprojectile, 2f);            
+            curClip --;                                                             
         }
 
         void RefreshTotalAmmo() 
@@ -128,8 +137,7 @@ namespace Rambler.Combat
         void RefreshClipDisplay() 
         {
             magDisplay.text = (curClip.ToString());
-        }
-       
+        }       
 
         void FullMag()
         {
@@ -164,6 +172,6 @@ namespace Rambler.Combat
             }
             curClip = magazineAmount;
             RefreshTotalAmmo();         
-        }        
+        }     
     } 
 }

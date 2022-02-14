@@ -17,10 +17,13 @@ namespace Rambler.Movement
     public class Mover : MonoBehaviour, IAction, ISaveable
     { 
         [SerializeField] float maxSpeed = 6f;         
-        [SerializeField] Rig mainRig;
-        NavMeshAgent navMeshAgent;
+        [SerializeField] Rig mainRig;        
+        NavMeshAgent navMeshAgent;   
+        Health health;    
         bool rigWeaponEquipped;
-        Health health;
+        public Vector3 nextDestination;  
+        public Vector3 NextDestination {get{return nextDestination;}} 
+        
 
 
         public void Start()
@@ -74,7 +77,8 @@ namespace Rambler.Movement
         }
 
         public void MoveTo(Vector3 destination, float speedFraction)
-        {            
+        {    
+            nextDestination = destination;        
             navMeshAgent.destination = destination; 
             navMeshAgent.speed = maxSpeed * Mathf.Clamp01(speedFraction);
             navMeshAgent.isStopped = false;

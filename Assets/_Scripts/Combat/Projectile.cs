@@ -9,30 +9,24 @@ using UnityEngine;
 namespace Rambler.Combat
 {
   public class Projectile : MonoBehaviour
-  { 
-    [SerializeField] float lifeAfterImpact = 0.1f;  
+  {    
     [SerializeField] GameObject hitEffect = null;   
-    [SerializeField] float maxLifeTime = 1.5f;   
-    [SerializeField] bool isHoming = true;
+    [SerializeField] float maxLifeTime = 1.5f;  
+    [SerializeField] float speed = 100f;    
     [SerializeField] float aim = 1.35f; 
-    [SerializeField] float speed = 30f;
 
-    
-    CombatTarget combatTarget;
-    ActiveWeapon activeWeapon;    
-    public float damage = 0;    
-    Vector3 hitPoint;
-    Vector3 aimPoint;
-    Fighter fighter;    
-    Health target;        
+    CombatTarget combatTarget;     
+    public float damage = 0; 
+   
+    Health target; 
+    public Health Target {set{target = value;}}   
     Rigidbody rb;    
+    
 
     void Start()
-    { 
-      combatTarget = target.GetComponent<CombatTarget>();
-      activeWeapon = GetComponent<ActiveWeapon>(); 
-      transform.LookAt(GetAimLocation());
-      fighter = GetComponent<Fighter>();       
+    {       
+      combatTarget = target.GetComponent<CombatTarget>();     
+      transform.LookAt(GetAimLocation());            
       rb = GetComponent<Rigidbody>();             
     }
 
@@ -44,7 +38,7 @@ namespace Rambler.Combat
     public void SetTarget(Health target, float damage)
     {
         this.target = target;
-        this.damage = damage;
+        this.damage = damage;        
         Destroy(gameObject, maxLifeTime);
     }
 
@@ -54,7 +48,7 @@ namespace Rambler.Combat
         
         if (targetCapsule == null)
         {                         
-           return target.transform.position;              
+          return target.transform.position;              
         }        
         return target.transform.position + combatTarget.velocity + Vector3.up * targetCapsule.height / aim;                      
     }        

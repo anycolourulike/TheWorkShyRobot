@@ -352,7 +352,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 308167572345851319}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.701, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7997397936960565524}
@@ -19932,7 +19932,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7991885248529852792}
-  m_LocalRotation: {x: -0, y: -0.70710576, z: -0, w: 0.70710784}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 2.28, y: 0, z: 6.02}
   m_LocalScale: {x: 1.086204, y: 1.272824, z: 1.4}
   m_Children:
@@ -19972,9 +19972,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5142695
-  m_Height: 2.2863715
+  m_Height: 1.9255887
   m_Direction: 1
-  m_Center: {x: 0.02512522, y: 1.6839495, z: -0.16590734}
+  m_Center: {x: 0.025125187, y: 1.5244551, z: -0.16590731}
 --- !u!195 &7991885248529852773
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -19984,19 +19984,19 @@ NavMeshAgent:
   m_GameObject: {fileID: 7991885248529852792}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 5
-  m_Acceleration: 50
+  m_Radius: 0.76
+  m_Speed: 4.5480003
+  m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 5000
-  m_StoppingDistance: 1
+  m_StoppingDistance: 0.3
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: -0.66
+  m_Height: 1.66
+  m_BaseOffset: -0.7
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!54 &7991885248529852774
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -20067,6 +20067,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animatorOverride: {fileID: 0}
   timeBetweenAttacks: 3
+  ShootAnim: {fileID: 0}
   unarmed: {fileID: 0}
   mover: {fileID: 7991885248529852783}
   activeWeapon: {fileID: 5705576287910393805, guid: f9fe3a24534e4604e92d3d6f8b51c08b,
@@ -20125,6 +20126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 6
   mainRig: {fileID: 308167573305461957}
+  nextDestination: {x: 0, y: 0, z: 0}
 --- !u!114 &7991885248529852768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20139,11 +20141,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextPosition: {x: 0, y: 0, z: 0}
   patrolPath: {fileID: 0}
-  suspicionTime: 1
-  waypointTolerence: 0.5
-  waypointDwellTime: 0.1
-  patrolSpeedFraction: 0.322
-  chaseDistance: 3.08
+  suspicionTime: 3
+  waypointTolerence: 1
+  waypointDwellTime: 1.7
+  patrolSpeedFraction: 0.758
+  velocity: 0
+  desiredVelocity: 0
+  chaseDistance: 6.88
 --- !u!114 &7991885248529852769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20337,7 +20341,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7991970215219021124}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.093, z: 0}
+  m_LocalPosition: {x: 0, y: 0.801, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7997500125206579856}

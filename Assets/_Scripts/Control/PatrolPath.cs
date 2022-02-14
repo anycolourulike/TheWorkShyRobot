@@ -5,10 +5,8 @@ using UnityEngine;
 namespace Rambler.Control 
 {
     public class PatrolPath : MonoBehaviour
-    {
-        [SerializeField] Vector3 nextWayPoint;
-        const float waypointGizmoRadius = 0.4f;
-        
+    {        
+        const float waypointGizmoRadius = 0.4f;       
         
         private void OnDrawGizmos()
         {

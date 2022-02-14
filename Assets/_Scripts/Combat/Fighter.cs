@@ -11,6 +11,8 @@ namespace Rambler.Combat
     {
         [SerializeField] AnimatorOverrideController animatorOverride;
         [SerializeField] float timeBetweenAttacks = 1.7f;    
+        [SerializeField] Animator ShootAnim; 
+         
         [SerializeField] Weapon unarmed;
         [SerializeField] Mover mover;
 
@@ -20,22 +22,25 @@ namespace Rambler.Combat
         public Animator rigController;         
         public Weapon weaponConfig;               
         
-        
+        WeaponIK weaponIk;
         float timeSinceLastAttack = 
         Mathf.Infinity; 
         CombatTarget combatTarget;
         GameObject weaponRef;  
         Vector3 hitPoint;
-        Vector3 aimPoint; 
+        Vector3 aimPoint;         
         Animator anim;
-        Health target;          
+        Health target;  
+        Rigidbody rb;  
+
              
         
         private void Start()
         {    
            rigController = GetComponent<Fighter>().rigController; 
-           combatTarget = GetComponent<CombatTarget>();           
-           anim = GetComponent<Animator>();           
+           combatTarget = GetComponent<CombatTarget>(); 
+           weaponIk = GetComponent<WeaponIK>();          
+           anim = GetComponent<Animator>();                   
            EquipWeapon(weaponConfig);   
            ActiveWeaponInit();                                          
         }
@@ -61,6 +66,7 @@ namespace Rambler.Combat
         private void AttackBehaviour()
         {                 
             transform.LookAt(target.transform); 
+            
             if(gameObject.tag == "Player" && target.gameObject.tag == "Player") return;          
             
             if (timeSinceLastAttack > timeBetweenAttacks)
@@ -74,14 +80,14 @@ namespace Rambler.Combat
                     }
                     else
                     {
-                        if (timeSinceLastAttack < 1.5f) return;                       
-                        activeWeapon.LaunchProjectile(activeWeapon.MuzzlePosition, target);                       
+                        if (timeSinceLastAttack < 1.5f) return;                                             
+                        activeWeapon.LaunchProjectile(activeWeapon.MuzPos(), target);                                               
                         timeSinceLastAttack = 0f;                                            
 
                         switch (weaponConfig.weaponTitle)
                         {
                             case "pistol":
-                            SoundManager.PlayProjectileSound(SoundManager.WeaponSound.pistolShoot);
+                            SoundManager.PlayProjectileSound(SoundManager.WeaponSound.pistolShoot);                           
                                 break;
                             case "mpistol":
                             SoundManager.PlayProjectileSound(SoundManager.WeaponSound.mPistolShoot);
@@ -92,12 +98,11 @@ namespace Rambler.Combat
                             case "shotgun":
                             SoundManager.PlayProjectileSound(SoundManager.WeaponSound.shotgunShoot);
                                 break;
-                        }                        
+                        }                     
                     }                    
                 }
                 else
-                {
-                    //triggers Melee Event.
+                {                    
                     MeleeAttack();
                     timeSinceLastAttack = 0f;
                 }
@@ -110,13 +115,20 @@ namespace Rambler.Combat
                     return;
                 }
             }
-        }         
+        } 
 
-         public void EquipWeapon(Weapon weapon)
+        public Vector3 RBVelocity() 
+        {
+            return rb.velocity;
+        }        
+
+        public void EquipWeapon(Weapon weapon)
         {                  
             Animator animator = GetComponent<Animator>();    
             weaponConfig = weapon;                     
             Spawn(handTransform, animator);  
+            var aimTransform = activeWeapon.AimTransform();
+            weaponIk.AimTransform = aimTransform;
                         
             if(weapon.isMelee == true)
             { 
@@ -268,21 +280,21 @@ namespace Rambler.Combat
            anim.SetTrigger("meleeAttack"); 
            StopAttack();           
         } 
-
-        //Projectile Prediciton Logic Unused...for now
+        
+        //Projectile Prediciton Logic
         public Vector3 GetEnemyLocation()
         {        
-           CapsuleCollider targetCapsule = target.GetComponent<CapsuleCollider>(); 
+           CapsuleCollider targetCapsule = target.GetComponent<CapsuleCollider>();            
         
            if (targetCapsule == null)
            {                         
               return target.transform.position;              
            }
            float time = 0;       
-           hitPoint = GetHitPoint(combatTarget.enemyDest, combatTarget.velocity, transform.position, 500f, out time);
+           hitPoint = GetHitPoint(combatTarget.enemyCurPos, RBVelocity(), transform.position, 100f, out time);
            aimPoint = hitPoint - transform.position; 
            return aimPoint + Vector3.up * targetCapsule.height / 1.35f;
-           //return target.transform.position + combatTarget.velocity + Vector3.up * targetCapsule.height / aim;                      
+           //return target.transform.position + combatTarget.velocity + Vector3.up * targetCapsule.height / 1.35f;                      
         }
 
         Vector3 GetHitPoint(Vector3 targetPosition, Vector3 targetSpeed, Vector3 attackerPosition, float bulletSpeed, out float time)
