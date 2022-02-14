@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ac1fc26386361409ab3b23631f0673, type: 3}
+  m_Name: NPC Timbertoes Revolver
+  m_EditorClassIdentifier: 
+  animatorOverride: {fileID: 0}
+  activeWeapon: {fileID: 2266013256668684327, guid: 8a76d3b898100904d83ad2e37c824e99,
+    type: 3}
+  equippedPrefab: {fileID: 4040529665515307777, guid: 8a76d3b898100904d83ad2e37c824e99,
+    type: 3}
+  projectile: {fileID: 4287304663912672958, guid: cd085b3be29ae6248ada4a9443ab519d,
+    type: 3}
+  weaponTitle: pistol
+  isPistol: 0
+  isRifle: 0
+  isMelee: 0
+  isEMP: 0
+  itemID: d7191f5a-2205-4ea4-9ced-b4b5c406637c
+  displayName: 
+  description: 
+  icon: {fileID: 0}
+  pickup: {fileID: 0}
+  stackable: 0

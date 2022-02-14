@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ac1fc26386361409ab3b23631f0673, type: 3}
+  m_Name: NPC Commander Rifle
+  m_EditorClassIdentifier: 
+  animatorOverride: {fileID: 22100000, guid: d7cf76fb48c166148a49cebf6495d847, type: 2}
+  activeWeapon: {fileID: 1279460058020236004, guid: 98987433180d1ca46974ce6559d91603,
+    type: 3}
+  equippedPrefab: {fileID: 2070886014218071899, guid: 98987433180d1ca46974ce6559d91603,
+    type: 3}
+  projectile: {fileID: -5846359617922092927, guid: 8e28f3822c55c9e41a2f5c942925cf91,
+    type: 3}
+  weaponTitle: rifle
+  isPistol: 0
+  isRifle: 1
+  isMelee: 0
+  isEMP: 0
+  itemID: cb4ab8ad-f2ea-4e00-b053-e38044885336
+  displayName: 
+  description: 
+  icon: {fileID: 0}
+  pickup: {fileID: 0}
+  stackable: 0
