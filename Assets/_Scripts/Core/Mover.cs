@@ -16,7 +16,8 @@ namespace Rambler.Movement
 {
     public class Mover : MonoBehaviour, IAction, ISaveable
     { 
-        [SerializeField] float maxSpeed = 6f;         
+        [SerializeField] float maxSpeed = 6f;  
+        [SerializeField] WeaponIK weaponIK;         
         [SerializeField] Rig mainRig;        
         NavMeshAgent navMeshAgent;   
         Health health;    
@@ -40,13 +41,26 @@ namespace Rambler.Movement
             { 
                 if(navMeshAgent.velocity.magnitude > 0.15f)
                 {
-                   mainRig.weight = 0.7f; 
+                   mainRig.weight = 0.7f;                   
                 } 
                 else
                 {
-                   mainRig.weight = 1f;
+                   mainRig.weight = 1f;                                                        
                 }               
-            }                      
+            } 
+            WeaponIKWeight();                     
+        }
+
+        void WeaponIKWeight()
+        {
+            if(navMeshAgent.velocity.magnitude > 0.15f)
+            {                   
+                weaponIK.AimWeight = 0f;
+            } 
+            else
+            {                   
+                weaponIK.AimWeight = 1f;                  
+            }     
         }
 
         public void RigWeaponEquipped()

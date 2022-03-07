@@ -4,6 +4,7 @@ using Rambler.Core;
 using Rambler.Control;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using System.Collections;
 
 namespace Rambler.Combat
 {  
@@ -122,26 +123,35 @@ namespace Rambler.Combat
             return rb.velocity;
         }        
 
+      
+
         public void EquipWeapon(Weapon weapon)
         {                  
             Animator animator = GetComponent<Animator>();    
             weaponConfig = weapon;                     
-            Spawn(handTransform, animator);  
-            var aimTransform = activeWeapon.AimTransform();
-            weaponIk.AimTransform = aimTransform;
+            Spawn(handTransform, animator);          
                         
             if(weapon.isMelee == true)
             { 
                 mover.RigWeaponUnequipped();
                 RigWeightToZero();
-                rigController.Play("equip_" + weapon.weaponTitle);                
+                rigController.Play("equip_" + weapon.weaponTitle);   
+                StartCoroutine(AimInit());             
            }
            else
            {                             
                 RigWeightToOne();
                 rigController.Play("equip_" + weapon.weaponTitle);  
                 mover.RigWeaponEquipped(); 
+                StartCoroutine(AimInit());
            }         
+        }
+
+        IEnumerator AimInit()
+        {
+            yield return new WaitForSeconds(0.8f);            
+            var aimTransform = activeWeapon.AimTransform();
+            weaponIk.AimTransform = aimTransform;         
         }
 
         public void EquipUnarmed()

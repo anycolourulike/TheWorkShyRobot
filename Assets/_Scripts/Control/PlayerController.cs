@@ -19,10 +19,11 @@ namespace Rambler.Control
     public class PlayerController : MonoBehaviour  
     {              
          
-        [SerializeField] PlayerVitals vitals;          
+        [SerializeField] PlayerVitals vitals;                
         [SerializeField] GameObject shield; 
         [SerializeField] Fighter fighter;   
         [SerializeField] Animator anim; 
+        
         public bool isHolstered;  
 
         ActiveWeapon activeWeapon;         
