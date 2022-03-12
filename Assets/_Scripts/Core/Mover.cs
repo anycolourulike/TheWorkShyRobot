@@ -19,13 +19,9 @@ namespace Rambler.Movement
         [SerializeField] float maxSpeed = 6f;  
         [SerializeField] WeaponIK weaponIK;         
         [SerializeField] Rig mainRig;        
-        NavMeshAgent navMeshAgent;   
-        Health health;    
-        bool rigWeaponEquipped;
-        public Vector3 nextDestination;  
-        public Vector3 NextDestination {get{return nextDestination;}} 
-        
-
+        NavMeshAgent navMeshAgent;  
+        bool rigWeaponEquipped; 
+        Health health; 
 
         public void Start()
         {
@@ -91,8 +87,7 @@ namespace Rambler.Movement
         }
 
         public void MoveTo(Vector3 destination, float speedFraction)
-        {    
-            nextDestination = destination;        
+        {         
             navMeshAgent.destination = destination; 
             navMeshAgent.speed = maxSpeed * Mathf.Clamp01(speedFraction);
             navMeshAgent.isStopped = false;

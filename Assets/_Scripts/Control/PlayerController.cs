@@ -30,26 +30,26 @@ namespace Rambler.Control
         float holdDuration = 1f;               
         Transform handTransform;  
         Animator rigController;
-        bool pickedUp = false; 
+        public Vector3 nextPosition;
+        public Vector3 NextPosition {get{return nextPosition;}}
+        
         GameObject interact;    
         GameObject weaponPU; 
         WeaponPickUp pickUp;  
         int interactions;    
-        bool shieldsUp; 
-        Health target;        
+        bool shieldsUp;
+              
        
         private void Start()
         {                  
            rigController = rigController = GetComponent<Fighter>().rigController;       
            handTransform = GetComponent<Fighter>().handTransform;  
-           interact = GameObject.FindGameObjectWithTag("Interact"); 
-           target = GetComponent<Health>();  
+           interact = GameObject.FindGameObjectWithTag("Interact");             
            interact.SetActive(false);                                                          
         }
 
         private void Update()
-        {           
-           if (target.IsDead()) return;                     
+        {                     
            if (InteractWithCombat()) return;
            if (InteractWithMovement()) return;      
            
@@ -70,7 +70,9 @@ namespace Rambler.Control
             RaycastHit[] hits = Physics.RaycastAll(GetRay());
             foreach (RaycastHit hit in hits)
             {
-                CombatTarget target = hit.transform.GetComponent<CombatTarget>();                  
+                CombatTarget target = hit.transform.GetComponent<CombatTarget>(); 
+                fighter.Target = target;
+                CapsuleCollider targetCapsule = hit.transform.GetComponent<CapsuleCollider>();                 
                 if (target == null) continue;
                 if (!GetComponent<Fighter>().CanAttack(target.gameObject))
                 {
@@ -80,7 +82,9 @@ namespace Rambler.Control
                 if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Ended)
                 {
                     if(target == gameObject) return false;                                       
-                    GetComponent<Fighter>().Attack(target.gameObject); 
+                    Fighter fighter = GetComponent<Fighter>();
+                    fighter.Attack(target.gameObject);
+                    fighter.TargetCapsule = targetCapsule; 
                 }
                 return true;
             }
@@ -106,7 +110,8 @@ namespace Rambler.Control
                         var holdTime = holdDuration -= Time.deltaTime;
                         if (holdTime < .6f)
                         {                                  
-                            GetComponent<Mover>().StartMoveAction(hit.point, 1f);                            
+                            GetComponent<Mover>().StartMoveAction(hit.point, 1f);
+                            nextPosition = hit.point;                            
                             holdDuration = 1f;                           
                         }
                     }

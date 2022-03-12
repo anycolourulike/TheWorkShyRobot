@@ -12,8 +12,7 @@ namespace Rambler.Combat
         public enum WeaponType {melee, pistol, smg, shotgun, rifle, plasma, launcher, NPCWeapon};      
         [SerializeField] Transform muzzleTransform; 
         [SerializeField] GameObject ammoCountObj;
-        [SerializeField] Transform aimTransform;      
-
+        [SerializeField] Transform aimTransform; 
         [SerializeField] GameObject MuzzleFlash; 
         [SerializeField] Projectile projectile;           
         [SerializeField] float weaponDamage;   
@@ -55,7 +54,7 @@ namespace Rambler.Combat
         public Transform AimTransform()
         {
             return aimTransform;
-        }
+        }    
 
         public Transform MuzPos() 
         {
@@ -117,10 +116,11 @@ namespace Rambler.Combat
             }           
         }
         
-        public void LaunchProjectile(Transform muzzleTransform, Health target)
+       
+        public void LaunchProjectile(Transform muzzleTransform, Vector3 target)
         {  
-            Projectile Firedprojectile = Instantiate(projectile, muzzleTransform.position, muzzleTransform.rotation);
-            Firedprojectile.SetTarget(target, weaponDamage);
+            Projectile Firedprojectile = Instantiate(projectile, muzzleTransform.position, muzzleTransform.rotation);            
+            Firedprojectile.SetTarget(target, weaponDamage);            
                           
             GameObject Muzzle = Instantiate(MuzzleFlash, muzzleTransform.position, muzzleTransform.rotation) as GameObject;            
             Muzzle.transform.parent = muzzleTransform.transform; 

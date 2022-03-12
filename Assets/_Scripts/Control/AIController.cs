@@ -12,6 +12,7 @@ namespace Rambler.Control
     public class AIController : MonoBehaviour
     { 
         [SerializeField] Vector3 nextPosition;
+        public Vector3 NextPosition {get{return nextPosition;}}
         [SerializeField] PatrolPath patrolPath;             
         [SerializeField] float suspicionTime = 3f;        
         [SerializeField] float waypointTolerence = 1f;
@@ -23,31 +24,41 @@ namespace Rambler.Control
          = Mathf.Infinity;
         float timeSinceLastSawPlayer
          = Mathf.Infinity;
-        public float chaseDistance = 5f;
-        int currentWaypointIndex = 0;        
-        float TimerForNextAttack; 
-        float waypointProximity = 1f;       
-        
-        Transform agentTransform;
+        [SerializeField] 
+        float chaseDistance = 5f;
+        public float ChaseDistance {get{return chaseDistance;} set{chaseDistance = value;}}
+        CapsuleCollider capsuleCollider;
+         int currentWaypointIndex = 0;        
+        float TimerForNextAttack;
+        Transform agentTransform;        
         NavMeshAgent agent;        
         GameObject player;        
         Fighter fighter;
         Health health;        
         Mover mover;
-        float Cool;  
+        float Cool;
+      
+       void OnEnable() 
+       {
+            Health.playerDeath += PlayerDeath;
+       }
 
-        
-        float maxTime =1f;
-        float timer = 0.0f;
-        float maxDistance = 1f;
+       void OnDisable() 
+       {
+           Health.playerDeath -= PlayerDeath;
+       }
 
         private void Start()
         {
-            player = GameObject.FindWithTag("Player");
+            player = GameObject.FindWithTag("Player");  //Change to array for multiple player characters 
             agent = GetComponent<NavMeshAgent>();
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();            
-            mover = GetComponent<Mover>();                        
+            mover = GetComponent<Mover>();  
+
+            capsuleCollider = player.GetComponent<CapsuleCollider>();  
+            CombatTarget target = player.GetComponent<CombatTarget>(); 
+            fighter.Target = target;                      
             TimerForNextAttack = Cool;
             Cool = 2.5f;
         }
@@ -64,8 +75,12 @@ namespace Rambler.Control
                 }
                 else if (TimerForNextAttack <= 0)
                 {
-                    AttackBehaviour();
-                    TimerForNextAttack = Cool;
+                    
+                    if(capsuleCollider != null)
+                    {
+                      AttackBehaviour();
+                      TimerForNextAttack = Cool;
+                    }
                 }                
             }
             else if (timeSinceLastSawPlayer < suspicionTime)
@@ -77,6 +92,15 @@ namespace Rambler.Control
                 PatrolBehaviour();
             }
             UpdateTimers();           
+        }
+
+        void PlayerDeath()
+        {
+            Debug.Log("PlayerDeath called");
+            capsuleCollider = null;
+            fighter.TargetCapsule = null;
+            fighter.Cancel();
+            PatrolBehaviour();
         }
 
         private void UpdateTimers()
@@ -124,7 +148,8 @@ namespace Rambler.Control
         }
 
         public void AttackBehaviour()
-        {
+        {            
+            fighter.TargetCapsule = capsuleCollider; 
             timeSinceLastSawPlayer = 0;
             fighter.Attack(player);
         }

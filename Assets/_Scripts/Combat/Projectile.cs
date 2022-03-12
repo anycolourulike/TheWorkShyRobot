@@ -12,50 +12,42 @@ namespace Rambler.Combat
   {    
     [SerializeField] GameObject hitEffect = null;   
     [SerializeField] float maxLifeTime = 1.5f;  
-    [SerializeField] float speed = 100f;    
-    [SerializeField] float aim = 1.35f; 
-
-    CombatTarget combatTarget;     
-    public float damage = 0; 
-   
-    Health target; 
-    public Health Target {set{target = value;}}   
-    Rigidbody rb;    
+    [SerializeField] float speed; 
+    public float Speed {set{speed = value;}}
+    public float damage = 0;    
+    Vector3 target;
+    Rigidbody Rb;
+    Vector3 dir;  
     
 
     void Start()
-    {       
-      combatTarget = target.GetComponent<CombatTarget>();     
-      transform.LookAt(GetAimLocation());            
-      rb = GetComponent<Rigidbody>();             
-    }
+    {
+      Rb = GetComponent<Rigidbody>();
+      transform.LookAt(target); 
+      dir = target - transform.position; 
+      dir = dir.normalized; 
+    }    
 
     void Update()
-    {      
-      rb.AddRelativeForce(Vector3.forward * speed * Time.deltaTime);            
+    {       
+      Rb.AddForce(dir * speed * Time.deltaTime);            
     }
 
-    public void SetTarget(Health target, float damage)
+    public void SetTarget(Vector3 target, float damage)
     {
-        this.target = target;
-        this.damage = damage;        
-        Destroy(gameObject, maxLifeTime);
+      this.target = target;
+      this.damage = damage;        
+      Destroy(gameObject, maxLifeTime);
     }
 
     public Vector3 GetAimLocation()
     {        
-        CapsuleCollider targetCapsule = target.GetComponent<CapsuleCollider>(); 
-        
-        if (targetCapsule == null)
-        {                         
-          return target.transform.position;              
-        }        
-        return target.transform.position + combatTarget.velocity + Vector3.up * targetCapsule.height / aim;                      
+      return target;                      
     }        
     
     public GameObject HitEffect()
     {
-       return hitEffect;
+      return hitEffect;
     } 
   }
 }

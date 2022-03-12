@@ -9,7 +9,7 @@ using Rambler.Movement;
 using System;
 using Random = UnityEngine.Random;
 using UnityEngine.Animations.Rigging;
-
+using UnityEngine.Events;
 
 namespace Rambler.Core // To Do Stop Movement
 {
@@ -27,7 +27,10 @@ namespace Rambler.Core // To Do Stop Movement
         [SerializeField] GameObject armFX;
         [SerializeField] Mover mover;
 
+        public delegate void PlayerDied();
+        public static event PlayerDied playerDeath;
         PlayerController playerCont;
+        CapsuleCollider capCol;
         bool isDead = false;  
         Fighter fighter;
         Animator anim;
@@ -41,7 +44,8 @@ namespace Rambler.Core // To Do Stop Movement
             anim = GetComponent<Animator>(); 
             rb = GetComponent<Rigidbody>();    
             playerCont = GetComponent<PlayerController>(); 
-            fighter = GetComponent<Fighter>();       
+            fighter = GetComponent<Fighter>(); 
+            capCol = GetComponent<CapsuleCollider>();      
         }
 
         void Update() 
@@ -79,9 +83,9 @@ namespace Rambler.Core // To Do Stop Movement
             if (isDead) return; 
             anim.SetTrigger("HitAnim");
             if (gameObject.tag == "Enemy")
-            {
+            {               
                aIScript.AttackBehaviour();
-               aIScript.chaseDistance = 30f;
+               aIScript.ChaseDistance = 30f;
             }                                    
         }
         
@@ -98,9 +102,9 @@ namespace Rambler.Core // To Do Stop Movement
               if(gameObject.tag == "Player")
               {
                 var vitals = GetComponent<PlayerVitals>();
-                vitals.TakeDamage(proj.damage);
+                vitals.TakeDamage(proj.damage);                
               }
-              Destroy(proj.gameObject);         
+              Destroy(proj.gameObject);   //Particles not destroying      
             }
             else
             {
@@ -111,12 +115,14 @@ namespace Rambler.Core // To Do Stop Movement
         public void Die()
         {  
             isDead = true;  
+            capCol.enabled = false;
             StopMovement();         
             dieRanNum = Random.Range(1, 3); 
             print(gameObject.name + " " + "death" + dieRanNum);    
             if (gameObject.name == "Rambler")
             {
                 playerCont.ToggelShields();
+                playerDeath.Invoke();
             }            
 
             if(dieRanNum == 1)

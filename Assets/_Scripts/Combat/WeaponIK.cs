@@ -14,8 +14,9 @@ public class HumanBone
 public class WeaponIK : MonoBehaviour
 {
     public Transform targetTransform;
-    public Transform aimTransform;
+    //public Transform TargetTransform {get{return targetTransform;} set{targetTransform = value;}}
     
+    public Transform aimTransform; 
     public Transform AimTransform {get{return aimTransform;} set{aimTransform = value;}}
     
     public int iterations = 10;
@@ -64,7 +65,7 @@ public class WeaponIK : MonoBehaviour
 
     // Update is called once per frame
     void LateUpdate()
-    {
+    {       
        Vector3 targetPosition = GetTargetPosition();
        
        for(int i = 0; i< iterations; i++)
@@ -86,16 +87,6 @@ public class WeaponIK : MonoBehaviour
         Quaternion blendedRotation = Quaternion.Slerp(Quaternion.identity, aimTowards, weight);
         bone.rotation = blendedRotation * bone.rotation;
         
-    }
-
-    public void SetTargetTransform(Transform target)
-    {
-        targetTransform = target;
-    }
-
-    public void SetAimTransform(Transform aim)
-    {
-        targetTransform = aim;
     }
   }
 }
