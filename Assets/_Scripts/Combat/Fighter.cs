@@ -25,13 +25,15 @@ namespace Rambler.Combat
         public Weapon weaponConfig;        
         float timeSinceLastAttack = 
         Mathf.Infinity;         
-        CombatTarget combatTarget;   
-        public CombatTarget Target {set{combatTarget = value;}}                    
+        CombatTarget otherCombatTarget;   //other combat Target
+        public CombatTarget Target {set{otherCombatTarget = value;}}                    
         GameObject weaponRef;               
         Transform enemyPos;  
-        WeaponIK weaponIk;        
+        WeaponIK weaponIk; 
         Vector3 hitPoint;        
         Animator anim;
+        public float targetSpeed;
+        public float TargetSpeed{set{targetSpeed = value;}}
         
         private void Start()
         {   
@@ -42,7 +44,7 @@ namespace Rambler.Combat
            ActiveWeaponInit();                                          
         }
 
-        private void Update()
+        private void LateUpdate()
         {                    
             timeSinceLastAttack += Time.deltaTime; 
             if (enemyPos == null) return;  
@@ -75,15 +77,15 @@ namespace Rambler.Combat
                 if (HasProjectile())
                 {                    
                     if (weaponConfig.isEMP == true)
-                    {
-                        anim.ResetTrigger("EMPAttack");
+                    {                       
                         anim.SetTrigger("EMPAttack");                                             
                     }
                     else
                     {
                         if (timeSinceLastAttack < 1.5f) return; 
-                        Vector3 TargetPoint = GetEnemyLocation() + Vector3.up / 1.1f;                                    
-                        activeWeapon.LaunchProjectile(activeWeapon.MuzPos(), TargetPoint);  
+                        TargetSpeed = otherCombatTarget.GetTargetSpeed;
+                        Vector3 TargetVector = GetEnemyLocation() + Vector3.up / 1.1f;                                    
+                        activeWeapon.LaunchProjectile(activeWeapon.MuzPos(), TargetVector);  
                         timeSinceLastAttack = 0f;                                            
 
                         switch (weaponConfig.weaponTitle)
@@ -292,37 +294,30 @@ namespace Rambler.Combat
         
         //Projectile Prediciton Logic
         public Vector3 GetEnemyLocation()
-        { 
-           float time = 0;       
-           hitPoint = GetHitPoint(combatTarget.enemyCurPos, combatTarget.LastSpeed, transform.position, 150f, out time);
-           return hitPoint;                                 
+        {              
+           hitPoint = GetHitPoint(otherCombatTarget.GetCurTargetPos, otherCombatTarget.GetTargetVelocity, transform.position, 150f);
+           return hitPoint;
+        }  
+    
+        Vector3 GetHitPoint(Vector3 targetPosition, Vector3 targetVelocity, Vector3 shooterPosition, float projectileSpeed)
+        {
+          Vector3 displacement = targetPosition - shooterPosition;
+          float targetMoveAngle = Vector3.Angle(-displacement, targetVelocity) * Mathf.Deg2Rad;
+          //if the target is stopping or if it is impossible for the projectile to catch up with the target (Sine Formula)
+          
+          Debug.Log("TargetSpeed is " + " " + targetSpeed); 
+         
+         if (targetSpeed == 0 || otherCombatTarget.GetTargetSpeed > projectileSpeed && Mathf.Sin(targetMoveAngle)
+               / projectileSpeed > Mathf.Cos(targetMoveAngle) / otherCombatTarget.GetTargetSpeed)
+          {
+            Debug.Log("Predicition failed, TargetSpeed is " + " " + targetSpeed);              
+            return targetPosition;
+          }
+         //also Sine Formula
+          float shootAngle = Mathf.Asin(Mathf.Sin(targetMoveAngle) * otherCombatTarget.GetTargetSpeed / projectileSpeed);
+          return targetPosition + targetVelocity * displacement.magnitude / Mathf.Sin(Mathf.PI - targetMoveAngle - shootAngle) * Mathf.Sin(shootAngle)
+          / targetVelocity.magnitude;
         }
-
-        Vector3 GetHitPoint(Vector3 targetPosition, Vector3 targetSpeed, Vector3 attackerPosition, float bulletSpeed, out float time)
-        {             
-            Vector3 q = targetPosition - attackerPosition;
-            
-            q.y = 0;
-            targetSpeed.y = 0;
-
-            //solving quadratic ecuation from t*t(Vx*Vx + Vy*Vy - S*S) + 2*t*(Vx*Qx)(Vy*Qy) + Qx*Qx + Qy*Qy = 0
-
-            float a = Vector3.Dot(targetSpeed, targetSpeed) - (bulletSpeed * bulletSpeed); //Dot is basicly (targetSpeed.x * targetSpeed.x) + (targetSpeed.y * targetSpeed.y)
-            float b = 2 * Vector3.Dot(targetSpeed, q); //Dot is basicly (targetSpeed.x * q.x) + (targetSpeed.y * q.y)
-            float c = Vector3.Dot(q, q); //Dot is basicly (q.x * q.x) + (q.y * q.y)
-
-            //Discriminant
-            float D = Mathf.Sqrt((b * b) - 4 * a * c);
-
-            float t1 = (-b + D) / (2 * a);
-            float t2 = (-b - D) / (2 * a);
-
-            //Debug.Log("t1: " + t1 + " t2: " + t2);
-
-            time = Mathf.Max(t1, t2);
-
-            Vector3 ret = targetPosition + targetSpeed * time;
-            return ret;
-       }       
+    
    }
 }

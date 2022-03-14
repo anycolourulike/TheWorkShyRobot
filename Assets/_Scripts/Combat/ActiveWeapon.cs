@@ -18,9 +18,8 @@ namespace Rambler.Combat
         [SerializeField] float weaponDamage;   
         [SerializeField] float weaponRange;
         TextMeshProUGUI totalAmmoDisplay;  
-        TextMeshProUGUI magDisplay;  
-               
-        WeaponType thisWeapon;        
+        TextMeshProUGUI magDisplay;              
+        WeaponType thisWeapon;             
         string weaponName; 
         int ammoSpent;                   
         int curClip;

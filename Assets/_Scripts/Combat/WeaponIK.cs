@@ -43,11 +43,13 @@ public class WeaponIK : MonoBehaviour
 
     Vector3 GetTargetPosition() 
     {
-        Vector3 targetDirection = targetTransform.position - aimTransform.position;
-        Vector3 aimDirection = aimTransform.forward;
-        float blendOut = 0.0f;
+        if(aimTransform != null)
+        {
+          Vector3 targetDirection = targetTransform.position - aimTransform.position;
+          Vector3 aimDirection = aimTransform.forward;
+          float blendOut = 0.0f;
 
-        float targetAngle = Vector3.Angle(targetDirection, aimDirection);
+         float targetAngle = Vector3.Angle(targetDirection, aimDirection);
         if(targetAngle > angleLimit)
         {
             blendOut += (targetAngle - angleLimit) / 50.0f;
@@ -59,24 +61,32 @@ public class WeaponIK : MonoBehaviour
             blendOut += distanceLimit - targetDistance;
         }
 
-        Vector3 direction = Vector3.Slerp(targetDirection, aimDirection, blendOut);
-        return aimTransform.position + direction;
+         Vector3 direction = Vector3.Slerp(targetDirection, aimDirection, blendOut);
+         return aimTransform.position + direction;
+        }
+        else
+        {
+            return new Vector3(0,0,0);
+        }
     }
 
     // Update is called once per frame
     void LateUpdate()
-    {       
-       Vector3 targetPosition = GetTargetPosition();
+    {  
+        if(aimTransform != null)
+        {     
+          Vector3 targetPosition = GetTargetPosition();
        
-       for(int i = 0; i< iterations; i++)
-       {
-           for (int b = 0; b < boneTransforms.Length; b++)
-           {
-               Transform bone = boneTransforms[b];
-               float boneWeight = humanBones[b].weight * weight;
-               AimAtTarget(bone, targetPosition, boneWeight); 
-           }
-       }             
+          for(int i = 0; i< iterations; i++)
+          {
+             for (int b = 0; b < boneTransforms.Length; b++)
+             {
+                Transform bone = boneTransforms[b];
+                float boneWeight = humanBones[b].weight * weight;
+                AimAtTarget(bone, targetPosition, boneWeight); 
+             }
+          }
+        }               
     }
 
     private void AimAtTarget(Transform bone, Vector3 targetPosition, float weight)

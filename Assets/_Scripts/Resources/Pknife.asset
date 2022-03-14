@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ac1fc26386361409ab3b23631f0673, type: 3}
+  m_Name: Pknife
+  m_EditorClassIdentifier: 
+  animatorOverride: {fileID: 22100000, guid: 0d6cf4c2f89b36149b49ec6779ab249c, type: 2}
+  activeWeapon: {fileID: 0}
+  equippedPrefab: {fileID: 0}
+  projectile: {fileID: 0}
+  weaponTitle: knife
+  isPistol: 0
+  isRifle: 0
+  isMelee: 1
+  isEMP: 0
+  itemID: 8f8e29d6-2467-4a01-9d42-00ce6830d096
+  displayName: 
+  description: 
+  icon: {fileID: 21300000, guid: be4954bf620a62b4c9b9f493a7de5b5d, type: 3}
+  pickup: {fileID: 0}
+  stackable: 0

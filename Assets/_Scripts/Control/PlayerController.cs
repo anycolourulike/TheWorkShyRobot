@@ -30,9 +30,12 @@ namespace Rambler.Control
         float holdDuration = 1f;               
         Transform handTransform;  
         Animator rigController;
+        WeaponIK weaponIK;
+
         public Vector3 nextPosition;
         public Vector3 NextPosition {get{return nextPosition;}}
-        
+        CombatTarget otherCombatTarget;
+        public CombatTarget GetOtherCombatTarget {get{return otherCombatTarget;}}
         GameObject interact;    
         GameObject weaponPU; 
         WeaponPickUp pickUp;  
@@ -43,7 +46,8 @@ namespace Rambler.Control
         private void Start()
         {                  
            rigController = rigController = GetComponent<Fighter>().rigController;       
-           handTransform = GetComponent<Fighter>().handTransform;  
+           handTransform = GetComponent<Fighter>().handTransform;
+           weaponIK = GetComponent<WeaponIK>(); 
            interact = GameObject.FindGameObjectWithTag("Interact");             
            interact.SetActive(false);                                                          
         }
@@ -70,20 +74,20 @@ namespace Rambler.Control
             RaycastHit[] hits = Physics.RaycastAll(GetRay());
             foreach (RaycastHit hit in hits)
             {
-                CombatTarget target = hit.transform.GetComponent<CombatTarget>(); 
-                fighter.Target = target;
+                CombatTarget otherCombatTarget = hit.transform.GetComponent<CombatTarget>();
+                fighter.Target = otherCombatTarget;
                 CapsuleCollider targetCapsule = hit.transform.GetComponent<CapsuleCollider>();                 
-                if (target == null) continue;
-                if (!GetComponent<Fighter>().CanAttack(target.gameObject))
+                if (otherCombatTarget == null) continue;
+                if (!GetComponent<Fighter>().CanAttack(otherCombatTarget.gameObject))
                 {
                     continue;
                 }
 
                 if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Ended)
                 {
-                    if(target == gameObject) return false;                                       
+                    if(otherCombatTarget == gameObject) return false;                                       
                     Fighter fighter = GetComponent<Fighter>();
-                    fighter.Attack(target.gameObject);
+                    fighter.Attack(otherCombatTarget.gameObject);
                     fighter.TargetCapsule = targetCapsule; 
                 }
                 return true;
@@ -171,7 +175,7 @@ namespace Rambler.Control
         public void HolsterWeapon()
         {  
             isHolstered = true;
-            rigController.ResetTrigger("holster_weapon");
+            weaponIK.AimTransform = null;          
             rigController.SetTrigger("holster_weapon"); 
             var fighter = GetComponent<Fighter>();
             fighter.RigWeightToZero();                                                  

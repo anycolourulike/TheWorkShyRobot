@@ -12,8 +12,7 @@ namespace Rambler.Combat
   {    
     [SerializeField] GameObject hitEffect = null;   
     [SerializeField] float maxLifeTime = 1.5f;  
-    [SerializeField] float speed; 
-    public float Speed {set{speed = value;}}
+    [SerializeField] float speed;    
     public float damage = 0;    
     Vector3 target;
     Rigidbody Rb;
@@ -28,7 +27,7 @@ namespace Rambler.Combat
       dir = dir.normalized; 
     }    
 
-    void Update()
+    void FixedUpdate()
     {       
       Rb.AddForce(dir * speed * Time.deltaTime);            
     }

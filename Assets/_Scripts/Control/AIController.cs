@@ -11,15 +11,13 @@ namespace Rambler.Control
 {
     public class AIController : MonoBehaviour
     { 
-        [SerializeField] Vector3 nextPosition;
-        public Vector3 NextPosition {get{return nextPosition;}}
+        [SerializeField] Vector3 nextPosition; 
         [SerializeField] PatrolPath patrolPath;             
         [SerializeField] float suspicionTime = 3f;        
         [SerializeField] float waypointTolerence = 1f;
         [SerializeField] float waypointDwellTime = 1.7f;
         [Range(0,1)]
-        [SerializeField] float patrolSpeedFraction = 0.2f;   
-
+        [SerializeField] float patrolSpeedFraction = 0.2f;  
         float timeSinceArrivedAtWaypoint
          = Mathf.Infinity;
         float timeSinceLastSawPlayer
@@ -27,16 +25,17 @@ namespace Rambler.Control
         [SerializeField] 
         float chaseDistance = 5f;
         public float ChaseDistance {get{return chaseDistance;} set{chaseDistance = value;}}
+
         CapsuleCollider capsuleCollider;
-         int currentWaypointIndex = 0;        
-        float TimerForNextAttack;
-        Transform agentTransform;        
+        int currentWaypointIndex = 0;        
+        float TimerForNextAttack;               
         NavMeshAgent agent;        
         GameObject player;        
         Fighter fighter;
+        float coolDown;
         Health health;        
         Mover mover;
-        float Cool;
+        
       
        void OnEnable() 
        {
@@ -57,10 +56,10 @@ namespace Rambler.Control
             mover = GetComponent<Mover>();  
 
             capsuleCollider = player.GetComponent<CapsuleCollider>();  
-            CombatTarget target = player.GetComponent<CombatTarget>(); 
-            fighter.Target = target;                      
-            TimerForNextAttack = Cool;
-            Cool = 2.5f;
+            CombatTarget otherCombatTarget = player.GetComponent<CombatTarget>(); 
+            fighter.Target = otherCombatTarget;                     
+            TimerForNextAttack = coolDown;
+            coolDown = 2.5f;
         }
 
         private void Update()
@@ -79,7 +78,7 @@ namespace Rambler.Control
                     if(capsuleCollider != null)
                     {
                       AttackBehaviour();
-                      TimerForNextAttack = Cool;
+                      TimerForNextAttack = coolDown;
                     }
                 }                
             }

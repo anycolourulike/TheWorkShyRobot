@@ -120,8 +120,7 @@ namespace Rambler.Core // To Do Stop Movement
             dieRanNum = Random.Range(1, 3); 
             print(gameObject.name + " " + "death" + dieRanNum);    
             if (gameObject.name == "Rambler")
-            {
-                playerCont.ToggelShields();
+            {                
                 playerDeath.Invoke();
             }            
 
