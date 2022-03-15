@@ -10,32 +10,23 @@ namespace Rambler.Combat
     [RequireComponent(typeof(Health))]
     public class CombatTarget : MonoBehaviour
     {   
-       public float targetSpeed;
-       public Vector3 curTargetPos;
-       public Vector3 prevTargetPos; 
-       public Vector3 targetVelocity;            
+       float targetSpeed;
+       Vector3 curTargetPos;
+       Vector3 prevTargetPos; 
+       Vector3 targetVelocity;            
          
        void Start() 
        {          
-           prevTargetPos = transform.position;
+          prevTargetPos = transform.position;
        }  
 
        void Update() 
        {              
-            curTargetPos = transform.position; 
-            //Debug.Log(this.name + " " + "curTargetPos" + " " + curTargetPos);   
-
+            curTargetPos = transform.position;
             Vector3 posDif = curTargetPos - prevTargetPos;
-            //Debug.Log("posDif" + "" + posDif); 
-
             targetVelocity = posDif/Time.deltaTime; 
-            //Debug.Log(s"targetVelocity" + " " + targetVelocity); 
-
-            targetSpeed = targetVelocity.magnitude; 
-           // Debug.Log("targetSpeed" + " " + targetSpeed);   
-
-            prevTargetPos = curTargetPos;
-            //Debug.Log("prevTargetPos" + " " + prevTargetPos);                               
+            targetSpeed = targetVelocity.magnitude;
+            prevTargetPos = curTargetPos;                              
        } 
 
        public Vector3 TargetFuturePos(Vector3 ShooterPos) 
@@ -52,8 +43,7 @@ namespace Rambler.Combat
           
          if (targetVelocity.magnitude == 0 || targetVelocity.magnitude > projectileSpeed && Mathf.Sin(targetMoveAngle)
                / projectileSpeed > Mathf.Cos(targetMoveAngle) / targetVelocity.magnitude)
-           {
-             Debug.Log("Target standing Still");              
+           {                         
              return targetPosition;
            }
          //also Sine Formula
