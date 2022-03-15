@@ -9,31 +9,58 @@ namespace Rambler.Combat
 {
     [RequireComponent(typeof(Health))]
     public class CombatTarget : MonoBehaviour
-    {           
-       Mover mover;
-       Vector3 curTargetPos;
-       Vector3 prevTargetPos; 
-       Vector3 targetVelocity;
+    {   
        public float targetSpeed;
-
-
-       public float GetTargetSpeed {get{ return targetSpeed;}} 
-       public Vector3 GetTargetVelocity{get{return targetVelocity;}}
-       public Vector3 GetCurTargetPos{get{return curTargetPos;}}
+       public Vector3 curTargetPos;
+       public Vector3 prevTargetPos; 
+       public Vector3 targetVelocity;            
          
        void Start() 
-       {
-           mover = GetComponent<Mover>();
+       {          
            prevTargetPos = transform.position;
        }  
 
        void Update() 
        {              
-            curTargetPos = transform.position;      
-            var posDif = curTargetPos - prevTargetPos;
-            targetVelocity = posDif/Time.deltaTime;  
-            targetSpeed = targetVelocity.magnitude;           
-            prevTargetPos = curTargetPos;                               
-       }               
-    }
+            curTargetPos = transform.position; 
+            //Debug.Log(this.name + " " + "curTargetPos" + " " + curTargetPos);   
+
+            Vector3 posDif = curTargetPos - prevTargetPos;
+            //Debug.Log("posDif" + "" + posDif); 
+
+            targetVelocity = posDif/Time.deltaTime; 
+            //Debug.Log(s"targetVelocity" + " " + targetVelocity); 
+
+            targetSpeed = targetVelocity.magnitude; 
+           // Debug.Log("targetSpeed" + " " + targetSpeed);   
+
+            prevTargetPos = curTargetPos;
+            //Debug.Log("prevTargetPos" + " " + prevTargetPos);                               
+       } 
+
+       public Vector3 TargetFuturePos(Vector3 ShooterPos) 
+       {
+           var hitPointVector = GetHitPointVector(curTargetPos, targetVelocity, ShooterPos, 10f);
+           return hitPointVector;
+       }
+
+        Vector3 GetHitPointVector(Vector3 targetPosition, Vector3 targetVelocity, Vector3 shooterPosition, float projectileSpeed)
+        {
+          Vector3 targetShooterVector = targetPosition - shooterPosition;
+          float targetMoveAngle = Vector3.Angle(-targetShooterVector, targetVelocity) * Mathf.Deg2Rad;
+          //if the target is stopping or if it is impossible for the projectile to catch up with the target (Sine Formula)
+          
+         if (targetVelocity.magnitude == 0 || targetVelocity.magnitude > projectileSpeed && Mathf.Sin(targetMoveAngle)
+               / projectileSpeed > Mathf.Cos(targetMoveAngle) / targetVelocity.magnitude)
+           {
+             Debug.Log("Target standing Still");              
+             return targetPosition;
+           }
+         //also Sine Formula
+          float shootAngle = Mathf.Asin(Mathf.Sin(targetMoveAngle) * targetSpeed / projectileSpeed);
+          return targetPosition + targetVelocity * targetShooterVector.magnitude 
+                / Mathf.Sin(Mathf.PI - targetMoveAngle - shootAngle) * Mathf.Sin(shootAngle)
+                / targetVelocity.magnitude;
+        }
+  }
 }

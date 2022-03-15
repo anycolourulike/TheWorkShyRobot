@@ -275,7 +275,7 @@ MonoBehaviour:
     type: 3}
   projectile: {fileID: -5846359617922092927, guid: 45e69577c49fa0a4d81d479e85f55f29,
     type: 3}
-  weaponDamage: 35
+  weaponDamage: 5
   weaponRange: 25
 --- !u!114 &6226887575381296431
 MonoBehaviour:

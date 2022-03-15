@@ -94,8 +94,7 @@ namespace Rambler.Control
         }
 
         void PlayerDeath()
-        {
-            Debug.Log("PlayerDeath called");
+        {            
             capsuleCollider = null;
             fighter.TargetCapsule = null;
             fighter.Cancel();
@@ -164,6 +163,11 @@ namespace Rambler.Control
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, chaseDistance);            
-        }       
+        } 
+
+        void FootStep() 
+        {
+            
+        }      
     }
 }

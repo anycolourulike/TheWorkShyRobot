@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Rifle
   m_EditorClassIdentifier: 
   animatorOverride: {fileID: 0}
-  activeWeapon: {fileID: 0}
+  activeWeapon: {fileID: 7049510036281544848, guid: 56f5651e621093b498c4d9829d7ea428,
+    type: 3}
   equippedPrefab: {fileID: 6793397232222851401, guid: 56f5651e621093b498c4d9829d7ea428,
     type: 3}
-  projectile: {fileID: -5846359617922092927, guid: dda3df55525ee234e9c43b54ca2f61de,
+  projectile: {fileID: -5846359617922092927, guid: c9ef9d1bc4148bc44874506dc8077b60,
     type: 3}
   weaponTitle: rifle
   isPistol: 0

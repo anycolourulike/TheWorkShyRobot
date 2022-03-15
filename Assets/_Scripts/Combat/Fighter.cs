@@ -25,17 +25,16 @@ namespace Rambler.Combat
         public Weapon weaponConfig;        
         float timeSinceLastAttack = 
         Mathf.Infinity;         
-        CombatTarget otherCombatTarget;   //other combat Target
+        public CombatTarget otherCombatTarget;   //other combat Target
         public CombatTarget Target {set{otherCombatTarget = value;}}                    
+        Vector3 hitPointVector;        
         GameObject weaponRef;               
         Transform enemyPos;  
-        WeaponIK weaponIk; 
-        Vector3 hitPoint;        
+        WeaponIK weaponIk;                 
         Animator anim;
-        public float targetSpeed;
-        public float TargetSpeed{set{targetSpeed = value;}}
         
-        private void Start()
+        
+        void Start()
         {   
            rigController = GetComponent<Fighter>().rigController;           
            weaponIk = GetComponent<WeaponIK>();          
@@ -44,7 +43,7 @@ namespace Rambler.Combat
            ActiveWeaponInit();                                          
         }
 
-        private void LateUpdate()
+        void Update()
         {                    
             timeSinceLastAttack += Time.deltaTime; 
             if (enemyPos == null) return;  
@@ -64,12 +63,12 @@ namespace Rambler.Combat
                     Cancel();
                 }             
             }
-        } 
+    } 
         
-        private void AttackBehaviour()
+        void AttackBehaviour()
         {                        
             transform.LookAt(enemyPos.transform);            
-            AssignTarget();
+            AssignIKTarget();
             if(gameObject.tag == "Player" && enemyPos.gameObject.tag == "Player") return;          
             
             if (timeSinceLastAttack > timeBetweenAttacks)
@@ -82,11 +81,10 @@ namespace Rambler.Combat
                     }
                     else
                     {
-                        if (timeSinceLastAttack < 1.5f) return; 
-                        TargetSpeed = otherCombatTarget.GetTargetSpeed;
-                        Vector3 TargetVector = GetEnemyLocation() + Vector3.up / 1.1f;                                    
-                        activeWeapon.LaunchProjectile(activeWeapon.MuzPos(), TargetVector);  
-                        timeSinceLastAttack = 0f;                                            
+                        if (timeSinceLastAttack < 1.5f) return;                         
+                        Vector3 targetVector = GetEnemyLocation() + Vector3.up / 1.1f;                                    
+                        activeWeapon.LaunchProjectile(activeWeapon.MuzPos(), targetVector);  
+                        timeSinceLastAttack = 0f;                
 
                         switch (weaponConfig.weaponTitle)
                         {
@@ -102,7 +100,8 @@ namespace Rambler.Combat
                             case "shotgun":
                             SoundManager.PlayProjectileSound(SoundManager.WeaponSound.shotgunShoot);
                                 break;
-                        }                     
+                        } 
+                                           
                     }                    
                 }
                 else
@@ -119,12 +118,7 @@ namespace Rambler.Combat
                     return;
                 }
             }            
-        } 
-
-        void AssignTarget()
-        {
-            weaponIk.targetTransform.position = GetEnemyLocation() + Vector3.up / 1.1f;
-        }
+        }        
 
         public void EquipWeapon(Weapon weapon)
         {                  
@@ -146,14 +140,7 @@ namespace Rambler.Combat
                 mover.RigWeaponEquipped(); 
                 StartCoroutine(AimInit());
            }         
-        }
-
-        IEnumerator AimInit()
-        {
-            yield return new WaitForSeconds(0.8f);            
-            var aimTransform = activeWeapon.AimTransform();
-            weaponIk.AimTransform = aimTransform;         
-        }
+        }        
 
         public void EquipUnarmed()
         {
@@ -164,14 +151,44 @@ namespace Rambler.Combat
         public void RigWeightToZero() 
         {    
             mover.RigWeightToZero(); 
+        } 
+      
+        public bool CanAttack(GameObject combatTarget)
+        {
+            if (combatTarget == null) { return false; }
+            var targetToTest = combatTarget.GetComponent<CapsuleCollider>();
+            return targetToTest != null; 
         }
 
-        public void RigWeightToOne() 
+        public void Attack(GameObject combatTarget)
+        {
+            GetComponent<ActionScheduler>().StartAction(this);           
+            enemyPos = combatTarget.GetComponent<Transform>();           
+        }       
+
+        public void Cancel()
+        {            
+            enemyPos = null;
+        }             
+
+        void MeleeAttack()
+        {
+           Debug.Log("MeleeAttack");           
+           anim.SetTrigger("meleeAttack");                     
+        } 
+        
+        //Projectile Prediciton Logic
+        Vector3 GetEnemyLocation()
+        {              
+           return hitPointVector = otherCombatTarget.TargetFuturePos(activeWeapon.AimTransform().position);
+        }
+
+        void RigWeightToOne() 
         {
             mover.RigWeaponEquipped();            
         }
 
-        public void Spawn(Transform handTransform, Animator animator)
+        void Spawn(Transform handTransform, Animator animator)
         {   
             DestroyOldWeapon(handTransform);                                 
 
@@ -184,17 +201,9 @@ namespace Rambler.Combat
             {
                 animator.runtimeAnimatorController = animatorOverride;
             }
-        }              
-
-        private void DestroyOldWeapon(Transform handTransform)
-        {            
-            var oldWeapon =  GameObject.FindWithTag("weapon");
-            if (oldWeapon == null) return;            
-            Debug.Log("weapon destroyed");                    
-            Destroy(oldWeapon);                            
-        }        
-
-        public bool HasProjectile()
+        } 
+        
+        bool HasProjectile()
         {
             if(weaponConfig.projectile != false)
             {
@@ -206,12 +215,46 @@ namespace Rambler.Combat
             }
         } 
 
-        void ActiveWeaponInit()
-        {            
-            activeWeapon = weaponRef.GetComponentInChildren<ActiveWeapon>();
-        }     
+        IEnumerator AimInit()
+        {
+            yield return new WaitForSeconds(0.8f);            
+            var aimTransform = activeWeapon.AimTransform();
+            weaponIk.AimTransform = aimTransform;         
+        }
 
-        //Animation Event
+        void DestroyOldWeapon(Transform handTransform)
+        {            
+            var oldWeapon =  GameObject.FindWithTag("weapon");
+            if (oldWeapon == null) return;            
+            Debug.Log("weapon destroyed");                    
+            Destroy(oldWeapon);                            
+        } 
+
+        void AssignIKTarget()
+        {
+            weaponIk.targetTransform.position = GetEnemyLocation() + Vector3.up / 1.1f;
+        }
+
+        bool GetIsInRange()
+        {
+            return Vector3.Distance(transform.position, enemyPos.position) < activeWeapon.GetRange();
+        } 
+
+        void MeleeAttack(Transform muzzleFX, Transform target)
+        {
+            if (target == null) { return; }
+                        
+            if (HasProjectile())
+            {
+                activeWeapon.LaunchProjectile(muzzleFX, GetEnemyLocation());                
+            }
+            else
+            {
+                Debug.Log("Target took Melee Damage");                
+                //target.TakeDamage(activeWeapon.GetDamage());
+            }
+        } 
+
         void MeleeEvent()
         {
             if (HasProjectile() != true)
@@ -233,91 +276,14 @@ namespace Rambler.Combat
                       
         }
 
-        //Animation Event
         void EndMelee()
         {
 
-        }               
-
-        private void MeleeAttack(Transform muzzleFX, Transform target)
-        {
-            if (target == null) { return; }
-                        
-            if (HasProjectile())
-            {
-                activeWeapon.LaunchProjectile(muzzleFX, GetEnemyLocation());                
-            }
-            else
-            {
-                Debug.Log("Target took Melee Damage");                
-                //target.TakeDamage(activeWeapon.GetDamage());
-            }
         }
-
-        public bool CanAttack(GameObject combatTarget)
-        {
-            if (combatTarget == null) { return false; }
-            var targetToTest = combatTarget.GetComponent<CapsuleCollider>();
-            return targetToTest != null; 
-        }
-
-        public void Attack(GameObject combatTarget)
-        {
-            GetComponent<ActionScheduler>().StartAction(this);           
-            enemyPos = combatTarget.GetComponent<Transform>();           
-        }       
-
-        public void Cancel()
-        {
-            StopAttack();
-            enemyPos = null;
-        }
-
-        public void StopAttack()
-        {
-            anim.ResetTrigger("stopAttack");
-            anim.SetTrigger("stopAttack");
-        }
-
-        private bool GetIsInRange()
-        {
-            return Vector3.Distance(transform.position, enemyPos.position) < activeWeapon.GetRange();
-        }
-
-        public void MeleeAttack()
-        {
-           Debug.Log("MeleeAttack");
-           anim.ResetTrigger("meleeAttack");
-           anim.SetTrigger("meleeAttack"); 
-           StopAttack();           
-        } 
         
-        //Projectile Prediciton Logic
-        public Vector3 GetEnemyLocation()
-        {              
-           hitPoint = GetHitPoint(otherCombatTarget.GetCurTargetPos, otherCombatTarget.GetTargetVelocity, transform.position, 150f);
-           return hitPoint;
-        }  
-    
-        Vector3 GetHitPoint(Vector3 targetPosition, Vector3 targetVelocity, Vector3 shooterPosition, float projectileSpeed)
-        {
-          Vector3 displacement = targetPosition - shooterPosition;
-          float targetMoveAngle = Vector3.Angle(-displacement, targetVelocity) * Mathf.Deg2Rad;
-          //if the target is stopping or if it is impossible for the projectile to catch up with the target (Sine Formula)
-          
-          Debug.Log("TargetSpeed is " + " " + targetSpeed); 
-         
-         if (targetSpeed == 0 || otherCombatTarget.GetTargetSpeed > projectileSpeed && Mathf.Sin(targetMoveAngle)
-               / projectileSpeed > Mathf.Cos(targetMoveAngle) / otherCombatTarget.GetTargetSpeed)
-          {
-            Debug.Log("Predicition failed, TargetSpeed is " + " " + targetSpeed);              
-            return targetPosition;
-          }
-         //also Sine Formula
-          float shootAngle = Mathf.Asin(Mathf.Sin(targetMoveAngle) * otherCombatTarget.GetTargetSpeed / projectileSpeed);
-          return targetPosition + targetVelocity * displacement.magnitude / Mathf.Sin(Mathf.PI - targetMoveAngle - shootAngle) * Mathf.Sin(shootAngle)
-          / targetVelocity.magnitude;
-        }
-    
+        void ActiveWeaponInit()
+        {            
+            activeWeapon = weaponRef.GetComponentInChildren<ActiveWeapon>();
+        }              
    }
 }

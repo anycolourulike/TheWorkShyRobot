@@ -24,18 +24,14 @@ namespace Rambler.Control
         [SerializeField] Fighter fighter;   
         [SerializeField] Animator anim; 
         
-        public bool isHolstered;  
-
+          
         ActiveWeapon activeWeapon;         
         float holdDuration = 1f;               
         Transform handTransform;  
         Animator rigController;
         WeaponIK weaponIK;
 
-        public Vector3 nextPosition;
-        public Vector3 NextPosition {get{return nextPosition;}}
-        CombatTarget otherCombatTarget;
-        public CombatTarget GetOtherCombatTarget {get{return otherCombatTarget;}}
+        public bool isHolstered; 
         GameObject interact;    
         GameObject weaponPU; 
         WeaponPickUp pickUp;  
@@ -76,7 +72,8 @@ namespace Rambler.Control
             {
                 CombatTarget otherCombatTarget = hit.transform.GetComponent<CombatTarget>();
                 fighter.Target = otherCombatTarget;
-                CapsuleCollider targetCapsule = hit.transform.GetComponent<CapsuleCollider>();                 
+                CapsuleCollider targetCapsule = hit.transform.GetComponent<CapsuleCollider>(); 
+                fighter.TargetCapsule = targetCapsule;                
                 if (otherCombatTarget == null) continue;
                 if (!GetComponent<Fighter>().CanAttack(otherCombatTarget.gameObject))
                 {
@@ -114,8 +111,7 @@ namespace Rambler.Control
                         var holdTime = holdDuration -= Time.deltaTime;
                         if (holdTime < .6f)
                         {                                  
-                            GetComponent<Mover>().StartMoveAction(hit.point, 1f);
-                            nextPosition = hit.point;                            
+                            GetComponent<Mover>().StartMoveAction(hit.point, 1f);                                                     
                             holdDuration = 1f;                           
                         }
                     }

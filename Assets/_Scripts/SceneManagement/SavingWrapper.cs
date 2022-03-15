@@ -23,10 +23,10 @@ namespace Rambler.SceneManagement
 
         IEnumerator LoadLastScene() 
         {
-            Fader fader = FindObjectOfType<Fader>();
-            fader.FadeOutImmediate();
+            //Fader fader = FindObjectOfType<Fader>();
+            //fader.FadeOutImmediate();
             yield return GetComponent<SavingSystem>().LoadLastScene(defaultSaveFile);
-            yield return fader.FadeIn(fadeInTime);
+            //yield return fader.FadeIn(fadeInTime);
         }
         
         public void Save()

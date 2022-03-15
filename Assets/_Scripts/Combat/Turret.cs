@@ -55,7 +55,7 @@ namespace Rambler.Combat
     public float animationSpeed = 1.0f;
     private float animationTimer = 0.0f;
 
-    private float shootTimer = 1.0f;
+    //private float shootTimer = 1.0f;
     private float actualTimer = 0.0f;
 
     [Header("Turret Visuals")]

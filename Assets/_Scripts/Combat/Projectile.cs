@@ -19,18 +19,21 @@ namespace Rambler.Combat
     Vector3 dir;  
     
 
-    void Start()
+    void Awake()
     {
-      Rb = GetComponent<Rigidbody>();
-      transform.LookAt(target); 
-      dir = target - transform.position; 
+      Rb = GetComponent<Rigidbody>();       
+      dir = transform.position - target; 
       dir = dir.normalized; 
-    }    
+      //transform.LookAt(dir);
+      // Rb.velocity = dir * Time.deltaTime* speed; 
+    }   
 
-    void FixedUpdate()
-    {       
-      Rb.AddForce(dir * speed * Time.deltaTime);            
-    }
+    void Update() 
+    {
+      Rb.AddForce(dir * Time.deltaTime * speed);
+       //transform.forward += (dir * (speed * Time.deltaTime));
+    } 
+  
 
     public void SetTarget(Vector3 target, float damage)
     {
