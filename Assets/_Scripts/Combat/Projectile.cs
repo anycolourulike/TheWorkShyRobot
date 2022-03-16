@@ -28,7 +28,7 @@ namespace Rambler.Combat
 
     void Update() 
     {
-      Rb.AddForce(target * Time.deltaTime * speed);
+      Rb.AddForce(transform.forward * Time.deltaTime * speed);
     }
   
 
