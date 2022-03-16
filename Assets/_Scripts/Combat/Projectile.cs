@@ -12,14 +12,15 @@ namespace Rambler.Combat
   {    
     [SerializeField] GameObject hitEffect = null;   
     [SerializeField] float maxLifeTime = 1.5f;  
-    [SerializeField] float speed;    
-    public float damage = 0;    
+    [SerializeField] float speed;        
+    public float damage = 0; 
+    GameObject thisObj;   
     Vector3 target;
     Rigidbody Rb;
     Vector3 dir;  
         
 
-    void Start()
+    void OnEnable()
     {
       Rb = GetComponent<Rigidbody>();       
       dir = target.normalized;       
@@ -36,7 +37,7 @@ namespace Rambler.Combat
     {
       this.target = target;
       this.damage = damage;        
-      Destroy(gameObject, maxLifeTime);
+      Invoke("ObjActiveFalse", 1.3f);
     }
 
     public Vector3 GetAimLocation()
@@ -48,5 +49,10 @@ namespace Rambler.Combat
     {
       return hitEffect;
     } 
+
+    void ObjActiveFalse() 
+    {
+      ObjectPooler.Instance.Deactivate(gameObject);
+    }
   }
 }

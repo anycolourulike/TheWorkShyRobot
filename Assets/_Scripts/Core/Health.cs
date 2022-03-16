@@ -91,7 +91,8 @@ namespace Rambler.Core // To Do Stop Movement
         
         private void OnParticleCollision(GameObject particleProj)
         {           
-            var proj = particleProj.GetComponent<Projectile>();                         
+            var proj = particleProj.GetComponent<Projectile>();
+                                     
             if (proj.HitEffect() != null)
             {                    
               var cloneProjectile = Instantiate(proj.HitEffect(), proj.GetAimLocation(), particleProj.transform.rotation); 
@@ -102,11 +103,11 @@ namespace Rambler.Core // To Do Stop Movement
                 var vitals = GetComponent<PlayerVitals>();
                 vitals.TakeDamage(proj.damage);                
               }
-              Destroy(proj.gameObject);       
+               particleProj.SetActive(false);      
             }
             else
             {
-              Destroy(proj.gameObject);
+              particleProj.SetActive(false);
             }       
         }        
  

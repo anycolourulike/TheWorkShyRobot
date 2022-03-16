@@ -16,8 +16,9 @@ namespace Rambler.Combat
            if(gameObject.tag == "Shield")
            {             
              var proj = particleProj.GetComponent<Projectile>();
+             var pool = proj.GetComponent<GameObject>();
              Instantiate(proj.HitEffect(), particleProj.transform.position, particleProj.transform.rotation);
-             Destroy(proj.gameObject);
+             pool.SetActive(false);
            }
        } 
     }    

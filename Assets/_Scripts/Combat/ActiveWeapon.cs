@@ -11,6 +11,7 @@ namespace Rambler.Combat
     {   
         public enum WeaponType {melee, pistol, smg, shotgun, rifle, plasma, launcher, NPCWeapon};      
         [SerializeField] Transform muzzleTransform; 
+        [SerializeField] ObjectPooler projObjPool;
         [SerializeField] GameObject ammoCountObj;
         [SerializeField] Transform aimTransform; 
         [SerializeField] GameObject MuzzleFlash; 
@@ -115,18 +116,33 @@ namespace Rambler.Combat
             }           
         }
         
+        int id = 0;
+
        
-        public void LaunchProjectile(Transform muzzleTransform, Vector3 target)
-        {  
-            Projectile Firedprojectile = Instantiate(projectile, muzzleTransform.position, muzzleTransform.rotation);            
-            Firedprojectile.SetTarget(target, weaponDamage);            
-                          
+       public void LaunchProjectile(Transform muzzleTransform, Vector3 target)
+        {                      
+            int id = 1;
+            Vector3 position = muzzleTransform.position;
+            Quaternion rotation = Quaternion.LookRotation(target - position);
+            var proj = ObjectPooler.Instance.Activate(id, position, rotation);
+            var projObj = GetComponent<Projectile>();            
+            projObj.SetTarget(target, projObj.damage);  
+
             GameObject Muzzle = Instantiate(MuzzleFlash, muzzleTransform.position, muzzleTransform.rotation) as GameObject;            
-            Muzzle.transform.parent = muzzleTransform.transform; 
-               
-            Destroy(Firedprojectile, 2f);            
+            Muzzle.transform.parent = muzzleTransform.transform;                         
             curClip --;                                                             
         }
+        // public void LaunchProjectile(Transform muzzleTransform, Vector3 target)
+        // {  
+        //     Projectile Firedprojectile = Instantiate(projectile, muzzleTransform.position, muzzleTransform.rotation);            
+        //     Firedprojectile.SetTarget(target, weaponDamage);            
+                          
+        //     GameObject Muzzle = Instantiate(MuzzleFlash, muzzleTransform.position, muzzleTransform.rotation) as GameObject;            
+        //     Muzzle.transform.parent = muzzleTransform.transform; 
+               
+        //     Destroy(Firedprojectile, 2f);            
+        //     curClip --;                                                             
+        // }
 
         void RefreshTotalAmmo() 
         {

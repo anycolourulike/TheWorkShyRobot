@@ -178,6 +178,7 @@ MonoBehaviour:
   isShooting: 0
   reloading: 0
   muzzleTransform: {fileID: 4553682292245661171}
+  projObjPool: {fileID: 0}
   ammoCountObj: {fileID: 0}
   aimTransform: {fileID: 2124223584525466997}
   MuzzleFlash: {fileID: 9061901295889099415, guid: 98ca41a7a6775f1408bb2f1457a58e3e,
