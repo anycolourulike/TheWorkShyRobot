@@ -12,7 +12,7 @@ namespace Rambler.Combat
     public class Fighter : MonoBehaviour, IAction 
     {
         [SerializeField] AnimatorOverrideController animatorOverride;
-        [SerializeField] float timeBetweenAttacks = 1.7f;    
+        [SerializeField] float timeBetweenAttacks = 1.3f;    
         [SerializeField] Animator ShootAnim;          
         [SerializeField] Weapon unarmed;
         [SerializeField] Mover mover;
@@ -32,6 +32,7 @@ namespace Rambler.Combat
         Transform enemyPos;  
         WeaponIK weaponIk;                 
         Animator anim;
+      
         
         
         void Start()
@@ -81,10 +82,10 @@ namespace Rambler.Combat
                     }
                     else
                     {
-                        if (timeSinceLastAttack < 1.5f) return;                         
-                        Vector3 targetVector = GetEnemyLocation() + Vector3.up / 1.1f;                                    
+                        if (timeSinceLastAttack < 0.5f) return;                         
+                        Vector3 targetVector = GetEnemyLocation() + Vector3.up / 1.1f; 
                         activeWeapon.LaunchProjectile(activeWeapon.MuzPos(), targetVector);  
-                        timeSinceLastAttack = 0f;                
+                        timeSinceLastAttack = 0f; 
 
                         switch (weaponConfig.weaponTitle)
                         {
@@ -100,8 +101,7 @@ namespace Rambler.Combat
                             case "shotgun":
                             SoundManager.PlayProjectileSound(SoundManager.WeaponSound.shotgunShoot);
                                 break;
-                        } 
-                                           
+                        }                                            
                     }                    
                 }
                 else
@@ -177,7 +177,6 @@ namespace Rambler.Combat
            anim.SetTrigger("meleeAttack");                     
         } 
         
-        //Projectile Prediciton Logic
         Vector3 GetEnemyLocation()
         {              
            return hitPointVector = otherCombatTarget.TargetFuturePos(activeWeapon.AimTransform().position);

@@ -36,25 +36,25 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\AddES3Prefab.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\AutoSaveWindow.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\ES3AutoSaveEditor.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\ES3AutoSaveMgrEditor.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\ES3EditorStyle.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\ES3EditorUtility.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\ES3GlobalReferencesEditor.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\ES3InspectorInfoEditor.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\ES3PlayMakerEditor.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\ES3Postprocessor.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\ES3PrefabEditor.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\ES3ReferenceMgrEditor.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\ES3SettingsEditor.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\ES3Window.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\HomeWindow.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\ReferencesWindow.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\SettingsWindow.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\ToolsWindow.cs" />
-     <Compile Include="Assets\Assets\Plugins\Easy Save 3\Editor\TypesWindow.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\AddES3Prefab.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\AutoSaveWindow.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\ES3AutoSaveEditor.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\ES3AutoSaveMgrEditor.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\ES3EditorStyle.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\ES3EditorUtility.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\ES3GlobalReferencesEditor.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\ES3InspectorInfoEditor.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\ES3PlayMakerEditor.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\ES3Postprocessor.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\ES3PrefabEditor.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\ES3ReferenceMgrEditor.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\ES3SettingsEditor.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\ES3Window.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\HomeWindow.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\ReferencesWindow.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\SettingsWindow.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\ToolsWindow.cs" />
+     <Compile Include="Assets\_AssetPacks\Assets\Plugins\Easy Save 3\Editor\TypesWindow.cs" />
      <Compile Include="Assets\_AssetPacks\JMO Assets\Cartoon FX Easy Editor\Editor\CFXEasyEditor.cs" />
      <Compile Include="Assets\_AssetPacks\JMO Assets\WarFX\Editor\CFX_SpawnSystemEditor.cs" />
      <Compile Include="Assets\_AssetPacks\Joystick Pack\Scripts\Editor\DynamicJoystickEditor.cs" />
@@ -65,6 +65,8 @@
      <Compile Include="Assets\_AssetPacks\KriptoFX\Realistic Effects Pack v1\Scripts\Editor\RFX1_CustomMaterialInspectorParticle.cs" />
      <Compile Include="Assets\_AssetPacks\KriptoFX\Realistic Effects Pack v1\Shaders\Editor\RFX1_UberDecalGUI.cs" />
      <Compile Include="Assets\_AssetPacks\Loading Effect\Content\Scripts\Core\Editor\bl_LoadingEffectEditor.cs" />
+     <Compile Include="Assets\_AssetPacks\MobFarm\AutoPool\Editor\AP_Manager_Editor.cs" />
+     <Compile Include="Assets\_AssetPacks\MobFarm\AutoPool\Editor\AP_PoolBlock_Drawer.cs" />
      <Compile Include="Assets\_AssetPacks\UITween\Editor\EditorUITween.cs" />
      <Compile Include="Assets\_Scripts\Dialogue\Editor\DialogueEditor.cs" />
      <Compile Include="Assets\_Scripts\Dialogue\Editor\DialogueModificationProcessor.cs" />

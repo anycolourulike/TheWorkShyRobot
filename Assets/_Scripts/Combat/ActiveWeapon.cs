@@ -10,17 +10,17 @@ namespace Rambler.Combat
     public class ActiveWeapon : WeaponBehaviour
     {   
         public enum WeaponType {melee, pistol, smg, shotgun, rifle, plasma, launcher, NPCWeapon};      
-        [SerializeField] Transform muzzleTransform; 
-        [SerializeField] ObjectPooler projObjPool;
+        [SerializeField] Transform muzzleTransform;         
         [SerializeField] GameObject ammoCountObj;
         [SerializeField] Transform aimTransform; 
-        [SerializeField] GameObject MuzzleFlash; 
-        [SerializeField] Projectile projectile;           
-        [SerializeField] float weaponDamage;   
-        [SerializeField] float weaponRange;
+        [SerializeField] GameObject MuzzleFlash;         
+        [SerializeField] Projectile projectile; 
+        [SerializeField] float weaponRange;  
+        public GameObject prefab;      
         TextMeshProUGUI totalAmmoDisplay;  
         TextMeshProUGUI magDisplay;              
-        WeaponType thisWeapon;             
+        WeaponType thisWeapon;
+        float weaponDamage;                  
         string weaponName; 
         int ammoSpent;                   
         int curClip;
@@ -28,8 +28,7 @@ namespace Rambler.Combat
         void Start() 
         {            
             if (thisWeapon == WeaponType.melee) return;
-            if (thisWeapon == WeaponType.NPCWeapon) return;  
-                   
+            if (thisWeapon == WeaponType.NPCWeapon) return;           
 
             if(gameObject.tag == "weapon")
             {               
@@ -40,11 +39,12 @@ namespace Rambler.Combat
 
                var totalAmmoCounter = ammoCountObj.transform.Find("TotalAmmoUI").gameObject;
                totalAmmoCounter.SetActive(true);
-               totalAmmoDisplay = totalAmmoCounter.GetComponentInChildren<TMPro.TextMeshProUGUI>();  
+               totalAmmoDisplay = totalAmmoCounter.GetComponentInChildren<TMPro.TextMeshProUGUI>(); 
+               GetProjectileDamage(); 
                FullMag();
                RefreshClipDisplay();                          
             }           
-        }
+        }      
 
         void Update() 
         {           
@@ -59,11 +59,6 @@ namespace Rambler.Combat
         public Transform MuzPos() 
         {
             return muzzleTransform;
-        }    
-
-        public float GetDamage()
-        {
-            return weaponDamage;
         }
 
         public float GetRange()
@@ -114,19 +109,15 @@ namespace Rambler.Combat
                 RefreshTotalAmmo();
                 FullMag();                
             }           
-        }
-        
-        int id = 0;
-
+        } 
        
        public void LaunchProjectile(Transform muzzleTransform, Vector3 target)
         {                      
-            int id = 1;
-            Vector3 position = muzzleTransform.position;
-            Quaternion rotation = Quaternion.LookRotation(target - position);
-            var proj = ObjectPooler.Instance.Activate(id, position, rotation);
-            var projObj = GetComponent<Projectile>();            
-            projObj.SetTarget(target, projObj.damage);  
+            //MF_AutoPool.Spawn(prefab, muzzleTransform.position, muzzleTransform.rotation);  
+            //projectile = prefab.GetComponent<Projectile>();
+            //projectile.SetTarget(target);
+            Projectile Firedprojectile = Instantiate(projectile, muzzleTransform.position, muzzleTransform.rotation);            
+            Firedprojectile.SetTarget(target);
 
             GameObject Muzzle = Instantiate(MuzzleFlash, muzzleTransform.position, muzzleTransform.rotation) as GameObject;            
             Muzzle.transform.parent = muzzleTransform.transform;                         
@@ -134,8 +125,11 @@ namespace Rambler.Combat
         }
         // public void LaunchProjectile(Transform muzzleTransform, Vector3 target)
         // {  
+        //      MF_AutoPool.Spawn(prefab, muzzleTransform.position, muzzleTransform.rotation);  
+        //    projectile.SetTarget(target);  
+        //
         //     Projectile Firedprojectile = Instantiate(projectile, muzzleTransform.position, muzzleTransform.rotation);            
-        //     Firedprojectile.SetTarget(target, weaponDamage);            
+        //     Firedprojectile.SetTarget(target);            
                           
         //     GameObject Muzzle = Instantiate(MuzzleFlash, muzzleTransform.position, muzzleTransform.rotation) as GameObject;            
         //     Muzzle.transform.parent = muzzleTransform.transform; 
@@ -152,7 +146,12 @@ namespace Rambler.Combat
         void RefreshClipDisplay() 
         {
             magDisplay.text = (curClip.ToString());
-        }       
+        }  
+
+        void GetProjectileDamage()
+        {
+            weaponDamage = projectile.GetDamage();
+        }     
 
         void FullMag()
         {

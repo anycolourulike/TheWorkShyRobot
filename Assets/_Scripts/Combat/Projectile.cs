@@ -5,39 +5,43 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Rambler.Combat
 {
   public class Projectile : MonoBehaviour
   {    
     [SerializeField] GameObject hitEffect = null;   
-    [SerializeField] float maxLifeTime = 1.5f;  
-    [SerializeField] float speed;        
-    public float damage = 0; 
-    GameObject thisObj;   
+    [SerializeField] float maxLifeTime = 0.8f;  
+    [SerializeField] float maxSpread;
+    [SerializeField] float damage;
+    [SerializeField] float speed;            
+          
     Vector3 target;
-    Rigidbody Rb;
-    Vector3 dir;  
+    Rigidbody Rb;  
+      
         
 
-    void OnEnable()
+    void Start()
     {
       Rb = GetComponent<Rigidbody>();       
-      dir = target.normalized;       
-      transform.LookAt(target);     
+      transform.LookAt(target);               
     }   
 
     void Update() 
-    {
+    {      
       Rb.AddForce(transform.forward * Time.deltaTime * speed);
-    }
-  
+      Invoke("ObjActiveFalse", maxLifeTime);
+    }  
 
-    public void SetTarget(Vector3 target, float damage)
+    public void SetTarget(Vector3 target)
     {
-      this.target = target;
-      this.damage = damage;        
-      Invoke("ObjActiveFalse", 1.3f);
+      this.target = target;      
+    }
+
+    public float GetDamage() 
+    {
+      return damage;
     }
 
     public Vector3 GetAimLocation()
@@ -51,8 +55,9 @@ namespace Rambler.Combat
     } 
 
     void ObjActiveFalse() 
-    {
-      ObjectPooler.Instance.Deactivate(gameObject);
+    {      
+      //MF_AutoPool.Despawn(gameObject);
+      Destroy(gameObject);
     }
   }
 }

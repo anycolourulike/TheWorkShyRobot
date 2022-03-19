@@ -17,7 +17,7 @@ MonoBehaviour:
     type: 3}
   equippedPrefab: {fileID: 9092921065809388332, guid: 2512aef17f73dbd43b23f269e49450eb,
     type: 3}
-  projectile: {fileID: 4287304663912672958, guid: 52d511106a3ff9a498baa97bc930c49d,
+  projectile: {fileID: 4287304663912672958, guid: 6b26d84edcc1782459f4ff11376fb026,
     type: 3}
   weaponTitle: pistol
   isPistol: 0

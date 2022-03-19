@@ -33,10 +33,11 @@ namespace Rambler.Core // To Do Stop Movement
         CapsuleCollider capCol;
         bool isDead = false;  
         Fighter fighter;
+        float damage; 
+        public float SetDamage {set{damage = value;}}
         Animator anim;
         int dieRanNum; 
-        int hitRanNum;
-        
+        int hitRanNum;        
         Rigidbody rb;                     
        
         void Start() 
@@ -92,22 +93,27 @@ namespace Rambler.Core // To Do Stop Movement
         private void OnParticleCollision(GameObject particleProj)
         {           
             var proj = particleProj.GetComponent<Projectile>();
+            damage = proj.GetDamage();
+            
+            Debug.Log("Damage" + "" + damage);
                                      
             if (proj.HitEffect() != null)
             {                    
               var cloneProjectile = Instantiate(proj.HitEffect(), proj.GetAimLocation(), particleProj.transform.rotation); 
-              TakeDamage(proj.damage);
+              TakeDamage(damage);
               
               if(gameObject.tag == "Player")
               {
                 var vitals = GetComponent<PlayerVitals>();
-                vitals.TakeDamage(proj.damage);                
+                vitals.TakeDamage(damage);                
               }
-               particleProj.SetActive(false);      
+              Destroy(proj.gameObject);
+               //MF_AutoPool.Despawn(gameObject);     
             }
             else
             {
-              particleProj.SetActive(false);
+                Destroy(proj.gameObject);
+               //MF_AutoPool.Despawn(gameObject);
             }       
         }        
  

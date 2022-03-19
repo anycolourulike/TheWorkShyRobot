@@ -269,15 +269,14 @@ MonoBehaviour:
   isShooting: 0
   reloading: 0
   muzzleTransform: {fileID: 1226417156805770438}
-  projObjPool: {fileID: 0}
   ammoCountObj: {fileID: 0}
   aimTransform: {fileID: 4893579400947467563}
   MuzzleFlash: {fileID: 7959145050928631274, guid: 08e2201e5ad034945a27007aa456e25f,
     type: 3}
-  projectile: {fileID: -5846359617922092927, guid: 45e69577c49fa0a4d81d479e85f55f29,
+  projectile: {fileID: -5846359617922092927, guid: c9ef9d1bc4148bc44874506dc8077b60,
     type: 3}
-  weaponDamage: 5
   weaponRange: 25
+  prefab: {fileID: 3033392328428822402, guid: c9ef9d1bc4148bc44874506dc8077b60, type: 3}
 --- !u!114 &6226887575381296431
 MonoBehaviour:
   m_ObjectHideFlags: 0
