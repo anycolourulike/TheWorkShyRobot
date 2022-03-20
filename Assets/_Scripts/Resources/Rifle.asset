@@ -25,7 +25,7 @@ MonoBehaviour:
   isMelee: 0
   isEMP: 0
   itemID: 66c813cc-1463-476e-bb60-0513d94e24b3
-  displayName: Dam Rifle
+  displayName: Rifle
   description: 
   icon: {fileID: 21300000, guid: 9de795c69b02f7f4bb39774adb6c8835, type: 3}
   pickup: {fileID: 8550864746528940672, guid: 59bb93c0357460241bd674628f741812, type: 3}

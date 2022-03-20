@@ -13,18 +13,20 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   animatorOverride: {fileID: 0}
-  activeWeapon: {fileID: 0}
-  EquippedPrefab: {fileID: 0}
-  projectile: {fileID: 7365531929606520001, guid: 448304b1a5c643b47a7903c3738110b0,
+  activeWeapon: {fileID: 7049510036281544848, guid: 87f43a9a74bb5e943a134be4408f9d2f,
+    type: 3}
+  equippedPrefab: {fileID: 6793397232222851401, guid: 87f43a9a74bb5e943a134be4408f9d2f,
+    type: 3}
+  projectile: {fileID: 5524526560787664376, guid: f5c72e996a84eb24fb61120896fba377,
     type: 3}
   weaponTitle: shotgun
-  isRifle: 1
   isPistol: 0
+  isRifle: 1
   isMelee: 0
   isEMP: 0
   itemID: 03b09ca8-2b09-4e10-adb4-2ac8b8339a37
-  displayName: 
+  displayName: shotgun
   description: 
-  icon: {fileID: 21300000, guid: a1fe4e9786f71344f9fc96608dd44c58, type: 3}
-  pickup: {fileID: 0}
-  stackable: 0
+  icon: {fileID: 21300000, guid: 8cc109cec2fb3ef47815719745eba183, type: 3}
+  pickup: {fileID: 3492207059594646676, guid: 9f2c37fc4f910bd4d84ca165d7427615, type: 3}
+  stackable: 1

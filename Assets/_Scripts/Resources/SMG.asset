@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: SMG
   m_EditorClassIdentifier: 
   animatorOverride: {fileID: 0}
-  activeWeapon: {fileID: 0}
-  equippedPrefab: {fileID: 0}
-  projectile: {fileID: 7728989292088510156, guid: c0411e2fef4a5374696870d7698568a8,
+  activeWeapon: {fileID: 65811528693937898, guid: 59ad55031ac90374f9d7e4bf203d04fe,
+    type: 3}
+  equippedPrefab: {fileID: 8965517654595569865, guid: 59ad55031ac90374f9d7e4bf203d04fe,
+    type: 3}
+  projectile: {fileID: 4287304663912672958, guid: 6b26d84edcc1782459f4ff11376fb026,
     type: 3}
   weaponTitle: mpistol
   isPistol: 1
@@ -23,8 +25,8 @@ MonoBehaviour:
   isMelee: 0
   isEMP: 0
   itemID: a7577925-5898-4b40-800c-d6941c2b6a03
-  displayName: 
+  displayName: SMG
   description: 
   icon: {fileID: 21300000, guid: 6e915c16089be5f48ad4dea3faddff5e, type: 3}
-  pickup: {fileID: 0}
-  stackable: 0
+  pickup: {fileID: 7979591142669461427, guid: 021937047b8c8e644a6d42cd63ba916a, type: 3}
+  stackable: 1

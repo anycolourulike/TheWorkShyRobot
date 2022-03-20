@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EMP PickUp
       objectReference: {fileID: 0}
+    - target: {fileID: 2473725724172060201, guid: ffa82a14f9dceca4f83e02eaf022f0f3,
+        type: 3}
+      propertyPath: m_TagString
+      value: weaponPU
+      objectReference: {fileID: 0}
     - target: {fileID: 2476694043575175251, guid: ffa82a14f9dceca4f83e02eaf022f0f3,
         type: 3}
       propertyPath: m_RootOrder
