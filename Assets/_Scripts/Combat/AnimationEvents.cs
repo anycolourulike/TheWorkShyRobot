@@ -11,7 +11,7 @@ namespace Rambler.Combat
         [SerializeField] Fighter fighter;
         [SerializeField] PlayerController playerController;       
       
-        public void EquipUnarmed()
+        public void EquipUnarmed() //Called in Animator
         {
             if(playerController.isHolstered == true)
             {                

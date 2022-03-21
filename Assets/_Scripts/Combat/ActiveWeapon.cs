@@ -6,17 +6,17 @@ using Rambler.Core;
 using TMPro;
 
 namespace Rambler.Combat
-{
+{    
     public class ActiveWeapon : WeaponBehaviour
     {   
-        public enum WeaponType {melee, pistol, smg, shotgun, rifle, plasma, launcher, NPCWeapon};      
+        public enum WeaponType {melee, pistol, smg, shotgun, rifle, plasma, launcher, NPCWeapon}; 
+        public WeaponType weaponType;     
         [SerializeField] Transform muzzleTransform;         
         [SerializeField] GameObject ammoCountObj;
         [SerializeField] Transform aimTransform; 
         [SerializeField] GameObject MuzzleFlash;         
         [SerializeField] Projectile projectile; 
-        [SerializeField] float weaponRange;  
-        public GameObject prefab;      
+        [SerializeField] float weaponRange; 
         TextMeshProUGUI totalAmmoDisplay;  
         TextMeshProUGUI magDisplay;              
         WeaponType thisWeapon;

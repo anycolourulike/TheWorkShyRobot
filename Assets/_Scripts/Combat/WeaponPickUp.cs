@@ -74,8 +74,8 @@ namespace Rambler.Combat
             bool foundSlot = inventory.AddToFirstEmptySlot(configWeapon, number);
             if (foundSlot)
             {                 
-                Destroy(gameObject);                                                 
+                Destroy(gameObject, 0.5f);                                                 
             } 
-        }       
+        }     
     }        
 }

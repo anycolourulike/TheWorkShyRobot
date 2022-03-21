@@ -29,7 +29,9 @@ namespace Rambler.Control
         float holdDuration = 1f;               
         Transform handTransform;  
         Animator rigController;
+        Animator playerAnim;
         WeaponIK weaponIK;
+        Mover mover;
 
         public bool isHolstered; 
         GameObject interact;    
@@ -41,8 +43,10 @@ namespace Rambler.Control
        
         private void Start()
         {                  
-           rigController = rigController = GetComponent<Fighter>().rigController;       
+           rigController = GetComponent<Fighter>().rigController;       
            handTransform = GetComponent<Fighter>().handTransform;
+           playerAnim = GetComponent<Animator>();
+           mover = GetComponent<Mover>();
            weaponIK = GetComponent<WeaponIK>(); 
            interact = GameObject.FindGameObjectWithTag("Interact");             
            interact.SetActive(false);                                                          
@@ -163,10 +167,15 @@ namespace Rambler.Control
             switch(interactions)
             {
                 case 1:
-                pickUp.PickUpItem();
+                mover.RigWeaponUnequipped();
+                weaponIK.AimWeight = 0f;
+                weaponIK.AimTransform = null;
+                mover.RigWeaponUnequipped();
+                playerAnim.SetTrigger("pickUp");
+                pickUp.PickUpItem();               
                 break;
             }
-        }      
+        }     
 
         public void HolsterWeapon()
         {  

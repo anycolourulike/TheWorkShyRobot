@@ -16,12 +16,12 @@ public class WeaponIK : MonoBehaviour
     public Transform targetTransform;
     //public Transform TargetTransform {get{return targetTransform;} set{targetTransform = value;}}
     
-    public Transform aimTransform; 
+    Transform aimTransform; 
     public Transform AimTransform {get{return aimTransform;} set{aimTransform = value;}}
     
     public int iterations = 10;
     [Range(0,1)]
-    public float weight = 1.0f;
+    float weight = 1.0f;
 
     public float AimWeight {get{return weight;} set{weight = value;}}
 

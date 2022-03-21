@@ -12,10 +12,9 @@ namespace Rambler.Combat
   public class Projectile : MonoBehaviour
   {    
     [SerializeField] GameObject hitEffect = null;   
-    [SerializeField] float maxLifeTime = 0.8f;  
-    [SerializeField] float maxSpread;
+    [SerializeField] float maxLifeTime = 0.8f; 
     [SerializeField] float damage;
-    [SerializeField] float speed;            
+    float speed = 10f;            
           
     Vector3 target;
     Rigidbody Rb;  

@@ -20,10 +20,10 @@ namespace Rambler.Movement
         [SerializeField] WeaponIK weaponIK;         
         [SerializeField] Rig mainRig;        
         NavMeshAgent navMeshAgent;  
-        bool rigWeaponEquipped; 
+        bool rigWeaponEquipped;
         Health health; 
         Rigidbody rb;
-        public float velocity;
+        
 
         public void Start()
         {
@@ -33,8 +33,7 @@ namespace Rambler.Movement
         }
 
         void Update()
-        {
-            velocity = rb.velocity.magnitude;
+        {            
             navMeshAgent.enabled = !health.IsDead();            
             UpdateAnimator();
             if(rigWeaponEquipped == true)
@@ -52,7 +51,7 @@ namespace Rambler.Movement
         }
 
         void WeaponIKWeight()
-        {
+        {           
             if(navMeshAgent.velocity.magnitude > 0.15f)
             {                   
                 weaponIK.AimWeight = 0f;
@@ -60,7 +59,8 @@ namespace Rambler.Movement
             else
             {                   
                 weaponIK.AimWeight = 1f;                  
-            }     
+            }
+                    
         }
 
         public void RigWeaponEquipped()
@@ -77,11 +77,6 @@ namespace Rambler.Movement
         {
             mainRig.weight = 0;
             RigWeaponUnequipped();
-        }
-
-        public float MaxSpeed()
-        {
-            return  maxSpeed;
         }          
 
         public void StartMoveAction(Vector3 destination, float speedFraction)

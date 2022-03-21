@@ -152,6 +152,11 @@ namespace Rambler.Combat
         {    
             mover.RigWeightToZero(); 
         } 
+
+        public void RigWeightToOne() 
+        {
+            mover.RigWeaponEquipped();            
+        }
       
         public bool CanAttack(GameObject combatTarget)
         {
@@ -180,12 +185,7 @@ namespace Rambler.Combat
         Vector3 GetEnemyLocation()
         {              
            return hitPointVector = otherCombatTarget.TargetFuturePos(activeWeapon.AimTransform().position);
-        }
-
-        void RigWeightToOne() 
-        {
-            mover.RigWeaponEquipped();            
-        }
+        }        
 
         void Spawn(Transform handTransform, Animator animator)
         {   
