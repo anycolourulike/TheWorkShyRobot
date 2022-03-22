@@ -16,11 +16,10 @@ namespace Rambler.Combat
    /// <param name="number">The number of items represented.</param>
    /// <summary/>
     public class WeaponPickUp : MonoBehaviour
-    {    
-        PlayerController playerController;  
+    {  
         PickUpSpawner pickupSpawner;      
         public UnityAction PickUp; 
-        Weapon configWeapon; 
+        Weapon weaponConfig; 
         Inventory inventory;   
         GameObject interact;           
         GameObject player;    
@@ -39,15 +38,14 @@ namespace Rambler.Combat
          private void Awake()
         {       
             interact = GameObject.FindGameObjectWithTag("Interact");                                         
-            player = GameObject.FindGameObjectWithTag("Player");
-            playerController = GetComponent<PlayerController>(); 
+            player = GameObject.FindGameObjectWithTag("Player");            
             pickupSpawner = GetComponent<PickUpSpawner>();            
             inventory = player.GetComponent<Inventory>(); 
         }                
 
         public void Setup(Weapon item, int number)
         {
-            this.configWeapon = item;
+            this.weaponConfig = item;
             if (!item.IsStackable())
             {
                 number = 0;
@@ -57,7 +55,7 @@ namespace Rambler.Combat
     
         public Weapon GetItem()
         {
-            return configWeapon;
+            return weaponConfig;
         }
 
         public int GetNumber()
@@ -66,12 +64,12 @@ namespace Rambler.Combat
         } 
         public bool CanBePickedUp()
         {
-            return inventory.HasSpaceFor(configWeapon);
+            return inventory.HasSpaceFor(weaponConfig);
         }  
        
         public void PickUpItem()
         {             
-            bool foundSlot = inventory.AddToFirstEmptySlot(configWeapon, number);
+            bool foundSlot = inventory.AddToFirstEmptySlot(weaponConfig, number);
             if (foundSlot)
             {                 
                 Destroy(gameObject, 0.5f);                                                 

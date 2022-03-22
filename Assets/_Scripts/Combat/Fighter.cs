@@ -22,12 +22,14 @@ namespace Rambler.Combat
         public ActiveWeapon activeWeapon; 
         public Transform handTransform;        
         public Animator rigController;         
-        public Weapon weaponConfig;        
+        public Weapon weaponConfig;  
+        public Weapon lastWeaponUsed;     
+        public Weapon SetLastWeapon{set{lastWeaponUsed = value;}}      
         float timeSinceLastAttack = 
         Mathf.Infinity;         
         public CombatTarget otherCombatTarget;   //other combat Target
         public CombatTarget Target {set{otherCombatTarget = value;}}                    
-        Vector3 hitPointVector;        
+        Vector3 hitPointVector; 
         GameObject weaponRef;               
         Transform enemyPos;  
         WeaponIK weaponIk;                 
@@ -121,10 +123,10 @@ namespace Rambler.Combat
         }        
 
         public void EquipWeapon(Weapon weapon)
-        {                  
-            Animator animator = GetComponent<Animator>();    
-            weaponConfig = weapon;                     
-            Spawn(handTransform, animator);          
+        {  
+            DestroyOldWeapon(handTransform);
+            weaponConfig = weapon;
+            Spawn(handTransform, anim);                    
                         
             if(weapon.isMelee == true)
             { 
@@ -139,13 +141,18 @@ namespace Rambler.Combat
                 rigController.Play("equip_" + weapon.weaponTitle);  
                 mover.RigWeaponEquipped(); 
                 StartCoroutine(AimInit());
-           }         
+           }        
         }        
 
         public void EquipUnarmed()
         {
             RigWeightToZero();
             EquipWeapon(unarmed);                                      
+        }
+
+        public void EquipLastWeapon() 
+        {
+            EquipWeapon(lastWeaponUsed);
         }
 
         public void RigWeightToZero() 
@@ -222,12 +229,25 @@ namespace Rambler.Combat
         }
 
         void DestroyOldWeapon(Transform handTransform)
-        {            
-            var oldWeapon =  GameObject.FindWithTag("weapon");
-            if (oldWeapon == null) return;            
-            Debug.Log("weapon destroyed");                    
+        { 
+            var oldWeapon =  FindChildWithTag();
+            if (oldWeapon == null) return;                   
             Destroy(oldWeapon);                            
         } 
+
+        GameObject FindChildWithTag() 
+        {            
+            Transform hand = handTransform;
+            foreach(Transform transform in hand) 
+            {
+                if(transform.tag == "weapon")
+                {
+                    var childObj = transform.gameObject;
+                    return childObj;                    
+                }
+            }
+            return null;
+        }
 
         void AssignIKTarget()
         {

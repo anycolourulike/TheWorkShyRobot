@@ -27,8 +27,7 @@ namespace Rambler.Inventories
             player = GameObject.FindWithTag("Player");
             inventory = player.GetComponent<Inventory>();                 
         }
-        
-        // PUBLIC
+      
         public void SetItem(Weapon weaponConfig, int number)
         {            
             var iconImage = GetComponent<Image>();

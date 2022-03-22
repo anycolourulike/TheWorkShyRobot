@@ -28,9 +28,9 @@ namespace Rambler.Control
         ActiveWeapon activeWeapon;         
         float holdDuration = 1f;               
         Transform handTransform;  
-        Animator rigController;
+        Animator rigController; 
         Animator playerAnim;
-        WeaponIK weaponIK;
+        WeaponIK weaponIK;        
         Mover mover;
 
         public bool isHolstered; 
@@ -49,13 +49,13 @@ namespace Rambler.Control
            mover = GetComponent<Mover>();
            weaponIK = GetComponent<WeaponIK>(); 
            interact = GameObject.FindGameObjectWithTag("Interact");             
-           interact.SetActive(false);                                                          
+           interact.SetActive(false);                                                                  
         }
 
         private void Update()
         {                     
            if (InteractWithCombat()) return;
-           if (InteractWithMovement()) return;      
+           if (InteractWithMovement()) return; 
            
            if(shieldsUp == true) 
            {
@@ -167,23 +167,28 @@ namespace Rambler.Control
             switch(interactions)
             {
                 case 1:
-                mover.RigWeaponUnequipped();
-                weaponIK.AimWeight = 0f;
-                weaponIK.AimTransform = null;
-                mover.RigWeaponUnequipped();
+                fighter.SetLastWeapon = fighter.weaponConfig;        
+                fighter.EquipUnarmed();                
                 playerAnim.SetTrigger("pickUp");
-                pickUp.PickUpItem();               
+                pickUp.PickUpItem();                        
                 break;
-            }
+            }            
         }     
 
         public void HolsterWeapon()
-        {  
-            isHolstered = true;
-            weaponIK.AimTransform = null;          
-            rigController.SetTrigger("holster_weapon"); 
-            var fighter = GetComponent<Fighter>();
-            fighter.RigWeightToZero();                                                  
+        { 
+            if(isHolstered == true)
+            {
+                return;
+            }
+            else 
+            {                        
+               isHolstered = true;
+               weaponIK.AimTransform = null;          
+               rigController.SetTrigger("holster_weapon"); 
+               var fighter = GetComponent<Fighter>();
+               fighter.RigWeightToZero();  
+            }                                                
         }      
 
        public void ToggelShields()

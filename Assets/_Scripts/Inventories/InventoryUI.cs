@@ -11,13 +11,9 @@ namespace Rambler.UI.Inventories
     /// </summary>
     public class InventoryUI : MonoBehaviour
     {
-        // CONFIG DATA
         [SerializeField] InventorySlotUI InventoryItemPrefab = null;
 
-        // CACHE
         Inventory playerInventory;
-
-        // LIFECYCLE METHODS
 
         private void Awake() 
         {
@@ -29,8 +25,6 @@ namespace Rambler.UI.Inventories
         {
             Redraw();
         }
-
-        // PRIVATE
 
         private void Redraw()
         {
