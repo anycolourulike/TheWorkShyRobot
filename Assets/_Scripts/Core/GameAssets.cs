@@ -17,13 +17,30 @@ namespace Rambler.Core
             }
         }
 
-        public ProjectileAudioClip[] projectileAudioClipArray;
+        public WeaponAudioClip[] weaponAudioClipArray;
+        public EnviromentAudioClip[] enviromentAudioClipArray;
+        public HumanAudioClip[] humanAudioClipArray;
+  
 
         [System.Serializable]
-        public class ProjectileAudioClip
+        public class WeaponAudioClip
         {
-            public SoundManager.WeaponSound projectileSFX;
-            public AudioClip projectileFire;
+            public AudioManager.WeaponSound weaponSFX;
+            public AudioClip weaponClip;
+        }
+
+        [System.Serializable]
+        public class EnviromentAudioClip
+        {
+            public AudioManager.EnviromentSound enviromentSFX;
+            public AudioClip enviromentClip;
+        }
+
+        [System.Serializable]
+        public class HumanAudioClip
+        {
+            public AudioManager.HumanSound humanSFX;
+            public AudioClip humanClip;
         }
     }
 }

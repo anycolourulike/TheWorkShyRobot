@@ -92,16 +92,16 @@ namespace Rambler.Combat
                         switch (weaponConfig.weaponTitle)
                         {
                             case "pistol":
-                            SoundManager.PlayProjectileSound(SoundManager.WeaponSound.pistolShoot);                           
+                            AudioManager.PlayWeaponSound(AudioManager.WeaponSound.pistolShoot);                           
                                 break;
-                            case "mpistol":
-                            SoundManager.PlayProjectileSound(SoundManager.WeaponSound.mPistolShoot);
+                            case "SMG":
+                            AudioManager.PlayWeaponSound(AudioManager.WeaponSound.SMGShoot);
                                 break;
                             case "rifle":
-                            SoundManager.PlayProjectileSound(SoundManager.WeaponSound.rifleShoot);
+                            AudioManager.PlayWeaponSound(AudioManager.WeaponSound.RifleShoot);
                                 break;
                             case "shotgun":
-                            SoundManager.PlayProjectileSound(SoundManager.WeaponSound.shotgunShoot);
+                            AudioManager.PlayWeaponSound(AudioManager.WeaponSound.ShotgunShoot);
                                 break;
                         }                                            
                     }                    

@@ -19,7 +19,7 @@ MonoBehaviour:
     type: 3}
   projectile: {fileID: 5524526560787664376, guid: 19f7482d3b872aa4cab3e9d0849608bf,
     type: 3}
-  weaponTitle: mpistol
+  weaponTitle: SMG
   isPistol: 1
   isRifle: 0
   isMelee: 0
