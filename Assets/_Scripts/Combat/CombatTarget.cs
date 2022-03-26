@@ -31,7 +31,7 @@ namespace Rambler.Combat
 
        public Vector3 TargetFuturePos(Vector3 ShooterPos) 
        {
-           var hitPointVector = GetHitPointVector(curTargetPos, targetVelocity, ShooterPos, 17f);
+           var hitPointVector = GetHitPointVector(curTargetPos, targetVelocity, ShooterPos, 18.3f);
            return hitPointVector;
        }
 

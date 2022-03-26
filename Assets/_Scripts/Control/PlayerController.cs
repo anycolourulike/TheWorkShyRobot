@@ -34,9 +34,10 @@ namespace Rambler.Control
         Mover mover;
 
         public bool isHolstered; 
+        Vector3 pickUpDirection;
         GameObject interact;    
         GameObject weaponPU; 
-        WeaponPickUp pickUp;  
+        WeaponPickUp pickUp;          
         int interactions;    
         bool shieldsUp;
               
@@ -125,7 +126,7 @@ namespace Rambler.Control
             return false;
         }                  
 
-        private Transform GetTransform(Transform handTransform)
+        private Transform GetHandTransform(Transform handTransform)
         {
             return this.handTransform;
         }    
@@ -140,6 +141,7 @@ namespace Rambler.Control
             if (other.gameObject.tag == "weaponPU")
             { 
                weaponPU = other.gameObject;
+               pickUpDirection = Vector3.RotateTowards(transform.position, other.transform.position, 1f * Time.deltaTime, 0.0f);
                pickUp = weaponPU.GetComponent<WeaponPickUp>();                                               
                interact.SetActive(true); 
                interactions = 1;                            
@@ -156,7 +158,8 @@ namespace Rambler.Control
         } 
 
         public void InteractPressed()
-        {                     
+        { 
+           transform.LookAt(pickUpDirection);                     
            Interact();
            interact.SetActive(false);
            pickUp = null;

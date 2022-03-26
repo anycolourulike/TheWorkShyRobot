@@ -92,16 +92,16 @@ namespace Rambler.Combat
                         switch (weaponConfig.weaponTitle)
                         {
                             case "pistol":
-                            AudioManager.PlayWeaponSound(AudioManager.WeaponSound.pistolShoot);                           
+                            AudioManager.PlayWeaponSound(AudioManager.WeaponSound.pistolShoot, activeWeapon.transform.position);                           
                                 break;
                             case "SMG":
-                            AudioManager.PlayWeaponSound(AudioManager.WeaponSound.SMGShoot);
+                            AudioManager.PlayWeaponSound(AudioManager.WeaponSound.SMGShoot, activeWeapon.transform.position);
                                 break;
                             case "rifle":
-                            AudioManager.PlayWeaponSound(AudioManager.WeaponSound.RifleShoot);
+                            AudioManager.PlayWeaponSound(AudioManager.WeaponSound.RifleShoot, activeWeapon.transform.position);
                                 break;
                             case "shotgun":
-                            AudioManager.PlayWeaponSound(AudioManager.WeaponSound.ShotgunShoot);
+                            AudioManager.PlayWeaponSound(AudioManager.WeaponSound.ShotgunShoot, activeWeapon.transform.position);
                                 break;
                         }                                            
                     }                    
@@ -251,7 +251,7 @@ namespace Rambler.Combat
 
         void AssignIKTarget()
         {
-            weaponIk.targetTransform.position = GetEnemyLocation() + Vector3.up / 1.1f;
+            weaponIk.targetTransform.position = GetEnemyLocation() + (Vector3.up / 1.1f);
         }
 
         bool GetIsInRange()

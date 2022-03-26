@@ -8,7 +8,7 @@ namespace Rambler.Core
     {
         private static GameAssets _i;
 
-        public static GameAssets Instance
+        public static GameAssets i
         {
             get
             {
@@ -25,7 +25,7 @@ namespace Rambler.Core
         [System.Serializable]
         public class WeaponAudioClip
         {
-            public AudioManager.WeaponSound weaponSFX;
+            public AudioManager.WeaponSound weaponEnum;
             public AudioClip weaponClip;
         }
 

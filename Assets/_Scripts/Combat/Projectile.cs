@@ -13,9 +13,8 @@ namespace Rambler.Combat
   {    
     [SerializeField] GameObject hitEffect = null;   
     [SerializeField] float maxLifeTime = 0.8f; 
-    [SerializeField] float damage;
-    float speed = 10f;            
-          
+    [SerializeField] float speed = 10f; 
+    [SerializeField] float damage;     
     Vector3 target;
     Rigidbody Rb;  
       
