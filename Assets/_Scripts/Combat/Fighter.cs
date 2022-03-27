@@ -184,8 +184,7 @@ namespace Rambler.Combat
         }             
 
         void MeleeAttack()
-        {
-           Debug.Log("MeleeAttack");           
+        {        
            anim.SetTrigger("meleeAttack");                     
         } 
         
@@ -266,11 +265,6 @@ namespace Rambler.Combat
             if (HasProjectile())
             {
                 activeWeapon.LaunchProjectile(muzzleFX, GetEnemyLocation());                
-            }
-            else
-            {
-                Debug.Log("Target took Melee Damage");                
-                //target.TakeDamage(activeWeapon.GetDamage());
             }
         } 
 

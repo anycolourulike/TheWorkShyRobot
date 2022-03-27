@@ -17,9 +17,9 @@ MonoBehaviour:
     type: 3}
   equippedPrefab: {fileID: 9092921065809388332, guid: 2512aef17f73dbd43b23f269e49450eb,
     type: 3}
-  projectile: {fileID: 4287304663912672958, guid: 6b26d84edcc1782459f4ff11376fb026,
+  projectile: {fileID: 5524526560787664376, guid: 19f7482d3b872aa4cab3e9d0849608bf,
     type: 3}
-  weaponTitle: pistol
+  weaponTitle: SMG
   isPistol: 0
   isRifle: 0
   isMelee: 0

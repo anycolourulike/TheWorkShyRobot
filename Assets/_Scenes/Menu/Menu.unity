@@ -298,18 +298,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 138840913}
   m_CullTransparentMesh: 1
---- !u!114 &384764708 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2880572933804745564, guid: 27ee00b4488029547a2c5210e24fae55,
-    type: 3}
-  m_PrefabInstance: {fileID: 2880572934054111352}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3810a8bfa9337124da71921c87c162db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &490914270
 GameObject:
   m_ObjectHideFlags: 0
@@ -792,7 +780,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20be3a91f14f9334da69c1c9819fef9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelWaypoint: {fileID: 744321902}
 --- !u!114 &2056978483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -941,7 +928,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -1153,7 +1140,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 384764708}
+      objectReference: {fileID: 0}
     - target: {fileID: 2849466349450085422, guid: 0236829faf0525d44b8ec4b6ec9ff428,
         type: 3}
       propertyPath: m_Name
@@ -1896,7 +1883,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -1976,7 +1963,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -2030,7 +2017,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -2307,7 +2294,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -2662,7 +2649,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnBeginClick
         m_Mode: 1
         m_Arguments:
@@ -3232,7 +3219,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -3320,7 +3307,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.046000004
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2880572933804745564, guid: 27ee00b4488029547a2c5210e24fae55, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 27ee00b4488029547a2c5210e24fae55, type: 3}
 --- !u!222 &2922865640195619756
 CanvasRenderer:
@@ -3541,7 +3529,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -3925,7 +3913,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -4213,7 +4201,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -4892,7 +4880,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnBackClick
         m_Mode: 1
         m_Arguments:
@@ -5112,7 +5100,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -5192,7 +5180,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -5254,7 +5242,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -5335,7 +5323,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -5537,7 +5525,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -5948,7 +5936,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -6162,7 +6150,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -6357,7 +6345,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -6472,7 +6460,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -6623,7 +6611,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:
@@ -7200,7 +7188,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 384764708}
+      - m_Target: {fileID: 0}
         m_MethodName: OnLevelSelect
         m_Mode: 3
         m_Arguments:

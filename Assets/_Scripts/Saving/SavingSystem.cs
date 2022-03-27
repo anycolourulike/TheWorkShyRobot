@@ -57,6 +57,17 @@ namespace Rambler.Saving
             RestoreState(LoadFile(saveFile));
         }
 
+        public IEnumerable<string> ListSaves()
+        {
+            foreach (string path in Directory.EnumerateFiles(Application.persistentDataPath))
+            {
+                if (Path.GetExtension(path) == ".sav")
+                {
+                    yield return Path.GetFileNameWithoutExtension(path);
+                }
+            }
+        }
+
         // PRIVATE
 
         private Dictionary<string, object> LoadFile(string saveFile)

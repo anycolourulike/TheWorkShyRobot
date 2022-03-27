@@ -42,9 +42,7 @@ namespace Rambler.SceneManangement
             DontDestroyOnLoad(gameObject);
 
             Fader fader = FindObjectOfType<Fader>();
-
             yield return fader.FadeOut(fadeOutTime);
-
             SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
             wrapper.Save();
 

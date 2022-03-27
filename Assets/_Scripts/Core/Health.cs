@@ -63,7 +63,6 @@ namespace Rambler.Core // To Do Stop Movement
         public void TakeDamage(float damage)
         {
             if (isDead == true) return;
-            print(gameObject.name + " took damage: " + damage);
             healthPoints = Mathf.Max(healthPoints - damage, 0);
             HealthCheck();
             HitAnim();
@@ -93,9 +92,7 @@ namespace Rambler.Core // To Do Stop Movement
         private void OnParticleCollision(GameObject particleProj)
         {           
             var proj = particleProj.GetComponent<Projectile>();
-            damage = proj.GetDamage();
-            
-            Debug.Log("Damage" + "" + damage);
+            damage = proj.GetDamage(); 
                                      
             if (proj.HitEffect() != null)
             {                    
@@ -122,8 +119,7 @@ namespace Rambler.Core // To Do Stop Movement
             isDead = true;  
             capCol.enabled = false;
             StopMovement();         
-            dieRanNum = Random.Range(1, 3); 
-            print(gameObject.name + " " + "death" + dieRanNum);    
+            dieRanNum = Random.Range(1, 3);     
             if (gameObject.name == "Rambler")
             {                
                 playerDeath.Invoke();
