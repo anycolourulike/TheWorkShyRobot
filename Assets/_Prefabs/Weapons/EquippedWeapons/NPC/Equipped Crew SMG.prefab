@@ -170,14 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f53e916254630b24a9fa83a8977fbaa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magazineAmount: 30
-  totalAmmo: 1000
-  reloadTime: 0
-  bulletsFired: 0
-  readyToShoot: 0
-  isShooting: 0
-  reloading: 0
-  weaponType: 0
+  weaponType: 2
   muzzleTransform: {fileID: 4553682292245661171}
   ammoCountObj: {fileID: 0}
   aimTransform: {fileID: 2124223584525466997}
@@ -185,7 +178,12 @@ MonoBehaviour:
     type: 3}
   projectile: {fileID: 5524526560787664376, guid: 19f7482d3b872aa4cab3e9d0849608bf,
     type: 3}
+  magazine: {fileID: 27191171083119519}
   weaponRange: 25
+  totalAmmoDisplay: {fileID: 0}
+  magDisplay: {fileID: 0}
+  magAmount: 0
+  totalAmmo: 0
 --- !u!114 &-3120814348575013341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,6 +335,12 @@ PrefabInstance:
 --- !u!4 &30112941551156865 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4126377610184702, guid: 6ac09253d060d1c46b6a34c5c2caf524,
+    type: 3}
+  m_PrefabInstance: {fileID: 28239189718235519}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &27191171083119519 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1347302963401440, guid: 6ac09253d060d1c46b6a34c5c2caf524,
     type: 3}
   m_PrefabInstance: {fileID: 28239189718235519}
   m_PrefabAsset: {fileID: 0}

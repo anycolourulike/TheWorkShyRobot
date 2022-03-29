@@ -33,8 +33,7 @@ namespace Rambler.Combat
         GameObject weaponRef;               
         Transform enemyPos;  
         WeaponIK weaponIk;                 
-        Animator anim;
-      
+        Animator anim;     
         
         
         void Start()
@@ -86,24 +85,30 @@ namespace Rambler.Combat
                     {
                         if (timeSinceLastAttack < 0.5f) return;                         
                         Vector3 targetVector = GetEnemyLocation() + Vector3.up / 1.1f; 
-                        activeWeapon.LaunchProjectile(activeWeapon.MuzPos(), targetVector);  
-                        timeSinceLastAttack = 0f; 
-
-                        switch (weaponConfig.weaponTitle)
+                        var ammo = activeWeapon.GetMagAmount;
+                        var reloading = activeWeapon.GetIsReloading;
+                        if(ammo > 0 && reloading == false)
                         {
-                            case "pistol":
-                            AudioManager.PlayWeaponSound(AudioManager.WeaponSound.pistolShoot, activeWeapon.transform.position);                           
+                          rigController.SetTrigger("Shoot");
+                          activeWeapon.LaunchProjectile(activeWeapon.MuzPos(), targetVector);  
+                          timeSinceLastAttack = 0f; 
+
+                          switch (weaponConfig.weaponTitle)
+                          {
+                             case "pistol":
+                             AudioManager.PlayWeaponSound(AudioManager.WeaponSound.pistolShoot, activeWeapon.transform.position);                           
                                 break;
-                            case "SMG":
-                            AudioManager.PlayWeaponSound(AudioManager.WeaponSound.SMGShoot, activeWeapon.transform.position);
+                             case "SMG":
+                             AudioManager.PlayWeaponSound(AudioManager.WeaponSound.SMGShoot, activeWeapon.transform.position);
                                 break;
-                            case "rifle":
-                            AudioManager.PlayWeaponSound(AudioManager.WeaponSound.RifleShoot, activeWeapon.transform.position);
+                             case "rifle":
+                             AudioManager.PlayWeaponSound(AudioManager.WeaponSound.RifleShoot, activeWeapon.transform.position);
                                 break;
-                            case "shotgun":
-                            AudioManager.PlayWeaponSound(AudioManager.WeaponSound.ShotgunShoot, activeWeapon.transform.position);
+                             case "shotgun":
+                             AudioManager.PlayWeaponSound(AudioManager.WeaponSound.ShotgunShoot, activeWeapon.transform.position);
                                 break;
-                        }                                            
+                          } 
+                        }                                           
                     }                    
                 }
                 else
@@ -125,29 +130,39 @@ namespace Rambler.Combat
         public void EquipWeapon(Weapon weapon)
         {  
             DestroyOldWeapon(handTransform);
-            weaponConfig = weapon;
-            Spawn(handTransform, anim);                    
+            weaponConfig = weapon;                        
+            Spawn(handTransform, anim);  
+            activeWeapon.SetRigController = rigController;  
+            AssignAmmo();
+            if(this.gameObject.tag == "Enemy")
+            {
+                activeWeapon.FullAmmo();
+            }                    
                         
-            if(weapon.isMelee == true)
-            { 
+           if(weaponConfig.isMelee)
+           {                
                 mover.RigWeaponUnequipped();
                 RigWeightToZero();
                 rigController.Play("equip_" + weapon.weaponTitle);   
                 StartCoroutine(AimInit());             
            }
            else
-           {                             
+           {                                       
                 RigWeightToOne();
                 rigController.Play("equip_" + weapon.weaponTitle);  
                 mover.RigWeaponEquipped(); 
                 StartCoroutine(AimInit());
+                if(this.gameObject.tag == "Player")
+                {
+                 activeWeapon.AmmoUIInit();
+                }
            }        
         }        
 
         public void EquipUnarmed()
         {
             RigWeightToZero();
-            EquipWeapon(unarmed);                                      
+            EquipWeapon(unarmed);                                              
         }
 
         public void EquipLastWeapon() 
@@ -181,7 +196,12 @@ namespace Rambler.Combat
         public void Cancel()
         {            
             enemyPos = null;
-        }             
+        }   
+
+        public void AssignAmmo() 
+        {
+            activeWeapon.FullAmmo();
+        }          
 
         void MeleeAttack()
         {        

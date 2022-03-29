@@ -20,7 +20,7 @@ namespace Rambler.SceneManangement
         [SerializeField] DestinationIdentifier destination;
         [SerializeField] float fadeOutTime = 1f;
         [SerializeField] float fadeInTime = 2f;
-        [SerializeField] float fadeWaitTime = 0.5f;
+        //[SerializeField] float fadeWaitTime = 0.5f;
 
         private void OnTriggerEnter(Collider other)
         {

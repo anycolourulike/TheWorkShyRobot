@@ -7,54 +7,95 @@ using TMPro;
 
 namespace Rambler.Combat
 {    
-    public class ActiveWeapon : WeaponBehaviour
+    public class ActiveWeapon : MonoBehaviour
     {   
         public enum WeaponType {melee, pistol, smg, shotgun, rifle, plasma, launcher, NPCWeapon}; 
         public WeaponType weaponType;     
         [SerializeField] Transform muzzleTransform;         
-        [SerializeField] GameObject ammoCountObj;
+        public GameObject ammoCountObj;
         [SerializeField] Transform aimTransform; 
-        [SerializeField] GameObject MuzzleFlash;         
-        [SerializeField] Projectile projectile; 
-        [SerializeField] float weaponRange; 
-        TextMeshProUGUI totalAmmoDisplay;  
-        TextMeshProUGUI magDisplay;              
-        WeaponType thisWeapon;
-        float weaponDamage;                  
-        string weaponName; 
+        [SerializeField] GameObject MuzzleFlash; 
+        [SerializeField] Projectile projectile;     
+        [SerializeField] GameObject magazine;
+        [SerializeField] float weaponRange;         
+        public TextMeshProUGUI totalAmmoDisplay;  
+        public TextMeshProUGUI magDisplay;
+        Animator rigController;
+        public Animator SetRigController {get{return rigController;} set{rigController = value; }}
+        float weaponDamage;        
+        int magAmount;
+        public int GetMagAmount {get{return magAmount;}}
+        int totalAmmo;  
+        public int GetTotalAmmo {get{return totalAmmo;}}  
+        bool reloading;   
+        public bool GetIsReloading{get{return reloading;}}     
+          
         int ammoSpent;                   
         int curClip;
-        
-        void Start() 
-        {            
-            if (thisWeapon == WeaponType.melee) return;
-            if (thisWeapon == WeaponType.NPCWeapon) return;           
-
-            if(gameObject.tag == "weapon")
-            {               
-               ammoCountObj = GameObject.Find("AmmoCounter");
-               var magazineCounter = ammoCountObj.transform.Find("MagazineUI").gameObject;
-               magazineCounter.SetActive(true);
-               magDisplay = magazineCounter.GetComponentInChildren<TMPro.TextMeshProUGUI>();  
-
-               var totalAmmoCounter = ammoCountObj.transform.Find("TotalAmmoUI").gameObject;
-               totalAmmoCounter.SetActive(true);
-               totalAmmoDisplay = totalAmmoCounter.GetComponentInChildren<TMPro.TextMeshProUGUI>(); 
-               GetProjectileDamage(); 
-               FullMag();
-               RefreshClipDisplay();                          
-            }           
-        }      
+                   
 
         void Update() 
-        {           
-           AmmoDisplay();        
-        }  
+        {   
+           if ((this.tag == "NPCWeapon") || (weaponType == WeaponType.melee)) return;
+           AmmoDisplay();     
+        } 
+
+        public void AmmoUIInit() 
+        {  
+            GetProjectileDamage();  
+
+            var playerCore = GameObject.Find("PlayerCore");
+            ammoCountObj = playerCore.transform.GetChild(0).GetChild(0).gameObject;
+                
+            var magazineCounter = ammoCountObj.transform.GetChild(0).gameObject;
+            magazineCounter.SetActive(true);
+            magDisplay = magazineCounter.GetComponentInChildren<TMPro.TextMeshProUGUI>();  
+
+            var totalAmmoCounter = ammoCountObj.transform.GetChild(1).gameObject;
+            totalAmmoCounter.SetActive(true);
+            totalAmmoDisplay = totalAmmoCounter.GetComponentInChildren<TMPro.TextMeshProUGUI>(); 
+            FullMag();
+            UpdateTotalAmmo();
+            UpdateClipDisplay();           
+        } 
+
+        public void FullAmmo()
+        {
+            if(weaponType == WeaponType.pistol)
+            {
+                totalAmmo = 90;
+            }
+
+            if(weaponType == WeaponType.smg)
+            {
+                totalAmmo = 120;
+            }
+
+            if(weaponType == WeaponType.shotgun)
+            {
+                totalAmmo = 50;
+            }
+
+            if(weaponType == WeaponType.rifle)
+            {
+                totalAmmo = 150;
+            }
+
+            if(weaponType == WeaponType.plasma)
+            {
+                totalAmmo = 50;
+            }
+
+            if(weaponType == WeaponType.launcher)
+            {
+                totalAmmo = 20;
+            }
+        }    
 
         public Transform AimTransform()
         {
             return aimTransform;
-        }    
+        } 
 
         public Transform MuzPos() 
         {
@@ -66,37 +107,14 @@ namespace Rambler.Combat
             return weaponRange;
         } 
 
-        void AmmoDisplay() 
-        {
-            if (thisWeapon == WeaponType.melee) return;
-            if (thisWeapon == WeaponType.NPCWeapon) return;
-                       
-            RefreshClipDisplay();            
-            
-            if(curClip == 0)
-            {
-                magDisplay.color = Color.red;
-            }
-            else 
-            {
-                magDisplay.color = Color.white;
-            }
-
-            if(totalAmmo == 0)
-            {
-                totalAmmoDisplay.color = Color.red;
-            }
-            else 
-            {
-                totalAmmoDisplay.color = Color.white;
-            }
-        }
-
         public void Reload() 
         {                                
             if(totalAmmo >= 0)
-            {  
-                ammoSpent = magazineAmount - curClip;  
+            { 
+                reloading = true;
+                rigController.SetTrigger("Reload"); 
+                //set bool is reloading
+                ammoSpent = magAmount - curClip;  
                                        
                 if (ammoSpent >= totalAmmo)
                 {
@@ -106,8 +124,9 @@ namespace Rambler.Combat
                 {
                     totalAmmo -= ammoSpent;
                 }
-                RefreshTotalAmmo();
-                FullMag();                
+                UpdateTotalAmmo();
+                FullMag(); 
+                reloading =  false;             
             }           
         } 
        
@@ -138,12 +157,35 @@ namespace Rambler.Combat
         //     curClip --;                                                             
         // }
 
-        void RefreshTotalAmmo() 
+        void AmmoDisplay() 
+        {            
+            UpdateClipDisplay();            
+            
+            if(curClip == 0)
+            {
+                magDisplay.color = Color.red;
+            }
+            else 
+            {
+                magDisplay.color = Color.white;
+            }
+
+            if(totalAmmo == 0)
+            {
+                totalAmmoDisplay.color = Color.red;
+            }
+            else 
+            {
+                totalAmmoDisplay.color = Color.white;
+            }
+        }
+
+        void UpdateTotalAmmo() 
         {
             totalAmmoDisplay.text = (totalAmmo.ToString());
         } 
 
-        void RefreshClipDisplay() 
+        void UpdateClipDisplay() 
         {
             magDisplay.text = (curClip.ToString());
         }  
@@ -155,37 +197,37 @@ namespace Rambler.Combat
 
         void FullMag()
         {
-            if(thisWeapon == WeaponType.pistol)
+            if(weaponType == WeaponType.pistol)
             {
-                magazineAmount = 15;
+                magAmount = 15;
             }
 
-            if(thisWeapon == WeaponType.smg)
+            if(weaponType == WeaponType.smg)
             {
-                magazineAmount = 30;
+                magAmount = 30;
             }
 
-            if(thisWeapon == WeaponType.shotgun)
+            if(weaponType == WeaponType.shotgun)
             {
-                magazineAmount = 8;
+                magAmount = 8;
             }
 
-            if(thisWeapon == WeaponType.shotgun)
+            if(weaponType == WeaponType.rifle)
             {
-                magazineAmount = 30;
+                magAmount = 30;
             }
 
-            if(thisWeapon == WeaponType.plasma)
+            if(weaponType == WeaponType.plasma)
             {
-                magazineAmount = 20;
+                magAmount = 20;
             }
 
-            if(thisWeapon == WeaponType.launcher)
+            if(weaponType == WeaponType.launcher)
             {
-                magazineAmount = 5;
+                magAmount = 5;
             }
-            curClip = magazineAmount;
-            RefreshTotalAmmo();         
-        }     
+            curClip = magAmount;
+            UpdateTotalAmmo();         
+        }    
     } 
 }
