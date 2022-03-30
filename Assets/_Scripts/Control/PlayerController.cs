@@ -180,6 +180,8 @@ namespace Rambler.Control
 
         public void HolsterWeapon()
         { 
+
+            //check weapon type, holster
             if(isHolstered == true)
             {
                 return;

@@ -9,7 +9,7 @@ namespace Rambler.Combat
 {    
     public class ActiveWeapon : MonoBehaviour
     {   
-        public enum WeaponType {melee, pistol, smg, shotgun, rifle, plasma, launcher, NPCWeapon}; 
+        public enum WeaponType {melee, pistol, smg, shotgun, rifle, plasma, launcher}; 
         public WeaponType weaponType;     
         [SerializeField] Transform muzzleTransform;         
         public GameObject ammoCountObj;
@@ -23,16 +23,24 @@ namespace Rambler.Combat
         Animator rigController;
         public Animator SetRigController {get{return rigController;} set{rigController = value; }}
         float weaponDamage;        
-        int magAmount;
+        public int magAmount;
         public int GetMagAmount {get{return magAmount;}}
-        int totalAmmo;  
+        public int totalAmmo;  
         public int GetTotalAmmo {get{return totalAmmo;}}  
         bool reloading;   
         public bool GetIsReloading{get{return reloading;}}     
-          
+
+        int maxClip;  
         int ammoSpent;                   
         int curClip;
-                   
+
+        void Start() 
+        {
+            if(this.gameObject.tag == ("NPCWeapon"))
+            {
+                FullMag();
+            }
+        }          
 
         void Update() 
         {   
@@ -55,9 +63,10 @@ namespace Rambler.Combat
             totalAmmoCounter.SetActive(true);
             totalAmmoDisplay = totalAmmoCounter.GetComponentInChildren<TMPro.TextMeshProUGUI>(); 
             FullMag();
-            UpdateTotalAmmo();
+            UpdateTotalAmmoDisplay();
             UpdateClipDisplay();           
         } 
+       
 
         public void FullAmmo()
         {
@@ -108,39 +117,49 @@ namespace Rambler.Combat
         } 
 
         public void Reload() 
-        {                                
+        {    
+            if(totalAmmo == maxClip)  return;                          
             if(totalAmmo >= 0)
             { 
                 reloading = true;
-                rigController.SetTrigger("Reload"); 
-                //set bool is reloading
+                ReloadAnimCheck();
+                
                 ammoSpent = magAmount - curClip;  
                                        
                 if (ammoSpent >= totalAmmo)
                 {
-                   ammoSpent = totalAmmo;                  
+                   ammoSpent = totalAmmo;  //Store Total Ammo for when Weapon is requipped                
                 }
                 else if (ammoSpent <= totalAmmo)
                 {
                     totalAmmo -= ammoSpent;
                 }
-                UpdateTotalAmmo();
                 FullMag(); 
-                reloading =  false;             
+                reloading = false; 
+                if(this.gameObject.tag == "Player")
+                {
+                  UpdateTotalAmmoDisplay();
+                }                              
             }           
         } 
        
        public void LaunchProjectile(Transform muzzleTransform, Vector3 target)
-        {                      
+        {     
+            if((curClip > 0)  && (reloading = true))
+            {              
             //MF_AutoPool.Spawn(prefab, muzzleTransform.position, muzzleTransform.rotation);  
             //projectile = prefab.GetComponent<Projectile>();
             //projectile.SetTarget(target);
+            ShootAnim();          
+                
             Projectile Firedprojectile = Instantiate(projectile, muzzleTransform.position, muzzleTransform.rotation);            
             Firedprojectile.SetTarget(target);
 
             GameObject Muzzle = Instantiate(MuzzleFlash, muzzleTransform.position, muzzleTransform.rotation) as GameObject;            
-            Muzzle.transform.parent = muzzleTransform.transform;                         
-            curClip --;                                                             
+            Muzzle.transform.parent = muzzleTransform.transform;  
+                                   
+            curClip --; 
+            }                                                            
         }
         // public void LaunchProjectile(Transform muzzleTransform, Vector3 target)
         // {  
@@ -180,7 +199,7 @@ namespace Rambler.Combat
             }
         }
 
-        void UpdateTotalAmmo() 
+        void UpdateTotalAmmoDisplay() 
         {
             totalAmmoDisplay.text = (totalAmmo.ToString());
         } 
@@ -193,41 +212,96 @@ namespace Rambler.Combat
         void GetProjectileDamage()
         {
             weaponDamage = projectile.GetDamage();
-        }     
+        }   
+
+        void ReloadAnimCheck() 
+        {
+            if(this.gameObject.tag == "NPCWeapon")
+            {
+                rigController.SetTrigger("Reload");
+            }
+            else
+            {
+                switch(this.weaponType)
+               {
+                case WeaponType.pistol:
+                 rigController.SetTrigger("ReloadPistol");                      
+                 break;
+                case WeaponType.smg:
+                 rigController.SetTrigger("ReloadSMG");
+                 break;
+                case WeaponType.rifle:
+                 rigController.SetTrigger("ReloadRifle");
+                 break;
+                //  case WeaponType.shotgun:
+                //  rigController.SetTrigger("ReloadShotgun");
+                //  break;                 
+                //  case WeaponType.launcher:
+                //  rigController.SetTrigger("ReloadLauncher");
+                //  break;
+                //  case WeaponType.plasma:
+                //  rigController.SetTrigger("ReloadPlasma");
+                //  break;
+               } 
+            }
+        }  
 
         void FullMag()
         {
-            if(weaponType == WeaponType.pistol)
-            {
-                magAmount = 15;
-            }
-
-            if(weaponType == WeaponType.smg)
-            {
-                magAmount = 30;
-            }
-
-            if(weaponType == WeaponType.shotgun)
-            {
-                magAmount = 8;
-            }
-
-            if(weaponType == WeaponType.rifle)
-            {
-                magAmount = 30;
-            }
-
-            if(weaponType == WeaponType.plasma)
-            {
-                magAmount = 20;
-            }
-
-            if(weaponType == WeaponType.launcher)
-            {
-                magAmount = 5;
-            }
+            switch(this.weaponType)
+               {
+                case WeaponType.pistol:
+                 magAmount = 15; 
+                 maxClip = 15;                     
+                 break;
+                case WeaponType.smg:
+                 magAmount = 30;
+                 maxClip = 30;
+                 break;
+                case WeaponType.rifle:
+                 magAmount = 25;
+                 maxClip = 25;
+                 break;
+                 case WeaponType.shotgun:
+                 magAmount = 5;
+                 maxClip = 5;
+                 break;                 
+                 case WeaponType.launcher:
+                 magAmount = 5;
+                 maxClip = 5;
+                 break;
+                 case WeaponType.plasma:
+                 magAmount = 10;
+                 maxClip = 10;
+                 break;
+               } 
+           
             curClip = magAmount;
-            UpdateTotalAmmo();         
-        }    
+            UpdateTotalAmmoDisplay();         
+        }  
+
+        void ShootAnim() 
+        {
+            if(this.gameObject.tag == "NPCWeapon")
+            {                
+                rigController.SetTrigger("Shoot");                
+            }
+            else
+            {
+               switch(this.weaponType)
+               {
+                case WeaponType.pistol:
+                rigController.SetTrigger("ShootPistol");                           
+                 break;
+                case WeaponType.smg:
+                rigController.SetTrigger("ShootSMG");
+                 break;
+                case WeaponType.rifle:
+                rigController.SetTrigger("ShootRifle");
+                 break;
+               }
+                             
+            }                    
+        }  
     } 
 }

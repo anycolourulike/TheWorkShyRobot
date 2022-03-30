@@ -1,0 +1,5 @@
+{
+    "git.ignoreLimitWarning": true,
+    "javascript.referencesCodeLens.enabled": true,
+    "javascript.referencesCodeLens.showOnAllFunctions": true
+}
