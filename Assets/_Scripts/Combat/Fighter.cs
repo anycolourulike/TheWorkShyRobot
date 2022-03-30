@@ -85,13 +85,8 @@ namespace Rambler.Combat
                     {
                         if (timeSinceLastAttack < 0.5f) return;                         
                         Vector3 targetVector = GetEnemyLocation() + Vector3.up / 1.1f; 
-                        var ammo = activeWeapon.GetMagAmount;
-                        var reloading = activeWeapon.GetIsReloading;
-                        if(ammo > 0 && reloading == false)
-                        {
-                          rigController.SetTrigger("Shoot");
-                          activeWeapon.LaunchProjectile(activeWeapon.MuzPos(), targetVector);  
-                          timeSinceLastAttack = 0f; 
+                        activeWeapon.LaunchProjectile(activeWeapon.MuzPos(), targetVector);  
+                        timeSinceLastAttack = 0f; 
 
                           switch (weaponConfig.weaponTitle)
                           {
@@ -108,7 +103,7 @@ namespace Rambler.Combat
                              AudioManager.PlayWeaponSound(AudioManager.WeaponSound.ShotgunShoot, activeWeapon.transform.position);
                                 break;
                           } 
-                        }                                           
+                                                                   
                     }                    
                 }
                 else
@@ -129,8 +124,9 @@ namespace Rambler.Combat
 
         public void EquipWeapon(Weapon weapon)
         {  
+            //check if weapon equipped than holster
             DestroyOldWeapon(handTransform);
-            weaponConfig = weapon;                        
+            weaponConfig = weapon;                                
             Spawn(handTransform, anim);  
             activeWeapon.SetRigController = rigController;  
             AssignAmmo();
@@ -138,7 +134,7 @@ namespace Rambler.Combat
             {
                 activeWeapon.FullAmmo();
             }                    
-                        
+            //cycle weapon type and play holster weapon backwards              
            if(weaponConfig.isMelee)
            {                
                 mover.RigWeaponUnequipped();
