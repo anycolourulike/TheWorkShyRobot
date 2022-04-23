@@ -24,7 +24,7 @@ MonoBehaviour:
   isRifle: 1
   isMelee: 0
   isEMP: 0
-  itemID: cb4ab8ad-f2ea-4e00-b053-e38044885336
+  itemID: 95f789f2-2b2e-4ab3-8278-35d45ff0cbe7
   displayName: 
   description: 
   icon: {fileID: 0}

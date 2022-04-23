@@ -24,7 +24,7 @@ MonoBehaviour:
   isRifle: 1
   isMelee: 0
   isEMP: 0
-  itemID: 03b09ca8-2b09-4e10-adb4-2ac8b8339a37
+  itemID: c855084d-e2da-4174-b4fa-8faed8e348a0
   displayName: shotgun
   description: 
   icon: {fileID: 21300000, guid: 8cc109cec2fb3ef47815719745eba183, type: 3}

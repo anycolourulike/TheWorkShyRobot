@@ -24,7 +24,7 @@ MonoBehaviour:
   isRifle: 1
   isMelee: 0
   isEMP: 0
-  itemID: 66c813cc-1463-476e-bb60-0513d94e24b3
+  itemID: e481a188-adf0-4998-a447-ab2743ec9098
   displayName: Plasma
   description: 
   icon: {fileID: 21300000, guid: 8bc645f383cd5fd49a5ba4280dd6135b, type: 3}

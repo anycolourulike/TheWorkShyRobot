@@ -13,11 +13,17 @@ MonoBehaviour:
   m_Name: Shield
   m_EditorClassIdentifier: 
   animatorOverride: {fileID: 0}
+  activeWeapon: {fileID: 0}
   equippedPrefab: {fileID: 0}
   projectile: {fileID: 0}
-  weaponDamage: 5
-  weaponRange: 2
-  MuzzleFX: {fileID: 0}
   weaponTitle: Shield
+  isPistol: 0
+  isRifle: 0
   isMelee: 1
   isEMP: 1
+  itemID: f6040d65-d26a-4345-ba17-5cd14f07b99a
+  displayName: 
+  description: 
+  icon: {fileID: 0}
+  pickup: {fileID: 0}
+  stackable: 0

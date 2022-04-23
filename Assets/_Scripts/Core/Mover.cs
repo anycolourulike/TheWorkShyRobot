@@ -11,6 +11,7 @@ using Rambler.Control;
 using Rambler.Saving;
 using Rambler.Combat;
 using UnityEngine.Animations.Rigging;
+using System.Collections;
 
 namespace Rambler.Movement
 {
@@ -116,6 +117,12 @@ namespace Rambler.Movement
             SerializableVector3 position = (SerializableVector3)state;
             GetComponent<NavMeshAgent>().enabled = false;
             transform.position = position.ToVector();
+            NavMeshDelay();
+        }
+
+        IEnumerator NavMeshDelay()
+        {
+            yield return new WaitForSeconds(1f);
             GetComponent<NavMeshAgent>().enabled = true;
         }
     }

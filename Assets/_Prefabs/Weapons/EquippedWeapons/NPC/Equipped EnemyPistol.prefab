@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 33374913754354420}
   - component: {fileID: 23812533421254286}
   - component: {fileID: 3265737970594862089}
+  - component: {fileID: 2859163297492936307}
   m_Layer: 0
   m_Name: Equipped EnemyPistol
   m_TagString: NPCWeapon
@@ -173,6 +174,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48948dfe9d76b07488dacd46a7955fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2859163297492936307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880625261243408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f53e916254630b24a9fa83a8977fbaa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponType: 1
+  muzzleTransform: {fileID: 0}
+  ammoCountObj: {fileID: 0}
+  aimTransform: {fileID: 0}
+  MuzzleFlash: {fileID: 0}
+  projectile: {fileID: 0}
+  magazine: {fileID: 0}
+  weaponRange: 0
+  totalAmmoDisplay: {fileID: 0}
+  magDisplay: {fileID: 0}
+  magAmount: 0
+  totalAmmo: 0
 --- !u!1 &860937698240056617
 GameObject:
   m_ObjectHideFlags: 0

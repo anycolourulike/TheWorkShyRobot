@@ -239,6 +239,11 @@ PrefabInstance:
       propertyPath: m_Alpha
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6835703849540470514, guid: 2f081c74724d3ea4a8be5200be722a8a,
+        type: 3}
+      propertyPath: canvasGroup
+      value: 
+      objectReference: {fileID: 8419706445937246901}
     - target: {fileID: 6835703849540470515, guid: 2f081c74724d3ea4a8be5200be722a8a,
         type: 3}
       propertyPath: m_SortingOrder
@@ -249,6 +254,12 @@ PrefabInstance:
 --- !u!224 &8419706445937246890 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6835703849540470510, guid: 2f081c74724d3ea4a8be5200be722a8a,
+    type: 3}
+  m_PrefabInstance: {fileID: 3027969296195732548}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &8419706445937246901 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 6835703849540470513, guid: 2f081c74724d3ea4a8be5200be722a8a,
     type: 3}
   m_PrefabInstance: {fileID: 3027969296195732548}
   m_PrefabAsset: {fileID: 0}

@@ -24,7 +24,7 @@ MonoBehaviour:
   isRifle: 0
   isMelee: 0
   isEMP: 0
-  itemID: a7577925-5898-4b40-800c-d6941c2b6a03
+  itemID: cad072d4-6b95-4163-b2d2-a108758955f3
   displayName: SMG
   description: 
   icon: {fileID: 21300000, guid: 6e915c16089be5f48ad4dea3faddff5e, type: 3}

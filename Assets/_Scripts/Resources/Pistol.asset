@@ -24,7 +24,7 @@ MonoBehaviour:
   isRifle: 0
   isMelee: 0
   isEMP: 0
-  itemID: c2e7eaf3-e220-41b3-ae44-cdedc12b77c1
+  itemID: 136c1416-6f19-410f-b5b0-9cfaa9d6eb00
   displayName: Pistol
   description: 
   icon: {fileID: 21300000, guid: 4b3a01163f1bbcc468342822819eabf3, type: 3}

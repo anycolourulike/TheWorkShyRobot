@@ -19,11 +19,11 @@ namespace Rambler.Core // To Do Stop Movement
         public float HealthPoints { get{return healthPoints;} set{healthPoints = value;}}  
         [SerializeField] AIController aIScript;  
         [SerializeField] GameObject RigLayer;
-        [SerializeField] GameObject head;
+        //[SerializeField] GameObject head;
         [SerializeField] GameObject headFX;
-        [SerializeField] GameObject leg; 
+        //[SerializeField] GameObject leg; 
         [SerializeField] GameObject legFX;        
-        [SerializeField] GameObject arm; 
+        //[SerializeField] GameObject arm; 
         [SerializeField] GameObject armFX;
         [SerializeField] Mover mover;
 
@@ -128,19 +128,19 @@ namespace Rambler.Core // To Do Stop Movement
             if(dieRanNum == 1)
             {                
                 anim.SetTrigger("Die1");                
-                arm.SetActive(false);
+                //arm.SetActive(false);
                 armFX.SetActive(true);              
             }
             else if (dieRanNum == 2)
             {                 
                 anim.SetTrigger("Die2");               
-                head.SetActive(false);   
+                //head.SetActive(false);   
                 headFX.SetActive(true);                             
             }
             else if (dieRanNum == 3)
             {               
                 anim.SetTrigger("Die3");                
-                leg.SetActive(false);
+                //leg.SetActive(false);
                 legFX.SetActive(true);
             }          
         }

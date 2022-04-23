@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 using Rambler.SceneManagement;
+using Rambler.Control;
 
 namespace Rambler.SceneManangement 
 {
@@ -20,7 +21,7 @@ namespace Rambler.SceneManangement
         [SerializeField] DestinationIdentifier destination;
         [SerializeField] float fadeOutTime = 1f;
         [SerializeField] float fadeInTime = 2f;
-        //[SerializeField] float fadeWaitTime = 0.5f;
+        [SerializeField] float fadeWaitTime = 0.5f;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -40,23 +41,27 @@ namespace Rambler.SceneManangement
             }
            
             DontDestroyOnLoad(gameObject);
-
+            PlayerController playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>(); 
+            playerController.enabled = false;
             Fader fader = FindObjectOfType<Fader>();
             yield return fader.FadeOut(fadeOutTime);
+            
             SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
             wrapper.Save();
 
-            yield return SceneManager.LoadSceneAsync(sceneToLoad);
+            yield return SceneManager.LoadSceneAsync(sceneToLoad);            
 
-            wrapper.Load();
+            PlayerController newPlayerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            newPlayerController.enabled = true;   
+            wrapper.Load();         
 
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
 
-            wrapper.Save();
-
-            yield return new WaitForSeconds(fadeOutTime);
+            yield return new WaitForSeconds(fadeWaitTime);
             yield return fader.FadeIn(fadeInTime);
+            
+            wrapper.Save();
 
             Destroy(gameObject);
         }
@@ -64,10 +69,12 @@ namespace Rambler.SceneManangement
         private void UpdatePlayer(Portal otherPortal)
         {
             GameObject player = GameObject.FindWithTag("Player");
-            player.GetComponent<NavMeshAgent>().enabled = false;
+            var navMeshAgent = player.GetComponent<NavMeshAgent>();
+            navMeshAgent.enabled = false;
+            //navMeshAgent.Warp(otherPortal.spawnPoint.position);
             player.transform.position = otherPortal.spawnPoint.position;
             player.transform.rotation = otherPortal.spawnPoint.rotation;
-            player.GetComponent<NavMeshAgent>().enabled = true;
+            navMeshAgent.enabled = true;
         }
 
         private Portal GetOtherPortal()

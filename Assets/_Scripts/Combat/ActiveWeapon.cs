@@ -4,10 +4,11 @@ using UnityEngine;
 using System;
 using Rambler.Core;
 using TMPro;
+using Rambler.Saving;
 
 namespace Rambler.Combat
 {    
-    public class ActiveWeapon : MonoBehaviour
+    public class ActiveWeapon : MonoBehaviour, ISaveable
     {   
         public enum WeaponType {melee, pistol, smg, shotgun, rifle, plasma, launcher}; 
         public WeaponType weaponType;     
@@ -136,10 +137,9 @@ namespace Rambler.Combat
                 }
                 FullMag(); 
                 reloading = false; 
-                if(this.gameObject.tag == "Player")
-                {
-                  UpdateTotalAmmoDisplay();
-                }                              
+                if(this.gameObject.tag == "NPCWeapon") return;
+                UpdateTotalAmmoDisplay();
+                                              
             }           
         } 
        
@@ -277,6 +277,7 @@ namespace Rambler.Combat
                } 
            
             curClip = magAmount;
+            if(this.gameObject.tag == "NPCWeapon") return;
             UpdateTotalAmmoDisplay();         
         }  
 
@@ -302,6 +303,16 @@ namespace Rambler.Combat
                }
                              
             }                    
-        }  
+        }
+
+        public object CaptureState()
+        {
+            return magAmount;
+        }
+
+        public void RestoreState(object state)
+        {
+            magAmount = (int)state;
+        }
     } 
 }
