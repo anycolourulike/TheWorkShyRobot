@@ -36,6 +36,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\AISensor.cs" />
      <Compile Include="Assets\Assets\Plugins\Easy Save 3\PlayMaker\ES3PlayMaker.cs" />
      <Compile Include="Assets\Assets\Plugins\Easy Save 3\Scripts\Attributes\ES3Attributes.cs" />
      <Compile Include="Assets\Assets\Plugins\Easy Save 3\Scripts\Auto Save\ES3AutoSave.cs" />
@@ -345,6 +346,7 @@
      <Compile Include="Assets\_Scripts\Combat\Traps.cs" />
      <Compile Include="Assets\_Scripts\Combat\Turret.cs" />
      <Compile Include="Assets\_Scripts\Combat\Weapon.cs" />
+     <Compile Include="Assets\_Scripts\Combat\WeaponBehaviour.cs" />
      <Compile Include="Assets\_Scripts\Combat\WeaponIK.cs" />
      <Compile Include="Assets\_Scripts\Combat\WeaponPickUp.cs" />
      <Compile Include="Assets\_Scripts\Control\AIController.cs" />
@@ -472,6 +474,7 @@
      <None Include="Assets\_AssetPacks\UI\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
      <None Include="Assets\_AssetPacks\UI\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
      <None Include="Assets\_AssetPacks\EnergyShield\Resources\EnergyShield_CEO.shader" />
+     <None Include="Assets\Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
      <None Include="Assets\_AssetPacks\Stylizer\Resources\Shaders\Dithering Base.cginc" />
      <None Include="Assets\_AssetPacks\SciFiCorridorSet\info.txt" />
      <None Include="Assets\_AssetPacks\UI\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
