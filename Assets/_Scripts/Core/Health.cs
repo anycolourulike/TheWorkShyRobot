@@ -85,7 +85,6 @@ namespace Rambler.Core // To Do Stop Movement
             if (gameObject.tag == "Enemy")
             {               
                aIScript.AttackBehaviour();
-               aIScript.ChaseDistance = 30f;
             }                                    
         }
         

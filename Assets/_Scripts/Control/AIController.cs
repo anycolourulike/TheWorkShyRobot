@@ -22,15 +22,19 @@ namespace Rambler.Control
          = Mathf.Infinity;
         float timeSinceLastSawPlayer
          = Mathf.Infinity;
-        [SerializeField] 
-        float chaseDistance = 5f;
-        public float ChaseDistance {get{return chaseDistance;} set{chaseDistance = value;}}
+        //Defunct AI Detection 
+        //[SerializeField] 
+        //float chaseDistance = 5f;
+        //public float ChaseDistance {get{return chaseDistance;} set{chaseDistance = value;}}
+
+        FieldOfView FOVCheck;
+        GameObject player; 
 
         CapsuleCollider capsuleCollider;
         int currentWaypointIndex = 0;        
         float TimerForNextAttack;               
         NavMeshAgent agent;        
-        GameObject player;        
+               
         Fighter fighter;
         float coolDown;
         Health health;        
@@ -54,6 +58,7 @@ namespace Rambler.Control
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();            
             mover = GetComponent<Mover>();  
+            FOVCheck = GetComponent<FieldOfView>();
 
             capsuleCollider = player.GetComponent<CapsuleCollider>();  
             CombatTarget otherCombatTarget = player.GetComponent<CombatTarget>(); 
@@ -66,7 +71,8 @@ namespace Rambler.Control
         {                       
             if (health.IsDead()) return;            
 
-            if (InAttackRangeOfPlayer() && fighter.CanAttack(player))
+            //if (InAttackRangeOfPlayer() && fighter.CanAttack(player))
+            if(FOVCheck.canSeePlayer == true && fighter.CanAttack(player))
             {
                 if (TimerForNextAttack > 0)
                 {
@@ -151,19 +157,21 @@ namespace Rambler.Control
             timeSinceLastSawPlayer = 0;
             fighter.Attack(player);
         }
-
-        private bool InAttackRangeOfPlayer()
-        {
-           float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-           return distanceToPlayer < chaseDistance;
-        }     
+        //Defunct AI Detection
+        // private bool InAttackRangeOfPlayer()
+        // {
+        //    float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
+        //    return distanceToPlayer < chaseDistance;
+        // }     
 
         //Called by Unity
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, chaseDistance);            
-        } 
+        // private void OnDrawGizmos()
+        // {
+        //     Gizmos.color = Color.blue;
+        //     Gizmos.DrawWireSphere(transform.position, chaseDistance);            
+        // } 
+
+               
 
         void FootStep() 
         {
