@@ -30,6 +30,9 @@ namespace Rambler.Control
         FieldOfView FOVCheck;
         GameObject player; 
 
+        Transform playerPos;
+        
+
         CapsuleCollider capsuleCollider;
         int currentWaypointIndex = 0;        
         float TimerForNextAttack;               
@@ -69,11 +72,11 @@ namespace Rambler.Control
 
         private void Update()
         {                       
-            if (health.IsDead()) return;            
-
-            //if (InAttackRangeOfPlayer() && fighter.CanAttack(player))
+            if (health.IsDead()) return;             
+           
             if(FOVCheck.canSeePlayer == true && fighter.CanAttack(player))
-            {
+            {                
+                playerPos = player.transform;
                 if (TimerForNextAttack > 0)
                 {
                     TimerForNextAttack -= Time.deltaTime;
@@ -97,7 +100,7 @@ namespace Rambler.Control
                 PatrolBehaviour();
             }
             UpdateTimers();           
-        }
+        }  
 
         void PlayerDeath()
         {            
@@ -111,10 +114,10 @@ namespace Rambler.Control
         {
             timeSinceLastSawPlayer += Time.deltaTime;
             timeSinceArrivedAtWaypoint += Time.deltaTime;
-        }
+        }        
 
         private void PatrolBehaviour()
-        {  
+        {             
             if (patrolPath != null)
             {
                 if (AtWaypoint())
@@ -149,6 +152,7 @@ namespace Rambler.Control
         private void SuspicionBehaviour()
         {            
             GetComponent<ActionScheduler>().CancelCurrentAction();
+            mover.MoveTo(playerPos.position, 7f);
         }
 
         public void AttackBehaviour()
@@ -156,26 +160,6 @@ namespace Rambler.Control
             fighter.TargetCapsule = capsuleCollider; 
             timeSinceLastSawPlayer = 0;
             fighter.Attack(player);
-        }
-        //Defunct AI Detection
-        // private bool InAttackRangeOfPlayer()
-        // {
-        //    float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-        //    return distanceToPlayer < chaseDistance;
-        // }     
-
-        //Called by Unity
-        // private void OnDrawGizmos()
-        // {
-        //     Gizmos.color = Color.blue;
-        //     Gizmos.DrawWireSphere(transform.position, chaseDistance);            
-        // } 
-
-               
-
-        void FootStep() 
-        {
-            
-        }      
+        }  
     }
 }

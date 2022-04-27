@@ -107,6 +107,7 @@ namespace Rambler.Movement
             anim.SetFloat("forwardSpeed", speed);            
         }
 
+
         public object CaptureState()
         {   
             return new SerializableVector3(transform.position);
@@ -124,6 +125,6 @@ namespace Rambler.Movement
         {
             yield return new WaitForSeconds(1f);
             GetComponent<NavMeshAgent>().enabled = true;
-        }
+        }        
     }
 }

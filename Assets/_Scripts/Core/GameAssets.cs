@@ -32,7 +32,7 @@ namespace Rambler.Core
         [System.Serializable]
         public class EnviromentAudioClip
         {
-            public AudioManager.EnviromentSound enviromentSFX;
+            public AudioManager.EnvironmentSound enviromentSFX;
             public AudioClip enviromentClip;
         }
 

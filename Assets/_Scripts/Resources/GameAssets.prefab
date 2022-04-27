@@ -113,13 +113,13 @@ MonoBehaviour:
     enviromentClip: {fileID: 8300000, guid: ac6649006dbee9e4685752e124111da7, type: 3}
   humanAudioClipArray:
   - humanSFX: 0
-    humanClip: {fileID: 0}
+    humanClip: {fileID: 8300000, guid: 00cf215f71c45834eab7bc1adf007981, type: 3}
   - humanSFX: 1
-    humanClip: {fileID: 0}
+    humanClip: {fileID: 8300000, guid: 99feca2631dd54d4daed7d274467587d, type: 3}
   - humanSFX: 2
-    humanClip: {fileID: 0}
+    humanClip: {fileID: 8300000, guid: 1093e558a8504d8428b0209444c541e0, type: 3}
   - humanSFX: 3
-    humanClip: {fileID: 0}
+    humanClip: {fileID: 8300000, guid: e72508b9e16f3664da4a485eff96e6d9, type: 3}
   - humanSFX: 4
     humanClip: {fileID: 8300000, guid: 0962cad0a62e5584bab8552f064c8af3, type: 3}
   - humanSFX: 5
@@ -128,3 +128,13 @@ MonoBehaviour:
     humanClip: {fileID: 8300000, guid: e42a377cbfd39d542a8ea6a75767b391, type: 3}
   - humanSFX: 7
     humanClip: {fileID: 8300000, guid: bf74ef955ec9e0145a7c5e2559de8a5d, type: 3}
+  - humanSFX: 8
+    humanClip: {fileID: 8300000, guid: a7443d30df8ec2642b93bdb8d08fbd11, type: 3}
+  - humanSFX: 9
+    humanClip: {fileID: 8300000, guid: 226a2915a1ef812438bc800a91e0b702, type: 3}
+  - humanSFX: 10
+    humanClip: {fileID: 8300000, guid: f4b7593771237284c90a4b79f8c67f14, type: 3}
+  - humanSFX: 11
+    humanClip: {fileID: 8300000, guid: 20970d7c149d01b4cb0e71f758512af7, type: 3}
+  - humanSFX: 12
+    humanClip: {fileID: 8300000, guid: e6519bb1d14e7204699ebe37c5220f1b, type: 3}

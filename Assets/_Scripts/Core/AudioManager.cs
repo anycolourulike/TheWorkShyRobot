@@ -20,7 +20,7 @@ namespace Rambler.Core
         weaponReload,
     }
     
-    public enum EnviromentSound
+    public enum EnvironmentSound
     {        
         ambientMusic,
         SpaceShipBackground,
@@ -63,6 +63,11 @@ namespace Rambler.Core
         Hit2,
         Hit3,
         Hit4,
+        HumanHitSFX1,
+        HumanHitSFX2,
+        HumanAlert1,
+        HumanAlert2,
+        HumanHitGroundDeath,
     }
     
        
@@ -77,7 +82,7 @@ namespace Rambler.Core
         audioSource.rolloffMode = AudioRolloffMode.Linear;
         audioSource.dopplerLevel = 0f;        
         audioSource.Play();
-    }    
+    }  
 
     private static AudioClip GetWeaponClip(WeaponSound weaponSound)
     {
@@ -92,32 +97,44 @@ namespace Rambler.Core
         return null;
     }
 
-    public static void PlayEnviromentSound(EnviromentSound enviromentSound)
+    public static void PlayEnvironmentSound(EnvironmentSound environmentSFX, Vector3 position)
     {
-        GameObject soundGameObject = new GameObject("Sound");
+        GameObject soundGameObject = new GameObject("EnvironmentSFX");
+        soundGameObject.transform.position = position;
         AudioSource audioSource = soundGameObject.AddComponent<AudioSource>();
-        audioSource.PlayOneShot(GetEnviromentClip(enviromentSound));
-    }    
+        audioSource.clip = GetEnvironmentClip(environmentSFX);
+        audioSource.maxDistance = 100f;
+        audioSource.spatialBlend = 1f;
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
+        audioSource.dopplerLevel = 0f;        
+        audioSource.Play();
+    } 
 
-    private static AudioClip GetEnviromentClip(EnviromentSound enviromentSound)
+    private static AudioClip GetEnvironmentClip(EnvironmentSound environmentSound)
     {
-        foreach(GameAssets.EnviromentAudioClip enviromentClip in GameAssets.i.enviromentAudioClipArray)
+        foreach(GameAssets.EnviromentAudioClip environmentClip in GameAssets.i.enviromentAudioClipArray)
         {
-            if(enviromentClip.enviromentSFX == enviromentSound)
+            if(environmentClip.enviromentSFX == environmentSound)
             {
-                return enviromentClip.enviromentClip;
+                return environmentClip.enviromentClip;
             }
         }
-        Debug.Log(enviromentSound + " not found!");
+        Debug.Log(environmentSound + " not found!");
         return null;
-    }
+    }     
 
-    public static void PlayHumanSound(HumanSound humanSound)
+     public static void PlayHumanSound(HumanSound humanSound, Vector3 position)
     {
-        GameObject soundGameObject = new GameObject("Sound");
+        GameObject soundGameObject = new GameObject("HumanSound");
+        soundGameObject.transform.position = position;
         AudioSource audioSource = soundGameObject.AddComponent<AudioSource>();
-        audioSource.PlayOneShot(GetHumanClip(humanSound));
-    }   
+        audioSource.clip = GetHumanClip(humanSound);
+        audioSource.maxDistance = 100f;
+        audioSource.spatialBlend = 1f;
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
+        audioSource.dopplerLevel = 0f;        
+        audioSource.Play();
+    } 
 
     private static AudioClip GetHumanClip(HumanSound humanSound)
     {

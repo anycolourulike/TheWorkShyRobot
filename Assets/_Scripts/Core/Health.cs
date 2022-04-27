@@ -82,6 +82,7 @@ namespace Rambler.Core // To Do Stop Movement
         {     
             if (isDead) return; 
             anim.SetTrigger("HitAnim");
+            AudioManager.PlayHumanSound(AudioManager.HumanSound.Hit1, this.transform.position);
             if (gameObject.tag == "Enemy")
             {               
                aIScript.AttackBehaviour();
@@ -118,7 +119,7 @@ namespace Rambler.Core // To Do Stop Movement
             isDead = true;  
             capCol.enabled = false;
             StopMovement();         
-            dieRanNum = Random.Range(1, 3);     
+            dieRanNum = Random.Range(1, 4);     
             if (gameObject.name == "Rambler")
             {                
                 playerDeath.Invoke();
@@ -126,22 +127,30 @@ namespace Rambler.Core // To Do Stop Movement
 
             if(dieRanNum == 1)
             {                
-                anim.SetTrigger("Die1");                
+                anim.SetTrigger("Die1"); 
+                AudioManager.PlayHumanSound(AudioManager.HumanSound.Death1, this.transform.position);
                 //arm.SetActive(false);
                 armFX.SetActive(true);              
             }
             else if (dieRanNum == 2)
             {                 
-                anim.SetTrigger("Die2");               
+                anim.SetTrigger("Die2"); 
+                AudioManager.PlayHumanSound(AudioManager.HumanSound.Death2, this.transform.position);              
                 //head.SetActive(false);   
                 headFX.SetActive(true);                             
             }
             else if (dieRanNum == 3)
             {               
-                anim.SetTrigger("Die3");                
+                anim.SetTrigger("Die3"); 
+                AudioManager.PlayHumanSound(AudioManager.HumanSound.Death3, this.transform.position);              
                 //leg.SetActive(false);
                 legFX.SetActive(true);
             }          
+        }
+
+        public void HitTheFloor() 
+        {
+            AudioManager.PlayHumanSound(AudioManager.HumanSound.HumanHitGroundDeath, this.transform.position);
         }
 
         private void StopMovement()
