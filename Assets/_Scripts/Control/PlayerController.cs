@@ -76,22 +76,19 @@ namespace Rambler.Control
             foreach (RaycastHit hit in hits)
             {
                 CombatTarget otherCombatTarget = hit.transform.GetComponent<CombatTarget>();
+                Fighter fighter = GetComponent<Fighter>();
                 fighter.Target = otherCombatTarget;
                 CapsuleCollider targetCapsule = hit.transform.GetComponent<CapsuleCollider>(); 
-                fighter.TargetCapsule = targetCapsule;                
+                fighter.TargetCapsule = targetCapsule;
+
                 if (otherCombatTarget == null) continue;
                 if (!GetComponent<Fighter>().CanAttack(otherCombatTarget.gameObject))
                 {
                     continue;
                 }
-
-                if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Ended)
-                {
-                    if(otherCombatTarget == gameObject) return false;                                       
-                    Fighter fighter = GetComponent<Fighter>();
-                    fighter.Attack(otherCombatTarget.gameObject);
-                    fighter.TargetCapsule = targetCapsule; 
-                }
+                fighter.Attack(otherCombatTarget.gameObject);
+                fighter.TargetCapsule = targetCapsule; 
+                
                 return true;
             }
             return false;
@@ -170,7 +167,7 @@ namespace Rambler.Control
             switch(interactions)
             {
                 case 1:
-                fighter.SetLastWeapon = fighter.weaponConfig;        
+                fighter.SetLastWeapon = fighter.weaponConfig; 
                 fighter.EquipUnarmed();                
                 playerAnim.SetTrigger("pickUp");
                 pickUp.PickUpItem();                        

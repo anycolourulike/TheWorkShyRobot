@@ -22,10 +22,6 @@ namespace Rambler.Control
          = Mathf.Infinity;
         float timeSinceLastSawPlayer
          = Mathf.Infinity;
-        //Defunct AI Detection 
-        //[SerializeField] 
-        //float chaseDistance = 5f;
-        //public float ChaseDistance {get{return chaseDistance;} set{chaseDistance = value;}}
 
         FieldOfView FOVCheck;
         GameObject player; 
@@ -72,11 +68,12 @@ namespace Rambler.Control
 
         private void Update()
         {                       
-            if (health.IsDead()) return;             
+            if (health.IsDead()) return; 
+            playerPos = player.transform;            
            
             if(FOVCheck.canSeePlayer == true && fighter.CanAttack(player))
             {                
-                playerPos = player.transform;
+                
                 if (TimerForNextAttack > 0)
                 {
                     TimerForNextAttack -= Time.deltaTime;
@@ -152,7 +149,9 @@ namespace Rambler.Control
         private void SuspicionBehaviour()
         {            
             GetComponent<ActionScheduler>().CancelCurrentAction();
-            mover.MoveTo(playerPos.position, 7f);
+
+            //Check if player is out of view, if no move to Player
+            //mover.MoveTo(playerPos.position, 7f);
         }
 
         public void AttackBehaviour()

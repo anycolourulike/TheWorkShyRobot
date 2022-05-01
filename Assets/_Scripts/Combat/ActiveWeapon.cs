@@ -211,7 +211,14 @@ namespace Rambler.Combat
 
         void GetProjectileDamage()
         {
-            weaponDamage = projectile.GetDamage();
+            if(weaponType == WeaponType.melee)
+            {
+                weaponDamage = 50;
+            }
+            else
+            {
+              weaponDamage = projectile.GetDamage();
+            }
         }   
 
         void ReloadAnimCheck() 

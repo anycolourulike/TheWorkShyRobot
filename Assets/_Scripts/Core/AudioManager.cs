@@ -21,12 +21,8 @@ namespace Rambler.Core
     }
     
     public enum EnvironmentSound
-    {        
-        ambientMusic,
-        SpaceShipBackground,
-        RigBackground,
-        CaveBackground,
-        SurfaceBackground,  
+    {       
+          
         ObjectiveRecevived,    
         ObjectiveComplete,
         OnGameOver,
@@ -69,6 +65,41 @@ namespace Rambler.Core
         HumanAlert2,
         HumanHitGroundDeath,
     }
+
+    public enum AmbientSound
+    {
+        ambientMusic,
+        SpaceShipBackground,
+        RigBackground,
+        CaveBackground,
+        SurfaceBackground,
+    }
+
+    public static void PlayAmbientSound(AmbientSound ambientSFX)
+    {
+        GameObject soundGameObject = new GameObject("AmbientSFX");
+        AudioSource audioSource = soundGameObject.AddComponent<AudioSource>();
+        audioSource.clip = GetAmbientClip(ambientSFX);
+        audioSource.loop = true;
+        audioSource.maxDistance = 100f;
+        audioSource.spatialBlend = 1f;
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
+        audioSource.dopplerLevel = 0f;        
+        audioSource.Play();
+    } 
+
+    private static AudioClip GetAmbientClip(AmbientSound ambientSound)
+    {
+        foreach(GameAssets.AmbientAudioClip ambientClip in GameAssets.i.ambientAudioClipArray)
+        {
+            if(ambientClip.ambientSFX == ambientSound)
+            {
+                return ambientClip.ambientClip;
+            }
+        }
+        Debug.Log(ambientSound + " not found!");
+        return null;
+    }     
     
        
    public static void PlayWeaponSound(WeaponSound weaponSFX, Vector3 position)
@@ -86,11 +117,11 @@ namespace Rambler.Core
 
     private static AudioClip GetWeaponClip(WeaponSound weaponSound)
     {
-        foreach(GameAssets.WeaponAudioClip weaponSFX in GameAssets.i.weaponAudioClipArray)
+        foreach(GameAssets.WeaponAudioClip weaponClip in GameAssets.i.weaponAudioClipArray)
         {
-            if(weaponSFX.weaponEnum == weaponSound)
+            if(weaponClip.weaponSFX == weaponSound)
             {
-                return weaponSFX.weaponClip;
+                return weaponClip.weaponClip;
             }
         }
         Debug.Log(weaponSound + " not found!");

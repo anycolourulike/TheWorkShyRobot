@@ -137,4 +137,15 @@ MonoBehaviour:
   - humanSFX: 11
     humanClip: {fileID: 8300000, guid: 20970d7c149d01b4cb0e71f758512af7, type: 3}
   - humanSFX: 12
-    humanClip: {fileID: 8300000, guid: e6519bb1d14e7204699ebe37c5220f1b, type: 3}
+    humanClip: {fileID: 8300000, guid: cdf6566dbc0db7240aaa14274f540e72, type: 3}
+  ambientAudioClipArray:
+  - ambientSFX: 0
+    ambientClip: {fileID: 8300000, guid: 2339a234e09e9664baa8ba882b7690ea, type: 3}
+  - ambientSFX: 1
+    ambientClip: {fileID: 0}
+  - ambientSFX: 2
+    ambientClip: {fileID: 0}
+  - ambientSFX: 3
+    ambientClip: {fileID: 8300000, guid: 6199b69050fbf3b4caa7155092314523, type: 3}
+  - ambientSFX: 4
+    ambientClip: {fileID: 8300000, guid: b4411a042aaea554b8ad110c078b4207, type: 3}

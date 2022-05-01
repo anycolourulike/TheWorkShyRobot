@@ -45,21 +45,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f53e916254630b24a9fa83a8977fbaa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magazineAmount: 0
-  totalAmmo: 0
-  reloadTime: 0
-  bulletsFired: 0
-  readyToShoot: 0
-  isShooting: 0
-  reloading: 0
   weaponType: 0
-  muzzleTransform: {fileID: 0}
+  muzzleTransform: {fileID: 6935940664396179174}
   ammoCountObj: {fileID: 0}
   aimTransform: {fileID: 9019316738233827977}
   MuzzleFlash: {fileID: 198690249993889400, guid: ba1ddd059de115f44b44ff52413832aa,
     type: 3}
   projectile: {fileID: 0}
-  weaponRange: 0.7
+  magazine: {fileID: 0}
+  weaponRange: 1.15
+  totalAmmoDisplay: {fileID: 0}
+  magDisplay: {fileID: 0}
+  magAmount: 0
+  totalAmmo: 0
 --- !u!1 &1751653527374776513
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,12 +20,13 @@ namespace Rambler.Core
         public WeaponAudioClip[] weaponAudioClipArray;
         public EnviromentAudioClip[] enviromentAudioClipArray;
         public HumanAudioClip[] humanAudioClipArray;
+        public AmbientAudioClip[] ambientAudioClipArray;
   
 
         [System.Serializable]
         public class WeaponAudioClip
         {
-            public AudioManager.WeaponSound weaponEnum;
+            public AudioManager.WeaponSound weaponSFX;
             public AudioClip weaponClip;
         }
 
@@ -34,6 +35,13 @@ namespace Rambler.Core
         {
             public AudioManager.EnvironmentSound enviromentSFX;
             public AudioClip enviromentClip;
+        }
+
+        [System.Serializable]
+        public class AmbientAudioClip
+        {
+            public AudioManager.AmbientSound ambientSFX;
+            public AudioClip ambientClip;
         }
 
         [System.Serializable]

@@ -25,7 +25,9 @@ namespace Rambler.Core // To Do Stop Movement
         [SerializeField] GameObject legFX;        
         //[SerializeField] GameObject arm; 
         [SerializeField] GameObject armFX;
+        [SerializeField] GameObject shield;
         [SerializeField] Mover mover;
+        
 
         public delegate void PlayerDied();
         public static event PlayerDied playerDeath;
@@ -78,7 +80,9 @@ namespace Rambler.Core // To Do Stop Movement
             }            
         }
 
-        private void HitAnim()
+        private
+        
+         void HitAnim()
         {     
             if (isDead) return; 
             anim.SetTrigger("HitAnim");
@@ -123,6 +127,9 @@ namespace Rambler.Core // To Do Stop Movement
             if (gameObject.name == "Rambler")
             {                
                 playerDeath.Invoke();
+                fighter.enabled = false;
+                shield.SetActive(false);
+                
             }            
 
             if(dieRanNum == 1)

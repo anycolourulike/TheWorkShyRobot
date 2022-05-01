@@ -16,7 +16,7 @@ namespace Rambler.Combat
         [SerializeField] Animator ShootAnim;          
         [SerializeField] Weapon unarmed;
         [SerializeField] Mover mover;
-
+        [SerializeField] ParticleSystem punchImpact; 
         [SerializeField] CapsuleCollider targetCapsule;
         public CapsuleCollider TargetCapsule {get{return targetCapsule;} set{targetCapsule = value;}}       
         public ActiveWeapon activeWeapon; 
@@ -29,8 +29,9 @@ namespace Rambler.Combat
         Mathf.Infinity;         
         public CombatTarget otherCombatTarget;   //other combat Target
         public CombatTarget Target {set{otherCombatTarget = value;}}                    
-        Vector3 hitPointVector; 
-        GameObject weaponRef;               
+        Vector3 hitPointVector;
+        GameObject weaponRef;  
+        Health targetHealth;             
         Transform enemyPos;  
         WeaponIK weaponIk;                 
         Animator anim;     
@@ -108,7 +109,7 @@ namespace Rambler.Combat
                 }
                 else
                 {                    
-                    MeleeAttack();
+                    MeleeAttack(enemyPos);
                     timeSinceLastAttack = 0f;
                 }
                 if(this.tag == "Player")
@@ -198,11 +199,7 @@ namespace Rambler.Combat
         {
             activeWeapon.FullAmmo();
         }          
-
-        void MeleeAttack()
-        {        
-           anim.SetTrigger("meleeAttack");                     
-        } 
+       
         
         Vector3 GetEnemyLocation()
         {              
@@ -274,22 +271,18 @@ namespace Rambler.Combat
             return Vector3.Distance(transform.position, enemyPos.position) < activeWeapon.GetRange();
         } 
 
-        void MeleeAttack(Transform muzzleFX, Transform target)
+        void MeleeAttack(Transform target)
         {
             if (target == null) { return; }
-                        
-            if (HasProjectile())
-            {
-                activeWeapon.LaunchProjectile(muzzleFX, GetEnemyLocation());                
-            }
+            targetHealth = target.GetComponent<Health>();
+            anim.SetTrigger("meleeAttack");
         } 
 
         void MeleeEvent()
         {
-            if (HasProjectile() != true)
-            {
-                MeleeAttack(handTransform, enemyPos);
-            }
+            Instantiate(punchImpact, handTransform.position, handTransform.rotation);
+            AudioManager.PlayHumanSound(AudioManager.HumanSound.Hit2, this.transform.position);
+            targetHealth.TakeDamage(50f);
         }
 
         void EMPAttack()
