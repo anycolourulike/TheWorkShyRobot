@@ -8,7 +8,7 @@ public class CameraZone : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera cineCamera;
     public bool zoomOut;
     
-    float zoomedOut = 55f;
+    float zoomedOut = 47f;
     float zoomedIn  = 40f;
     float speed = 5f;
    

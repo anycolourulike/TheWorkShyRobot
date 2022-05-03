@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rambler.Control;
 
 namespace Rambler.Combat
 {
@@ -18,7 +19,7 @@ namespace Rambler.Combat
         {
             foreach (Fighter fighter in fighters)
             {
-                CombatTarget target = fighter.GetComponent<CombatTarget>();
+                FieldOfView target = fighter.GetComponent<FieldOfView>();
                 if (target != null)
                 {
                     target.enabled = shouldActivate;

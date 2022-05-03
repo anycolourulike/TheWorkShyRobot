@@ -36,8 +36,13 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\BuddyAIController.cs" />
      <Compile Include="Assets\Unity\ConstraintSamples\Scripts\mParent.cs" />
+     <Compile Include="Assets\_AssetPacks\Crafting Mecanim Animation Pack\Code\AnimatorController.cs" />
+     <Compile Include="Assets\_AssetPacks\Crafting Mecanim Animation Pack\Code\CrafterController.cs" />
+     <Compile Include="Assets\_AssetPacks\Crafting Mecanim Animation Pack\Code\GUIControls.cs" />
      <Compile Include="Assets\_AssetPacks\Crafting Mecanim Animation Pack\Code\IKHands.cs" />
+     <Compile Include="Assets\_AssetPacks\Crafting Mecanim Animation Pack\Code\SmoothFollow.cs" />
      <Compile Include="Assets\_AssetPacks\EffectCore\packs\WebDemoAssets\scripts\ECCameraShake.cs" />
      <Compile Include="Assets\_AssetPacks\EffectCore\packs\WebDemoAssets\scripts\ECCameraShakeCaller.cs" />
      <Compile Include="Assets\_AssetPacks\EffectCore\packs\WebDemoAssets\scripts\ECCameraShakeProjectile.cs" />

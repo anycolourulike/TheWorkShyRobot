@@ -128,31 +128,53 @@ namespace Rambler.Core // To Do Stop Movement
             {                
                 playerDeath.Invoke();
                 fighter.enabled = false;
-                shield.SetActive(false);
-                
+                shield.SetActive(false);                
             }            
 
             if(dieRanNum == 1)
             {                
                 anim.SetTrigger("Die1"); 
-                AudioManager.PlayHumanSound(AudioManager.HumanSound.Death1, this.transform.position);
-                //arm.SetActive(false);
-                armFX.SetActive(true);              
+                armFX.SetActive(true);
+                if(this.CompareTag("Enemy"))
+                {
+                  AudioManager.PlayHumanSound(AudioManager.HumanSound.Death1, this.transform.position);
+                }
+                else
+                {
+                   RamblerDeathAudio(); 
+                }                              
             }
             else if (dieRanNum == 2)
             {                 
                 anim.SetTrigger("Die2"); 
-                AudioManager.PlayHumanSound(AudioManager.HumanSound.Death2, this.transform.position);              
-                //head.SetActive(false);   
-                headFX.SetActive(true);                             
+                headFX.SetActive(true);
+                if(this.CompareTag("Enemy"))
+                {
+                  AudioManager.PlayHumanSound(AudioManager.HumanSound.Death2, this.transform.position);              
+                } 
+                else
+                {
+                   RamblerDeathAudio(); 
+                }                                            
             }
             else if (dieRanNum == 3)
             {               
-                anim.SetTrigger("Die3"); 
-                AudioManager.PlayHumanSound(AudioManager.HumanSound.Death3, this.transform.position);              
-                //leg.SetActive(false);
-                legFX.SetActive(true);
+                anim.SetTrigger("Die3");
+                legFX.SetActive(true); 
+                if(this.CompareTag("Enemy"))
+                {
+                  AudioManager.PlayHumanSound(AudioManager.HumanSound.Death3, this.transform.position);              
+                }
+                else
+                {
+                   RamblerDeathAudio(); 
+                }
             }          
+        }
+
+        void RamblerDeathAudio() 
+        {
+            AudioManager.PlayHumanSound(AudioManager.HumanSound.Death4, this.transform.position);
         }
 
         public void HitTheFloor() 

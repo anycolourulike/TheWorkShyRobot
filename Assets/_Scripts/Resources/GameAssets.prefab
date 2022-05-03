@@ -44,23 +44,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponAudioClipArray:
-  - weaponEnum: 0
+  - weaponSFX: 0
     weaponClip: {fileID: 8300000, guid: f6cb1f581b7444b23a05b613a16420d5, type: 3}
-  - weaponEnum: 1
+  - weaponSFX: 1
     weaponClip: {fileID: 8300000, guid: 5a5c1c9ff44839447b3c9beb08a5b9f7, type: 3}
-  - weaponEnum: 2
+  - weaponSFX: 2
     weaponClip: {fileID: 8300000, guid: 31b671add4416b849bdb80fe9a988668, type: 3}
-  - weaponEnum: 3
+  - weaponSFX: 3
     weaponClip: {fileID: 8300000, guid: b0f8e09ec4b9fa049bd610bc555bf445, type: 3}
-  - weaponEnum: 4
+  - weaponSFX: 4
     weaponClip: {fileID: 8300000, guid: 6897bcb188e4dfe4a8b9892269450696, type: 3}
-  - weaponEnum: 5
+  - weaponSFX: 5
     weaponClip: {fileID: 8300000, guid: 653d50a3f05c359498151ed5c9365c5f, type: 3}
-  - weaponEnum: 6
+  - weaponSFX: 6
     weaponClip: {fileID: 8300000, guid: 90115a0fe3e8b4e098b1111cc014a9cc, type: 3}
-  - weaponEnum: 7
+  - weaponSFX: 7
     weaponClip: {fileID: 8300000, guid: 3db1284c00dd04218991196e8edbee63, type: 3}
-  - weaponEnum: 8
+  - weaponSFX: 8
     weaponClip: {fileID: 8300000, guid: f6727888a13262d44acfcc216821d28b, type: 3}
   enviromentAudioClipArray:
   - enviromentSFX: 0
@@ -119,7 +119,7 @@ MonoBehaviour:
   - humanSFX: 2
     humanClip: {fileID: 8300000, guid: 1093e558a8504d8428b0209444c541e0, type: 3}
   - humanSFX: 3
-    humanClip: {fileID: 8300000, guid: e72508b9e16f3664da4a485eff96e6d9, type: 3}
+    humanClip: {fileID: 8300000, guid: 00d6deb53c2a7924d831fde829edb766, type: 3}
   - humanSFX: 4
     humanClip: {fileID: 8300000, guid: 0962cad0a62e5584bab8552f064c8af3, type: 3}
   - humanSFX: 5

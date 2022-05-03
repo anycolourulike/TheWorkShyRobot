@@ -9,7 +9,7 @@ using UnityEngine.AI;
 
 namespace Rambler.Control
 {
-    public class AIController : MonoBehaviour
+    public class BuddyAIController : MonoBehaviour
     { 
         [SerializeField] Vector3 nextPosition; 
         [SerializeField] PatrolPath patrolPath;             
@@ -24,8 +24,8 @@ namespace Rambler.Control
          = Mathf.Infinity;
 
         FieldOfView FOVCheck;
-        public GameObject[] players;   
-        public GameObject player;
+        public GameObject[] enemies;   
+        public GameObject enemy;
 
         public List<CapsuleCollider> capsuleColliderList
         = new List<CapsuleCollider>();
@@ -33,8 +33,7 @@ namespace Rambler.Control
         public List<CombatTarget> otherCombatTargetList
         = new List<CombatTarget>();
 
-        Transform playerPos;
-        GameObject targetPlayer;
+        Transform enemyPos;
         
 
         
@@ -45,32 +44,21 @@ namespace Rambler.Control
         Fighter fighter;
         float coolDown;
         Health health;        
-        Mover mover;
-        
-      
-       void OnEnable() 
-       {
-            Health.playerDeath += PlayerDeath;
-       }
-
-       void OnDisable() 
-       {
-           Health.playerDeath -= PlayerDeath;
-       }
+        Mover mover;            
 
         private void Start()
         {
-            players = GameObject.FindGameObjectsWithTag("Player");  //Change to array for multiple player characters 
+            enemies = GameObject.FindGameObjectsWithTag("Enemy");  //Change to array for multiple player characters 
             agent = GetComponent<NavMeshAgent>();
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();            
             mover = GetComponent<Mover>();  
             FOVCheck = GetComponent<FieldOfView>();
 
-            foreach(GameObject player in players) 
+            foreach(GameObject enemy in enemies) 
             { 
-              capsuleColliderList.Add(player.GetComponent<CapsuleCollider>());  
-              otherCombatTargetList.Add(player.GetComponent<CombatTarget>()); 
+              capsuleColliderList.Add(enemy.GetComponent<CapsuleCollider>());  
+              otherCombatTargetList.Add(enemy.GetComponent<CombatTarget>()); 
             }  
 
             TimerForNextAttack = coolDown;
@@ -82,7 +70,7 @@ namespace Rambler.Control
             if (health.IsDead()) return;   
             UpdateTarget();      
            
-            if(FOVCheck.canSeePlayer == true && fighter.CanAttack(player))
+            if(FOVCheck.canSeePlayer == true && fighter.CanAttack(enemy))
             {  
                 if (TimerForNextAttack > 0)
                 {
@@ -119,8 +107,8 @@ namespace Rambler.Control
 
         void UpdateTarget() 
         {             
-            playerPos = player.transform; 
-            player = players[0];
+            enemyPos = enemy.transform; 
+            enemy = enemies[0];
             fighter.Target = otherCombatTargetList[0];  
         }
 
@@ -175,7 +163,8 @@ namespace Rambler.Control
         {            
             fighter.TargetCapsule = capsuleColliderList[0]; 
             timeSinceLastSawPlayer = 0;
-            fighter.Attack(player);
+            fighter.Attack(enemy);
         }  
     }
 }
+

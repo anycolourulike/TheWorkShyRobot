@@ -77,14 +77,12 @@ namespace Rambler.Core
 
     public static void PlayAmbientSound(AmbientSound ambientSFX)
     {
-        GameObject soundGameObject = new GameObject("AmbientSFX");
+        GameObject soundGameObject = new GameObject("AmbientSFX"); 
         AudioSource audioSource = soundGameObject.AddComponent<AudioSource>();
         audioSource.clip = GetAmbientClip(ambientSFX);
+        audioSource.spatialBlend = 0.0f;
+        audioSource.volume = 0.05f;
         audioSource.loop = true;
-        audioSource.maxDistance = 100f;
-        audioSource.spatialBlend = 1f;
-        audioSource.rolloffMode = AudioRolloffMode.Linear;
-        audioSource.dopplerLevel = 0f;        
         audioSource.Play();
     } 
 
