@@ -104,13 +104,14 @@ namespace Rambler.Core
     {
         GameObject soundGameObject = new GameObject("WeaponSFX");
         soundGameObject.transform.position = position;
-        AudioSource audioSource = soundGameObject.AddComponent<AudioSource>();
-        audioSource.clip = GetWeaponClip(weaponSFX);
-        audioSource.maxDistance = 100f;
-        audioSource.spatialBlend = 1f;
-        audioSource.rolloffMode = AudioRolloffMode.Linear;
-        audioSource.dopplerLevel = 0f;        
-        audioSource.Play();
+        AudioSource weaponAudioSource = soundGameObject.AddComponent<AudioSource>();
+        weaponAudioSource.clip = GetWeaponClip(weaponSFX);
+        weaponAudioSource.maxDistance = 100f;
+        weaponAudioSource.spatialBlend = 1f;
+        weaponAudioSource.rolloffMode = AudioRolloffMode.Linear;
+        weaponAudioSource.dopplerLevel = 0f;        
+        weaponAudioSource.Play();
+        UnityEngine.Object.Destroy(weaponAudioSource, 0.5f);       
     }  
 
     private static AudioClip GetWeaponClip(WeaponSound weaponSound)

@@ -36,7 +36,6 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\BuddyAIController.cs" />
      <Compile Include="Assets\Unity\ConstraintSamples\Scripts\mParent.cs" />
      <Compile Include="Assets\_AssetPacks\Crafting Mecanim Animation Pack\Code\AnimatorController.cs" />
      <Compile Include="Assets\_AssetPacks\Crafting Mecanim Animation Pack\Code\CrafterController.cs" />
@@ -200,6 +199,7 @@
      <Compile Include="Assets\_Scripts\Combat\WeaponIK.cs" />
      <Compile Include="Assets\_Scripts\Combat\WeaponPickUp.cs" />
      <Compile Include="Assets\_Scripts\Control\AIController.cs" />
+     <Compile Include="Assets\_Scripts\Control\BuddyAIController.cs" />
      <Compile Include="Assets\_Scripts\Control\EnemyDroneController.cs" />
      <Compile Include="Assets\_Scripts\Control\PatrolPath.cs" />
      <Compile Include="Assets\_Scripts\Control\PlayerController.cs" />

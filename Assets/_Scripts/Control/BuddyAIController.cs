@@ -22,68 +22,69 @@ namespace Rambler.Control
          = Mathf.Infinity;
         float timeSinceLastSawPlayer
          = Mathf.Infinity;
-
-        FieldOfView FOVCheck;
-        public GameObject[] enemies;   
-        public GameObject enemy;
-
-        public List<CapsuleCollider> capsuleColliderList
-        = new List<CapsuleCollider>();
-
-        public List<CombatTarget> otherCombatTargetList
-        = new List<CombatTarget>();
-
+        FieldOfView FOVCheck;          
+        public GameObject enemy;        
+        public List<GameObject> enemiesList 
+        = new List<GameObject>(); 
+        CapsuleCollider capsuleCol;
+        CombatTarget otherCombatTarget;
+        bool primaryTargetSet;
         Transform enemyPos;
-        
-
-        
         int currentWaypointIndex = 0;        
         float TimerForNextAttack;               
-        NavMeshAgent agent;        
-               
+        NavMeshAgent agent;  
         Fighter fighter;
         float coolDown;
         Health health;        
-        Mover mover;            
+        Mover mover;  
 
-        private void Start()
+        void OnEnable() 
         {
-            enemies = GameObject.FindGameObjectsWithTag("Enemy");  //Change to array for multiple player characters 
+            Health.targetDeath += NextTarget;
+            
+        }   
+
+        void OnDisable() 
+        {
+            Health.targetDeath -= NextTarget;
+        }       
+
+        void Start()
+        {  
+            enemiesList.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
             agent = GetComponent<NavMeshAgent>();
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();            
             mover = GetComponent<Mover>();  
             FOVCheck = GetComponent<FieldOfView>();
 
-            foreach(GameObject enemy in enemies) 
+            foreach(GameObject enemy in enemiesList) 
             { 
-              capsuleColliderList.Add(enemy.GetComponent<CapsuleCollider>());  
-              otherCombatTargetList.Add(enemy.GetComponent<CombatTarget>()); 
-            }  
+              capsuleCol = enemy.GetComponent<CapsuleCollider>();  
+              otherCombatTarget = enemy.GetComponent<CombatTarget>(); 
+            }
+
+            enemy = enemiesList[1];          
 
             TimerForNextAttack = coolDown;
             coolDown = 2.5f;
         }
 
         private void Update()
-        {                       
-            if (health.IsDead()) return;   
-            UpdateTarget();      
+        {                  
+            if (health.IsDead()) return; 
            
             if(FOVCheck.canSeePlayer == true && fighter.CanAttack(enemy))
             {  
+                UpdateTarget(); 
                 if (TimerForNextAttack > 0)
                 {
                     TimerForNextAttack -= Time.deltaTime;
                 }
                 else if (TimerForNextAttack <= 0)
-                {
-                    
-                    if(capsuleColliderList != null)
-                    {
-                      AttackBehaviour();
-                      TimerForNextAttack = coolDown;
-                    }
+                {                                                        
+                    AttackBehaviour();
+                    TimerForNextAttack = coolDown;                    
                 }                
             }
             else if (timeSinceLastSawPlayer < suspicionTime)
@@ -95,30 +96,53 @@ namespace Rambler.Control
                 PatrolBehaviour();
             }
             UpdateTimers();           
-        }  
+        } 
 
-        void PlayerDeath()
-        {            
-            capsuleColliderList = null;
-            fighter.TargetCapsule = null;
-            fighter.Cancel();
-            PatrolBehaviour();
+        public void AttackBehaviour()
+        {                  
+            fighter.TargetCapsule = capsuleCol; 
+            fighter.Target = otherCombatTarget;                     
+            timeSinceLastSawPlayer = 0;
+            fighter.Attack(enemy);
         }
 
         void UpdateTarget() 
-        {             
-            enemyPos = enemy.transform; 
-            enemy = enemies[0];
-            fighter.Target = otherCombatTargetList[0];  
-        }
+        {           
+            var enemyHealth = enemy.GetComponent<Health>();
+            if(enemyHealth.IsDead())
+            { 
+                NextTarget();
+            } 
+            else
+            { 
+               enemy = enemiesList[1];
+               enemyPos = enemy.transform; 
+               fighter.Target = otherCombatTarget; 
+            }   
+        }  
 
-        private void UpdateTimers()
+        void NextTarget()
+        {
+            Debug.Log("NextTarget Called");
+           int currentTarget = 0;
+           for(int i = 0; i < enemiesList.Count; ++i)
+           {
+               if(enemiesList[i] == enemy)
+               {
+                   currentTarget = i;
+               }
+           }
+           currentTarget = (currentTarget + 1) % enemiesList.Count;
+           enemy = enemiesList[currentTarget];
+        } 
+
+        void UpdateTimers()
         {
             timeSinceLastSawPlayer += Time.deltaTime;
             timeSinceArrivedAtWaypoint += Time.deltaTime;
         }        
 
-        private void PatrolBehaviour()
+        void PatrolBehaviour()
         {             
             if (patrolPath != null)
             {
@@ -135,36 +159,26 @@ namespace Rambler.Control
             }            
         }     
 
-        private bool AtWaypoint()
+        bool AtWaypoint()
         {
             float distanceToWaypoint = Vector3.Distance(transform.position, GetCurrentWaypoint());
             return distanceToWaypoint < waypointTolerence;
         }       
 
-        private void CycleWaypoint()
+        void CycleWaypoint()
         {
             currentWaypointIndex = patrolPath.GetNextIndex(currentWaypointIndex);
         }      
 
-        public Vector3 GetCurrentWaypoint()
+        Vector3 GetCurrentWaypoint()
         {
             return patrolPath.GetWaypoint(currentWaypointIndex);
         }
 
-        private void SuspicionBehaviour()
+        void SuspicionBehaviour()
         {            
             GetComponent<ActionScheduler>().CancelCurrentAction();
-
-            //Check if player is out of view, if no move to Player
-            //mover.MoveTo(playerPos.position, 7f);
-        }
-
-        public void AttackBehaviour()
-        {            
-            fighter.TargetCapsule = capsuleColliderList[0]; 
-            timeSinceLastSawPlayer = 0;
-            fighter.Attack(enemy);
-        }  
+        }        
     }
 }
 

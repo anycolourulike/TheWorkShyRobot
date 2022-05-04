@@ -24,24 +24,16 @@ namespace Rambler.Control
          = Mathf.Infinity;
 
         FieldOfView FOVCheck;
-        public GameObject[] players;   
         public GameObject player;
-
-        public List<CapsuleCollider> capsuleColliderList
-        = new List<CapsuleCollider>();
-
-        public List<CombatTarget> otherCombatTargetList
-        = new List<CombatTarget>();
-
+        public List<GameObject> playersList
+        = new List<GameObject>();
+        CapsuleCollider capsuleCol;        
+        CombatTarget otherCombatTarget;        
+        bool primaryTargetSet;
         Transform playerPos;
-        GameObject targetPlayer;
-        
-
-        
         int currentWaypointIndex = 0;        
         float TimerForNextAttack;               
-        NavMeshAgent agent;        
-               
+        NavMeshAgent agent;
         Fighter fighter;
         float coolDown;
         Health health;        
@@ -50,40 +42,44 @@ namespace Rambler.Control
       
        void OnEnable() 
        {
+            Health.targetDeath += NextTarget;
             Health.playerDeath += PlayerDeath;
        }
 
        void OnDisable() 
        {
+           Health.targetDeath -= NextTarget;
            Health.playerDeath -= PlayerDeath;
        }
 
         private void Start()
-        {
-            players = GameObject.FindGameObjectsWithTag("Player");  //Change to array for multiple player characters 
+        { 
+            playersList.AddRange(GameObject.FindGameObjectsWithTag("Player"));
             agent = GetComponent<NavMeshAgent>();
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();            
             mover = GetComponent<Mover>();  
             FOVCheck = GetComponent<FieldOfView>();
 
-            foreach(GameObject player in players) 
+            foreach(GameObject player in playersList) 
             { 
-              capsuleColliderList.Add(player.GetComponent<CapsuleCollider>());  
-              otherCombatTargetList.Add(player.GetComponent<CombatTarget>()); 
-            }  
+              capsuleCol = player.GetComponent<CapsuleCollider>();  
+              otherCombatTarget = player.GetComponent<CombatTarget>(); 
+            }
+
+            player = playersList[1];
 
             TimerForNextAttack = coolDown;
             coolDown = 2.5f;
         }
 
         private void Update()
-        {                       
-            if (health.IsDead()) return;   
-            UpdateTarget();      
+        {                  
+            if (health.IsDead()) return;
            
             if(FOVCheck.canSeePlayer == true && fighter.CanAttack(player))
             {  
+                UpdateTarget();
                 if (TimerForNextAttack > 0)
                 {
                     TimerForNextAttack -= Time.deltaTime;
@@ -91,8 +87,8 @@ namespace Rambler.Control
                 else if (TimerForNextAttack <= 0)
                 {
                     
-                    if(capsuleColliderList != null)
-                    {
+                    if(capsuleCol != null)
+                    {       
                       AttackBehaviour();
                       TimerForNextAttack = coolDown;
                     }
@@ -107,22 +103,51 @@ namespace Rambler.Control
                 PatrolBehaviour();
             }
             UpdateTimers();           
-        }  
+        }
+
+        public void AttackBehaviour()
+        {                       
+            fighter.TargetCapsule = capsuleCol;
+            fighter.otherCombatTarget = otherCombatTarget;
+            timeSinceLastSawPlayer = 0;
+            fighter.Attack(player);
+        }   
 
         void PlayerDeath()
-        {            
-            capsuleColliderList = null;
+        {  
             fighter.TargetCapsule = null;
             fighter.Cancel();
-            PatrolBehaviour();
+            PatrolBehaviour();            
         }
 
         void UpdateTarget() 
-        {             
-            playerPos = player.transform; 
-            player = players[0];
-            fighter.Target = otherCombatTargetList[0];  
+        {            
+            var playerHealth = player.GetComponent<Health>();
+            if(playerHealth.IsDead())
+            {
+                NextTarget();
+            }
+            else
+            {   
+               player = playersList[1];           
+               playerPos = player.transform;             
+               fighter.Target = otherCombatTarget;
+            }
         }
+
+        void NextTarget()
+        {                
+           int currentTarget = 0;
+           for(int i = 0; i < playersList.Count; ++i)
+           {
+               if(playersList[i] == player)
+               {
+                   currentTarget = i;
+               }
+           }
+           currentTarget = (currentTarget + 1) % playersList.Count;
+           player = playersList[currentTarget];
+        }      
 
         private void UpdateTimers()
         {
@@ -166,16 +191,6 @@ namespace Rambler.Control
         private void SuspicionBehaviour()
         {            
             GetComponent<ActionScheduler>().CancelCurrentAction();
-
-            //Check if player is out of view, if no move to Player
-            //mover.MoveTo(playerPos.position, 7f);
-        }
-
-        public void AttackBehaviour()
-        {            
-            fighter.TargetCapsule = capsuleColliderList[0]; 
-            timeSinceLastSawPlayer = 0;
-            fighter.Attack(player);
-        }  
+        }        
     }
 }

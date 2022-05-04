@@ -19,21 +19,19 @@ namespace Rambler.Core // To Do Stop Movement
         public float HealthPoints { get{return healthPoints;} set{healthPoints = value;}}  
         [SerializeField] AIController aIScript;  
         [SerializeField] GameObject RigLayer;
-        //[SerializeField] GameObject head;
         [SerializeField] GameObject headFX;
-        //[SerializeField] GameObject leg; 
-        [SerializeField] GameObject legFX;        
-        //[SerializeField] GameObject arm; 
+        [SerializeField] GameObject legFX; 
         [SerializeField] GameObject armFX;
         [SerializeField] GameObject shield;
         [SerializeField] Mover mover;
         
+        public delegate void TargetDeath();
+        public static event TargetDeath targetDeath;
 
         public delegate void PlayerDied();
         public static event PlayerDied playerDeath;
-        PlayerController playerCont;
         CapsuleCollider capCol;
-        bool isDead = false;  
+        bool isDead = false;        
         Fighter fighter;
         float damage; 
         public float SetDamage {set{damage = value;}}
@@ -45,8 +43,7 @@ namespace Rambler.Core // To Do Stop Movement
         void Start() 
         {            
             anim = GetComponent<Animator>(); 
-            rb = GetComponent<Rigidbody>();    
-            playerCont = GetComponent<PlayerController>(); 
+            rb = GetComponent<Rigidbody>(); 
             fighter = GetComponent<Fighter>(); 
             capCol = GetComponent<CapsuleCollider>();      
         }
@@ -55,7 +52,7 @@ namespace Rambler.Core // To Do Stop Movement
         {
             if(isDead == true) return;
             HealthCheck();
-        }
+        } 
 
         public bool IsDead()
         {
@@ -103,10 +100,13 @@ namespace Rambler.Core // To Do Stop Movement
               var cloneProjectile = Instantiate(proj.HitEffect(), proj.GetAimLocation(), particleProj.transform.rotation); 
               TakeDamage(damage);
               
-              if(gameObject.tag == "Player")
+              if(gameObject.CompareTag("Player"))
               {
                 var vitals = GetComponent<PlayerVitals>();
-                vitals.TakeDamage(damage);                
+                if((this.gameObject.name == "Rambler") && vitals != null)
+                {
+                  vitals.TakeDamage(damage);  
+                }                
               }
               Destroy(proj.gameObject);
                //MF_AutoPool.Despawn(gameObject);     
@@ -120,6 +120,7 @@ namespace Rambler.Core // To Do Stop Movement
  
         public void Die()
         {  
+            targetDeath.Invoke();
             isDead = true;  
             capCol.enabled = false;
             StopMovement();         

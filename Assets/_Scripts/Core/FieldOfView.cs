@@ -26,6 +26,7 @@ namespace Rambler.Control
         StartCoroutine(FOVRoutine());
     }
 
+
     private IEnumerator FOVRoutine()
     {
         WaitForSeconds wait = new WaitForSeconds(0.2f);
@@ -41,12 +42,12 @@ namespace Rambler.Control
     {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
         
-        foreach(Collider rangeCheck in rangeChecks)
+        foreach(GameObject player in playerRefs)
         {
-        if (rangeChecks.Length != 0)
-        {
-            Transform target = rangeChecks[0].transform;
-            Vector3 directionToTarget = (target.position - transform.position).normalized;
+           if (rangeChecks.Length != 0)
+           {
+                Transform target = rangeChecks[0].transform;
+                Vector3 directionToTarget = (target.position - transform.position).normalized;
 
             if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
             {
@@ -55,13 +56,16 @@ namespace Rambler.Control
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                     canSeePlayer = true;
                 else
-                    canSeePlayer = false;
+                    {canSeePlayer = false;}
             }
             else
-                canSeePlayer = false;
+                {canSeePlayer = false;}
         }
-        else if (canSeePlayer)
-            canSeePlayer = false;
+        else if 
+              (canSeePlayer)
+                canSeePlayer = false;
+                
+
         }    
     }
   }
