@@ -8,6 +8,7 @@ using Rambler.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { set; get; }
+    public string targetScene;
     float minLogoTime = 3f;    
     GameObject loadingObj;
     Fader fader;
@@ -46,10 +47,12 @@ public class LevelManager : MonoBehaviour
         
     }    
 
-    public void LoadNextLevel() 
+    public void LoadCaveLevel() 
     {   
-       scene = SceneManager.GetActiveScene().buildIndex + 1;     
-       StartCoroutine(LoadNewScene());        
+       targetScene = "Cave";
+       LoadingData.sceneToLoad = targetScene;
+       SceneManager.LoadScene("Loading"); 
+       
     }
 
     public void QuitApp()
@@ -61,7 +64,9 @@ public class LevelManager : MonoBehaviour
     {
         AmbientMusic(); 
         if(scene == SceneManager.GetSceneByBuildIndex(1)) return;
-        FindUI();          
+        if(scene == SceneManager.GetSceneByName("Loading")) return;
+        FindUI(); 
+        fader.StartCoroutine("FadeIn", 3f);        
     }
 
     void AmbientMusic()
@@ -95,12 +100,9 @@ public class LevelManager : MonoBehaviour
         loadingObj = GameObject.Find("/Canvas/LoadingRed");        
     }
 
-    IEnumerator LoadNewScene() 
+    void LoadNewScene() 
     {  
-        AsyncOperation async = SceneManager.LoadSceneAsync(scene);
-        while (!async.isDone) 
-        {
-            yield return null;            
-        }   
+        LoadingData.sceneToLoad = targetScene;
+        SceneManager.LoadScene("Loading"); 
     }
 }

@@ -211,6 +211,8 @@
      <Compile Include="Assets\_Scripts\Core\GameAssets.cs" />
      <Compile Include="Assets\_Scripts\Core\Health.cs" />
      <Compile Include="Assets\_Scripts\Core\IAction.cs" />
+     <Compile Include="Assets\_Scripts\Core\LoadingData.cs" />
+     <Compile Include="Assets\_Scripts\Core\LoadingScene.cs" />
      <Compile Include="Assets\_Scripts\Core\Mover.cs" />
      <Compile Include="Assets\_Scripts\Core\PersistentObjectsSpawner.cs" />
      <Compile Include="Assets\_Scripts\DestroyOverTime.cs" />
