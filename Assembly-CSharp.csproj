@@ -237,6 +237,8 @@
      <Compile Include="Assets\_Scripts\Inventories\TooltipSpawner.cs" />
      <Compile Include="Assets\_Scripts\Managers\GameManager.cs" />
      <Compile Include="Assets\_Scripts\Managers\LevelManager.cs" />
+     <Compile Include="Assets\_Scripts\MenuScene.cs" />
+     <Compile Include="Assets\_Scripts\Preloader.cs" />
      <Compile Include="Assets\_Scripts\Quest\Quest.cs" />
      <Compile Include="Assets\_Scripts\Quest\QuestCompletion.cs" />
      <Compile Include="Assets\_Scripts\Quest\QuestGiver.cs" />

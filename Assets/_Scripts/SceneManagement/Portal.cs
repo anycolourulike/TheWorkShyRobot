@@ -7,7 +7,7 @@ using UnityEngine.AI;
 using Rambler.SceneManagement;
 using Rambler.Control;
 
-namespace Rambler.SceneManangement 
+namespace Rambler.SceneManagement 
 {
     public class Portal : MonoBehaviour
     {

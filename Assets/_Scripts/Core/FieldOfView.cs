@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Rambler.Combat;
+using Rambler.Core;
 
 namespace Rambler.Control
 {
@@ -43,10 +44,12 @@ namespace Rambler.Control
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
         
         foreach(GameObject player in playerRefs)
-        {
+        {           
+           Transform target = player.transform;    
+
            if (rangeChecks.Length != 0)
-           {
-                Transform target = rangeChecks[0].transform;
+           { 
+                target = rangeChecks[0].transform;
                 Vector3 directionToTarget = (target.position - transform.position).normalized;
 
             if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)

@@ -65,9 +65,7 @@ namespace Rambler.Control
             { 
               capsuleCol = player.GetComponent<CapsuleCollider>();  
               otherCombatTarget = player.GetComponent<CombatTarget>(); 
-            }
-
-            player = playersList[1];
+            }            
 
             TimerForNextAttack = coolDown;
             coolDown = 2.5f;
@@ -78,8 +76,7 @@ namespace Rambler.Control
             if (health.IsDead()) return;
            
             if(FOVCheck.canSeePlayer == true && fighter.CanAttack(player))
-            {  
-                UpdateTarget();
+            { 
                 if (TimerForNextAttack > 0)
                 {
                     TimerForNextAttack -= Time.deltaTime;
@@ -120,21 +117,6 @@ namespace Rambler.Control
             PatrolBehaviour();            
         }
 
-        void UpdateTarget() 
-        {            
-            var playerHealth = player.GetComponent<Health>();
-            if(playerHealth.IsDead())
-            {
-                NextTarget();
-            }
-            else
-            {   
-               player = playersList[1];           
-               playerPos = player.transform;             
-               fighter.Target = otherCombatTarget;
-            }
-        }
-
         void NextTarget()
         {                
            int currentTarget = 0;
@@ -147,6 +129,8 @@ namespace Rambler.Control
            }
            currentTarget = (currentTarget + 1) % playersList.Count;
            player = playersList[currentTarget];
+           capsuleCol = player.GetComponent<CapsuleCollider>();  
+           otherCombatTarget = player.GetComponent<CombatTarget>();
         }      
 
         private void UpdateTimers()

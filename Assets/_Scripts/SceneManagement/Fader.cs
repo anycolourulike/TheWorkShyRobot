@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Rambler.SceneManangement
+namespace Rambler.SceneManagement
 {
     public class Fader : MonoBehaviour
     {
         public CanvasGroup canvasGroup;
         Coroutine currentActiveFade = null;
-
 
         private void Awake()
         {
@@ -18,7 +17,7 @@ namespace Rambler.SceneManangement
         public void FadeOutImmediate()
         {
             canvasGroup.alpha = 1;
-        }
+        }        
 
         public Coroutine FadeOut(float time)
         {

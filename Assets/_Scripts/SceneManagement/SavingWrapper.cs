@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Rambler.Saving;
-using Rambler.SceneManangement;
+using Rambler.SceneManagement;
 using UnityEngine.SceneManagement;
 
 namespace Rambler.SceneManagement

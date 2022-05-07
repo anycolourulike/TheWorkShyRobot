@@ -34,8 +34,7 @@ namespace Rambler.Combat
         Health targetHealth;             
         Transform enemyPos;  
         WeaponIK weaponIk;                 
-        Animator anim;     
-        
+        Animator anim; 
         
         void Start()
         {   
@@ -198,8 +197,7 @@ namespace Rambler.Combat
         public void AssignAmmo() 
         {
             activeWeapon.FullAmmo();
-        }          
-       
+        } 
         
         Vector3 GetEnemyLocation()
         {              

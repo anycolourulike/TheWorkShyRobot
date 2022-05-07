@@ -31,7 +31,8 @@ namespace Rambler.Core // To Do Stop Movement
         public delegate void PlayerDied();
         public static event PlayerDied playerDeath;
         CapsuleCollider capCol;
-        bool isDead = false;        
+        bool isDead;
+        public bool CharacterIsDead {get{return isDead;}}        
         Fighter fighter;
         float damage; 
         public float SetDamage {set{damage = value;}}
@@ -119,9 +120,9 @@ namespace Rambler.Core // To Do Stop Movement
         }        
  
         public void Die()
-        {  
-            targetDeath.Invoke();
+        { 
             isDead = true;  
+            targetDeath.Invoke();             
             capCol.enabled = false;
             StopMovement();         
             dieRanNum = Random.Range(1, 4);     
@@ -142,7 +143,7 @@ namespace Rambler.Core // To Do Stop Movement
                 }
                 else
                 {
-                   RamblerDeathAudio(); 
+                   PlayerDeathAudio(); 
                 }                              
             }
             else if (dieRanNum == 2)
@@ -155,7 +156,7 @@ namespace Rambler.Core // To Do Stop Movement
                 } 
                 else
                 {
-                   RamblerDeathAudio(); 
+                   PlayerDeathAudio(); 
                 }                                            
             }
             else if (dieRanNum == 3)
@@ -168,14 +169,21 @@ namespace Rambler.Core // To Do Stop Movement
                 }
                 else
                 {
-                   RamblerDeathAudio(); 
+                   PlayerDeathAudio(); 
                 }
             }          
         }
 
-        void RamblerDeathAudio() 
+        void PlayerDeathAudio() 
         {
-            AudioManager.PlayHumanSound(AudioManager.HumanSound.Death4, this.transform.position);
+             if (gameObject.name == "Rambler")
+             {
+               AudioManager.PlayHumanSound(AudioManager.HumanSound.Death4, this.transform.position);
+             }
+             else
+             {
+                AudioManager.PlayHumanSound(AudioManager.HumanSound.Death3, this.transform.position); 
+             }  
         }
 
         public void HitTheFloor() 

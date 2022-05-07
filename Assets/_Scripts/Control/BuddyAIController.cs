@@ -109,7 +109,7 @@ namespace Rambler.Control
         void UpdateTarget() 
         {           
             var enemyHealth = enemy.GetComponent<Health>();
-            if(enemyHealth.IsDead())
+            if(enemyHealth.CharacterIsDead == true)
             { 
                 NextTarget();
             } 
@@ -122,8 +122,7 @@ namespace Rambler.Control
         }  
 
         void NextTarget()
-        {
-            Debug.Log("NextTarget Called");
+        {           
            int currentTarget = 0;
            for(int i = 0; i < enemiesList.Count; ++i)
            {
@@ -133,7 +132,9 @@ namespace Rambler.Control
                }
            }
            currentTarget = (currentTarget + 1) % enemiesList.Count;
-           enemy = enemiesList[currentTarget];
+           enemy = enemiesList[currentTarget];           
+           capsuleCol = enemy.GetComponent<CapsuleCollider>();  
+           otherCombatTarget = enemy.GetComponent<CombatTarget>();
         } 
 
         void UpdateTimers()
