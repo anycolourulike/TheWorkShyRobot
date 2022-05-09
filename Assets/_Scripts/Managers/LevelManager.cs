@@ -8,14 +8,8 @@ using Rambler.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { set; get; }
-    public string targetScene;
-    float minLogoTime = 3f;    
-    GameObject loadingObj;
+    public string targetScene;    
     Fader fader;
-    
-    bool loadingScene;    
-    float loadTime;
-    int scene;
 
     void OnEnable() 
     {
@@ -38,21 +32,24 @@ public class LevelManager : MonoBehaviour
             Instance = this;
             GameObject.DontDestroyOnLoad(gameObject);
         }
-    }   
-
-    void Update() 
-    {  
-        var thisScene = SceneManager.GetActiveScene();
-        if(thisScene == SceneManager.GetSceneByBuildIndex(1)) return;       
-        
-    }    
+    } 
 
     public void LoadCaveLevel() 
     {   
        targetScene = "Cave";
-       LoadingData.sceneToLoad = targetScene;
-       SceneManager.LoadScene("Loading"); 
-       
+       SceneManager.LoadScene("Cave");        
+    }
+
+    public void LoadCliffLevel() 
+    {   
+       targetScene = "Cliff";
+       SceneManager.LoadScene("Cliff");        
+    }
+
+    public void LoadRigLevel() 
+    {   
+       targetScene = "Rig";
+       SceneManager.LoadScene("Rig");        
     }
 
     public void QuitApp()
@@ -62,11 +59,9 @@ public class LevelManager : MonoBehaviour
 
     public void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        AmbientMusic(); 
-        if(scene == SceneManager.GetSceneByBuildIndex(1)) return;
-        if(scene == SceneManager.GetSceneByName("Loading")) return;
-        FindUI(); 
-        fader.StartCoroutine("FadeIn", 3f);        
+        fader = FindObjectOfType<Fader>();
+        fader.FadeIn(3);
+        AmbientMusic();
     }
 
     void AmbientMusic()
@@ -92,17 +87,6 @@ public class LevelManager : MonoBehaviour
             break;
         }  
     }
+}    
 
-    void FindUI()
-    {
-        var Fader = GameObject.Find("/PlayerCore/HUD/Fader");
-        fader = Fader.GetComponent<Fader>();
-        loadingObj = GameObject.Find("/Canvas/LoadingRed");        
-    }
-
-    void LoadNewScene() 
-    {  
-        LoadingData.sceneToLoad = targetScene;
-        SceneManager.LoadScene("Loading"); 
-    }
-}
+    

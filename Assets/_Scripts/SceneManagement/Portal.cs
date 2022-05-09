@@ -16,12 +16,18 @@ namespace Rambler.SceneManagement
             A, B, C, D, E
         }
 
-        [SerializeField] int sceneToLoad = -1;
+        [SerializeField] int sceneToLoad;
         [SerializeField] Transform spawnPoint;
         [SerializeField] DestinationIdentifier destination;
         [SerializeField] float fadeOutTime = 1f;
         [SerializeField] float fadeInTime = 2f;
         [SerializeField] float fadeWaitTime = 0.5f;
+        LevelManager levelManager;       
+
+        void Start() 
+        {
+            levelManager = FindObjectOfType<LevelManager>();
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -41,35 +47,43 @@ namespace Rambler.SceneManagement
             }
            
             DontDestroyOnLoad(gameObject);
+
+            Fader fader = FindObjectOfType<Fader>();
+            SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
+            GameObject HUD = GameObject.FindWithTag("HUD");
             PlayerController playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>(); 
             playerController.enabled = false;
-            Fader fader = FindObjectOfType<Fader>();
-            yield return fader.FadeOut(fadeOutTime);
+            HUD.SetActive(false);
             
-            SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
+            yield return fader.FadeOut(fadeOutTime);            
+            
             wrapper.Save();
-
-            yield return SceneManager.LoadSceneAsync(sceneToLoad);            
-
+            yield return SceneManager.LoadSceneAsync(sceneToLoad);
             PlayerController newPlayerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-            newPlayerController.enabled = true;   
+            newPlayerController.enabled = false;
+        
+            
             wrapper.Load();         
 
             Portal otherPortal = GetOtherPortal();
-            UpdatePlayer(otherPortal);
-
-            yield return new WaitForSeconds(fadeWaitTime);
-            yield return fader.FadeIn(fadeInTime);
-            
+            UpdatePlayer(otherPortal); 
             wrapper.Save();
+            yield return new WaitForSeconds(fadeWaitTime);
+            fader.FadeIn(fadeInTime);
+
+            newPlayerController.enabled = true;
 
             Destroy(gameObject);
         }
 
+           
+
         private void UpdatePlayer(Portal otherPortal)
         {
             GameObject player = GameObject.FindWithTag("Player");
+           
             var navMeshAgent = player.GetComponent<NavMeshAgent>();
+           
             navMeshAgent.enabled = false;
             //navMeshAgent.Warp(otherPortal.spawnPoint.position);
             player.transform.position = otherPortal.spawnPoint.position;
@@ -78,14 +92,16 @@ namespace Rambler.SceneManagement
         }
 
         private Portal GetOtherPortal()
-        {
+        {           
             foreach (Portal portal in FindObjectsOfType<Portal>())
             {
+                Debug.Log(portal.name);
                 if (portal == this) continue;
                 if (portal.destination != destination) continue;
 
-                return portal;
+                return portal;                
             }
+            
             return null;
         }
     }
