@@ -15,8 +15,8 @@ namespace Rambler.SceneManagement
         const string currentSaveKey = "currentSaveName";
         [SerializeField] float fadeInTime = 0.2f;
         [SerializeField] float fadeOutTime = 0.2f;
-        [SerializeField] int firstLevelBuildIndex = 1;
-        [SerializeField] int menuLevelBuildIndex = 0;
+        [SerializeField] int firstLevelBuildIndex = 2;
+        [SerializeField] int menuLevelBuildIndex = 1;
                
         
 

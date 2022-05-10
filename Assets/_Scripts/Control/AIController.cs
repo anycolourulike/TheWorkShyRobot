@@ -117,8 +117,10 @@ namespace Rambler.Control
             PatrolBehaviour();            
         }
 
+       
+
         void NextTarget()
-        {                
+        {          
            int currentTarget = 0;
            for(int i = 0; i < playersList.Count; ++i)
            {
@@ -128,7 +130,7 @@ namespace Rambler.Control
                }
            }
            currentTarget = (currentTarget + 1) % playersList.Count;
-           player = playersList[currentTarget];
+           player = playersList[currentTarget];           
            capsuleCol = player.GetComponent<CapsuleCollider>();  
            otherCombatTarget = player.GetComponent<CombatTarget>();
         }      

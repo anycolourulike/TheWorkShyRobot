@@ -24,6 +24,8 @@ namespace Rambler.Core // To Do Stop Movement
         [SerializeField] GameObject armFX;
         [SerializeField] GameObject shield;
         [SerializeField] Mover mover;
+        [SerializeField] EnemySpawn enemyspawn;
+        [SerializeField] BuddyAIController buddyCon;
         
         public delegate void TargetDeath();
         public static event TargetDeath targetDeath;
@@ -122,6 +124,7 @@ namespace Rambler.Core // To Do Stop Movement
         public void Die()
         { 
             isDead = true;  
+            EnemyDeath();
             targetDeath.Invoke();             
             capCol.enabled = false;
             StopMovement();         
@@ -172,6 +175,19 @@ namespace Rambler.Core // To Do Stop Movement
                    PlayerDeathAudio(); 
                 }
             }          
+        }
+
+        void EnemyDeath()
+        {            
+            if(enemyspawn != null)
+            {
+                this.gameObject.tag = "Player";
+                enemyspawn.count --;
+                if(buddyCon != null)
+                {
+                  buddyCon.RemoveDeadAI(this.gameObject);
+                }  
+            }
         }
 
         void PlayerDeathAudio() 

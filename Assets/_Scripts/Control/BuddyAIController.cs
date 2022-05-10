@@ -40,8 +40,7 @@ namespace Rambler.Control
 
         void OnEnable() 
         {
-            Health.targetDeath += NextTarget;
-            
+            Health.targetDeath += NextTarget;            
         }   
 
         void OnDisable() 
@@ -106,23 +105,36 @@ namespace Rambler.Control
             fighter.Attack(enemy);
         }
 
+        public void RemoveDeadAI(GameObject enemyToRemove)
+        {
+            for(int i = 0; i < enemiesList.Count; i++)
+            {
+                if(enemiesList[i] == enemyToRemove)
+                {
+                   enemiesList.Remove(enemyToRemove);                  
+                }
+            }
+        }
+
         void UpdateTarget() 
         {           
             var enemyHealth = enemy.GetComponent<Health>();
             if(enemyHealth.CharacterIsDead == true)
             { 
                 NextTarget();
-            } 
-            else
-            { 
-               enemy = enemiesList[1];
-               enemyPos = enemy.transform; 
-               fighter.Target = otherCombatTarget; 
-            }   
-        }  
+            }
+        } 
+
+        
+
+        IEnumerator RefreshEnemiesList()
+        {
+            yield return new WaitForSeconds(1f);
+            enemiesList.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
+        }
 
         void NextTarget()
-        {           
+        {        
            int currentTarget = 0;
            for(int i = 0; i < enemiesList.Count; ++i)
            {
@@ -131,11 +143,12 @@ namespace Rambler.Control
                    currentTarget = i;
                }
            }
-           currentTarget = (currentTarget + 1) % enemiesList.Count;
-           enemy = enemiesList[currentTarget];           
+           currentTarget = (currentTarget + 1) % enemiesList.Count;                    
+           enemy = enemiesList[currentTarget]; 
+                    
            capsuleCol = enemy.GetComponent<CapsuleCollider>();  
            otherCombatTarget = enemy.GetComponent<CombatTarget>();
-        } 
+        }         
 
         void UpdateTimers()
         {

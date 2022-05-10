@@ -34,26 +34,30 @@ public class LevelManager : MonoBehaviour
         }
     } 
 
-    public void LoadCaveLevel() 
+    public IEnumerator LoadCaveLevel() 
     {   
        targetScene = "Cave";
+       yield return new WaitForSeconds(3);
        SceneManager.LoadScene("Cave");        
     }
 
-    public void LoadCliffLevel() 
-    {   
-       targetScene = "Cliff";
-       SceneManager.LoadScene("Cliff");        
+    public IEnumerator LoadMenu() 
+    { 
+       SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
+       yield return new WaitForSeconds(3);
+       wrapper.LoadMenu();       
     }
 
-    public void LoadRigLevel() 
+    public IEnumerator LoadSavedGame() 
     {   
-       targetScene = "Rig";
-       SceneManager.LoadScene("Rig");        
-    }
+        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
+        yield return new WaitForSeconds(3);
+        wrapper.ContinueGame();   
+    }    
 
-    public void QuitApp()
-    {
+    public IEnumerator QuitApp()
+    {   
+        yield return new WaitForSeconds(3);     
         Application.Quit();
     } 
 

@@ -23,7 +23,6 @@ namespace Rambler.Control
 
     private void Start()
     {
-        //playerRef = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(FOVRoutine());
     }
 
