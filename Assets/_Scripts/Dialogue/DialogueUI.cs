@@ -9,8 +9,7 @@ using TMPro;
 namespace Rambler.UI
 {
     public class DialogueUI : MonoBehaviour
-    {
-        PlayerConversant playerConversant;        
+    {                
         [SerializeField] Button quitButton;       
         [SerializeField] Button nextButton;        
         [SerializeField] Transform choiceRoot;
@@ -18,10 +17,11 @@ namespace Rambler.UI
         [SerializeField] GameObject choicePrefab;
         [SerializeField] TextMeshProUGUI AIText;
         [SerializeField] TextMeshProUGUI conversantName;
+        [SerializeField] PlayerConversant playerConversant;
         
         void Start()
         {
-            playerConversant = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerConversant>();
+            //playerConversant = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerConversant>();
             playerConversant.onConversationUpdated += UpdateUI;
             nextButton.onClick.AddListener(() => playerConversant.Next());
             quitButton.onClick.AddListener(() => playerConversant.Quit());

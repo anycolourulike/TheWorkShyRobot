@@ -13,11 +13,11 @@ namespace Rambler.UI.Inventories
     {
         [SerializeField] InventorySlotUI InventoryItemPrefab = null;
 
-        Inventory playerInventory;
+        [SerializeField] Inventory playerInventory;
 
         private void Awake() 
         {
-            playerInventory = Inventory.GetPlayerInventory();
+            playerInventory = playerInventory.GetPlayerInventory();
             playerInventory.inventoryUpdated += Redraw;
         }
 

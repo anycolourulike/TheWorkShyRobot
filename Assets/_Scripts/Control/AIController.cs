@@ -129,6 +129,7 @@ namespace Rambler.Control
                    currentTarget = i;
                }
            }
+           if(playersList.Count == 0) return;
            currentTarget = (currentTarget + 1) % playersList.Count;
            player = playersList[currentTarget];           
            capsuleCol = player.GetComponent<CapsuleCollider>();  

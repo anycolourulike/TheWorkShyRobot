@@ -19,7 +19,7 @@ MonoBehaviour:
     type: 3}
   projectile: {fileID: -5846359617922092927, guid: f5c72e996a84eb24fb61120896fba377,
     type: 3}
-  weaponTitle: rifle
+  weaponTitle: npcGun
   isPistol: 0
   isRifle: 1
   isMelee: 0

@@ -38,7 +38,7 @@ namespace Rambler.Combat
          private void Awake()
         {       
             interact = GameObject.FindGameObjectWithTag("Interact");                                         
-            player = GameObject.FindGameObjectWithTag("Player");            
+            player = GameObject.Find("/PlayerCore/Rambler");            
             pickupSpawner = GetComponent<PickUpSpawner>();            
             inventory = player.GetComponent<Inventory>(); 
         }                

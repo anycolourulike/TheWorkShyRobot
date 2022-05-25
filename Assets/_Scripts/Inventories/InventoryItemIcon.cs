@@ -24,7 +24,7 @@ namespace Rambler.Inventories
  
         void Start() 
         {
-            player = GameObject.FindWithTag("Player");
+            player = GameObject.Find("/PlayerCore/Rambler");
             inventory = player.GetComponent<Inventory>();                 
         }
       

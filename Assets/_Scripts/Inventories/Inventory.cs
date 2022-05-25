@@ -16,6 +16,7 @@ namespace Rambler.Inventories
         // CONFIG DATA
         [Tooltip("Allowed size")]
         [SerializeField] int inventorySize = 16;
+        [SerializeField] GameObject player;
 
         // STATE
         InventorySlot[] slots;
@@ -36,10 +37,10 @@ namespace Rambler.Inventories
         /// <summary>
         /// Convenience for getting the player's inventory.
         /// </summary>
-        public static Inventory GetPlayerInventory()
+        public Inventory GetPlayerInventory()
         {
-            var player = GameObject.FindWithTag("Player");
-            return player.GetComponent<Inventory>();
+            var playerInv = player.GetComponent<Inventory>();
+            return playerInv;
         }
 
         /// <summary>

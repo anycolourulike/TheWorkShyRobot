@@ -13,18 +13,18 @@ namespace Rambler.Combat
        [SerializeField] TextMeshProUGUI energyText;      
        public float energyBurnRate = 0.1f;  
        [SerializeField] Image healthbarFill;
-       [SerializeField] Image energybarFill;         
+       [SerializeField] Image energybarFill; 
+       [SerializeField] Health health;         
        public float SetEnergyBurnRate {set {energyBurnRate = value;}}
          
        float playerMaxEnergy = 100;              
        float playerMaxHP = 100f;      
        float playerCurEnergy;  
        float playerCurHP;       
-       Health health;      
+            
        
        void Start()
-       {             
-           health = GameObject.FindWithTag("Player").GetComponent<Health>(); 
+       {   
            playerCurHP = health.HealthPoints;
            MaxHealth();           
            MaxEnergy();

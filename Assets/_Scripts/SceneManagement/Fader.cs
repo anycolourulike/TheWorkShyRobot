@@ -7,25 +7,12 @@ namespace Rambler.SceneManagement
     public class Fader : MonoBehaviour
     {
         public CanvasGroup canvasGroup;
-        public GameObject loadingImg;
         Coroutine currentActiveFade = null;
 
         private void Awake()
         {
             canvasGroup = GetComponent<CanvasGroup>();                      
-        }  
-
-        void Update() 
-        {
-            if(canvasGroup.alpha < 1)
-            {
-                loadingImg.SetActive(false);                
-            }
-            else if(canvasGroup.alpha == 1)
-            {
-                loadingImg.SetActive(true);
-            }
-        }      
+        }
 
         public void FadeOutImmediate()
         {

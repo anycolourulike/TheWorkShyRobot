@@ -51,7 +51,8 @@ namespace Rambler.SceneManagement
             Fader fader = FindObjectOfType<Fader>();
             SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
             GameObject HUD = GameObject.FindWithTag("HUD");
-            PlayerController playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>(); 
+            GameObject player = GameObject.Find("/PlayerCore/Rambler");
+            PlayerController playerController = player.GetComponent<PlayerController>(); 
             playerController.enabled = false;
             HUD.SetActive(false);
             
@@ -59,9 +60,10 @@ namespace Rambler.SceneManagement
             
             wrapper.Save();
             yield return SceneManager.LoadSceneAsync(sceneToLoad);
-            PlayerController newPlayerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-            newPlayerController.enabled = false;
-        
+            
+            GameObject newPlayer = GameObject.Find("/PlayerCore/Rambler");
+            PlayerController newPlayerController = newPlayer.GetComponent<PlayerController>(); 
+            newPlayerController.enabled = false;       
             
             wrapper.Load();         
 
@@ -80,12 +82,11 @@ namespace Rambler.SceneManagement
 
         private void UpdatePlayer(Portal otherPortal)
         {
-            GameObject player = GameObject.FindWithTag("Player");
+            GameObject player = GameObject.Find("/PlayerCore/Rambler");
            
             var navMeshAgent = player.GetComponent<NavMeshAgent>();
            
             navMeshAgent.enabled = false;
-            //navMeshAgent.Warp(otherPortal.spawnPoint.position);
             player.transform.position = otherPortal.spawnPoint.position;
             player.transform.rotation = otherPortal.spawnPoint.rotation;
             navMeshAgent.enabled = true;
