@@ -54,7 +54,7 @@ namespace Rambler.Control
 
         private void Start()
         { 
-            playersList.AddRange(GameObject.FindGameObjectsWithTag("Player"));
+            playersList.AddRange(collection: GameObject.FindGameObjectsWithTag("Player"));
             agent = GetComponent<NavMeshAgent>();
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();            
@@ -75,7 +75,7 @@ namespace Rambler.Control
         {                  
             if (health.IsDead()) return;
            
-            if(FOVCheck.canSeePlayer == true && fighter.CanAttack(player))
+            if(FOVCheck.canSeePlayer == true && fighter.CanAttack(combatTarget: player))
             { 
                 if (TimerForNextAttack > 0)
                 {
@@ -107,7 +107,7 @@ namespace Rambler.Control
             fighter.TargetCapsule = capsuleCol;
             fighter.otherCombatTarget = otherCombatTarget;
             timeSinceLastSawPlayer = 0;
-            fighter.Attack(player);
+            fighter.Attack(combatTarget: player);
         }   
 
         void PlayerDeath()
@@ -124,14 +124,14 @@ namespace Rambler.Control
            int currentTarget = 0;
            for(int i = 0; i < playersList.Count; ++i)
            {
-               if(playersList[i] == player)
+               if(playersList[index: i] == player)
                {
                    currentTarget = i;
                }
            }
            if(playersList.Count == 0) return;
            currentTarget = (currentTarget + 1) % playersList.Count;
-           player = playersList[currentTarget];           
+           player = playersList[index: currentTarget];           
            capsuleCol = player.GetComponent<CapsuleCollider>();  
            otherCombatTarget = player.GetComponent<CombatTarget>();
         }      
@@ -155,7 +155,7 @@ namespace Rambler.Control
             }
             if(timeSinceArrivedAtWaypoint > waypointDwellTime)
             {
-                mover.StartMoveAction(nextPosition, patrolSpeedFraction);
+                mover.StartMoveAction(destination: nextPosition, speedFraction: patrolSpeedFraction);
             }            
         }     
 

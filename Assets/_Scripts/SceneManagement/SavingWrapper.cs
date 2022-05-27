@@ -27,13 +27,13 @@ namespace Rambler.SceneManagement
 
         public void NewGame(string saveFile)
         {
-            SetCurrentSave(saveFile);
+            SetCurrentSave(saveFile: saveFile);
             StartCoroutine(LoadFirstScene());
         }
 
         public void LoadGame(string saveFile)
         {
-            SetCurrentSave(saveFile);
+            SetCurrentSave(saveFile: saveFile);
             ContinueGame();
         }
 

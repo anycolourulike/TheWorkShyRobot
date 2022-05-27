@@ -86,7 +86,7 @@ namespace Rambler.Control
                 {
                     continue;
                 }
-                fighter.Attack(otherCombatTarget.gameObject);
+                fighter.Attack(combatTarget: otherCombatTarget.gameObject);
                 fighter.TargetCapsule = targetCapsule; 
                 
                 return true;

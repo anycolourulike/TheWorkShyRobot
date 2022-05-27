@@ -44,7 +44,7 @@ namespace Rambler.Combat
            buddyAI = GameObject.Find("BuddyCrew");        
            weaponIk = GetComponent<WeaponIK>();          
            anim = GetComponent<Animator>();                   
-           EquipWeapon(weaponConfig);   
+           EquipWeapon(weapon: weaponConfig);   
            ActiveWeaponInit();                                          
         }
 
@@ -94,16 +94,16 @@ namespace Rambler.Combat
                           switch (weaponConfig.weaponTitle)
                           {
                              case "pistol":
-                             AudioManager.PlayWeaponSound(AudioManager.WeaponSound.pistolShoot, activeWeapon.transform.position);                           
+                             AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.pistolShoot, activeWeapon.transform.position);                           
                                 break;
                              case "SMG":
-                             AudioManager.PlayWeaponSound(AudioManager.WeaponSound.SMGShoot, activeWeapon.transform.position);
+                             AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.SMGShoot, activeWeapon.transform.position);
                                 break;
                              case "rifle":
-                             AudioManager.PlayWeaponSound(AudioManager.WeaponSound.RifleShoot, activeWeapon.transform.position);
+                             AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.RifleShoot, activeWeapon.transform.position);
                                 break;
                              case "shotgun":
-                             AudioManager.PlayWeaponSound(AudioManager.WeaponSound.ShotgunShoot, activeWeapon.transform.position);
+                             AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.ShotgunShoot, activeWeapon.transform.position);
                                 break;
                           } 
                                                                    
@@ -111,7 +111,7 @@ namespace Rambler.Combat
                 }
                 else
                 {                    
-                    MeleeAttack(enemyPos);
+                    MeleeAttack(target: enemyPos);
                     timeSinceLastAttack = 0f;
                 }
                 if(this.tag == "Player")
@@ -128,9 +128,9 @@ namespace Rambler.Combat
         public void EquipWeapon(Weapon weapon)
         {  
             //check if weapon equipped than holster
-            DestroyOldWeapon(handTransform);
+            DestroyOldWeapon(handTransform: handTransform);
             weaponConfig = weapon;                                
-            Spawn(handTransform, anim);  
+            Spawn(handTransform: handTransform, animator: anim);  
             activeWeapon.SetRigController = rigController;  
             AssignAmmo();
             if(this.gameObject.tag == "Enemy")
@@ -163,12 +163,12 @@ namespace Rambler.Combat
         public void EquipUnarmed()
         {
             RigWeightToZero();
-            EquipWeapon(unarmed);                                              
+            EquipWeapon(weapon: unarmed);                                              
         }
 
         public void EquipLastWeapon() 
         {
-            EquipWeapon(lastWeaponUsed);
+            EquipWeapon(weapon: lastWeaponUsed);
         }
 
         public void RigWeightToZero() 
@@ -211,7 +211,7 @@ namespace Rambler.Combat
 
         void Spawn(Transform handTransform, Animator animator)
         {   
-            DestroyOldWeapon(handTransform);                                 
+            DestroyOldWeapon(handTransform: handTransform);                                 
 
             if (weaponConfig != null)
             {

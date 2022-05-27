@@ -83,7 +83,7 @@ namespace Rambler.Movement
         public void StartMoveAction(Vector3 destination, float speedFraction)
         {
             GetComponent<ActionScheduler>().StartAction(this);
-            MoveTo(destination, speedFraction);
+            MoveTo(destination: destination, speedFraction: speedFraction);
         }
 
         public void MoveTo(Vector3 destination, float speedFraction)

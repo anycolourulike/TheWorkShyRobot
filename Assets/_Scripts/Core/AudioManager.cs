@@ -81,7 +81,7 @@ namespace Rambler.Core
         AudioSource audioSource = soundGameObject.AddComponent<AudioSource>();
         audioSource.clip = GetAmbientClip(ambientSFX);
         audioSource.spatialBlend = 0.0f;
-        audioSource.volume = 0.09f;
+        audioSource.volume = 0.5f;
         audioSource.loop = true;
         audioSource.Play();
     } 

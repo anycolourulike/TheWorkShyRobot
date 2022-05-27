@@ -50,7 +50,7 @@ namespace Rambler.Control
 
         void Start()
         {  
-            enemiesList.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
+            enemiesList.AddRange(collection: GameObject.FindGameObjectsWithTag("Enemy"));
             agent = GetComponent<NavMeshAgent>();
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();            
@@ -63,7 +63,7 @@ namespace Rambler.Control
               otherCombatTarget = enemy.GetComponent<CombatTarget>(); 
             }
 
-            enemy = enemiesList[1];          
+            enemy = enemiesList[index: 1];          
 
             TimerForNextAttack = coolDown;
             coolDown = 2.5f;
@@ -73,7 +73,7 @@ namespace Rambler.Control
         {                  
             if (health.IsDead()) return; 
            
-            if(FOVCheck.canSeePlayer == true && fighter.CanAttack(enemy))
+            if(FOVCheck.canSeePlayer == true && fighter.CanAttack(combatTarget: enemy))
             {  
                 UpdateTarget(); 
                 if (TimerForNextAttack > 0)
@@ -85,16 +85,11 @@ namespace Rambler.Control
                     AttackBehaviour();
                     TimerForNextAttack = coolDown;                    
                 }                
-            }
-            else if (timeSinceLastSawPlayer < suspicionTime)
-            {
-                SuspicionBehaviour();
-            }
+            }           
             else
             {
-                PatrolBehaviour();
-            }
-            UpdateTimers();           
+                FollowPlayer();
+            }      
         } 
 
         public void AttackBehaviour()
@@ -102,16 +97,16 @@ namespace Rambler.Control
             fighter.TargetCapsule = capsuleCol; 
             fighter.Target = otherCombatTarget;                     
             timeSinceLastSawPlayer = 0;
-            fighter.Attack(enemy);
+            fighter.Attack(combatTarget: enemy);
         }
 
         public void RemoveDeadAI(GameObject enemyToRemove)
         {
             for(int i = 0; i < enemiesList.Count; i++)
             {
-                if(enemiesList[i] == enemyToRemove)
+                if(enemiesList[index: i] == enemyToRemove)
                 {
-                   enemiesList.Remove(enemyToRemove);                  
+                   enemiesList.Remove(item: enemyToRemove);                  
                 }
             }
         }
@@ -123,14 +118,12 @@ namespace Rambler.Control
             { 
                 NextTarget();
             }
-        } 
-
-        
+        }         
 
         IEnumerator RefreshEnemiesList()
         {
             yield return new WaitForSeconds(1f);
-            enemiesList.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
+            enemiesList.AddRange(collection: GameObject.FindGameObjectsWithTag("Enemy"));
         }
 
         void NextTarget()
@@ -138,61 +131,38 @@ namespace Rambler.Control
            int currentTarget = 0;
            for(int i = 0; i < enemiesList.Count; ++i)
            {
-               if(enemiesList[i] == enemy)
+               if(enemiesList[index: i] == enemy)
                {
                    currentTarget = i;
                }
            }
+           if(enemiesList.Count == 0) return;
            currentTarget = (currentTarget + 1) % enemiesList.Count;                    
-           enemy = enemiesList[currentTarget]; 
+           enemy = enemiesList[index: currentTarget]; 
                     
            capsuleCol = enemy.GetComponent<CapsuleCollider>();  
            otherCombatTarget = enemy.GetComponent<CombatTarget>();
-        }         
-
-        void UpdateTimers()
-        {
-            timeSinceLastSawPlayer += Time.deltaTime;
-            timeSinceArrivedAtWaypoint += Time.deltaTime;
-        }        
-
-        void PatrolBehaviour()
-        {             
-            if (patrolPath != null)
-            {
-                if (AtWaypoint())
-                {
-                    timeSinceArrivedAtWaypoint = 0f;
-                    CycleWaypoint();
-                }
-                nextPosition = GetCurrentWaypoint();
-            }
-            if(timeSinceArrivedAtWaypoint > waypointDwellTime)
-            {
-                mover.StartMoveAction(nextPosition, patrolSpeedFraction);
-            }            
-        }     
-
-        bool AtWaypoint()
-        {
-            float distanceToWaypoint = Vector3.Distance(transform.position, GetCurrentWaypoint());
-            return distanceToWaypoint < waypointTolerence;
-        }       
-
-        void CycleWaypoint()
-        {
-            currentWaypointIndex = patrolPath.GetNextIndex(currentWaypointIndex);
         }      
 
-        Vector3 GetCurrentWaypoint()
-        {
-            return patrolPath.GetWaypoint(currentWaypointIndex);
-        }
+        void FollowPlayer()
+        {             
+            GameObject player = GameObject.Find("/PlayerCore/Rambler"); 
+            Vector3 playerDirection = player.position - transform.position;
+            Vector3 newPos = RandomNavSphere(origin: playerDirection, dist: 2, layermask: -1);
+            if(playerDirection.magnitude > 1)
+            {
+                mover.MoveTo(destination: newPos, speedFraction: 5);
+            }
+        } 
 
-        void SuspicionBehaviour()
-        {            
-            GetComponent<ActionScheduler>().CancelCurrentAction();
-        }        
+        static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
+        {
+            Vector3 randDirection = Random.insideUnitSphere * dist;
+            randDirection += origin;
+            NavMeshHit navHit;
+            NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
+            return navHit.position;
+        }               
     }
 }
 

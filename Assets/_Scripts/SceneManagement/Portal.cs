@@ -22,7 +22,11 @@ namespace Rambler.SceneManagement
         [SerializeField] float fadeOutTime = 1f;
         [SerializeField] float fadeInTime = 2f;
         [SerializeField] float fadeWaitTime = 0.5f;
-        LevelManager levelManager;       
+        LevelManager levelManager;    
+
+        GameObject player;
+        GameObject newPlayer;  
+        PlayerController playerController; 
 
         void Start() 
         {
@@ -51,28 +55,35 @@ namespace Rambler.SceneManagement
             Fader fader = FindObjectOfType<Fader>();
             SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
             GameObject HUD = GameObject.FindWithTag("HUD");
-            GameObject player = GameObject.Find("/PlayerCore/Rambler");
-            PlayerController playerController = player.GetComponent<PlayerController>(); 
-            playerController.enabled = false;
-            HUD.SetActive(false);
+            HUD.SetActive(false); 
+
+            List<GameObject> playersList = new List<GameObject>();
+            playersList.AddRange(collection: GameObject.FindGameObjectsWithTag("Player"));
+
+            foreach(var Item in playersList)
+            {
+                if(Item.name == "Rambler")
+                {
+                    player = Item;
+                    playerController = player.GetComponent<PlayerController>(); 
+                }
+            }         
             
+            playerController.enabled = false;
             yield return fader.FadeOut(fadeOutTime);            
             
             wrapper.Save();
-            yield return SceneManager.LoadSceneAsync(sceneToLoad);
-            
-            GameObject newPlayer = GameObject.Find("/PlayerCore/Rambler");
-            PlayerController newPlayerController = newPlayer.GetComponent<PlayerController>(); 
-            newPlayerController.enabled = false;       
-            
-            wrapper.Load();         
+            yield return SceneManager.LoadSceneAsync(sceneToLoad);  
+            PlayerController newPlayerController = GameObject.Find("/PlayerCore/Rambler").GetComponent<PlayerController>();          
+            newPlayerController.enabled = false; 
+            wrapper.Load();                
 
             Portal otherPortal = GetOtherPortal();
-            UpdatePlayer(otherPortal); 
+            UpdatePlayer(otherPortal: otherPortal); 
+
             wrapper.Save();
             yield return new WaitForSeconds(fadeWaitTime);
-            fader.FadeIn(fadeInTime);
-
+            fader.FadeIn(fadeInTime);            
             newPlayerController.enabled = true;
 
             Destroy(gameObject);
@@ -82,14 +93,23 @@ namespace Rambler.SceneManagement
 
         private void UpdatePlayer(Portal otherPortal)
         {
-            GameObject player = GameObject.Find("/PlayerCore/Rambler");
-           
-            var navMeshAgent = player.GetComponent<NavMeshAgent>();
-           
+            List<GameObject> newPlayersList = new List<GameObject>();            
+            newPlayersList.AddRange(collection: GameObject.FindGameObjectsWithTag("Player"));
+                        
+            foreach(var Item in newPlayersList)
+            {
+                if(Item.name == "Rambler")
+                {
+                    newPlayer = Item;
+                }
+            } 
+
+            var navMeshAgent = newPlayer.GetComponent<NavMeshAgent>();           
             navMeshAgent.enabled = false;
-            player.transform.position = otherPortal.spawnPoint.position;
-            player.transform.rotation = otherPortal.spawnPoint.rotation;
+            newPlayer.transform.position = otherPortal.spawnPoint.position;
+            newPlayer.transform.rotation = otherPortal.spawnPoint.rotation;
             navMeshAgent.enabled = true;
+            
         }
 
         private Portal GetOtherPortal()

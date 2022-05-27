@@ -13,7 +13,7 @@ using UnityEngine.Events;
 
 namespace Rambler.Core // To Do Stop Movement
 {
-    public class Health : MonoBehaviour, ISaveable
+    public class Health : MonoBehaviour
     {        
         public float healthPoints = 100f; 
         public float HealthPoints { get{return healthPoints;} set{healthPoints = value;}}  
@@ -86,7 +86,7 @@ namespace Rambler.Core // To Do Stop Movement
         {     
             if (isDead) return; 
             anim.SetTrigger("HitAnim");
-            AudioManager.PlayHumanSound(AudioManager.HumanSound.Hit1, this.transform.position);
+            AudioManager.PlayHumanSound(humanSound: AudioManager.HumanSound.Hit1, position: this.transform.position);
             if (gameObject.tag == "Enemy")
             {               
                aIScript.AttackBehaviour();
@@ -101,7 +101,7 @@ namespace Rambler.Core // To Do Stop Movement
             if (proj.HitEffect() != null)
             {                    
               var cloneProjectile = Instantiate(proj.HitEffect(), proj.GetAimLocation(), particleProj.transform.rotation); 
-              TakeDamage(damage);
+              TakeDamage(damage: damage);
               
               if(gameObject.CompareTag("Player"))
               {
@@ -209,24 +209,25 @@ namespace Rambler.Core // To Do Stop Movement
 
         private void StopMovement()
         {  
-            mover.RigWeightToZero();         
+            mover.RigWeightToZero(); 
+            mover.enabled = false;      
             rb.detectCollisions = false;
             rb.velocity = Vector3.zero;
             GetComponent<ActionScheduler>().CancelCurrentAction();
         }
 
-        public object CaptureState()
-        {
-            return healthPoints;
-        }
+        // public object CaptureState()
+        // {
+        //     return healthPoints;
+        // }
 
-        public void RestoreState(object state)
-        {
-            healthPoints = (float)state;
-            if (healthPoints == 0)
-            {
-                Die();
-            }
-        }
+        // public void RestoreState(object state)
+        // {
+        //     healthPoints = (float)state;
+        //     if (healthPoints <= 0)
+        //     {
+        //         Die();
+        //     }
+        // }
     }
 }
