@@ -156,7 +156,8 @@ namespace Rambler.Control
 
         public void InteractPressed()
         { 
-           transform.LookAt(pickUpDirection);                     
+           Quaternion target = Quaternion.LookRotation(pickUpDirection - this.transform.position);
+           this.transform.rotation = Quaternion.Slerp(this.transform.rotation, target, Time.deltaTime);                
            Interact();
            interact.SetActive(false);
            pickUp = null;

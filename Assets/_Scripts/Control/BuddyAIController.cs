@@ -11,27 +11,15 @@ namespace Rambler.Control
 {
     public class BuddyAIController : MonoBehaviour
     { 
-        [SerializeField] Vector3 nextPosition; 
-        [SerializeField] PatrolPath patrolPath;             
-        [SerializeField] float suspicionTime = 3f;        
-        [SerializeField] float waypointTolerence = 1f;
-        [SerializeField] float waypointDwellTime = 1.7f;
-        [Range(0,1)]
-        [SerializeField] float patrolSpeedFraction = 0.2f;  
-        float timeSinceArrivedAtWaypoint
-         = Mathf.Infinity;
-        float timeSinceLastSawPlayer
-         = Mathf.Infinity;
-        FieldOfView FOVCheck;          
-        public GameObject enemy;        
+        [SerializeField] GameObject player;
         public List<GameObject> enemiesList 
         = new List<GameObject>(); 
         CapsuleCollider capsuleCol;
         CombatTarget otherCombatTarget;
-        bool primaryTargetSet;
-        Transform enemyPos;
-        int currentWaypointIndex = 0;        
-        float TimerForNextAttack;               
+        bool primaryTargetSet;   
+        float TimerForNextAttack;     
+        FieldOfView FOVCheck;          
+        public GameObject enemy;                     
         NavMeshAgent agent;  
         Fighter fighter;
         float coolDown;
@@ -67,6 +55,8 @@ namespace Rambler.Control
 
             TimerForNextAttack = coolDown;
             coolDown = 2.5f;
+            
+            InvokeRepeating("FollowPlayer", 3f, 6f);
         }
 
         private void Update()
@@ -85,18 +75,13 @@ namespace Rambler.Control
                     AttackBehaviour();
                     TimerForNextAttack = coolDown;                    
                 }                
-            }           
-            else
-            {
-                FollowPlayer();
-            }      
+            }    
         } 
 
         public void AttackBehaviour()
         {                  
             fighter.TargetCapsule = capsuleCol; 
-            fighter.Target = otherCombatTarget;                     
-            timeSinceLastSawPlayer = 0;
+            fighter.Target = otherCombatTarget; 
             fighter.Attack(combatTarget: enemy);
         }
 
@@ -145,19 +130,18 @@ namespace Rambler.Control
         }      
 
         void FollowPlayer()
-        {             
-            GameObject player = GameObject.Find("/PlayerCore/Rambler"); 
-            Vector3 playerDirection = player.position - transform.position;
-            Vector3 newPos = RandomNavSphere(origin: playerDirection, dist: 2, layermask: -1);
-            if(playerDirection.magnitude > 1)
+        {   
+            Vector3 playerDirection = player.transform.position - transform.position;
+            Vector3 newPos = RandomNavSphere(origin: player.transform.position, dist: 5f, layermask: 1);
+            if(playerDirection.magnitude > 1f)
             {
-                mover.MoveTo(destination: newPos, speedFraction: 5);
+                mover.MoveTo(destination: newPos, speedFraction: 6);
             }
         } 
 
         static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
         {
-            Vector3 randDirection = Random.insideUnitSphere * dist;
+            Vector3 randDirection = UnityEngine.Random.insideUnitSphere * dist;
             randDirection += origin;
             NavMeshHit navHit;
             NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);

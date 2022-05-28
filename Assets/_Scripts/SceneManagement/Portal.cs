@@ -40,7 +40,7 @@ namespace Rambler.SceneManagement
                 StartCoroutine(Transition());
             }
         }
-
+        // add BuddyCrew to positioning
         private IEnumerator Transition()
         {
 

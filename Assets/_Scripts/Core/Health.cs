@@ -41,7 +41,7 @@ namespace Rambler.Core // To Do Stop Movement
         Animator anim;
         int dieRanNum; 
         int hitRanNum;        
-        Rigidbody rb;                     
+        Rigidbody rb;                   
        
         void Start() 
         {            
@@ -122,16 +122,19 @@ namespace Rambler.Core // To Do Stop Movement
         }        
  
         public void Die()
-        { 
-            isDead = true;  
+        {             
+            StopMovement();  
             EnemyDeath();
             targetDeath.Invoke();             
             capCol.enabled = false;
-            StopMovement();         
+            isDead = true; 
+                    
             dieRanNum = Random.Range(1, 4);     
             if (gameObject.name == "Rambler")
             {                
                 playerDeath.Invoke();
+                mover = GetComponent<Mover>();
+                mover.enabled = false;
                 fighter.enabled = false;
                 shield.SetActive(false);                
             }            
@@ -185,7 +188,7 @@ namespace Rambler.Core // To Do Stop Movement
                 enemyspawn.count --;
                 if(buddyCon != null)
                 {
-                  buddyCon.RemoveDeadAI(this.gameObject);
+                  buddyCon.RemoveDeadAI(enemyToRemove: this.gameObject);
                 }  
             }
         }
