@@ -132,7 +132,7 @@ namespace Rambler.Control
         void FollowPlayer()
         {   
             Vector3 playerDirection = player.transform.position - transform.position;
-            Vector3 newPos = RandomNavSphere(origin: player.transform.position, dist: 5f, layermask: 1);
+            Vector3 newPos = RandomNavSphere(origin: player.transform.position, dist: 6f, layermask: 1);
             if(playerDirection.magnitude > 1f)
             {
                 mover.MoveTo(destination: newPos, speedFraction: 6);

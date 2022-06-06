@@ -184,7 +184,6 @@ namespace Rambler.Core // To Do Stop Movement
         {            
             if(enemyspawn != null)
             {
-                this.gameObject.tag = "Player";
                 enemyspawn.count --;
                 if(buddyCon != null)
                 {
@@ -195,14 +194,8 @@ namespace Rambler.Core // To Do Stop Movement
 
         void PlayerDeathAudio() 
         {
-             if (gameObject.name == "Rambler")
-             {
-               AudioManager.PlayHumanSound(AudioManager.HumanSound.Death4, this.transform.position);
-             }
-             else
-             {
-                AudioManager.PlayHumanSound(AudioManager.HumanSound.Death3, this.transform.position); 
-             }  
+            AudioManager.PlayHumanSound(AudioManager.HumanSound.Death4, this.transform.position);
+             
         }
 
         public void HitTheFloor() 
