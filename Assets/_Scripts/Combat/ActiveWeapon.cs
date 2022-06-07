@@ -64,6 +64,8 @@ namespace Rambler.Combat
             totalAmmoCounter.SetActive(true);
             totalAmmoDisplay = totalAmmoCounter.GetComponentInChildren<TMPro.TextMeshProUGUI>(); 
             FullMag();
+            
+            if(this.tag == "NPCWeapon") return;
             UpdateTotalAmmoDisplay();
             UpdateClipDisplay();           
         } 
@@ -161,20 +163,6 @@ namespace Rambler.Combat
             curClip --; 
             }                                                            
         }
-        // public void LaunchProjectile(Transform muzzleTransform, Vector3 target)
-        // {  
-        //      MF_AutoPool.Spawn(prefab, muzzleTransform.position, muzzleTransform.rotation);  
-        //    projectile.SetTarget(target);  
-        //
-        //     Projectile Firedprojectile = Instantiate(projectile, muzzleTransform.position, muzzleTransform.rotation);            
-        //     Firedprojectile.SetTarget(target);            
-                          
-        //     GameObject Muzzle = Instantiate(MuzzleFlash, muzzleTransform.position, muzzleTransform.rotation) as GameObject;            
-        //     Muzzle.transform.parent = muzzleTransform.transform; 
-               
-        //     Destroy(Firedprojectile, 2f);            
-        //     curClip --;                                                             
-        // }
 
         void AmmoDisplay() 
         {            

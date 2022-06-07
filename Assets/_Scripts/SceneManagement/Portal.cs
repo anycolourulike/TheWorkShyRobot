@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 using Rambler.SceneManagement;
 using Rambler.Control;
+using Rambler.Combat;
 
 namespace Rambler.SceneManagement 
 {
@@ -18,14 +19,19 @@ namespace Rambler.SceneManagement
 
         [SerializeField] int sceneToLoad;
         [SerializeField] Transform spawnPoint;
+        [SerializeField] Transform companionSpawnPoint;
         [SerializeField] DestinationIdentifier destination;
         [SerializeField] float fadeOutTime = 1f;
         [SerializeField] float fadeInTime = 2f;
         [SerializeField] float fadeWaitTime = 0.5f;
-        LevelManager levelManager;    
-
+        LevelManager levelManager;  
+        Fighter fighter;
+        Fighter newFighter;
+        Weapon equippedWeapon;
         GameObject player;
-        GameObject newPlayer;  
+        GameObject newPlayer; 
+        GameObject companion;
+        GameObject newCompanion;
         PlayerController playerController; 
 
         void Start() 
@@ -66,6 +72,12 @@ namespace Rambler.SceneManagement
                 {
                     player = Item;
                     playerController = player.GetComponent<PlayerController>(); 
+                    fighter = player.GetComponent<Fighter>();
+                    equippedWeapon = fighter.weaponConfig;
+                }
+                else if(Item.name == "Companion")
+                {
+                    companion = Item;                    
                 }
             }         
             
@@ -102,14 +114,28 @@ namespace Rambler.SceneManagement
                 {
                     newPlayer = Item;
                 }
+                else if (Item.name == "Companion")
+                {
+                    newCompanion = Item;
+                }
             } 
 
-            var navMeshAgent = newPlayer.GetComponent<NavMeshAgent>();           
+            var navMeshAgent = newPlayer.GetComponent<NavMeshAgent>();   
+            newFighter = newPlayer.GetComponent<Fighter>();
+            newFighter.weaponConfig = equippedWeapon;
+            var navMeshAgentCompanion = newCompanion.GetComponent<NavMeshAgent>();           
+
             navMeshAgent.enabled = false;
+            navMeshAgentCompanion.enabled = false;
+
             newPlayer.transform.position = otherPortal.spawnPoint.position;
             newPlayer.transform.rotation = otherPortal.spawnPoint.rotation;
+
+            newCompanion.transform.position = otherPortal.companionSpawnPoint.position;
+            newCompanion.transform.rotation = otherPortal.companionSpawnPoint.rotation;
+
             navMeshAgent.enabled = true;
-            
+            navMeshAgentCompanion.enabled = true;            
         }
 
         private Portal GetOtherPortal()

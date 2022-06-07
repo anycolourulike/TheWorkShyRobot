@@ -29,7 +29,7 @@ namespace Rambler.Control
 
     private IEnumerator FOVRoutine()
     {
-        WaitForSeconds wait = new WaitForSeconds(0.2f);
+        WaitForSeconds wait = new WaitForSeconds(0.1f);
 
         while (true)
         {

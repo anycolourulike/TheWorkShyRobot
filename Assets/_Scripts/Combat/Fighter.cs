@@ -33,15 +33,13 @@ namespace Rambler.Combat
         GameObject weaponRef;  
         Health targetHealth;             
         Transform enemyPos; 
-        GameObject buddyAI; 
         WeaponIK weaponIk;                 
         Animator anim; 
         
         
         void Start()
         {   
-           rigController = GetComponent<Fighter>().rigController;   
-           buddyAI = GameObject.Find("BuddyCrew");        
+           rigController = GetComponent<Fighter>().rigController;  
            weaponIk = GetComponent<WeaponIK>();          
            anim = GetComponent<Animator>();                   
            EquipWeapon(weapon: weaponConfig);   
@@ -152,9 +150,9 @@ namespace Rambler.Combat
                 mover.RigWeaponEquipped(); 
                 StartCoroutine(AimInit());
                 
-                if(this.gameObject == buddyAI) return;
                 if(this.gameObject.tag == "Player")
                 {
+                   if(this.gameObject.name == "Companion") return; 
                   activeWeapon.AmmoUIInit();
                 }
            }        

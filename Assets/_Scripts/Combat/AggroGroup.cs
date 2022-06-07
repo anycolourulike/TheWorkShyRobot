@@ -12,7 +12,7 @@ namespace Rambler.Combat
 
         private void Start() 
         {
-            Activate(activateOnStart);
+            Activate(shouldActivate: activateOnStart);
         }
 
         public void Activate(bool shouldActivate)

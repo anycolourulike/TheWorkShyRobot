@@ -25,7 +25,7 @@ namespace Rambler.Core // To Do Stop Movement
         [SerializeField] GameObject shield;
         [SerializeField] Mover mover;
         [SerializeField] EnemySpawn enemyspawn;
-        [SerializeField] BuddyAIController buddyCon;
+        [SerializeField] Companion companion;
         
         public delegate void TargetDeath();
         public static event TargetDeath targetDeath;
@@ -33,7 +33,7 @@ namespace Rambler.Core // To Do Stop Movement
         public delegate void PlayerDied();
         public static event PlayerDied playerDeath;
         CapsuleCollider capCol;
-        bool isDead;
+        public bool isDead;
         public bool CharacterIsDead {get{return isDead;}}        
         Fighter fighter;
         float damage; 
@@ -41,14 +41,16 @@ namespace Rambler.Core // To Do Stop Movement
         Animator anim;
         int dieRanNum; 
         int hitRanNum;        
-        Rigidbody rb;                   
+        Rigidbody rb;   
+        UnityEngine.AI.NavMeshAgent agent;                
        
         void Start() 
         {            
             anim = GetComponent<Animator>(); 
             rb = GetComponent<Rigidbody>(); 
             fighter = GetComponent<Fighter>(); 
-            capCol = GetComponent<CapsuleCollider>();      
+            capCol = GetComponent<CapsuleCollider>();  
+            agent = GetComponent<UnityEngine.AI.NavMeshAgent>();    
         }
 
         void Update() 
@@ -146,6 +148,7 @@ namespace Rambler.Core // To Do Stop Movement
                 if(this.CompareTag("Enemy"))
                 {
                   AudioManager.PlayHumanSound(AudioManager.HumanSound.Death1, this.transform.position);
+                  this.tag = "DeadCharacter";
                 }
                 else
                 {
@@ -158,7 +161,8 @@ namespace Rambler.Core // To Do Stop Movement
                 headFX.SetActive(true);
                 if(this.CompareTag("Enemy"))
                 {
-                  AudioManager.PlayHumanSound(AudioManager.HumanSound.Death2, this.transform.position);              
+                  AudioManager.PlayHumanSound(AudioManager.HumanSound.Death2, this.transform.position); 
+                  this.tag = "DeadCharacter";
                 } 
                 else
                 {
@@ -171,7 +175,8 @@ namespace Rambler.Core // To Do Stop Movement
                 legFX.SetActive(true); 
                 if(this.CompareTag("Enemy"))
                 {
-                  AudioManager.PlayHumanSound(AudioManager.HumanSound.Death3, this.transform.position);              
+                  AudioManager.PlayHumanSound(AudioManager.HumanSound.Death3, this.transform.position); 
+                  this.tag = "DeadCharacter";
                 }
                 else
                 {
@@ -185,9 +190,9 @@ namespace Rambler.Core // To Do Stop Movement
             if(enemyspawn != null)
             {
                 enemyspawn.count --;
-                if(buddyCon != null)
+                if(companion != null)
                 {
-                  buddyCon.RemoveDeadAI(enemyToRemove: this.gameObject);
+                  companion.RemoveDeadAI(enemyToRemove: this.gameObject);
                 }  
             }
         }
@@ -205,11 +210,12 @@ namespace Rambler.Core // To Do Stop Movement
 
         private void StopMovement()
         {  
+            GetComponent<ActionScheduler>().CancelCurrentAction();            
+            agent.enabled = false;
             mover.RigWeightToZero(); 
             mover.enabled = false;      
             rb.detectCollisions = false;
-            rb.velocity = Vector3.zero;
-            GetComponent<ActionScheduler>().CancelCurrentAction();
+            rb.velocity = Vector3.zero;            
         }
 
         // public object CaptureState()

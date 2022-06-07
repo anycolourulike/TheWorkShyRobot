@@ -32,8 +32,7 @@ namespace Rambler.Control
         bool primaryTargetSet;
         Transform playerPos;
         int currentWaypointIndex = 0;        
-        float TimerForNextAttack;               
-        NavMeshAgent agent;
+        float TimerForNextAttack; 
         Fighter fighter;
         float coolDown;
         Health health;        
@@ -55,7 +54,6 @@ namespace Rambler.Control
         private void Start()
         { 
             playersList.AddRange(collection: GameObject.FindGameObjectsWithTag("Player"));
-            agent = GetComponent<NavMeshAgent>();
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();            
             mover = GetComponent<Mover>();  
