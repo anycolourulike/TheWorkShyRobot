@@ -26,6 +26,8 @@ namespace Rambler.Core // To Do Stop Movement
         [SerializeField] Mover mover;
         [SerializeField] EnemySpawn enemyspawn;
         [SerializeField] Companion companion;
+        [SerializeField] GameObject deathSplashScreen;
+        [SerializeField] GameObject hud;
         
         public delegate void TargetDeath();
         public static event TargetDeath targetDeath;
@@ -42,6 +44,7 @@ namespace Rambler.Core // To Do Stop Movement
         int dieRanNum; 
         int hitRanNum;        
         Rigidbody rb;   
+        GameObject hitFX;
         UnityEngine.AI.NavMeshAgent agent;                
        
         void Start() 
@@ -51,11 +54,16 @@ namespace Rambler.Core // To Do Stop Movement
             fighter = GetComponent<Fighter>(); 
             capCol = GetComponent<CapsuleCollider>();  
             agent = GetComponent<UnityEngine.AI.NavMeshAgent>();    
+            if(this.gameObject.name == "Rambler")
+            {
+                hitFX = GameObject.Find("/PlayerCore/HUD/DamageScreen");
+                hitFX.SetActive(false);
+            }
         }
 
         void Update() 
         {
-            if(isDead == true) return;
+            if(isDead == true) return;            
             HealthCheck();
         } 
 
@@ -87,7 +95,7 @@ namespace Rambler.Core // To Do Stop Movement
          void HitAnim()
         {     
             if (isDead) return; 
-            anim.SetTrigger("HitAnim");
+            anim.SetTrigger("HitAnim");            
             AudioManager.PlayHumanSound(humanSound: AudioManager.HumanSound.Hit1, position: this.transform.position);
             if (gameObject.tag == "Enemy")
             {               
@@ -110,6 +118,8 @@ namespace Rambler.Core // To Do Stop Movement
                 var vitals = GetComponent<PlayerVitals>();
                 if((this.gameObject.name == "Rambler") && vitals != null)
                 {
+                  StartCoroutine("HitFX");
+                  anim.SetTrigger("HitAnim");
                   vitals.TakeDamage(damage);  
                 }                
               }
@@ -152,7 +162,7 @@ namespace Rambler.Core // To Do Stop Movement
                 }
                 else
                 {
-                   PlayerDeathAudio(); 
+                   PlayerDeath(); 
                 }                              
             }
             else if (dieRanNum == 2)
@@ -166,7 +176,7 @@ namespace Rambler.Core // To Do Stop Movement
                 } 
                 else
                 {
-                   PlayerDeathAudio(); 
+                   PlayerDeath(); 
                 }                                            
             }
             else if (dieRanNum == 3)
@@ -180,7 +190,7 @@ namespace Rambler.Core // To Do Stop Movement
                 }
                 else
                 {
-                   PlayerDeathAudio(); 
+                   PlayerDeath(); 
                 }
             }          
         }
@@ -197,10 +207,10 @@ namespace Rambler.Core // To Do Stop Movement
             }
         }
 
-        void PlayerDeathAudio() 
+        void PlayerDeath() 
         {
-            AudioManager.PlayHumanSound(AudioManager.HumanSound.Death4, this.transform.position);
-             
+            deathSplashScreen.SetActive(true);
+            AudioManager.PlayHumanSound(AudioManager.HumanSound.Death4, this.transform.position);             
         }
 
         public void HitTheFloor() 
@@ -216,6 +226,13 @@ namespace Rambler.Core // To Do Stop Movement
             mover.enabled = false;      
             rb.detectCollisions = false;
             rb.velocity = Vector3.zero;            
+        }
+
+        IEnumerator HitFX()
+        {
+            hitFX.SetActive(true);
+            yield return new WaitForSeconds(0.2f);
+            hitFX.SetActive(false);
         }
 
         // public object CaptureState()

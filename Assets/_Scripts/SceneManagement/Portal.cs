@@ -18,6 +18,7 @@ namespace Rambler.SceneManagement
         }
 
         [SerializeField] int sceneToLoad;
+        [SerializeField] GameObject rambler;
         [SerializeField] Transform spawnPoint;
         [SerializeField] Transform companionSpawnPoint;
         [SerializeField] DestinationIdentifier destination;
@@ -41,7 +42,7 @@ namespace Rambler.SceneManagement
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "Player")
+            if (other.gameObject ==  rambler)
             {
                 StartCoroutine(Transition());
             }

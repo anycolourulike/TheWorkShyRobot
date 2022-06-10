@@ -149,10 +149,11 @@ namespace Rambler.Combat
                 rigController.Play("equip_" + weapon.weaponTitle);  
                 mover.RigWeaponEquipped(); 
                 StartCoroutine(AimInit());
+                if(this.gameObject.name == "Companion") return; 
                 
                 if(this.gameObject.tag == "Player")
                 {
-                   if(this.gameObject.name == "Companion") return; 
+                  
                   activeWeapon.AmmoUIInit();
                 }
            }        
