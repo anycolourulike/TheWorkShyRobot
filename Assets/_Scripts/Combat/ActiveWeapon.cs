@@ -24,9 +24,9 @@ namespace Rambler.Combat
         Animator rigController;
         public Animator SetRigController {get{return rigController;} set{rigController = value; }}
         float weaponDamage;        
-        public int magAmount;
+        int magAmount;
         public int GetMagAmount {get{return magAmount;}}
-        public int totalAmmo;  
+        int totalAmmo;  
         public int GetTotalAmmo {get{return totalAmmo;}}  
         bool reloading;   
         public bool GetIsReloading{get{return reloading;}}     
@@ -121,7 +121,7 @@ namespace Rambler.Combat
 
         public void Reload() 
         {    
-            if(totalAmmo == maxClip)  return;                          
+            if(curClip == maxClip)  return;                          
             if(totalAmmo >= 0)
             { 
                 reloading = true;
@@ -140,8 +140,7 @@ namespace Rambler.Combat
                 FullMag(); 
                 reloading = false; 
                 if(this.gameObject.tag == "NPCWeapon") return;
-                UpdateTotalAmmoDisplay();
-                                              
+                UpdateTotalAmmoDisplay();                                              
             }           
         } 
        

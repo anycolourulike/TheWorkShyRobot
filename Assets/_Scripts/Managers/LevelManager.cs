@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Rambler.Core;
 using Rambler.SceneManagement;
+using Rambler.Combat;
 
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { set; get; }
-    public string targetScene;    
+    public string targetScene;  
     Fader fader;
 
     void OnEnable() 
@@ -38,7 +39,14 @@ public class LevelManager : MonoBehaviour
     {   
        targetScene = "Cave";
        yield return new WaitForSeconds(3);
-       SceneManager.LoadScene("Cave");        
+       SceneManager.LoadScene("Cave"); 
+    }
+
+    public IEnumerator LoadIntro() 
+    { 
+       SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
+       yield return new WaitForSeconds(3);
+       SceneManager.LoadScene("IntroComic"); 
     }
 
     public IEnumerator LoadMenu() 
@@ -66,7 +74,7 @@ public class LevelManager : MonoBehaviour
         fader = FindObjectOfType<Fader>();
         fader.FadeIn(3);
         AmbientMusic();
-    }
+    }    
 
     void AmbientMusic()
     {
@@ -78,15 +86,15 @@ public class LevelManager : MonoBehaviour
             AudioManager.PlayAmbientSound(AudioManager.AmbientSound.ambientMusic);                           
             break;
 
-            case 2:
+            case 3:
             AudioManager.PlayAmbientSound(AudioManager.AmbientSound.CaveBackground);                           
             break;
 
-            case 3:
+            case 4:
             AudioManager.PlayAmbientSound(AudioManager.AmbientSound.SurfaceBackground);                           
             break;
 
-            case 4:
+            case 5:
             AudioManager.PlayAmbientSound(AudioManager.AmbientSound.SurfaceBackground);                           
             break;
         }  

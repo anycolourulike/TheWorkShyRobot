@@ -45,6 +45,7 @@ namespace Rambler.Core // To Do Stop Movement
         int hitRanNum;        
         Rigidbody rb;   
         GameObject hitFX;
+        LevelManager levelManager;
         UnityEngine.AI.NavMeshAgent agent;                
        
         void Start() 

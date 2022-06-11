@@ -12,6 +12,7 @@ using Rambler.Movement;
 using Rambler.Inventories;
 using Rambler.Combat;
 using Rambler.Core;
+using Cinemachine;
 
 
 namespace Rambler.Control
@@ -23,8 +24,7 @@ namespace Rambler.Control
         [SerializeField] GameObject shield; 
         [SerializeField] Fighter fighter;   
         [SerializeField] Animator anim; 
-        
-          
+        CinemachineVirtualCamera cineMachine;                
         ActiveWeapon activeWeapon;         
         float holdDuration = 1f;               
         Transform handTransform;  
@@ -37,7 +37,8 @@ namespace Rambler.Control
         Vector3 pickUpDirection;
         GameObject interact;    
         GameObject weaponPU; 
-        WeaponPickUp pickUp;          
+        WeaponPickUp pickUp;  
+        float shakeTimer;        
         int interactions;    
         bool shieldsUp;
               
@@ -46,6 +47,7 @@ namespace Rambler.Control
         {                  
            rigController = GetComponent<Fighter>().rigController;       
            handTransform = GetComponent<Fighter>().handTransform;
+           cineMachine = FindObjectOfType<CinemachineVirtualCamera>();
            playerAnim = GetComponent<Animator>();
            mover = GetComponent<Mover>();
            weaponIK = GetComponent<WeaponIK>(); 
@@ -54,9 +56,33 @@ namespace Rambler.Control
         }
 
         private void Update()
-        {                     
+        {   
+           if(shakeTimer > 0)
+           { 
+              shakeTimer -= Time.deltaTime;
+              if(shakeTimer <= 0f) 
+              {
+                CinemachineBasicMultiChannelPerlin cineMachinePerlin = 
+                cineMachine.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+                cineMachinePerlin.m_AmplitudeGain = 0f;
+              }
+           }       
+
            if (InteractWithCombat()) return;
-           if (InteractWithMovement()) return; 
+           if (InteractWithMovement()) return;    
+
+           if(shakeTimer > 0)
+           { 
+              shakeTimer -= Time.deltaTime;
+              if(shakeTimer <= 0f) 
+              {
+                CinemachineBasicMultiChannelPerlin cineMachinePerlin = 
+                cineMachine.GetComponent<CinemachineBasicMultiChannelPerlin>();
+
+                cineMachinePerlin.m_AmplitudeGain = 0f;
+              }
+           }        
            
            if(shieldsUp == true) 
            {
@@ -71,7 +97,7 @@ namespace Rambler.Control
         }              
 
         private bool InteractWithCombat()
-        {
+        {           
             RaycastHit[] hits = Physics.RaycastAll(GetRay());
             foreach (RaycastHit hit in hits)
             {
@@ -88,6 +114,7 @@ namespace Rambler.Control
                 }
                 fighter.Attack(combatTarget: otherCombatTarget.gameObject);
                 fighter.TargetCapsule = targetCapsule; 
+                ShakeCamera(1.5f, 0.2f);
                 
                 return true;
             }
@@ -217,5 +244,14 @@ namespace Rambler.Control
           shield.SetActive(false);
           shieldsUp = false;
        } 
+
+       void ShakeCamera(float intensity, float time)
+       {
+          CinemachineBasicMultiChannelPerlin cineMachinePerlin = 
+          cineMachine.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+          cineMachinePerlin.m_AmplitudeGain = intensity;
+          shakeTimer = time;
+       }
     }
 }
