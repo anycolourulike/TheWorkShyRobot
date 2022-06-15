@@ -23,14 +23,12 @@ namespace Rambler.Movement
         NavMeshAgent navMeshAgent;  
         bool rigWeaponEquipped;
         Health health; 
-        Rigidbody rb;
         
 
         public void Start()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
-            health = GetComponent<Health>();  
-            rb = GetComponent<Rigidbody>();         
+            health = GetComponent<Health>();       
         }
 
         void Update()
@@ -83,7 +81,7 @@ namespace Rambler.Movement
         public void StartMoveAction(Vector3 destination, float speedFraction)
         {
             GetComponent<ActionScheduler>().StartAction(this);
-            MoveTo(destination: destination, speedFraction: speedFraction);
+            MoveTo(destination, speedFraction);
         }
 
         public void MoveTo(Vector3 destination, float speedFraction)

@@ -41,7 +41,7 @@ namespace Rambler.Combat
                 {
                     return;
                 }
-                health.Die();
+                health.HealthCheck();
             }
 
             if (playerCurEnergy <= 0)
@@ -51,7 +51,7 @@ namespace Rambler.Combat
                 {
                     return;
                 }
-                health.Die();
+                health.HealthCheck();
             }
         }
         

@@ -4945,7 +4945,7 @@ MonoBehaviour:
   hitEffect: {fileID: 5730723216558756733, guid: 163d1b05fe281594e89a93db7754a0cd,
     type: 3}
   maxLifeTime: 0.7
-  speed: 7
+  speed: 5.8
   damage: 25
 --- !u!54 &8610534491016684527
 Rigidbody:

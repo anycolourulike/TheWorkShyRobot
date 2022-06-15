@@ -19,11 +19,12 @@ namespace Rambler.Control
 {    
     public class PlayerController : MonoBehaviour  
     {              
-         
+        [SerializeField] float maxNavMeshProjectionDistance = 1f;  
         [SerializeField] PlayerVitals vitals;                
         [SerializeField] GameObject shield; 
-        [SerializeField] Fighter fighter;   
+        [SerializeField] Fighter fighter;          
         [SerializeField] Animator anim; 
+        
         CinemachineVirtualCamera cineMachine;                
         ActiveWeapon activeWeapon;         
         float holdDuration = 1f;               
@@ -44,7 +45,7 @@ namespace Rambler.Control
               
        
         private void Start()
-        {                  
+        {            
            rigController = GetComponent<Fighter>().rigController;       
            handTransform = GetComponent<Fighter>().handTransform;
            cineMachine = FindObjectOfType<CinemachineVirtualCamera>();
@@ -123,8 +124,8 @@ namespace Rambler.Control
 
         private bool InteractWithMovement()
         {            
-           RaycastHit hit;
-           bool hasHit = Physics.Raycast(GetRay(), out hit);
+           Vector3 target;
+           bool hasHit = RaycastNavMesh(out target);
             if (Input.touchCount > 0 && (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)))
             {
              return false;
@@ -139,8 +140,8 @@ namespace Rambler.Control
                     {
                         var holdTime = holdDuration -= Time.deltaTime;
                         if (holdTime < .6f)
-                        {                                  
-                            GetComponent<Mover>().StartMoveAction(hit.point, 1f);                                                     
+                        {                                                  
+                            GetComponent<Mover>().StartMoveAction(target, 1f);                                                     
                             holdDuration = 1f;                           
                         }
                     }
@@ -160,6 +161,24 @@ namespace Rambler.Control
             return Camera.main.ScreenPointToRay(Input.mousePosition);
         }
 
+        private bool RaycastNavMesh(out Vector3 target)
+        {
+            target = new Vector3();
+
+            RaycastHit hit;
+            bool hasHit = Physics.Raycast(GetRay(), out hit);
+            if (!hasHit) return false;
+
+            NavMeshHit navMeshHit;
+            bool hasCastToNavMesh = NavMesh.SamplePosition(
+            hit.point, out navMeshHit, maxNavMeshProjectionDistance, NavMesh.AllAreas);
+            if (!hasCastToNavMesh) return false;
+
+            target = navMeshHit.position;
+
+            return true;
+        }
+
         void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.tag == "weaponPU")
@@ -167,7 +186,7 @@ namespace Rambler.Control
                weaponPU = other.gameObject;
                pickUpDirection = Vector3.RotateTowards(transform.position, other.transform.position, 1f * Time.deltaTime, 0.0f);
                pickUp = weaponPU.GetComponent<WeaponPickUp>();                                               
-               interact.SetActive(true); 
+               interact.SetActive(true);
                interactions = 1;                            
             }
         }        
@@ -177,7 +196,7 @@ namespace Rambler.Control
             if(other.gameObject.tag == "weaponPU")
             { 
                 pickUp = null;
-                interact.SetActive(false);                
+                interact.SetActive(false);      
             }
         } 
 
@@ -198,7 +217,7 @@ namespace Rambler.Control
                 fighter.SetLastWeapon = fighter.weaponConfig; 
                 fighter.EquipUnarmed();                
                 playerAnim.SetTrigger("pickUp");
-                pickUp.PickUpItem();                        
+                pickUp.PickUpItem();                  
                 break;
             }            
         }     

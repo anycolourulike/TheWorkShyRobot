@@ -63,9 +63,7 @@ namespace Rambler.Control
             else
                 {canSeePlayer = false;}
         }
-        else if 
-              (canSeePlayer)
-                canSeePlayer = false;
+        
                 
 
         }    

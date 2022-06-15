@@ -10,6 +10,9 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { set; get; }
     public string targetScene;  
+    public static bool playerDied;
+    Fighter fighter;
+    public Weapon lastEquippedWeapon; 
     Fader fader;
 
     void OnEnable() 
@@ -38,34 +41,34 @@ public class LevelManager : MonoBehaviour
     public IEnumerator LoadCaveLevel() 
     {   
        targetScene = "Cave";
-       yield return new WaitForSeconds(3);
+       yield return new WaitForSecondsRealtime(3);
        SceneManager.LoadScene("Cave"); 
     }
 
     public IEnumerator LoadIntro() 
     { 
        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
-       yield return new WaitForSeconds(3);
+       yield return new WaitForSecondsRealtime(3);
        SceneManager.LoadScene("IntroComic"); 
     }
 
     public IEnumerator LoadMenu() 
     { 
        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
-       yield return new WaitForSeconds(3);
+       yield return new WaitForSecondsRealtime(3);
        wrapper.LoadMenu();       
     }
 
     public IEnumerator LoadSavedGame() 
     {   
         SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSecondsRealtime(3);
         wrapper.ContinueGame();   
     }    
 
     public IEnumerator QuitApp()
     {   
-        yield return new WaitForSeconds(3);     
+        yield return new WaitForSecondsRealtime(3);     
         Application.Quit();
     } 
 
@@ -74,7 +77,30 @@ public class LevelManager : MonoBehaviour
         fader = FindObjectOfType<Fader>();
         fader.FadeIn(3);
         AmbientMusic();
-    }    
+        Time.timeScale = 1;
+        if(playerDied == true)
+        {
+           PlayerAssignWeapons();
+        }
+    } 
+
+    public void PlayerDeathCheck()
+    {        
+        var player = GameObject.Find("PlayerCore/Rambler");
+        fighter = player.GetComponent<Fighter>();
+        lastEquippedWeapon = fighter.weaponConfig;  
+        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
+        wrapper.Save();     
+    } 
+
+    void PlayerAssignWeapons()
+    {
+        var player = GameObject.Find("PlayerCore/Rambler");
+        fighter = player.GetComponent<Fighter>();
+        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
+        wrapper.Load();   
+        fighter.weaponConfig =  lastEquippedWeapon;
+    }  
 
     void AmbientMusic()
     {
