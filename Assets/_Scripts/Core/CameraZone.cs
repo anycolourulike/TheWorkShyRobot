@@ -6,6 +6,7 @@ using Cinemachine;
 public class CameraZone : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera cineCamera;
+    [SerializeField] GameObject player;
     public bool zoomOut;
     
     [SerializeField] float zoomedOut = 47f;
@@ -32,7 +33,7 @@ public class CameraZone : MonoBehaviour
 
     void OnTriggerEnter(Collider other) 
     {
-        if(other.CompareTag("Player"))
+        if(other.gameObject == player)
         {
             zoomOut = true;
         }

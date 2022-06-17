@@ -28,9 +28,10 @@ namespace Rambler.Control
         CinemachineVirtualCamera cineMachine;                
         ActiveWeapon activeWeapon;         
         float holdDuration = 1f;               
-        Transform handTransform;  
+        Transform handTransform;
         Animator rigController; 
         Animator playerAnim;
+        NavMeshAgent agent; 
         WeaponIK weaponIK;        
         Mover mover;
 
@@ -45,7 +46,8 @@ namespace Rambler.Control
               
        
         private void Start()
-        {            
+        {   
+           agent = GetComponent<NavMeshAgent>();         
            rigController = GetComponent<Fighter>().rigController;       
            handTransform = GetComponent<Fighter>().handTransform;
            cineMachine = FindObjectOfType<CinemachineVirtualCamera>();
@@ -81,7 +83,7 @@ namespace Rambler.Control
                 CinemachineBasicMultiChannelPerlin cineMachinePerlin = 
                 cineMachine.GetComponent<CinemachineBasicMultiChannelPerlin>();
 
-                cineMachinePerlin.m_AmplitudeGain = 0f;
+                cineMachinePerlin.m_AmplitudeGain = 1f;
               }
            }        
            
@@ -126,9 +128,10 @@ namespace Rambler.Control
         {            
            Vector3 target;
            bool hasHit = RaycastNavMesh(out target);
+           
             if (Input.touchCount > 0 && (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)))
             {
-             return false;
+                return false;
             }
             if (hasHit)
             {              
@@ -202,10 +205,12 @@ namespace Rambler.Control
 
         public void InteractPressed()
         { 
+           agent.enabled = false; 
            Quaternion target = Quaternion.LookRotation(pickUpDirection - this.transform.position);
            this.transform.rotation = Quaternion.Slerp(this.transform.rotation, target, Time.deltaTime);                
            Interact();
            interact.SetActive(false);
+           agent.enabled =true;
            pickUp = null;
         } 
 

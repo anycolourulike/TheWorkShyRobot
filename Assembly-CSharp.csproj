@@ -287,6 +287,7 @@
      <None Include="Assets\_AssetPacks\MeleeWeaponTrail\README.txt" />
      <None Include="Assets\_AssetPacks\JMO Assets\WarFX\_Effects (Mobile)\MuzzleFlashes\!MuzzleFlash Differences.txt" />
      <None Include="Assets\_AssetPacks\LIFE_Deaths\Demo_Scene_Animation_README.txt" />
+     <None Include="Assets\_AssetPacks\NavMeshComponents-2019.4\ProjectSettings\ProjectVersion.txt" />
      <None Include="Assets\_AssetPacks\PolygonSciFiSpace\Shaders\SyntyStudios_Triplanar_ObjectSpace.shader" />
      <None Include="Assets\_AssetPacks\EnergyShield\Resources\EnergyShield.shader" />
      <None Include="Assets\_AssetPacks\JMO Assets\WarFX\Shaders\WFX_S Particle Add A8.shader" />
@@ -1063,6 +1064,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="NavMeshComponentsExamplesEditor.csproj">
+      <Project>{09bbc146-2d81-d1e5-cae6-50126a4dd15c}</Project>
+      <Name>NavMeshComponentsExamplesEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="NavMeshComponentsEditor.csproj">
+      <Project>{d8b6663c-70cf-d226-d9df-59f367c37892}</Project>
+      <Name>NavMeshComponentsEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="NavMeshComponents.csproj">
+      <Project>{e2d3f609-ddd1-0914-646c-a51561fc0826}</Project>
+      <Name>NavMeshComponents</Name>
+    </ProjectReference>
+    <ProjectReference Include="NavMeshComponentsExamples.csproj">
+      <Project>{17d5e934-7900-bda5-7a54-e6a66c06c98d}</Project>
+      <Name>NavMeshComponentsExamples</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

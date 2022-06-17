@@ -39,9 +39,11 @@ namespace Rambler.Core // To Do Stop Movement
         public bool CharacterIsDead {get{return isDead;}}        
         Fighter fighter;
         PlayerVitals vitals;
+        WeaponIK weaponIK;
         float damage; 
         public float SetDamage {set{damage = value;}}
-        Animator anim;
+        CombatTarget combatTarget;
+        Animator anim;        
         int dieRanNum; 
         int hitRanNum;        
         Rigidbody rb;   
@@ -51,6 +53,7 @@ namespace Rambler.Core // To Do Stop Movement
         void Start() 
         {   
             anim = GetComponent<Animator>(); 
+            combatTarget = GetComponent<CombatTarget>();
             rb = GetComponent<Rigidbody>(); 
             fighter = GetComponent<Fighter>(); 
             capCol = GetComponent<CapsuleCollider>();  
@@ -90,6 +93,7 @@ namespace Rambler.Core // To Do Stop Movement
         {  
             if(isDead) return;
             if(this.gameObject.name == "Rambler") return;
+            aIScript.SuspicionBehaviour();
             anim.SetTrigger("HitAnim");  
             HealthCheck();          
             AudioManager.PlayHumanSound(humanSound: AudioManager.HumanSound.Hit1, position: this.transform.position);
@@ -108,8 +112,7 @@ namespace Rambler.Core // To Do Stop Movement
             if (proj.HitEffect() != null)
             {                    
               var cloneProjectile = Instantiate(proj.HitEffect(), proj.GetAimLocation(), particleProj.transform.rotation); 
-              TakeDamage(damage: damage);
-              
+              TakeDamage(damage: damage);              
 
               if((this.gameObject.name == "Rambler") && vitals != null)
               {
@@ -219,10 +222,12 @@ namespace Rambler.Core // To Do Stop Movement
 
         private void StopMovement()
         {  
-            GetComponent<ActionScheduler>().CancelCurrentAction();            
+            combatTarget.enabled = false;
+            mover.RigWeaponUnequipped();
+            var rigWeight = RigLayer.GetComponent<Rig>();
+            rigWeight.weight = 0;
+            GetComponent<ActionScheduler>().CancelCurrentAction(); 
             agent.enabled = false;
-            mover.RigWeightToZero(); 
-            mover.enabled = false;      
             rb.detectCollisions = false;
             rb.velocity = Vector3.zero;            
         }

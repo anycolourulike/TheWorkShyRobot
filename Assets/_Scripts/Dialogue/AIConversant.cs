@@ -12,7 +12,9 @@ namespace Rambler.Dialogue
         [SerializeField] Dialogue dialogue = null;
         [SerializeField] string conversantName;   
         [SerializeField] PlayerConversant playerConversant; 
+        [SerializeField] GameObject Player;
         [SerializeField] Mover mover;
+        
 
         // void Update()
         // {
@@ -50,6 +52,9 @@ namespace Rambler.Dialogue
             //    mover.Cancel();                      
             // } 
             playerConversant.StartDialogue(this, dialogue);
+            //Stop Movement of Enemies & Enable when Dialogue is closed
+            //Disable Panel
+            //Set Camera to up close
             return true;
         }
 
@@ -81,7 +86,7 @@ namespace Rambler.Dialogue
 
         void OnTriggerEnter(Collider other)
         {
-            if(other.tag == "Player")
+            if(other.gameObject == Player)
             {
                 HandleRaycast();
             }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5954123845926948129}
   - component: {fileID: 7851978480001104529}
   - component: {fileID: 3198402349070012629}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CameraZoomOut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,8 +43,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 8.729936, y: 5.107052, z: 59.30902}
-  m_Center: {x: 0.31068945, y: 1.6785984, z: -16.171646}
+  m_Size: {x: 17.019527, y: 5.107052, z: 64.34965}
+  m_Center: {x: 4.4554844, y: 1.6785984, z: -20.304283}
 --- !u!114 &3198402349070012629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,4 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cineCamera: {fileID: 0}
+  player: {fileID: 0}
   zoomOut: 0
+  zoomedOut: 47
+  zoomedIn: 47

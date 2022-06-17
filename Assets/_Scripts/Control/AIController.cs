@@ -28,9 +28,7 @@ namespace Rambler.Control
         public List<GameObject> playersList
         = new List<GameObject>();
         CapsuleCollider capsuleCol;        
-        CombatTarget otherCombatTarget;        
-        bool primaryTargetSet;
-        Transform playerPos;
+        CombatTarget otherCombatTarget; 
         int currentWaypointIndex = 0;        
         float TimerForNextAttack; 
         Fighter fighter;
@@ -64,9 +62,8 @@ namespace Rambler.Control
               capsuleCol = player.GetComponent<CapsuleCollider>();  
               otherCombatTarget = player.GetComponent<CombatTarget>(); 
             }            
-
-            TimerForNextAttack = coolDown;
             coolDown = 2.5f;
+            TimerForNextAttack = coolDown;            
         }
 
         private void Update()
@@ -75,13 +72,13 @@ namespace Rambler.Control
            
             if(FOVCheck.canSeePlayer == true && fighter.CanAttack(combatTarget: player))
             { 
+                SuspicionBehaviour();
                 if (TimerForNextAttack > 0)
                 {
                     TimerForNextAttack -= Time.deltaTime;
                 }
                 else if (TimerForNextAttack <= 0)
-                {
-                    
+                {                    
                     if(capsuleCol != null)
                     {       
                       AttackBehaviour();
@@ -113,9 +110,7 @@ namespace Rambler.Control
             fighter.TargetCapsule = null;
             fighter.Cancel();
             PatrolBehaviour();            
-        }
-
-       
+        }       
 
         void NextTarget()
         {          
@@ -173,7 +168,7 @@ namespace Rambler.Control
             return patrolPath.GetWaypoint(currentWaypointIndex);
         }
 
-        private void SuspicionBehaviour()
+        public void SuspicionBehaviour()
         {            
             GetComponent<ActionScheduler>().CancelCurrentAction();
         }        
