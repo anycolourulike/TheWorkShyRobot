@@ -105,18 +105,20 @@ namespace Rambler.Control
             foreach (RaycastHit hit in hits)
             {
                 CombatTarget otherCombatTarget = hit.transform.GetComponent<CombatTarget>();
+                var thisCombatTarget = GetComponent<CombatTarget>();
+                if(otherCombatTarget == thisCombatTarget) return false;
                 Fighter fighter = GetComponent<Fighter>();
                 fighter.Target = otherCombatTarget;
                 CapsuleCollider targetCapsule = hit.transform.GetComponent<CapsuleCollider>(); 
                 fighter.TargetCapsule = targetCapsule;
 
-                if (otherCombatTarget == null) continue;
+                if (otherCombatTarget == null) continue;                
                 if (!GetComponent<Fighter>().CanAttack(otherCombatTarget.gameObject))
                 {
                     continue;
                 }
                 fighter.Attack(combatTarget: otherCombatTarget.gameObject);
-                fighter.TargetCapsule = targetCapsule; 
+                fighter.TargetCapsule = targetCapsule;                 
                 ShakeCamera(1.5f, 0.2f);
                 
                 return true;

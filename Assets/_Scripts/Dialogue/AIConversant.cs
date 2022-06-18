@@ -13,7 +13,16 @@ namespace Rambler.Dialogue
         [SerializeField] string conversantName;   
         [SerializeField] PlayerConversant playerConversant; 
         [SerializeField] GameObject Player;
+        [SerializeField] GameUI gameUI;
         [SerializeField] Mover mover;
+        [SerializeField] GameObject panel;
+        
+        SphereCollider sphereCollider;
+
+        void Start()
+        {
+            sphereCollider = GetComponent<SphereCollider>();
+        }
         
 
         // void Update()
@@ -52,9 +61,10 @@ namespace Rambler.Dialogue
             //    mover.Cancel();                      
             // } 
             playerConversant.StartDialogue(this, dialogue);
-            //Stop Movement of Enemies & Enable when Dialogue is closed
-            //Disable Panel
-            //Set Camera to up close
+            panel.SetActive(false);
+            gameUI.PauseGame();
+            sphereCollider.enabled = false;
+            //ammo counter
             return true;
         }
 

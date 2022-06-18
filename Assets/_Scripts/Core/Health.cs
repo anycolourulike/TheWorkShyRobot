@@ -146,8 +146,6 @@ namespace Rambler.Core // To Do Stop Movement
             if (this.gameObject.name == "Rambler")
             {              
                 playerDeath.Invoke();
-                LevelManager.playerDied = true;
-                LevelManager.Instance.PlayerDeathCheck();
                 mover = GetComponent<Mover>();
                 mover.enabled = false;
                 shield.SetActive(false);                

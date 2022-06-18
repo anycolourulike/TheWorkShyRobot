@@ -29,19 +29,22 @@ namespace Rambler.Combat
         Mathf.Infinity;         
         public CombatTarget otherCombatTarget;   //other combat Target
         public CombatTarget Target {set{otherCombatTarget = value;}}                    
-        Vector3 hitPointVector;
+        Vector3 hitPointVector;        
         GameObject weaponRef;  
         Health targetHealth;             
         Transform enemyPos; 
-        WeaponIK weaponIk;                 
-        Animator anim; 
+        public bool playerInSight;
+        WeaponIK weaponIk;  
+        FieldOfView FOV;               
+        Animator anim;         
         
         
         void Start()
         {   
            rigController = GetComponent<Fighter>().rigController;  
            weaponIk = GetComponent<WeaponIK>();          
-           anim = GetComponent<Animator>();                   
+           anim = GetComponent<Animator>(); 
+           FOV = GetComponent<FieldOfView>();                  
            EquipWeapon(weapon: weaponConfig);   
            ActiveWeaponInit();                                          
         }
@@ -69,7 +72,7 @@ namespace Rambler.Combat
     } 
         
         void AttackBehaviour()
-        {                        
+        {                    
             transform.LookAt(enemyPos.transform);            
             AssignIKTarget();
             if(gameObject.tag == "Player" && enemyPos.gameObject.tag == "Player") return;          
@@ -157,7 +160,7 @@ namespace Rambler.Combat
                   activeWeapon.AmmoUIInit();
                 }
            }        
-        }        
+        } 
 
         public void EquipUnarmed()
         {

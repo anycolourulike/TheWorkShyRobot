@@ -78,28 +78,23 @@ public class LevelManager : MonoBehaviour
         fader.FadeIn(3);
         AmbientMusic();
         Time.timeScale = 1;
-        if(playerDied == true)
-        {
-           PlayerAssignWeapons();
-        }
+        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
+        wrapper.Save(); 
+        //switch statment to check which level if past cave assign weapons
     } 
 
     public void PlayerDeathCheck()
     {        
         var player = GameObject.Find("PlayerCore/Rambler");
         fighter = player.GetComponent<Fighter>();
-        lastEquippedWeapon = fighter.weaponConfig;  
-        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
-        wrapper.Save();     
+        lastEquippedWeapon = fighter.weaponConfig;           
     } 
 
     void PlayerAssignWeapons()
     {
         var player = GameObject.Find("PlayerCore/Rambler");
         fighter = player.GetComponent<Fighter>();
-        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
-        wrapper.Load();   
-        fighter.weaponConfig =  lastEquippedWeapon;
+        fighter.weaponConfig =  lastEquippedWeapon;                
     }  
 
     void AmbientMusic()
