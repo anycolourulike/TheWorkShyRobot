@@ -9545,7 +9545,7 @@ Rigidbody:
   m_GameObject: {fileID: 3033392328428822402}
   serializedVersion: 2
   m_Mass: 0.001
-  m_Drag: 3
+  m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 0
@@ -9585,7 +9585,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3030574148038229922
 Transform:
   m_ObjectHideFlags: 0

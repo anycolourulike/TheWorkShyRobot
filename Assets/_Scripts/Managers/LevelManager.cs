@@ -78,13 +78,21 @@ public class LevelManager : MonoBehaviour
         fader.FadeIn(3);
         AmbientMusic();
         Time.timeScale = 1;
-        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
-        wrapper.Save(); 
-        //switch statment to check which level if past cave assign weapons
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if(sceneIndex > 3)
+        {
+            PlayerAssignWeapons();
+            SavingWrapper wrapper = FindObjectOfType<SavingWrapper>(); 
+            wrapper.Load();  
+        } 
     } 
 
     public void PlayerDeathCheck()
-    {        
+    {   
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if(sceneIndex < 4) return;         
+        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>(); 
+        wrapper.Save();  
         var player = GameObject.Find("PlayerCore/Rambler");
         fighter = player.GetComponent<Fighter>();
         lastEquippedWeapon = fighter.weaponConfig;           
@@ -120,6 +128,4 @@ public class LevelManager : MonoBehaviour
             break;
         }  
     }
-}    
-
-    
+}  

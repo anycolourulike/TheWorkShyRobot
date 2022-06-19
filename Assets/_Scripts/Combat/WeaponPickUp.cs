@@ -21,8 +21,9 @@ namespace Rambler.Combat
         public UnityAction PickUp; 
         Weapon weaponConfig; 
         Inventory inventory;   
-        GameObject interact;           
-        GameObject player;    
+        GameObject interact;  
+        Fighter fighter;
+        GameObject player; 
         int number = 1; 
 
         void OnEnable() 
@@ -38,7 +39,8 @@ namespace Rambler.Combat
          private void Awake()
         {       
             interact = GameObject.FindGameObjectWithTag("Interact");                                         
-            player = GameObject.Find("/PlayerCore/Rambler");            
+            player = GameObject.Find("/PlayerCore/Rambler");  
+            fighter = player.GetComponent<Fighter>();   
             pickupSpawner = GetComponent<PickUpSpawner>();            
             inventory = player.GetComponent<Inventory>(); 
         }                
@@ -71,8 +73,9 @@ namespace Rambler.Combat
         {             
             bool foundSlot = inventory.AddToFirstEmptySlot(weaponConfig, number);
             if (foundSlot)
-            {                 
-                Destroy(gameObject, 0.5f);                                                 
+            {      
+                fighter.weaponPickedUp = weaponConfig;
+                Destroy(gameObject, 0.5f);                                           
             } 
         }     
     }        

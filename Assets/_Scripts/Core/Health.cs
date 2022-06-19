@@ -28,6 +28,7 @@ namespace Rambler.Core // To Do Stop Movement
         [SerializeField] Companion companion;
         [SerializeField] GameObject deathSplashScreen;
         [SerializeField] GameObject hud;
+        [SerializeField] Animator weaponAnim;
         
         public delegate void TargetDeath();
         public static event TargetDeath targetDeath;
@@ -43,7 +44,7 @@ namespace Rambler.Core // To Do Stop Movement
         float damage; 
         public float SetDamage {set{damage = value;}}
         CombatTarget combatTarget;
-        Animator anim;        
+        Animator anim;
         int dieRanNum; 
         int hitRanNum;        
         Rigidbody rb;   
@@ -93,15 +94,10 @@ namespace Rambler.Core // To Do Stop Movement
         {  
             if(isDead) return;
             if(this.gameObject.name == "Rambler") return;
-            aIScript.SuspicionBehaviour();
-            anim.SetTrigger("HitAnim");  
-            HealthCheck();          
-            AudioManager.PlayHumanSound(humanSound: AudioManager.HumanSound.Hit1, position: this.transform.position);
-            
-            if (gameObject.tag == "Enemy")
-            {               
-               aIScript.AttackBehaviour();
-            }                                    
+            anim.SetTrigger("HitAnim");
+            if(gameObject.CompareTag("Player")) return;
+            AudioManager.PlayHumanSound(humanSound: AudioManager.HumanSound.Hit1, position: this.transform.position);                         
+            aIScript.AttackBehaviour();                                               
         }
         
         void OnParticleCollision(GameObject particleProj)
@@ -135,17 +131,18 @@ namespace Rambler.Core // To Do Stop Movement
         }        
  
         public void Die()
-        {                
-            StopMovement();  
-            EnemyDeath();
+        {            
             targetDeath.Invoke();             
             capCol.enabled = false;
             isDead = true; 
-                    
+            StopMovement();  
+            EnemyDeath();
+                   
             dieRanNum = Random.Range(1, 4);     
             if (this.gameObject.name == "Rambler")
             {              
                 playerDeath.Invoke();
+                LevelManager.Instance.PlayerDeathCheck();
                 mover = GetComponent<Mover>();
                 mover.enabled = false;
                 shield.SetActive(false);                
@@ -157,6 +154,7 @@ namespace Rambler.Core // To Do Stop Movement
                 armFX.SetActive(true);
                 if(this.CompareTag("Enemy"))
                 {
+                  weaponAnim.SetTrigger("isDead");
                   AudioManager.PlayHumanSound(AudioManager.HumanSound.Death1, this.transform.position);
                   this.tag = "DeadCharacter";
                 }
@@ -171,6 +169,7 @@ namespace Rambler.Core // To Do Stop Movement
                 headFX.SetActive(true);
                 if(this.CompareTag("Enemy"))
                 {
+                  weaponAnim.SetTrigger("isDead");
                   AudioManager.PlayHumanSound(AudioManager.HumanSound.Death2, this.transform.position); 
                   this.tag = "DeadCharacter";
                 } 
@@ -185,6 +184,7 @@ namespace Rambler.Core // To Do Stop Movement
                 legFX.SetActive(true); 
                 if(this.CompareTag("Enemy"))
                 {
+                  weaponAnim.SetTrigger("isDead");
                   AudioManager.PlayHumanSound(AudioManager.HumanSound.Death3, this.transform.position); 
                   this.tag = "DeadCharacter";
                 }
@@ -192,7 +192,7 @@ namespace Rambler.Core // To Do Stop Movement
                 {
                    PlayerDeath(); 
                 }
-            }          
+            }                     
         }
 
         void EnemyDeath()
@@ -224,7 +224,6 @@ namespace Rambler.Core // To Do Stop Movement
             mover.RigWeaponUnequipped();
             var rigWeight = RigLayer.GetComponent<Rig>();
             rigWeight.weight = 0;
-            GetComponent<ActionScheduler>().CancelCurrentAction(); 
             agent.enabled = false;
             rb.detectCollisions = false;
             rb.velocity = Vector3.zero;            

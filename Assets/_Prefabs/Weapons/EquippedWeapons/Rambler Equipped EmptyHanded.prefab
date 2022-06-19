@@ -53,11 +53,9 @@ MonoBehaviour:
     type: 3}
   projectile: {fileID: 0}
   magazine: {fileID: 0}
-  weaponRange: 1.15
+  weaponRange: 1.4
   totalAmmoDisplay: {fileID: 0}
   magDisplay: {fileID: 0}
-  magAmount: 0
-  totalAmmo: 0
 --- !u!1 &1751653527374776513
 GameObject:
   m_ObjectHideFlags: 0

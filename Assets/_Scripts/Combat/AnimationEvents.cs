@@ -23,7 +23,7 @@ namespace Rambler.Combat
 
         public void EndPickup() 
         {
-            fighter.EquipLastWeapon();
+            fighter.EquipPickedUpWeapon();
         }
     }
 }

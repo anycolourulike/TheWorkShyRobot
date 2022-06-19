@@ -21,7 +21,8 @@ namespace Rambler.Combat
         public CapsuleCollider TargetCapsule {get{return targetCapsule;} set{targetCapsule = value;}}       
         public ActiveWeapon activeWeapon; 
         public Transform handTransform;        
-        public Animator rigController;         
+        public Animator rigController;  
+        public Weapon weaponPickedUp;       
         public Weapon weaponConfig;  
         public Weapon lastWeaponUsed;     
         public Weapon SetLastWeapon{set{lastWeaponUsed = value;}}      
@@ -128,7 +129,6 @@ namespace Rambler.Combat
 
         public void EquipWeapon(Weapon weapon)
         {  
-            //check if weapon equipped than holster
             DestroyOldWeapon(handTransform: handTransform);
             weaponConfig = weapon;                                
             Spawn(handTransform: handTransform, animator: anim);  
@@ -155,8 +155,7 @@ namespace Rambler.Combat
                 if(this.gameObject.name == "Companion") return; 
                 
                 if(this.gameObject.tag == "Player")
-                {
-                  
+                {                  
                   activeWeapon.AmmoUIInit();
                 }
            }        
@@ -171,6 +170,12 @@ namespace Rambler.Combat
         public void EquipLastWeapon() 
         {
             EquipWeapon(weapon: lastWeaponUsed);
+        }
+
+        public void EquipPickedUpWeapon()
+        {
+            weaponConfig = weaponPickedUp;
+            EquipWeapon(weaponConfig);
         }
 
         public void RigWeightToZero() 

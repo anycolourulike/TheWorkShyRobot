@@ -26,11 +26,12 @@ namespace Rambler.Control
         [SerializeField] Animator anim; 
         
         CinemachineVirtualCamera cineMachine;                
-        ActiveWeapon activeWeapon;         
+        ActiveWeapon activeWeapon;             
         float holdDuration = 1f;               
         Transform handTransform;
-        Animator rigController; 
-        Animator playerAnim;
+        Animator rigController;
+        GameObject ammoCounter; 
+        Animator playerAnim;        
         NavMeshAgent agent; 
         WeaponIK weaponIK;        
         Mover mover;
@@ -39,7 +40,7 @@ namespace Rambler.Control
         Vector3 pickUpDirection;
         GameObject interact;    
         GameObject weaponPU; 
-        WeaponPickUp pickUp;  
+        WeaponPickUp pickUp;        
         float shakeTimer;        
         int interactions;    
         bool shieldsUp;
@@ -47,6 +48,7 @@ namespace Rambler.Control
        
         private void Start()
         {   
+           //ammoCounter = GameObject.Find("PlayerCore/ammoCounter");
            agent = GetComponent<NavMeshAgent>();         
            rigController = GetComponent<Fighter>().rigController;       
            handTransform = GetComponent<Fighter>().handTransform;
@@ -118,7 +120,7 @@ namespace Rambler.Control
                     continue;
                 }
                 fighter.Attack(combatTarget: otherCombatTarget.gameObject);
-                fighter.TargetCapsule = targetCapsule;                 
+
                 ShakeCamera(1.5f, 0.2f);
                 
                 return true;
@@ -154,7 +156,7 @@ namespace Rambler.Control
                 return true;              
             }
             return false;
-        }                  
+        }              
 
         private Transform GetHandTransform(Transform handTransform)
         {
@@ -224,21 +226,19 @@ namespace Rambler.Control
                 fighter.SetLastWeapon = fighter.weaponConfig; 
                 fighter.EquipUnarmed();                
                 playerAnim.SetTrigger("pickUp");
-                pickUp.PickUpItem();                  
+                pickUp.PickUpItem();     
                 break;
             }            
         }     
 
         public void HolsterWeapon()
         { 
-
-            //check weapon type, holster
             if(isHolstered == true)
             {
                 return;
             }
             else 
-            {                        
+            {                                      
                isHolstered = true;
                weaponIK.AimTransform = null;          
                rigController.SetTrigger("holster_weapon"); 
@@ -273,6 +273,7 @@ namespace Rambler.Control
 
        void ShakeCamera(float intensity, float time)
        {
+          if(fighter.activeWeapon.weaponType == ActiveWeapon.WeaponType.melee) return;
           CinemachineBasicMultiChannelPerlin cineMachinePerlin = 
           cineMachine.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
