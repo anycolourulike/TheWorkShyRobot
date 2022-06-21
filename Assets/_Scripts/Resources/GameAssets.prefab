@@ -62,6 +62,8 @@ MonoBehaviour:
     weaponClip: {fileID: 8300000, guid: 3db1284c00dd04218991196e8edbee63, type: 3}
   - weaponSFX: 8
     weaponClip: {fileID: 8300000, guid: f6727888a13262d44acfcc216821d28b, type: 3}
+  - weaponSFX: 9
+    weaponClip: {fileID: 8300000, guid: 082f5100091a0834e8bb319a05833eb4, type: 3}
   enviromentAudioClipArray:
   - enviromentSFX: 0
     enviromentClip: {fileID: 8300000, guid: b4411a042aaea554b8ad110c078b4207, type: 3}
@@ -149,3 +151,5 @@ MonoBehaviour:
     ambientClip: {fileID: 8300000, guid: 6199b69050fbf3b4caa7155092314523, type: 3}
   - ambientSFX: 4
     ambientClip: {fileID: 8300000, guid: b4411a042aaea554b8ad110c078b4207, type: 3}
+  - ambientSFX: 5
+    ambientClip: {fileID: 8300000, guid: 810ecb2b87caefc408922b93ca71d1d1, type: 3}

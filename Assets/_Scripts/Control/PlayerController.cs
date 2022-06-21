@@ -24,13 +24,14 @@ namespace Rambler.Control
         [SerializeField] GameObject shield; 
         [SerializeField] Fighter fighter;          
         [SerializeField] Animator anim; 
+        [SerializeField] GameObject ammoCounter;
         
         CinemachineVirtualCamera cineMachine;                
         ActiveWeapon activeWeapon;             
         float holdDuration = 1f;               
         Transform handTransform;
         Animator rigController;
-        GameObject ammoCounter; 
+         
         Animator playerAnim;        
         NavMeshAgent agent; 
         WeaponIK weaponIK;        
@@ -47,8 +48,8 @@ namespace Rambler.Control
               
        
         private void Start()
-        {   
-           //ammoCounter = GameObject.Find("PlayerCore/ammoCounter");
+        { 
+           ammoCounter.SetActive(false);
            agent = GetComponent<NavMeshAgent>();         
            rigController = GetComponent<Fighter>().rigController;       
            handTransform = GetComponent<Fighter>().handTransform;
@@ -238,7 +239,8 @@ namespace Rambler.Control
                 return;
             }
             else 
-            {                                      
+            {  
+               ammoCounter.SetActive(false);                                    
                isHolstered = true;
                weaponIK.AimTransform = null;          
                rigController.SetTrigger("holster_weapon"); 
@@ -252,6 +254,16 @@ namespace Rambler.Control
           shieldsUp = !shieldsUp;
        }
 
+       public void ActivateAmmoCounter()
+       {
+          ammoCounter.SetActive(true);
+       }
+
+       public void DeactivateAmmoCounter()
+       {
+          ammoCounter.SetActive(false);
+       }
+
        public void ReloadActiveWeapon() 
        {
            anim.SetTrigger("reload");
@@ -261,6 +273,7 @@ namespace Rambler.Control
 
        void ShieldsUp() 
        {  
+          AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.ShieldUp, transform.position);
           shield.SetActive(true);
           shieldsUp = true;
        }  

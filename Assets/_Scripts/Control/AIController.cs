@@ -24,28 +24,38 @@ namespace Rambler.Control
          = Mathf.Infinity;
 
         FieldOfView FOVCheck;
-        public GameObject player;
+        public GameObject closestPlayer;
         public List<GameObject> playersList
         = new List<GameObject>();
         CapsuleCollider capsuleCol;        
-        CombatTarget otherCombatTarget; 
-        int currentWaypointIndex = 0;        
+        CombatTarget otherCombatTarget;         
+        int currentWaypointIndex = 0;  
+        public AIState currentState;      
         float TimerForNextAttack; 
         Fighter fighter;
         float coolDown;
         Health health;        
         Mover mover;
+
+        public enum AIState
+        {
+            attack,
+            patrol,
+            retreat,
+            searching,
+            reloading,
+        }
         
       
        void OnEnable() 
        {
-            Health.targetDeath += NextTarget;
+            Health.targetDeath += SearchForPlayer;
             Health.playerDeath += PlayerDeath;
        }
 
        void OnDisable() 
        {
-           Health.targetDeath -= NextTarget;
+           Health.targetDeath -= SearchForPlayer;
            Health.playerDeath -= PlayerDeath;
        }
 
@@ -56,23 +66,52 @@ namespace Rambler.Control
             health = GetComponent<Health>();            
             mover = GetComponent<Mover>();  
             FOVCheck = GetComponent<FieldOfView>();
-
-            foreach(GameObject player in playersList) 
-            { 
-              capsuleCol = player.GetComponent<CapsuleCollider>();  
-              otherCombatTarget = player.GetComponent<CombatTarget>(); 
-            }            
+            SearchForPlayer();                       
             coolDown = 2.5f;
             TimerForNextAttack = coolDown;            
         }
 
         private void Update()
-        {                  
+        {   
             if (health.IsDead()) return;
+
+            switch(currentState)
+            {
+
+               case AIState.attack:
+               {
+                   AttackBehaviour();
+               }   
+               break;
+
+               case AIState.patrol:
+               {
+                    PatrolBehaviour();
+               }
+               break;
+
+               case AIState.reloading:
+               {
+
+               }
+               break;
+
+               case AIState.retreat:
+               {
+                   //add retreat position   
+               }   
+               break;
+ 
+               case AIState.searching:
+               {
+                    SuspicionBehaviour();
+               }   
+               break;
+            } 
            
-            if(FOVCheck.canSeePlayer == true && fighter.CanAttack(combatTarget: player))
+            if(FOVCheck.canSeePlayer == true && fighter.CanAttack(combatTarget: closestPlayer))
             { 
-                SuspicionBehaviour();
+                currentState = AIState.attack;
                 if (TimerForNextAttack > 0)
                 {
                     TimerForNextAttack -= Time.deltaTime;
@@ -80,19 +119,18 @@ namespace Rambler.Control
                 else if (TimerForNextAttack <= 0)
                 {                    
                     if(capsuleCol != null)
-                    {       
-                      AttackBehaviour();
+                    { 
                       TimerForNextAttack = coolDown;
                     }
                 }                
             }
             else if (timeSinceLastSawPlayer < suspicionTime)
             {
-                SuspicionBehaviour();
+                currentState = AIState.searching;
             }
             else
             {
-                PatrolBehaviour();
+                currentState = AIState.patrol;
             }
             UpdateTimers();           
         }
@@ -102,32 +140,15 @@ namespace Rambler.Control
             fighter.TargetCapsule = capsuleCol;
             fighter.otherCombatTarget = otherCombatTarget;
             timeSinceLastSawPlayer = 0;
-            fighter.Attack(combatTarget: player);
+            fighter.Attack(combatTarget: closestPlayer);
         }   
 
         void PlayerDeath()
         {  
             fighter.TargetCapsule = null;
             fighter.Cancel();
-            PatrolBehaviour();            
-        }       
-
-        void NextTarget()
-        {          
-           int currentTarget = 0;
-           for(int i = 0; i < playersList.Count; ++i)
-           {
-               if(playersList[index: i] == player)
-               {
-                   currentTarget = i;
-               }
-           }
-           if(playersList.Count == 0) return;
-           currentTarget = (currentTarget + 1) % playersList.Count;
-           player = playersList[index: currentTarget];           
-           capsuleCol = player.GetComponent<CapsuleCollider>();  
-           otherCombatTarget = player.GetComponent<CombatTarget>();
-        }      
+            SearchForPlayer();      
+        }     
 
         private void UpdateTimers()
         {
@@ -150,7 +171,32 @@ namespace Rambler.Control
             {
                 mover.StartMoveAction(destination: nextPosition, speedFraction: patrolSpeedFraction);
             }            
-        }     
+        }  
+
+        void SearchForPlayer()
+        {
+            float distToClosestPlayer = Mathf.Infinity;
+            closestPlayer = null;
+            foreach(GameObject player in playersList) 
+            { 
+              float distanceToPlayer = (player.transform.position - this.transform.position).sqrMagnitude;
+              if(distanceToPlayer < distToClosestPlayer)
+              {
+                distToClosestPlayer = distanceToPlayer;
+                if(player == null)
+                {
+                    currentState = AIState.patrol;
+                }
+                else
+                {
+                    closestPlayer = player;
+                }               
+              }  
+            } 
+            capsuleCol = closestPlayer.GetComponent<CapsuleCollider>();  
+            otherCombatTarget = closestPlayer.GetComponent<CombatTarget>();
+        }
+
 
         private bool AtWaypoint()
         {
@@ -171,6 +217,7 @@ namespace Rambler.Control
         public void SuspicionBehaviour()
         {            
             GetComponent<ActionScheduler>().CancelCurrentAction();
+            SearchForPlayer();
         }        
     }
 }

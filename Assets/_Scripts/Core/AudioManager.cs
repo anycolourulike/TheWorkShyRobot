@@ -18,6 +18,8 @@ namespace Rambler.Core
         humanImpact,
         robotImpact,
         weaponReload,
+        ShieldUp,
+        DeathScreen,
     }
     
     public enum EnvironmentSound
@@ -25,7 +27,6 @@ namespace Rambler.Core
           
         ObjectiveRecevived,    
         ObjectiveComplete,
-        OnGameOver,
         RadioMessageStart,
         RadioMessageFinish,
         RadioTalk1,
@@ -35,17 +36,7 @@ namespace Rambler.Core
         DoorClosed,
         Explosion1,
         Explosion2,
-        alarm,
-
-        footInterior1,
-        footInterior2,
-        footInterior3,
-        footSand1,
-        footSand2,
-        footSand3,
-        footStone1,
-        footStone2,
-        footStone3,
+        alarm,        
     }
 
     public enum HumanSound

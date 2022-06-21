@@ -26371,6 +26371,7 @@ MonoBehaviour:
   shield: {fileID: 2810129383464833643}
   fighter: {fileID: 2810129383371888294}
   anim: {fileID: 2810129383371888297}
+  ammoCounter: {fileID: 5533194600078801839}
   isHolstered: 0
 --- !u!114 &2810129383371888294
 MonoBehaviour:
@@ -26395,6 +26396,7 @@ MonoBehaviour:
   activeWeapon: {fileID: 0}
   handTransform: {fileID: 2810129383747758840}
   rigController: {fileID: 2810129383128120973}
+  weaponPickedUp: {fileID: 0}
   weaponConfig: {fileID: 11400000, guid: 2cee64217ec535a4393a743933fdeaea, type: 2}
   lastWeaponUsed: {fileID: 0}
   otherCombatTarget: {fileID: 0}
@@ -26438,6 +26440,7 @@ MonoBehaviour:
   companion: {fileID: 0}
   deathSplashScreen: {fileID: 6318095116626786374}
   hud: {fileID: 2810129384920218522}
+  weaponAnim: {fileID: 0}
   isDead: 0
 --- !u!114 &2810129383371888319
 MonoBehaviour:
@@ -89565,7 +89568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 453fd2b60d10bfd449a10a479c69c14f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quitButton: {fileID: 0}
+  quitButton: {fileID: 2810129383437712640}
   nextButton: {fileID: 2810129383252984526}
   choiceRoot: {fileID: 2810129385019778678}
   AIResponse: {fileID: 2810129383440568421}

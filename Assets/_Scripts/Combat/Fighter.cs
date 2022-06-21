@@ -30,7 +30,8 @@ namespace Rambler.Combat
         Mathf.Infinity;         
         public CombatTarget otherCombatTarget;   //other combat Target
         public CombatTarget Target {set{otherCombatTarget = value;}}                    
-        Vector3 hitPointVector;        
+        Vector3 hitPointVector;   
+        PlayerController playerController;     
         GameObject weaponRef;  
         Health targetHealth;             
         Transform enemyPos; 
@@ -41,7 +42,11 @@ namespace Rambler.Combat
         
         
         void Start()
-        {   
+        { 
+           if(this.gameObject.name == "Rambler")
+           {
+              playerController = GetComponent<PlayerController>();
+           }
            rigController = GetComponent<Fighter>().rigController;  
            weaponIk = GetComponent<WeaponIK>();          
            anim = GetComponent<Animator>(); 
@@ -155,7 +160,8 @@ namespace Rambler.Combat
                 if(this.gameObject.name == "Companion") return; 
                 
                 if(this.gameObject.tag == "Player")
-                {                  
+                {  
+                  playerController.ActivateAmmoCounter();                  
                   activeWeapon.AmmoUIInit();
                 }
            }        
@@ -163,6 +169,13 @@ namespace Rambler.Combat
 
         public void EquipUnarmed()
         {
+            if(this.gameObject.name == "Companion") return; 
+                
+                if(this.gameObject.tag == "Player")
+                {  
+                  playerController.DeactivateAmmoCounter();                  
+                  activeWeapon.AmmoUIInit();
+                }
             RigWeightToZero();
             EquipWeapon(weapon: unarmed);                                              
         }

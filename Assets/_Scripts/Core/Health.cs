@@ -210,7 +210,8 @@ namespace Rambler.Core // To Do Stop Movement
         void PlayerDeath() 
         {
             deathSplashScreen.SetActive(true);
-            AudioManager.PlayHumanSound(AudioManager.HumanSound.Death4, this.transform.position);             
+            AudioManager.PlayHumanSound(AudioManager.HumanSound.Death4, transform.position); 
+            AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.DeathScreen, transform.position);
         }
 
         public void HitTheFloor() 
@@ -223,6 +224,7 @@ namespace Rambler.Core // To Do Stop Movement
             combatTarget.enabled = false;
             mover.RigWeaponUnequipped();
             var rigWeight = RigLayer.GetComponent<Rig>();
+            fighter.enabled = false;
             rigWeight.weight = 0;
             agent.enabled = false;
             rb.detectCollisions = false;
