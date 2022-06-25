@@ -157,7 +157,8 @@ namespace Rambler.Control
         }        
 
         private void PatrolBehaviour()
-        {             
+        {    
+            SearchForPlayer();         
             if (patrolPath != null)
             {
                 if (AtWaypoint())
@@ -215,8 +216,7 @@ namespace Rambler.Control
         }
 
         public void SuspicionBehaviour()
-        {            
-            GetComponent<ActionScheduler>().CancelCurrentAction();
+        {   
             SearchForPlayer();
         }        
     }

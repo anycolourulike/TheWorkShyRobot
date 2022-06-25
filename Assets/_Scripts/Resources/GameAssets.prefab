@@ -64,6 +64,8 @@ MonoBehaviour:
     weaponClip: {fileID: 8300000, guid: f6727888a13262d44acfcc216821d28b, type: 3}
   - weaponSFX: 9
     weaponClip: {fileID: 8300000, guid: 082f5100091a0834e8bb319a05833eb4, type: 3}
+  - weaponSFX: 8
+    weaponClip: {fileID: 8300000, guid: f6727888a13262d44acfcc216821d28b, type: 3}
   enviromentAudioClipArray:
   - enviromentSFX: 0
     enviromentClip: {fileID: 8300000, guid: b4411a042aaea554b8ad110c078b4207, type: 3}

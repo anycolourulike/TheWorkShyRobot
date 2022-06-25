@@ -77,7 +77,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneToLoad: 2
+  rambler: {fileID: 0}
   spawnPoint: {fileID: 4412804764700965070}
+  companionSpawnPoint: {fileID: 0}
   destination: 1
   fadeOutTime: 1
   fadeInTime: 2
@@ -122,6 +124,10 @@ PrefabInstance:
     - target: {fileID: 1678628404782994, guid: 2c51ed4e970740543bbbefd591f8cb2f, type: 3}
       propertyPath: m_Name
       value: PortalBlackHole
+      objectReference: {fileID: 0}
+    - target: {fileID: 1678628404782994, guid: 2c51ed4e970740543bbbefd591f8cb2f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4889155434602950, guid: 2c51ed4e970740543bbbefd591f8cb2f, type: 3}
       propertyPath: m_RootOrder

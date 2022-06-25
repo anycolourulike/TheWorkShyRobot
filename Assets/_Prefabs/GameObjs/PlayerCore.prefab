@@ -26400,7 +26400,6 @@ MonoBehaviour:
   weaponConfig: {fileID: 11400000, guid: 2cee64217ec535a4393a743933fdeaea, type: 2}
   lastWeaponUsed: {fileID: 0}
   otherCombatTarget: {fileID: 0}
-  playerInSight: 0
 --- !u!114 &2810129383371888309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26436,10 +26435,7 @@ MonoBehaviour:
   armFX: {fileID: 2810129383828159727}
   shield: {fileID: 2810129384596486582}
   mover: {fileID: 6021023248469033459}
-  enemyspawn: {fileID: 0}
-  companion: {fileID: 0}
   deathSplashScreen: {fileID: 6318095116626786374}
-  hud: {fileID: 2810129384920218522}
   weaponAnim: {fileID: 0}
   isDead: 0
 --- !u!114 &2810129383371888319
@@ -88951,17 +88947,17 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55
+  m_fontSize: 72
   m_fontSizeBase: 55
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: -3
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -110151,7 +110147,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2810129385005661339
 RectTransform:
   m_ObjectHideFlags: 0
@@ -122013,6 +122009,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5614951095599059697, guid: 08cfa46863fbf5542ac1e4d0ecbba039,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5614951095599059697, guid: 08cfa46863fbf5542ac1e4d0ecbba039,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2810129384920218469}
@@ -122148,6 +122149,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5614951096172991003, guid: 08cfa46863fbf5542ac1e4d0ecbba039,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5614951096172991003, guid: 08cfa46863fbf5542ac1e4d0ecbba039,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2810129384920218469}
@@ -122193,6 +122199,11 @@ PrefabInstance:
       objectReference: {fileID: 2810129384920218469}
     - target: {fileID: 8390071727229933745, guid: 7b5a75e66b7dcff4aa50e2bbcd756082,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390071727229933745, guid: 7b5a75e66b7dcff4aa50e2bbcd756082,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2810129384920218469}
@@ -122206,6 +122217,11 @@ PrefabInstance:
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2810129384920218469}
+    - target: {fileID: 8390071728159946557, guid: 7b5a75e66b7dcff4aa50e2bbcd756082,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8390071728159946557, guid: 7b5a75e66b7dcff4aa50e2bbcd756082,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

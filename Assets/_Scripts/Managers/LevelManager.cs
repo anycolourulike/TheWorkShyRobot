@@ -48,6 +48,7 @@ public class LevelManager : MonoBehaviour
     public IEnumerator LoadIntro() 
     { 
        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
+       wrapper.Delete();
        yield return new WaitForSecondsRealtime(3);
        SceneManager.LoadScene("IntroComic"); 
     }
@@ -81,18 +82,16 @@ public class LevelManager : MonoBehaviour
         int sceneIndex = SceneManager.GetActiveScene().buildIndex;
         if(sceneIndex > 3)
         {
+            if(sceneIndex == 6) return;
             PlayerAssignWeapons();
             SavingWrapper wrapper = FindObjectOfType<SavingWrapper>(); 
             wrapper.Load();  
+            fighter.EquipWeapon(lastEquippedWeapon);
         } 
     } 
 
-    public void PlayerDeathCheck()
-    {   
-        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
-        if(sceneIndex < 4) return;         
-        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>(); 
-        wrapper.Save();  
+    public void PlayerWeaponCheck()
+    {  
         var player = GameObject.Find("PlayerCore/Rambler");
         fighter = player.GetComponent<Fighter>();
         lastEquippedWeapon = fighter.weaponConfig;           
@@ -103,7 +102,7 @@ public class LevelManager : MonoBehaviour
         var player = GameObject.Find("PlayerCore/Rambler");
         fighter = player.GetComponent<Fighter>();
         fighter.weaponConfig =  lastEquippedWeapon;                
-    }  
+    }   
 
     void AmbientMusic()
     {
@@ -125,6 +124,14 @@ public class LevelManager : MonoBehaviour
 
             case 5:
             AudioManager.PlayAmbientSound(AudioManager.AmbientSound.SurfaceBackground);                           
+            break;
+
+            case 7:
+            AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);                           
+            break;
+
+            case 8:
+            AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);                           
             break;
         }  
     }

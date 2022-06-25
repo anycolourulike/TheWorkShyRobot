@@ -49,7 +49,6 @@ namespace Rambler.Control
        
         private void Start()
         { 
-           ammoCounter.SetActive(false);
            agent = GetComponent<NavMeshAgent>();         
            rigController = GetComponent<Fighter>().rigController;       
            handTransform = GetComponent<Fighter>().handTransform;
@@ -78,17 +77,17 @@ namespace Rambler.Control
            if (InteractWithCombat()) return;
            if (InteractWithMovement()) return;    
 
-           if(shakeTimer > 0)
-           { 
-              shakeTimer -= Time.deltaTime;
-              if(shakeTimer <= 0f) 
-              {
-                CinemachineBasicMultiChannelPerlin cineMachinePerlin = 
-                cineMachine.GetComponent<CinemachineBasicMultiChannelPerlin>();
+        //    if(shakeTimer > 0)
+        //    { 
+        //       shakeTimer -= Time.deltaTime;
+        //       if(shakeTimer <= 0f) 
+        //       {
+        //         CinemachineBasicMultiChannelPerlin cineMachinePerlin = 
+        //         cineMachine.GetComponent<CinemachineBasicMultiChannelPerlin>();
 
-                cineMachinePerlin.m_AmplitudeGain = 1f;
-              }
-           }        
+        //         cineMachinePerlin.m_AmplitudeGain = 1f;
+        //       }
+        //    }        
            
            if(shieldsUp == true) 
            {
@@ -108,6 +107,7 @@ namespace Rambler.Control
             foreach (RaycastHit hit in hits)
             {
                 CombatTarget otherCombatTarget = hit.transform.GetComponent<CombatTarget>();
+                GameObject objTarget = hit.transform.gameObject;
                 var thisCombatTarget = GetComponent<CombatTarget>();
                 if(otherCombatTarget == thisCombatTarget) return false;
                 Fighter fighter = GetComponent<Fighter>();
@@ -122,14 +122,17 @@ namespace Rambler.Control
                 }
                 fighter.Attack(combatTarget: otherCombatTarget.gameObject);
 
-                ShakeCamera(1.5f, 0.2f);
+                if(objTarget.tag == "Enemy") 
+                {
+                    ShakeCamera(1.5f, 0.2f);
+                }    
                 
                 return true;
             }
             return false;
         }   
 
-        private bool InteractWithMovement()
+        bool InteractWithMovement()
         {            
            Vector3 target;
            bool hasHit = RaycastNavMesh(out target);
@@ -159,17 +162,17 @@ namespace Rambler.Control
             return false;
         }              
 
-        private Transform GetHandTransform(Transform handTransform)
+        Transform GetHandTransform(Transform handTransform)
         {
             return this.handTransform;
         }    
 
-        private static Ray GetRay()
+        static Ray GetRay()
         {
             return Camera.main.ScreenPointToRay(Input.mousePosition);
         }
 
-        private bool RaycastNavMesh(out Vector3 target)
+        bool RaycastNavMesh(out Vector3 target)
         {
             target = new Vector3();
 
@@ -211,11 +214,13 @@ namespace Rambler.Control
         public void InteractPressed()
         { 
            agent.enabled = false; 
+           mover.enabled = false;
            Quaternion target = Quaternion.LookRotation(pickUpDirection - this.transform.position);
            this.transform.rotation = Quaternion.Slerp(this.transform.rotation, target, Time.deltaTime);                
            Interact();
            interact.SetActive(false);
-           agent.enabled =true;
+           agent.enabled = true;
+           mover.enabled = true;
            pickUp = null;
         } 
 
@@ -247,44 +252,47 @@ namespace Rambler.Control
                var fighter = GetComponent<Fighter>();
                fighter.RigWeightToZero();  
             }                                                
-        }      
+        }
 
-       public void ToggelShields()
+        public void ActivateAmmoCounter()
        {         
-          shieldsUp = !shieldsUp;
+          ammoCounter.SetActive(true);        
        }
 
-       public void ActivateAmmoCounter()
-       {
-          ammoCounter.SetActive(true);
-       }
-
-       public void DeactivateAmmoCounter()
+        public void DeactivateAmmoCounter()
        {
           ammoCounter.SetActive(false);
        }
 
-       public void ReloadActiveWeapon() 
+        public void ReloadActiveWeapon() 
        {
-           anim.SetTrigger("reload");
+           anim.SetTrigger("Reload");
            activeWeapon = fighter.activeWeapon;
            activeWeapon.Reload();
        }
 
-       void ShieldsUp() 
-       {  
-          AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.ShieldUp, transform.position);
+        void ShieldsUp() 
+       {           
           shield.SetActive(true);
           shieldsUp = true;
-       }  
+       } 
 
-       void ShieldsDown() 
+        public void ToggelShields()
+       { 
+        if(shieldsUp == false)
+        {
+          AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.ShieldUp, transform.position);
+        }        
+          shieldsUp = !shieldsUp;
+       } 
+
+        void ShieldsDown() 
        {  
           shield.SetActive(false);
           shieldsUp = false;
        } 
 
-       void ShakeCamera(float intensity, float time)
+        void ShakeCamera(float intensity, float time)
        {
           if(fighter.activeWeapon.weaponType == ActiveWeapon.WeaponType.melee) return;
           CinemachineBasicMultiChannelPerlin cineMachinePerlin = 

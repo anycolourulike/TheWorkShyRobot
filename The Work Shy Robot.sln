@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavMeshComponentsTestsPlaym
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{9d8d6c25-e306-fb5b-62aa-74c7590fd66e}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{bbb15507-2ab4-2ccd-599e-745b79043803}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavMeshComponentsEditor", "NavMeshComponentsEditor.csproj", "{d8b6663c-70cf-d226-d9df-59f367c37892}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{bbb15507-2ab4-2ccd-599e-745b79043803}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavMeshComponentsTestsEditmode", "NavMeshComponentsTestsEditmode.csproj", "{47f102f9-acd7-e6d5-d4aa-953940ba9e98}"
 EndProject
@@ -34,10 +34,10 @@ Global
 		{cb80176d-f67c-6ad2-c716-dabcfdd5ef89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9d8d6c25-e306-fb5b-62aa-74c7590fd66e}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9d8d6c25-e306-fb5b-62aa-74c7590fd66e}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{bbb15507-2ab4-2ccd-599e-745b79043803}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{bbb15507-2ab4-2ccd-599e-745b79043803}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{d8b6663c-70cf-d226-d9df-59f367c37892}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{d8b6663c-70cf-d226-d9df-59f367c37892}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{bbb15507-2ab4-2ccd-599e-745b79043803}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{bbb15507-2ab4-2ccd-599e-745b79043803}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47f102f9-acd7-e6d5-d4aa-953940ba9e98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{47f102f9-acd7-e6d5-d4aa-953940ba9e98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09bbc146-2d81-d1e5-cae6-50126a4dd15c}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

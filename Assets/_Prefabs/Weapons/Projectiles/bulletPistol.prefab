@@ -9566,7 +9566,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitEffect: {fileID: 1879272669879180, guid: e3f361eacdeb09440850ac7397930cba, type: 3}
   maxLifeTime: 0.7
-  speed: 7
+  speed: 4
   damage: 25
 --- !u!1 &480367380869924657
 GameObject:

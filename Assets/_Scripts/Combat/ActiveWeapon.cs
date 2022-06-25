@@ -33,7 +33,7 @@ namespace Rambler.Combat
 
         int maxClip;  
         int ammoSpent;                   
-        int curClip;
+        public int curClip;
 
         void Start() 
         {
@@ -44,9 +44,19 @@ namespace Rambler.Combat
         }          
 
         void Update() 
-        {   
-           if ((this.tag == "NPCWeapon") || (weaponType == WeaponType.melee)) return;
-           AmmoDisplay();     
+        {  
+            if(weaponType == WeaponType.melee) return;  
+            if(this.CompareTag ("weapon"))
+            {
+               AmmoDisplay();  
+            }
+            else if(this.CompareTag("NPCWeapon"))
+            {
+               if(curClip == 0)
+               {
+                  Reload();
+               }
+            }            
         } 
 
         public void AmmoUIInit() 
@@ -163,6 +173,13 @@ namespace Rambler.Combat
             }                                                            
         }
 
+        [System.Serializable]
+        public struct SavingStruct
+        {
+            public int totalAmmo;
+            public int magAmount;
+        }
+
         void AmmoDisplay() 
         {            
             UpdateClipDisplay();            
@@ -210,16 +227,17 @@ namespace Rambler.Combat
 
         void ReloadAnimCheck() 
         {
+            AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.weaponReload, this.transform.position);
             if(this.gameObject.tag == "NPCWeapon")
             {
                 rigController.SetTrigger("Reload");
             }
             else
-            {
+            {                
                 switch(this.weaponType)
                {
                 case WeaponType.pistol:
-                 rigController.SetTrigger("ReloadPistol");                      
+                 rigController.SetTrigger("ReloadPistol");  
                  break;
                 case WeaponType.smg:
                  rigController.SetTrigger("ReloadSMG");
@@ -301,12 +319,16 @@ namespace Rambler.Combat
 
         public object CaptureState()
         {
-            return magAmount;
+            SavingStruct savingStruct = new SavingStruct();
+            savingStruct.totalAmmo = totalAmmo;
+            savingStruct.magAmount = magAmount;
+            return savingStruct;            
         }
 
         public void RestoreState(object state)
         {
             magAmount = (int)state;
+            totalAmmo = (int)state;
         }
     } 
 }
