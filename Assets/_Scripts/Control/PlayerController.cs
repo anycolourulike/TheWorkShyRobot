@@ -75,19 +75,7 @@ namespace Rambler.Control
            }       
 
            if (InteractWithCombat()) return;
-           if (InteractWithMovement()) return;    
-
-        //    if(shakeTimer > 0)
-        //    { 
-        //       shakeTimer -= Time.deltaTime;
-        //       if(shakeTimer <= 0f) 
-        //       {
-        //         CinemachineBasicMultiChannelPerlin cineMachinePerlin = 
-        //         cineMachine.GetComponent<CinemachineBasicMultiChannelPerlin>();
-
-        //         cineMachinePerlin.m_AmplitudeGain = 1f;
-        //       }
-        //    }        
+           if (InteractWithMovement()) return;  
            
            if(shieldsUp == true) 
            {
@@ -101,7 +89,7 @@ namespace Rambler.Control
            }
         }              
 
-        private bool InteractWithCombat()
+        bool InteractWithCombat()
         {           
             RaycastHit[] hits = Physics.RaycastAll(GetRay());
             foreach (RaycastHit hit in hits)
@@ -190,27 +178,6 @@ namespace Rambler.Control
             return true;
         }
 
-        void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.tag == "weaponPU")
-            { 
-               weaponPU = other.gameObject;
-               pickUpDirection = Vector3.RotateTowards(transform.position, other.transform.position, 1f * Time.deltaTime, 0.0f);
-               pickUp = weaponPU.GetComponent<WeaponPickUp>();                                               
-               interact.SetActive(true);
-               interactions = 1;                            
-            }
-        }        
-
-        void OnTriggerExit(Collider other)
-        {
-            if(other.gameObject.tag == "weaponPU")
-            { 
-                pickUp = null;
-                interact.SetActive(false);      
-            }
-        } 
-
         public void InteractPressed()
         { 
            agent.enabled = false; 
@@ -224,18 +191,72 @@ namespace Rambler.Control
            pickUp = null;
         } 
 
+        void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("weaponPU"))
+            { 
+               weaponPU = other.gameObject;
+               pickUpDirection = Vector3.RotateTowards(transform.position, other.transform.position, 1f * Time.deltaTime, 0.0f);
+               pickUp = weaponPU.GetComponent<WeaponPickUp>();                                               
+               interact.SetActive(true);
+               interactions = 1;                            
+            }
+
+            if (other.gameObject.CompareTag("headPickUP"))
+            {
+               interactions = 2;
+            }
+
+            if (other.gameObject.CompareTag("UsePC"))
+            {
+                interactions = 3;
+            }
+        }  
+
         public void Interact()
         {
             switch(interactions)
             {
-                case 1:
+                case 1: 
                 fighter.SetLastWeapon = fighter.weaponConfig; 
                 fighter.EquipUnarmed();                
                 playerAnim.SetTrigger("pickUp");
                 pickUp.PickUpItem();     
                 break;
+
+                case 2:
+                fighter.SetLastWeapon = fighter.weaponConfig; 
+                fighter.EquipUnarmed();                
+                playerAnim.SetTrigger("PicKUPHead");
+                pickUp.PickUpItem(); 
+                break;
+
+                case 3:
+                playerAnim.SetTrigger("use");
+                break;
             }            
-        }     
+        }  
+
+        void OnTriggerExit(Collider other)
+        {
+            if(other.gameObject.CompareTag("weaponPU"))
+            { 
+                pickUp = null;
+                interact.SetActive(false);      
+            }
+
+            if(other.gameObject.CompareTag("headPickUP"))
+            { 
+                pickUp = null;
+                interact.SetActive(false);      
+            }
+
+            if(other.gameObject.CompareTag("UsePC"))
+            { 
+                pickUp = null;
+                interact.SetActive(false);      
+            }
+        }         
 
         public void HolsterWeapon()
         { 

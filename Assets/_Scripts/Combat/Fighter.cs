@@ -28,16 +28,29 @@ namespace Rambler.Combat
         public Weapon SetLastWeapon{set{lastWeaponUsed = value;}}      
         float timeSinceLastAttack = 
         Mathf.Infinity;         
-        public CombatTarget otherCombatTarget;   //other combat Target
-        public CombatTarget Target {set{otherCombatTarget = value;}} 
-        PlayerController playerController;                     
-        Vector3 hitPointVector;              
-        GameObject weaponRef;  
-        Health targetHealth;             
-        public Transform enemyPos; 
+        CombatTarget otherCombatTarget;   //other combat Target
+        public CombatTarget Target {get{return otherCombatTarget;} set{otherCombatTarget = value;}} 
+        PlayerController playerController; 
+        bool outOfAmmoCalled = false; 
+        float outOfAmmo = 0.0f;
+        float period = 3f;                   
+        Vector3 hitPointVector;  
+        GameObject weaponRef;
+        Health targetHealth;                       
+        Transform enemyPos; 
         WeaponIK weaponIk;            
-        Animator anim;         
+        Animator anim;  
+
         
+        void OnEnable()
+        {
+            Health.targetDeath += Cancel;
+        }
+
+        void OnDisable()
+        {
+            Health.targetDeath += Cancel;
+        }
         
         void Start()
         { 
@@ -108,15 +121,17 @@ namespace Rambler.Combat
                             } 
                         }
                         else
-                        {   
-                            GetComponent<ActionScheduler>().CancelCurrentAction();
-                            float emptyWeaponSFXTimer = 4.5f;
-                            emptyWeaponSFXTimer -= Time.deltaTime;
-                            if (emptyWeaponSFXTimer >= 2f) 
-                            {
-                                emptyWeaponSFXTimer = emptyWeaponSFXTimer % 1f;                                                        
-                                AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.outOfAmmo, activeWeapon.transform.position);
-                                anim.SetTrigger("Reload");
+                        {  
+                            {                                
+                                if(Time.time > outOfAmmo && outOfAmmoCalled == false)
+                                {
+                                   outOfAmmo += period;
+                                   outOfAmmoCalled = true;
+                                   AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.outOfAmmo, activeWeapon.transform.position);
+                                   outOfAmmoCalled = false;
+                                   if(this.gameObject.name == "Rambler") return;
+                                   ShootAnim.SetTrigger("Reload");                                   
+                                }   
                             }
                         }
                                                                    
@@ -217,8 +232,10 @@ namespace Rambler.Combat
         }       
 
         public void Cancel()
-        {           
+        {    
+            Target = null;       
             enemyPos = null; 
+            TargetCapsule = null;
         }   
 
         public void AssignAmmo() 
@@ -228,7 +245,7 @@ namespace Rambler.Combat
         
         Vector3 GetEnemyLocation()
         {              
-           return hitPointVector = otherCombatTarget.TargetFuturePos(activeWeapon.AimTransform().position);
+           return hitPointVector = Target.TargetFuturePos(activeWeapon.AimTransform().position);
         }        
 
         void Spawn(Transform handTransform, Animator animator)
@@ -331,6 +348,6 @@ namespace Rambler.Combat
         void ActiveWeaponInit()
         {            
             activeWeapon = weaponRef.GetComponentInChildren<ActiveWeapon>();
-        }              
+        } 
    }
 }

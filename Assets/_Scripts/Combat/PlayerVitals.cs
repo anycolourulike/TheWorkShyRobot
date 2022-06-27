@@ -25,7 +25,7 @@ namespace Rambler.Combat
        
        void Start()
        {   
-           playerCurHP = health.HealthPoints;
+           playerCurHP = health.healthPoints;
            MaxHealth();           
            MaxEnergy();
        }
@@ -69,7 +69,7 @@ namespace Rambler.Combat
 
         void MaxHealth()
         {
-            health.HealthPoints = playerMaxHP;  
+            health.healthPoints = playerMaxHP;  
             healthbarFill.fillAmount = 1;         
         }        
 

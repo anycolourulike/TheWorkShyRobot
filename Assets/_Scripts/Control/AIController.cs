@@ -22,7 +22,6 @@ namespace Rambler.Control
          = Mathf.Infinity;
         float timeSinceLastSawPlayer
          = Mathf.Infinity;
-
         FieldOfView FOVCheck;
         public GameObject closestPlayer;
         public List<GameObject> playersList
@@ -66,6 +65,7 @@ namespace Rambler.Control
             health = GetComponent<Health>();            
             mover = GetComponent<Mover>();  
             FOVCheck = GetComponent<FieldOfView>();
+
             SearchForPlayer();                       
             coolDown = 2.5f;
             TimerForNextAttack = coolDown;            
@@ -73,11 +73,35 @@ namespace Rambler.Control
 
         private void Update()
         {   
-            if (health.IsDead()) return;
+            if (health.IsDead()) return;           
+           
+            if(FOVCheck.canSeePlayer == true && fighter.CanAttack(combatTarget: closestPlayer))
+            { 
+                currentState = AIState.attack;
+                if (TimerForNextAttack > 0)
+                {
+                    TimerForNextAttack -= Time.deltaTime;
+                }
+                else if (TimerForNextAttack <= 0)
+                {                    
+                    if(capsuleCol != null)
+                    { 
+                      TimerForNextAttack = coolDown;
+                    }
+                }                
+            }
+            else if (timeSinceLastSawPlayer < suspicionTime)
+            {
+                currentState = AIState.searching;
+            }
+            else
+            {
+                currentState = AIState.patrol;
+            }
+            UpdateTimers();   
 
             switch(currentState)
             {
-
                case AIState.attack:
                {
                    AttackBehaviour();
@@ -104,44 +128,22 @@ namespace Rambler.Control
  
                case AIState.searching:
                {
-                    SuspicionBehaviour();
+                    SearchForPlayer();
                }   
                break;
-            } 
-           
-            if(FOVCheck.canSeePlayer == true && fighter.CanAttack(combatTarget: closestPlayer))
-            { 
-                currentState = AIState.attack;
-                if (TimerForNextAttack > 0)
-                {
-                    TimerForNextAttack -= Time.deltaTime;
-                }
-                else if (TimerForNextAttack <= 0)
-                {                    
-                    if(capsuleCol != null)
-                    { 
-                      TimerForNextAttack = coolDown;
-                    }
-                }                
-            }
-            else if (timeSinceLastSawPlayer < suspicionTime)
-            {
-                currentState = AIState.searching;
-            }
-            else
-            {
-                currentState = AIState.patrol;
-            }
-            UpdateTimers();           
+            }         
         }
 
         public void AttackBehaviour()
-        {                       
+        { 
+            var playerHealth = closestPlayer.GetComponent<Health>();  
+            bool isPlayerDead = playerHealth.isDead;             
+            if(isPlayerDead == true) return;                   
             fighter.TargetCapsule = capsuleCol;
-            fighter.otherCombatTarget = otherCombatTarget;
+            fighter.Target = otherCombatTarget;
             timeSinceLastSawPlayer = 0;
             fighter.Attack(combatTarget: closestPlayer);
-        }   
+        } 
 
         void PlayerDeath()
         {  
@@ -213,11 +215,6 @@ namespace Rambler.Control
         public Vector3 GetCurrentWaypoint()
         {
             return patrolPath.GetWaypoint(currentWaypointIndex);
-        }
-
-        public void SuspicionBehaviour()
-        {   
-            SearchForPlayer();
-        }        
+        }     
     }
 }

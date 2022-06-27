@@ -10,8 +10,7 @@ using UnityEngine.AI;
 namespace Rambler.Control
 {
     public class Companion : MonoBehaviour
-    { 
-       
+    {        
         [SerializeField] GameObject player; 
         public List<GameObject> enemiesList 
         = new List<GameObject>(); 
@@ -22,7 +21,7 @@ namespace Rambler.Control
         float followPlayerTimer = 2f; 
         FieldOfView FOVCheck;      
         NavMeshAgent agent;
-        public GameObject closestEnemy; 
+        GameObject closestEnemy; 
         Fighter fighter;
         float coolDown;
         Health health;        
@@ -77,7 +76,7 @@ namespace Rambler.Control
                 break;
 
                 case CompanionState.attackEnemy:
-                {                  
+                {              
                     AttackBehaviour();
                 }
                 break;
@@ -109,7 +108,11 @@ namespace Rambler.Control
         } 
 
         public void AttackBehaviour()
-        {    
+        {   
+            if(FOVCheck.canSeePlayer == false) return; 
+            var enemyHealth = closestEnemy.GetComponent<Health>();            
+            bool isEnemyDead = enemyHealth.isDead;
+            if(isEnemyDead == true) return;
             fighter.TargetCapsule = capsuleCol; 
             fighter.Target = otherCombatTarget;
             fighter.Attack(combatTarget: closestEnemy);             
@@ -118,20 +121,19 @@ namespace Rambler.Control
         void UpdateTarget() 
         { 
             if(closestEnemy != null)
-            {        
-              var enemyHealth = closestEnemy.GetComponent<Health>();            
-              bool isEnemyDead = enemyHealth.isDead;
-              if(isEnemyDead == true)
-              { 
+            { 
                 GetComponent<ActionScheduler>().CancelCurrentAction();
-                StartCoroutine("RefreshEnemiesList");
-              }
+                StartCoroutine("RefreshEnemiesList");              
+            }
+            else
+            {
+                SearchForEnemy();
             }
         }         
 
         IEnumerator RefreshEnemiesList()
         {
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(0.1f);
             enemiesList.Clear();
             enemiesList.AddRange(collection: GameObject.FindGameObjectsWithTag("Enemy"));
             SearchForEnemy();

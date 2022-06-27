@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\DoorOpen.cs" />
+     <Compile Include="Assets\EnemyDeathCounter.cs" />
      <Compile Include="Assets\Unity\ConstraintSamples\Scripts\mParent.cs" />
      <Compile Include="Assets\Wall.cs" />
      <Compile Include="Assets\_AssetPacks\EffectCore\packs\WebDemoAssets\scripts\ECCameraShake.cs" />

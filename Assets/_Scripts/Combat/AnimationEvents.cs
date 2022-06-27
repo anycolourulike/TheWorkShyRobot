@@ -9,7 +9,10 @@ namespace Rambler.Combat
     {
         [SerializeField] Animator anim;
         [SerializeField] Fighter fighter;
-        [SerializeField] PlayerController playerController;       
+        [SerializeField] PlayerController playerController;
+        public Transform playerHand;       
+        public Transform head;        
+        
       
         public void EquipUnarmed() 
         {
@@ -24,6 +27,11 @@ namespace Rambler.Combat
         public void EndPickup() 
         {
             fighter.EquipPickedUpWeapon();
+        }
+
+        public void HeadAttach()
+        {
+           head.transform.SetParent(playerHand);
         }
     }
 }

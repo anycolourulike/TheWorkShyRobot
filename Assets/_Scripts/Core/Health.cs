@@ -16,36 +16,33 @@ namespace Rambler.Core // To Do Stop Movement
     public class Health : MonoBehaviour, ISaveable
     {        
         public float healthPoints = 100f; 
-        public float HealthPoints { get{return healthPoints;} set{healthPoints = value;}}  
+        float HealthPoints { get{return healthPoints;} set{healthPoints = value;}}  
         [SerializeField] AIController aIScript;  
         [SerializeField] GameObject RigLayer;
         [SerializeField] GameObject headFX;
         [SerializeField] GameObject legFX; 
         [SerializeField] GameObject armFX;
-        [SerializeField] GameObject shield;
-        [SerializeField] Mover mover;
+        [SerializeField] GameObject shield;        
         [SerializeField] GameObject deathSplashScreen;
-        [SerializeField] Animator weaponAnim;
-        
+        [SerializeField] Animator weaponAnim; 
+        [SerializeField] Mover mover;       
         public delegate void TargetDeath();
         public static event TargetDeath targetDeath;
-
         public delegate void PlayerDied();
         public static event PlayerDied playerDeath;
-        CapsuleCollider capCol;
-        public bool isDead;    
-        Fighter fighter;
-        PlayerVitals vitals;
-        float damage; 
-        public float SetDamage {set{damage = value;}}
+        UnityEngine.AI.NavMeshAgent agent;
         CombatTarget combatTarget;
+        GameObject hitScreenFX;
+        CapsuleCollider capCol;
+        PlayerVitals vitals;
+        public bool isDead; 
+        FieldOfView FOV;        
+        Fighter fighter;        
+        float damage;        
         Animator anim;
         int dieRanNum;        
         Rigidbody rb;  
-        FieldOfView FOV; 
-        GameObject hitScreenFX;
-        UnityEngine.AI.NavMeshAgent agent;                
-       
+
         void Start() 
         {   
             FOV = GetComponent<FieldOfView>();
@@ -84,48 +81,8 @@ namespace Rambler.Core // To Do Stop Movement
                 isDead = true;                
                 Die();
             }            
-        }
-       
-        void HitAnim()
-        {  
-            if(isDead) return;
-            if(this.gameObject.name == "Rambler") return;
-            anim.SetTrigger("HitAnim");
-            if(gameObject.CompareTag("Player")) return;            
-            FOV.radius = 50f;
-            AudioManager.PlayHumanSound(humanSound: AudioManager.HumanSound.Hit1, position: this.transform.position);                         
-            aIScript.AttackBehaviour();                                               
-        }
-        
-        void OnParticleCollision(GameObject particleProj)
-        {           
-            var proj = particleProj.GetComponent<Projectile>();
-            damage = proj.GetDamage(); 
-                                     
-            if (proj.HitEffect() != null)
-            {                    
-              var cloneProjectile = Instantiate(proj.HitEffect(), proj.GetAimLocation(), particleProj.transform.rotation); 
-              TakeDamage(damage: damage);              
-
-              if((this.gameObject.name == "Rambler") && vitals != null)
-              {
-                StartCoroutine("HitFX");
-                vitals.TakeDamage(damage);  
-                if(!isDead)
-                { 
-                   anim.SetTrigger("HitAnim");
-                }                                
-              }                
-              
-              Destroy(proj.gameObject);
-               //MF_AutoPool.Despawn(gameObject);     
-            }
-            else
-            {
-              Destroy(proj.gameObject);
-               //MF_AutoPool.Despawn(gameObject);
-            }       
-        }        
+        }      
+          
  
         public void Die()
         {            
@@ -191,37 +148,10 @@ namespace Rambler.Core // To Do Stop Movement
             }                     
         }
 
-        void PlayerDeath() 
-        {
-            deathSplashScreen.SetActive(true);
-            AudioManager.PlayHumanSound(AudioManager.HumanSound.Death4, transform.position); 
-            AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.DeathScreen, transform.position);            
-            if(this.gameObject.name == "Rambler") {LevelManager.Instance.PlayerWeaponCheck();}
-        }
-
         public void HitTheFloor() 
         {
             AudioManager.PlayHumanSound(AudioManager.HumanSound.HumanHitGroundDeath, this.transform.position);
-        }
-
-        private void StopMovement()
-        {  
-            combatTarget.enabled = false;
-            mover.RigWeaponUnequipped();
-            var rigWeight = RigLayer.GetComponent<Rig>();
-            fighter.enabled = false;
-            rigWeight.weight = 0;
-            agent.enabled = false;
-            rb.detectCollisions = false;
-            rb.velocity = Vector3.zero;            
-        }
-
-        IEnumerator HitFX()
-        {
-            hitScreenFX.SetActive(true);
-            yield return new WaitForSeconds(0.2f);
-            hitScreenFX.SetActive(false);
-        }
+        }  
 
         public object CaptureState()
         {
@@ -235,6 +165,74 @@ namespace Rambler.Core // To Do Stop Movement
             {
                 Die();
             }
+        }
+
+        void HitAnim()
+        {  
+            if(isDead) return;
+            if(this.gameObject.name == "Rambler") return;
+            anim.SetTrigger("HitAnim");
+            if(gameObject.CompareTag("Player")) return;            
+            FOV.radius = 40f;
+            AudioManager.PlayHumanSound(humanSound: AudioManager.HumanSound.Hit1, position: this.transform.position);                         
+            aIScript.AttackBehaviour();                                               
+        }
+        
+        void OnParticleCollision(GameObject particleProj)
+        {           
+            var proj = particleProj.GetComponent<Projectile>();
+            damage = proj.GetDamage(); 
+                                     
+            if (proj.HitEffect() != null)
+            {                    
+              var cloneProjectile = Instantiate(proj.HitEffect(), proj.GetAimLocation(), particleProj.transform.rotation); 
+              TakeDamage(damage: damage);              
+
+              if((this.gameObject.name == "Rambler") && vitals != null)
+              {
+                StartCoroutine("HitFX");
+                vitals.TakeDamage(damage);  
+                if(!isDead)
+                { 
+                   anim.SetTrigger("HitAnim");
+                }                                
+              }                
+              
+              Destroy(proj.gameObject);
+               //MF_AutoPool.Despawn(gameObject);     
+            }
+            else
+            {
+              Destroy(proj.gameObject);
+               //MF_AutoPool.Despawn(gameObject);
+            }       
+        }      
+
+        void PlayerDeath() 
+        {
+            deathSplashScreen.SetActive(true);
+            AudioManager.PlayHumanSound(AudioManager.HumanSound.Death4, transform.position); 
+            AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.DeathScreen, transform.position);            
+            if(this.gameObject.name == "Rambler") {LevelManager.Instance.PlayerWeaponCheck();}
+        }
+
+        IEnumerator HitFX()
+        {
+            hitScreenFX.SetActive(true);
+            yield return new WaitForSeconds(0.2f);
+            hitScreenFX.SetActive(false);
+        }
+
+        void StopMovement()
+        {  
+            combatTarget.enabled = false;
+            mover.RigWeaponUnequipped();
+            var rigWeight = RigLayer.GetComponent<Rig>();
+            fighter.enabled = false;
+            rigWeight.weight = 0;
+            agent.enabled = false;
+            rb.detectCollisions = false;
+            rb.velocity = Vector3.zero;            
         }
     }
 }

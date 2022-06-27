@@ -9,8 +9,7 @@ using Rambler.Combat;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { set; get; }
-    public string targetScene;  
-    public static bool playerDied;
+    public string targetScene; 
     Fighter fighter;
     public Weapon lastEquippedWeapon; 
     Fader fader;

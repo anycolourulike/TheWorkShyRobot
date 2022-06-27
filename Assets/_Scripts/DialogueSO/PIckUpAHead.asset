@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3695757189877593438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a01710bff6d084c8c886978b0f6884, type: 3}
+  m_Name: e91ebffe-373d-49f4-9c05-8ab7ec401603
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: Any idea how we get one of those
+  children:
+  - 45caca16-66ad-4c97-b2f5-f46f5f5b4d81
+  rect:
+    serializedVersion: 2
+    x: 286
+    y: 167
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and:
+    - or:
+      - predicate: 
+        parameters: []
+        negate: 0
+    - or:
+      - predicate: 
+        parameters: []
+        negate: 1
+      - predicate: 
+        parameters: []
+        negate: 0
+--- !u!114 &-1378799298428851320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a01710bff6d084c8c886978b0f6884, type: 3}
+  m_Name: bd4e21b3-97c4-4dc9-8bcc-5b2f630061d7
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: 'We need a biomentric pass to gain entry to the base. '
+  children:
+  - e91ebffe-373d-49f4-9c05-8ab7ec401603
+  rect:
+    serializedVersion: 2
+    x: 43
+    y: 167
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82a0e18436bd17140b355d96339d4095, type: 3}
+  m_Name: PIckUpAHead
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: -1378799298428851320}
+  - {fileID: -3695757189877593438}
+  - {fileID: 7249778024000201453}
+  newNodeOffset: {x: 250, y: 0}
+--- !u!114 &7249778024000201453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a01710bff6d084c8c886978b0f6884, type: 3}
+  m_Name: 45caca16-66ad-4c97-b2f5-f46f5f5b4d81
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: Grab one of the heads off the bodies, they should still be warm
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 522
+    y: 164
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
