@@ -17,7 +17,6 @@ namespace Rambler.Control
       public Collider[] playerRefs; 
       public LayerMask targetMask;
       public LayerMask obstructionMask; 
-      public LayerMask playerLayer;
       public bool canSeePlayer;
 
       private void Start()
@@ -27,14 +26,14 @@ namespace Rambler.Control
 
       private IEnumerator FOVRoutine()
       {
-        WaitForSeconds wait = new WaitForSeconds(0.1f);
+        WaitForSeconds wait = new WaitForSeconds(0.3f);
 
         while (true)
         {
           yield return wait;
           FieldOfViewCheck();
         }
-      }
+      }      
 
       private void FieldOfViewCheck()
       {
@@ -46,48 +45,53 @@ namespace Rambler.Control
           Vector3 directionToTarget = (target.position - transform.position).normalized;
 
           if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
-          {  
-            float distanceToTarget = Vector3.Distance(transform.position, target.position);
-            if(this.gameObject.CompareTag("Player"))
+          { 
+            float distanceToTarget = Vector3.Distance(transform.position, target.position); 
+            
+            if (Physics.Raycast(transform.position, directionToTarget, distanceToTarget, targetMask))
+            {           
+              //Debug.Log(this.gameObject.name + " " + "Can See Player True");
+              canSeePlayer = true;  
+              return;
+            }              
+            else
             {
-              if(PlayerDetect() == true) 
-              {
-                canSeePlayer = false;
-              }
-            }
-            if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
-          
-            canSeePlayer = true;
-              
-            else
-                
-            canSeePlayer = false;    
-          }                    
-          
-            else
-                
-            canSeePlayer = false; 
-
+              //Debug.Log(this.gameObject.name + " " + "Can See Player False RayCastFalse");
+              canSeePlayer = false;  
+              return;  
+            } 
           }
-          else if(canSeePlayer)
-            canSeePlayer = false;       
+          else  
+          // Debug.Log(this.gameObject.name + " " + "Can See Player False Angle");              
+          canSeePlayer = false; 
+        } 
+        else if(canSeePlayer)
+        //Debug.Log("Can See Player False RangeCheck");
+        canSeePlayer = false; 
       } 
 
-      bool PlayerDetect()
-      {
-        RaycastHit hit;
-        if(Physics.Raycast(transform.position, Vector3.forward, out hit, Mathf.Infinity, playerLayer))
-        {
-          if(hit.transform.gameObject.tag == "Player")
-          {       
-            return true;                  
-          }    
-          else
-          {
-            return false;
-          }                
-        } 
-        return true;   
-      }      
+      // bool PlayerDetect()
+      // { 
+      //   // if(this.gameObject.CompareTag("Player"))
+      //       // {
+      //       //   if(PlayerDetect() == true) 
+      //       //   {
+      //       //     canSeePlayer = false;
+      //       //   }
+      //       // }
+      //   RaycastHit hit;
+      //   if(Physics.Raycast(transform.position, this.transform.forward, out hit, 300f, playerLayer))
+      //   {
+      //     if(hit.transform.gameObject.name == "Rambler")
+      //     {       
+      //       return true;                  
+      //     }    
+      //     else
+      //     {
+      //       return false;
+      //     }                
+      //   } 
+      //   return true;   
+      // }      
   }
 }

@@ -19,14 +19,15 @@ namespace Rambler.Control
 {    
     public class PlayerController : MonoBehaviour  
     {              
-        [SerializeField] float maxNavMeshProjectionDistance = 1f;  
+        [SerializeField] float maxNavMeshProjectionDistance = 1f; 
+        [SerializeField] GameObject ammoCounter; 
         [SerializeField] PlayerVitals vitals;                
         [SerializeField] GameObject shield; 
         [SerializeField] Fighter fighter;          
         [SerializeField] Animator anim; 
-        [SerializeField] GameObject ammoCounter;
-        
-        CinemachineVirtualCamera cineMachine;                
+        [SerializeField] Transform target;       
+        CinemachineVirtualCamera cineMachine; 
+                   
         ActiveWeapon activeWeapon;             
         float holdDuration = 1f;               
         Transform handTransform;
@@ -41,7 +42,8 @@ namespace Rambler.Control
         Vector3 pickUpDirection;
         GameObject interact;    
         GameObject weaponPU; 
-        WeaponPickUp pickUp;        
+        WeaponPickUp pickUp; 
+        Transform targetStartPos;
         float shakeTimer;        
         int interactions;    
         bool shieldsUp;
@@ -49,6 +51,7 @@ namespace Rambler.Control
        
         private void Start()
         { 
+           targetStartPos = target; 
            agent = GetComponent<NavMeshAgent>();         
            rigController = GetComponent<Fighter>().rigController;       
            handTransform = GetComponent<Fighter>().handTransform;
@@ -101,7 +104,7 @@ namespace Rambler.Control
                 Fighter fighter = GetComponent<Fighter>();
                 fighter.Target = otherCombatTarget;
                 CapsuleCollider targetCapsule = hit.transform.GetComponent<CapsuleCollider>(); 
-                fighter.TargetCapsule = targetCapsule;
+                fighter.TargetCap = targetCapsule;
 
                 if (otherCombatTarget == null) continue;                
                 if (!GetComponent<Fighter>().CanAttack(otherCombatTarget.gameObject))
@@ -178,25 +181,12 @@ namespace Rambler.Control
             return true;
         }
 
-        public void InteractPressed()
-        { 
-           agent.enabled = false; 
-           mover.enabled = false;
-           Quaternion target = Quaternion.LookRotation(pickUpDirection - this.transform.position);
-           this.transform.rotation = Quaternion.Slerp(this.transform.rotation, target, Time.deltaTime);                
-           Interact();
-           interact.SetActive(false);
-           agent.enabled = true;
-           mover.enabled = true;
-           pickUp = null;
-        } 
-
         void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("weaponPU"))
             { 
                weaponPU = other.gameObject;
-               pickUpDirection = Vector3.RotateTowards(transform.position, other.transform.position, 1f * Time.deltaTime, 0.0f);
+              // pickUpDirection = Vector3.RotateTowards(transform.position, other.transform.position, 1f * Time.deltaTime, 0.0f);
                pickUp = weaponPU.GetComponent<WeaponPickUp>();                                               
                interact.SetActive(true);
                interactions = 1;                            
@@ -205,13 +195,27 @@ namespace Rambler.Control
             if (other.gameObject.CompareTag("headPickUP"))
             {
                interactions = 2;
+               weaponPU = other.gameObject;
+               pickUp = weaponPU.GetComponent<WeaponPickUp>();
+               interact.SetActive(true);
             }
 
             if (other.gameObject.CompareTag("UsePC"))
             {
                 interactions = 3;
+                weaponPU = other.gameObject;                                                              
+                interact.SetActive(true);
             }
-        }  
+        } 
+
+        public void InteractPressed()
+        {            
+           agent.enabled = false; 
+           mover.enabled = false;
+           Interact();
+           interact.SetActive(false);
+           pickUp = null;
+        }
 
         public void Interact()
         {
@@ -219,23 +223,36 @@ namespace Rambler.Control
             {
                 case 1: 
                 fighter.SetLastWeapon = fighter.weaponConfig; 
-                fighter.EquipUnarmed();                
+                fighter.EquipUnarmed(); 
                 playerAnim.SetTrigger("pickUp");
-                pickUp.PickUpItem();     
+                pickUp.PickUpItem();
                 break;
 
                 case 2:
                 fighter.SetLastWeapon = fighter.weaponConfig; 
-                fighter.EquipUnarmed();                
+                fighter.EquipUnarmed();  
                 playerAnim.SetTrigger("PicKUPHead");
                 pickUp.PickUpItem(); 
                 break;
 
                 case 3:
+                target.position = weaponPU.transform.position;
+                fighter.SetLastWeapon = fighter.weaponConfig; 
+                fighter.EquipUnarmed();                
                 playerAnim.SetTrigger("use");
+                DoorOpen.doorUnlocked();
+                //notify doors to open
+                //play SFX
+                //reassign target
                 break;
             }            
-        }  
+        }
+
+        public void EnableMover()
+        { 
+           agent.enabled = true;
+           mover.enabled = true;
+        } 
 
         void OnTriggerExit(Collider other)
         {

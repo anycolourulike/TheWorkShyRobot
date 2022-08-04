@@ -27,6 +27,7 @@ namespace Rambler.Combat
         public void EndPickup() 
         {
             fighter.EquipPickedUpWeapon();
+            playerController.EnableMover();
         }
 
         public void HeadAttach()

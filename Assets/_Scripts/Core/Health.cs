@@ -17,7 +17,6 @@ namespace Rambler.Core // To Do Stop Movement
     {        
         public float healthPoints = 100f; 
         float HealthPoints { get{return healthPoints;} set{healthPoints = value;}}  
-        [SerializeField] AIController aIScript;  
         [SerializeField] GameObject RigLayer;
         [SerializeField] GameObject headFX;
         [SerializeField] GameObject legFX; 
@@ -36,6 +35,7 @@ namespace Rambler.Core // To Do Stop Movement
         CapsuleCollider capCol;
         PlayerVitals vitals;
         public bool isDead; 
+        AIController aIScript;
         FieldOfView FOV;        
         Fighter fighter;        
         float damage;        
@@ -51,7 +51,8 @@ namespace Rambler.Core // To Do Stop Movement
             rb = GetComponent<Rigidbody>(); 
             fighter = GetComponent<Fighter>(); 
             capCol = GetComponent<CapsuleCollider>();  
-            agent = GetComponent<UnityEngine.AI.NavMeshAgent>();    
+            agent = GetComponent<UnityEngine.AI.NavMeshAgent>();  
+            aIScript = GetComponent<AIController>(); 
             if(this.gameObject.name == "Rambler")
             {
                 hitScreenFX = GameObject.Find(name: "/PlayerCore/HUD/DamageScreen");
@@ -69,6 +70,7 @@ namespace Rambler.Core // To Do Stop Movement
         {  
             if (isDead == true) return;          
             healthPoints = Mathf.Max(healthPoints - damage, 0);
+            mover.Cancel();
             HealthCheck();            
             HitAnim();
         }

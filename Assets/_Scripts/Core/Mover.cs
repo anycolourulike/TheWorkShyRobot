@@ -76,7 +76,13 @@ namespace Rambler.Movement
         {
             mainRig.weight = 0;
             RigWeaponUnequipped();
-        }          
+        }   
+
+        public void RotateTowards(Transform target)
+        {
+            var targetToLook = Quaternion.LookRotation(target.transform.position - this.transform.position);
+            this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetToLook, Time.deltaTime);            
+        }       
 
         public void StartMoveAction(Vector3 destination, float speedFraction)
         {

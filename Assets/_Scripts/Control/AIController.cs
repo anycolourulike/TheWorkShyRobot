@@ -10,8 +10,7 @@ using UnityEngine.AI;
 namespace Rambler.Control
 {
     public class AIController : MonoBehaviour
-    { 
-        [SerializeField] Vector3 nextPosition; 
+    {          
         [SerializeField] PatrolPath patrolPath;             
         [SerializeField] float suspicionTime = 3f;        
         [SerializeField] float waypointTolerence = 1f;
@@ -22,16 +21,18 @@ namespace Rambler.Control
          = Mathf.Infinity;
         float timeSinceLastSawPlayer
          = Mathf.Infinity;
-        FieldOfView FOVCheck;
-        public GameObject closestPlayer;
         public List<GameObject> playersList
         = new List<GameObject>();
         CapsuleCollider capsuleCol;        
         CombatTarget otherCombatTarget;         
         int currentWaypointIndex = 0;  
-        public AIState currentState;      
+        public AIState currentState; 
         float TimerForNextAttack; 
+        GameObject closestPlayer;
+        Vector3 nextPosition;
+        
         Fighter fighter;
+        FieldOfView FOV;
         float coolDown;
         Health health;        
         Mover mover;
@@ -41,7 +42,6 @@ namespace Rambler.Control
             attack,
             patrol,
             retreat,
-            searching,
             reloading,
         }
         
@@ -64,19 +64,18 @@ namespace Rambler.Control
             fighter = GetComponent<Fighter>();
             health = GetComponent<Health>();            
             mover = GetComponent<Mover>();  
-            FOVCheck = GetComponent<FieldOfView>();
-
-            SearchForPlayer();                       
+            FOV = GetComponent<FieldOfView>();      
             coolDown = 2.5f;
-            TimerForNextAttack = coolDown;            
+            TimerForNextAttack = coolDown;  
+            SearchForPlayer();          
         }
 
         private void Update()
         {   
             if (health.IsDead()) return;           
-           
-            if(FOVCheck.canSeePlayer == true && fighter.CanAttack(combatTarget: closestPlayer))
-            { 
+            
+            if(FOV.canSeePlayer == true)
+            {                  
                 currentState = AIState.attack;
                 if (TimerForNextAttack > 0)
                 {
@@ -92,18 +91,14 @@ namespace Rambler.Control
             }
             else if (timeSinceLastSawPlayer < suspicionTime)
             {
-                currentState = AIState.searching;
-            }
-            else
-            {
                 currentState = AIState.patrol;
             }
             UpdateTimers();   
-
+            
             switch(currentState)
             {
                case AIState.attack:
-               {
+               {                   
                    AttackBehaviour();
                }   
                break;
@@ -125,13 +120,8 @@ namespace Rambler.Control
                    //add retreat position   
                }   
                break;
- 
-               case AIState.searching:
-               {
-                    SearchForPlayer();
-               }   
-               break;
             }         
+            
         }
 
         public void AttackBehaviour()
@@ -139,15 +129,16 @@ namespace Rambler.Control
             var playerHealth = closestPlayer.GetComponent<Health>();  
             bool isPlayerDead = playerHealth.isDead;             
             if(isPlayerDead == true) return;                   
-            fighter.TargetCapsule = capsuleCol;
+            fighter.TargetCap = capsuleCol;
             fighter.Target = otherCombatTarget;
-            timeSinceLastSawPlayer = 0;
+            timeSinceLastSawPlayer = 2f;
+            mover.Cancel();
             fighter.Attack(combatTarget: closestPlayer);
         } 
 
         void PlayerDeath()
         {  
-            fighter.TargetCapsule = null;
+            fighter.TargetCap = null;
             fighter.Cancel();
             SearchForPlayer();      
         }     
@@ -159,8 +150,7 @@ namespace Rambler.Control
         }        
 
         private void PatrolBehaviour()
-        {    
-            SearchForPlayer();         
+        {         
             if (patrolPath != null)
             {
                 if (AtWaypoint())
@@ -192,12 +182,14 @@ namespace Rambler.Control
                 }
                 else
                 {
+                    if(FOV.canSeePlayer == true)
+                    currentState = AIState.attack;
                     closestPlayer = player;
+                    capsuleCol = closestPlayer.GetComponent<CapsuleCollider>();  
+                    otherCombatTarget = closestPlayer.GetComponent<CombatTarget>();                    
                 }               
               }  
-            } 
-            capsuleCol = closestPlayer.GetComponent<CapsuleCollider>();  
-            otherCombatTarget = closestPlayer.GetComponent<CombatTarget>();
+            }
         }
 
 

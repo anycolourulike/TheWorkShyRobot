@@ -44,6 +44,13 @@ public class LevelManager : MonoBehaviour
        SceneManager.LoadScene("Cave"); 
     }
 
+    public IEnumerator LoadLivingQuarters() 
+    {   
+       targetScene = "LivingQuarters";
+       yield return new WaitForSecondsRealtime(3);
+       SceneManager.LoadScene("LivingQuarters"); 
+    }
+
     public IEnumerator LoadIntro() 
     { 
        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
@@ -64,6 +71,15 @@ public class LevelManager : MonoBehaviour
         SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
         yield return new WaitForSecondsRealtime(3);
         wrapper.ContinueGame();   
+    } 
+
+    public IEnumerator LoadNextScene() 
+    {   
+        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
+        yield return new WaitForSecondsRealtime(3);
+        wrapper.Save();
+        var currentScene = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentScene + 1);  
     }    
 
     public IEnumerator QuitApp()

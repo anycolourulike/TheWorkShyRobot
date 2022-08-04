@@ -21,7 +21,7 @@ MonoBehaviour:
     type: 3}
   weaponTitle: pistol
   isPistol: 1
-  isRifle: 0
+  isRifle: 1
   isMelee: 0
   isEMP: 0
   itemID: 136c1416-6f19-410f-b5b0-9cfaa9d6eb00

@@ -18,7 +18,7 @@ namespace Rambler.Combat
         [SerializeField] Mover mover;
         [SerializeField] ParticleSystem punchImpact; 
         [SerializeField] CapsuleCollider targetCapsule;
-        public CapsuleCollider TargetCapsule {get{return targetCapsule;} set{targetCapsule = value;}}       
+        public CapsuleCollider TargetCap {get{return targetCapsule;} set{targetCapsule = value;}}       
         public ActiveWeapon activeWeapon; 
         public Transform handTransform;        
         public Animator rigController;  
@@ -28,7 +28,7 @@ namespace Rambler.Combat
         public Weapon SetLastWeapon{set{lastWeaponUsed = value;}}      
         float timeSinceLastAttack = 
         Mathf.Infinity;         
-        CombatTarget otherCombatTarget;   //other combat Target
+        public CombatTarget otherCombatTarget;   //other combat Target
         public CombatTarget Target {get{return otherCombatTarget;} set{otherCombatTarget = value;}} 
         PlayerController playerController; 
         bool outOfAmmoCalled = false; 
@@ -68,7 +68,7 @@ namespace Rambler.Combat
         void Update()
         {                    
             timeSinceLastAttack += Time.deltaTime; 
-            if (targetCapsule == null) return;                       
+            if (TargetCap == null) return;                       
             if (enemyPos.CompareTag("AIConversant")) return; 
             if (!GetIsInRange())
             {
@@ -76,10 +76,10 @@ namespace Rambler.Combat
             }
             else
             {                
-                GetComponent<Mover>().Cancel(); 
+                //GetComponent<Mover>().Cancel();  Blocks Multiple shots from player? 
                 AttackBehaviour();
             }
-    } 
+        } 
         
         void AttackBehaviour()
         {                    
@@ -121,20 +121,17 @@ namespace Rambler.Combat
                             } 
                         }
                         else
-                        {  
-                            {                                
-                                if(Time.time > outOfAmmo && outOfAmmoCalled == false)
-                                {
-                                   outOfAmmo += period;
-                                   outOfAmmoCalled = true;
-                                   AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.outOfAmmo, activeWeapon.transform.position);
-                                   outOfAmmoCalled = false;
-                                   if(this.gameObject.name == "Rambler") return;
-                                   ShootAnim.SetTrigger("Reload");                                   
-                                }   
-                            }
-                        }
-                                                                   
+                        {                                  
+                            if(Time.time > outOfAmmo && outOfAmmoCalled == false)
+                            {
+                               outOfAmmo += period;
+                               outOfAmmoCalled = true;
+                               AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.outOfAmmo, activeWeapon.transform.position);
+                               outOfAmmoCalled = false;
+                               if(this.gameObject.name == "Rambler") return;
+                               ShootAnim.SetTrigger("Reload");                                   
+                            }   
+                        }                                         
                     }                    
                 }
                 else
@@ -146,17 +143,13 @@ namespace Rambler.Combat
         }        
 
         public void EquipWeapon(Weapon weapon)
-        {  
-            if(this.gameObject.name == "Rambler")
-            {
-                playerController.ActivateAmmoCounter();
-            }
+        { 
             DestroyOldWeapon(handTransform: handTransform);
             weaponConfig = weapon;                                
             Spawn(handTransform: handTransform, animator: anim);  
             activeWeapon.SetRigController = rigController;  
             AssignAmmo();
-            if(this.gameObject.tag == "Enemy")
+            if(this.gameObject.CompareTag("Enemy"))
             {
                 activeWeapon.FullAmmo();
             }              
@@ -173,15 +166,12 @@ namespace Rambler.Combat
                 rigController.Play("equip_" + weapon.weaponTitle);  
                 mover.RigWeaponEquipped(); 
                 StartCoroutine(AimInit());
-                if(this.gameObject.name == "Companion") return; 
-
-                if(this.gameObject.CompareTag("Player"))
+                if(this.gameObject.name == "Rambler")                 
                 {  
                   playerController.ActivateAmmoCounter();                  
                   activeWeapon.AmmoUIInit();
-                }                 
-                
-           }        
+                }
+            }        
         } 
 
         public void EquipUnarmed()
@@ -235,7 +225,7 @@ namespace Rambler.Combat
         {    
             Target = null;       
             enemyPos = null; 
-            TargetCapsule = null;
+            TargetCap = null;
         }   
 
         public void AssignAmmo() 
@@ -277,7 +267,7 @@ namespace Rambler.Combat
 
         IEnumerator AimInit()
         {
-            yield return new WaitForSeconds(0.8f);            
+            yield return new WaitForSeconds(0.3f);            
             var aimTransform = activeWeapon.AimTransform();
             weaponIk.AimTransform = aimTransform;         
         }
