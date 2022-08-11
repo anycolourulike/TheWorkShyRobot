@@ -18,9 +18,11 @@ namespace Rambler.Control
       public LayerMask targetMask;
       public LayerMask obstructionMask; 
       public bool canSeePlayer;
+      AIController aIController;
 
       private void Start()
       {        
+        aIController = GetComponent<AIController>();
         StartCoroutine(FOVRoutine());
       }
 
@@ -49,14 +51,13 @@ namespace Rambler.Control
             float distanceToTarget = Vector3.Distance(transform.position, target.position); 
             
             if (Physics.Raycast(transform.position, directionToTarget, distanceToTarget, targetMask))
-            {           
-              //Debug.Log(this.gameObject.name + " " + "Can See Player True");
+            {
               canSeePlayer = true;  
+              aIController.FindNearestTarget();
               return;
             }              
             else
             {
-              //Debug.Log(this.gameObject.name + " " + "Can See Player False RayCastFalse");
               canSeePlayer = false;  
               return;  
             } 

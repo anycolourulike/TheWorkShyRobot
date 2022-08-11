@@ -35,7 +35,6 @@ namespace Rambler.Core // To Do Stop Movement
         CapsuleCollider capCol;
         PlayerVitals vitals;
         public bool isDead; 
-        AIController aIScript;
         FieldOfView FOV;        
         Fighter fighter;        
         float damage;        
@@ -51,8 +50,7 @@ namespace Rambler.Core // To Do Stop Movement
             rb = GetComponent<Rigidbody>(); 
             fighter = GetComponent<Fighter>(); 
             capCol = GetComponent<CapsuleCollider>();  
-            agent = GetComponent<UnityEngine.AI.NavMeshAgent>();  
-            aIScript = GetComponent<AIController>(); 
+            agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
             if(this.gameObject.name == "Rambler")
             {
                 hitScreenFX = GameObject.Find(name: "/PlayerCore/HUD/DamageScreen");
@@ -83,12 +81,11 @@ namespace Rambler.Core // To Do Stop Movement
                 isDead = true;                
                 Die();
             }            
-        }      
-          
+        }  
  
         public void Die()
         {            
-            targetDeath.Invoke();             
+            targetDeath?.Invoke();             
             capCol.enabled = false;
             isDead = true; 
             StopMovement();  
@@ -97,7 +94,7 @@ namespace Rambler.Core // To Do Stop Movement
             dieRanNum = Random.Range(1, 4);     
             if (this.gameObject.name == "Rambler")
             {              
-                playerDeath.Invoke();
+                playerDeath?.Invoke();
                 mover = GetComponent<Mover>();
                 mover.enabled = false;
                 shield.SetActive(false);                
@@ -176,8 +173,7 @@ namespace Rambler.Core // To Do Stop Movement
             anim.SetTrigger("HitAnim");
             if(gameObject.CompareTag("Player")) return;            
             FOV.radius = 40f;
-            AudioManager.PlayHumanSound(humanSound: AudioManager.HumanSound.Hit1, position: this.transform.position);                         
-            aIScript.AttackBehaviour();                                               
+            AudioManager.PlayHumanSound(humanSound: AudioManager.HumanSound.Hit1, position: this.transform.position); 
         }
         
         void OnParticleCollision(GameObject particleProj)

@@ -12,6 +12,7 @@ namespace Rambler.Combat
     public class Fighter : MonoBehaviour, IAction 
     {
         [SerializeField] AnimatorOverrideController animatorOverride;
+        [SerializeField] Animator AIRigLayer;
         [SerializeField] float timeBetweenAttacks = 1.3f;    
         [SerializeField] Animator ShootAnim;          
         [SerializeField] Weapon unarmed;
@@ -28,7 +29,7 @@ namespace Rambler.Combat
         public Weapon SetLastWeapon{set{lastWeaponUsed = value;}}      
         float timeSinceLastAttack = 
         Mathf.Infinity;         
-        public CombatTarget otherCombatTarget;   //other combat Target
+        CombatTarget otherCombatTarget;   //other combat Target
         public CombatTarget Target {get{return otherCombatTarget;} set{otherCombatTarget = value;}} 
         PlayerController playerController; 
         bool outOfAmmoCalled = false; 
@@ -98,7 +99,7 @@ namespace Rambler.Combat
                     else
                     {
                         if (timeSinceLastAttack < 0.5f) return; 
-                        if(activeWeapon.curClip > 0)
+                        if(activeWeapon.CurClip > 0)
                         {                        
                           Vector3 targetVector = GetEnemyLocation() + Vector3.up / 1.1f; 
                           activeWeapon.LaunchProjectile(activeWeapon.MuzPos(), targetVector);  
@@ -121,17 +122,22 @@ namespace Rambler.Combat
                             } 
                         }
                         else
-                        {                                  
-                            if(Time.time > outOfAmmo && outOfAmmoCalled == false)
-                            {
-                               outOfAmmo += period;
-                               outOfAmmoCalled = true;
-                               AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.outOfAmmo, activeWeapon.transform.position);
-                               outOfAmmoCalled = false;
-                               if(this.gameObject.name == "Rambler") return;
-                               ShootAnim.SetTrigger("Reload");                                   
-                            }   
-                        }                                         
+                        {
+                            activeWeapon.Reload();
+                            AIRigLayer.SetTrigger("Reload");
+                        }
+                        // else
+                        // {                                  
+                        //     if(Time.time > outOfAmmo && outOfAmmoCalled == false)
+                        //     {
+                        //        outOfAmmo += period;
+                        //        outOfAmmoCalled = true;
+                        //        AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.outOfAmmo, activeWeapon.transform.position);
+                        //        outOfAmmoCalled = false;
+                        //        if(this.gameObject.name == "Rambler") return;
+                        //        ShootAnim.SetTrigger("Reload");                                   
+                        //     }   
+                        // }                                         
                     }                    
                 }
                 else

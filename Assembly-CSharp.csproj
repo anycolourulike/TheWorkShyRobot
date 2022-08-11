@@ -36,14 +36,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\DoorAuto.cs" />
-     <Compile Include="Assets\DoorOpen.cs" />
-     <Compile Include="Assets\EndSectionPortal.cs" />
-     <Compile Include="Assets\EnemyDeathCounter.cs" />
-     <Compile Include="Assets\MidGameDemo.cs" />
-     <Compile Include="Assets\PortalActivate.cs" />
      <Compile Include="Assets\Unity\ConstraintSamples\Scripts\mParent.cs" />
-     <Compile Include="Assets\Wall.cs" />
      <Compile Include="Assets\_AssetPacks\EffectCore\packs\WebDemoAssets\scripts\ECCameraShake.cs" />
      <Compile Include="Assets\_AssetPacks\EffectCore\packs\WebDemoAssets\scripts\ECCameraShakeCaller.cs" />
      <Compile Include="Assets\_AssetPacks\EffectCore\packs\WebDemoAssets\scripts\ECCameraShakeProjectile.cs" />
@@ -180,10 +173,16 @@
      <Compile Include="Assets\_Scripts\Combat\WeaponIK.cs" />
      <Compile Include="Assets\_Scripts\Combat\WeaponPickUp.cs" />
      <Compile Include="Assets\_Scripts\Control\AIController.cs" />
+     <Compile Include="Assets\_Scripts\Control\Attack.cs" />
      <Compile Include="Assets\_Scripts\Control\Companion.cs" />
      <Compile Include="Assets\_Scripts\Control\EnemyDroneController.cs" />
+     <Compile Include="Assets\_Scripts\Control\Follow Player.cs" />
+     <Compile Include="Assets\_Scripts\Control\IState.cs" />
+     <Compile Include="Assets\_Scripts\Control\Idle.cs" />
+     <Compile Include="Assets\_Scripts\Control\Patrol.cs" />
      <Compile Include="Assets\_Scripts\Control\PatrolPath.cs" />
      <Compile Include="Assets\_Scripts\Control\PlayerController.cs" />
+     <Compile Include="Assets\_Scripts\Control\StateMachine.cs" />
      <Compile Include="Assets\_Scripts\Core\ActionScheduler.cs" />
      <Compile Include="Assets\_Scripts\Core\AudioManager.cs" />
      <Compile Include="Assets\_Scripts\Core\CameraZone.cs" />
@@ -206,6 +205,10 @@
      <Compile Include="Assets\_Scripts\Dialogue\PlayerConversant.cs" />
      <Compile Include="Assets\_Scripts\Dialogue\QuestUI\QuestItemUI.cs" />
      <Compile Include="Assets\_Scripts\Dialogue\QuestUI\QuestListUI.cs" />
+     <Compile Include="Assets\_Scripts\DoorAuto.cs" />
+     <Compile Include="Assets\_Scripts\DoorOpen.cs" />
+     <Compile Include="Assets\_Scripts\EndSectionPortal.cs" />
+     <Compile Include="Assets\_Scripts\EnemyDeathCounter.cs" />
      <Compile Include="Assets\_Scripts\GameUI.cs" />
      <Compile Include="Assets\_Scripts\HealthRegenScript.cs" />
      <Compile Include="Assets\_Scripts\Intro.cs" />
@@ -223,6 +226,8 @@
      <Compile Include="Assets\_Scripts\Managers\LevelManager.cs" />
      <Compile Include="Assets\_Scripts\Managers\MenuScene.cs" />
      <Compile Include="Assets\_Scripts\Managers\Preloader.cs" />
+     <Compile Include="Assets\_Scripts\MidGameDemo.cs" />
+     <Compile Include="Assets\_Scripts\PortalActivate.cs" />
      <Compile Include="Assets\_Scripts\Quest\Quest.cs" />
      <Compile Include="Assets\_Scripts\Quest\QuestCompletion.cs" />
      <Compile Include="Assets\_Scripts\Quest\QuestGiver.cs" />
@@ -239,6 +244,7 @@
      <Compile Include="Assets\_Scripts\TestDrone.cs" />
      <Compile Include="Assets\_Scripts\Utils\LazyValue.cs" />
      <Compile Include="Assets\_Scripts\Utils\PeristentObjectSpawner.cs" />
+     <Compile Include="Assets\_Scripts\Wall.cs" />
      <None Include="Assets\_AssetPacks\KriptoFX\Realistic Effects Pack v1\Shaders\RFX1_Lightning.shader" />
      <None Include="Assets\_AssetPacks\KriptoFX\Realistic Effects Pack v1\Shaders\RFX1_Metall.shader" />
      <None Include="Assets\_AssetPacks\KriptoFX\Realistic Effects Pack v1\Shaders\RFX1_CutoutBorder.shader" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Rambler.Core;
+using Rambler.Control;
 using TMPro;
 using Rambler.Saving;
 
@@ -16,29 +17,26 @@ namespace Rambler.Combat
         public GameObject ammoCountObj;
         [SerializeField] Transform aimTransform; 
         [SerializeField] GameObject MuzzleFlash; 
-        [SerializeField] Projectile projectile;     
-        [SerializeField] GameObject magazine;
+        [SerializeField] Projectile projectile; 
         [SerializeField] float weaponRange;         
         public TextMeshProUGUI totalAmmoDisplay;  
         public TextMeshProUGUI magDisplay;
         Animator rigController;
-        public Animator SetRigController {get{return rigController;} set{rigController = value; }}
+        public Animator SetRigController {get{return rigController;} set{rigController = value; }}  
+        bool reloadAmmoSFX;
         float weaponDamage;        
         int magAmount;
-        public int GetMagAmount {get{return magAmount;}}
-        int totalAmmo;  
-        public int GetTotalAmmo {get{return totalAmmo;}}  
-        bool reloading;   
-        public bool GetIsReloading{get{return reloading;}}     
-
-        int maxClip;  
+        int totalAmmo; 
+        bool reloading;  
+        public int maxClip;  
         int ammoSpent;                   
         public int curClip;
+        public int CurClip { get {return curClip;} private set{ ;} }
 
         void Start() 
-        {
-            if(this.gameObject.tag == ("NPCWeapon"))
-            {
+        { 
+            if(this.gameObject.CompareTag("NPCWeapon"))
+            {                
                 FullMag();
             }
         }          
@@ -53,7 +51,7 @@ namespace Rambler.Combat
             else if(this.CompareTag("NPCWeapon"))
             {
                if(curClip == 0)
-               {
+               { 
                   Reload();
                }
             }            
@@ -75,7 +73,7 @@ namespace Rambler.Combat
             totalAmmoDisplay = totalAmmoCounter.GetComponentInChildren<TMPro.TextMeshProUGUI>(); 
             FullMag();
             
-            if(this.tag == "NPCWeapon") return;
+            if(this.CompareTag ("NPCWeapon")) return;
             UpdateTotalAmmoDisplay();
             UpdateClipDisplay();           
         } 
@@ -149,7 +147,7 @@ namespace Rambler.Combat
                 }
                 FullMag(); 
                 reloading = false; 
-                if(this.gameObject.tag == "NPCWeapon") return;
+                if(this.gameObject.CompareTag ("NPCWeapon")) return;
                 UpdateTotalAmmoDisplay();                                              
             }           
         } 
@@ -226,11 +224,16 @@ namespace Rambler.Combat
         }   
 
         void ReloadAnimCheck() 
-        {
-            AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.weaponReload, this.transform.position);
-            if(this.gameObject.tag == "NPCWeapon")
+        {            
+            if(reloadAmmoSFX == false)
             {
-                rigController.SetTrigger("Reload");
+              AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.weaponReload, this.transform.position);
+              reloadAmmoSFX = true;
+            }  
+            
+            if(this.gameObject.CompareTag("NPCWeapon"))
+            {
+                return;//AI Reload Animation Played In Fighter
             }
             else
             {                
@@ -264,32 +267,33 @@ namespace Rambler.Combat
                {
                 case WeaponType.pistol:
                  magAmount = 15; 
-                 maxClip = 15;                     
+                 maxClip = 45;                     
                  break;
                 case WeaponType.smg:
                  magAmount = 30;
-                 maxClip = 30;
+                 maxClip = 90;
                  break;
                 case WeaponType.rifle:
                  magAmount = 25;
-                 maxClip = 25;
+                 maxClip = 75;
                  break;
                  case WeaponType.shotgun:
                  magAmount = 5;
-                 maxClip = 5;
+                 maxClip = 15;
                  break;                 
                  case WeaponType.launcher:
                  magAmount = 5;
-                 maxClip = 5;
+                 maxClip = 15;
                  break;
                  case WeaponType.plasma:
-                 magAmount = 10;
-                 maxClip = 10;
+                 magAmount = 7;
+                 maxClip = 21;
                  break;
                } 
            
             curClip = magAmount;
-            if(this.gameObject.tag == "NPCWeapon") return;
+            reloadAmmoSFX = false;
+            if(this.gameObject.CompareTag("NPCWeapon")) return;
             UpdateTotalAmmoDisplay();         
         }  
 

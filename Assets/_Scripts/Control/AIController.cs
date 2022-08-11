@@ -6,207 +6,186 @@ using Rambler.Core;
 using Rambler.Movement;
 using System;
 using UnityEngine.AI;
-
+ 
 namespace Rambler.Control
 {
     public class AIController : MonoBehaviour
     {          
-        [SerializeField] PatrolPath patrolPath;             
-        [SerializeField] float suspicionTime = 3f;        
-        [SerializeField] float waypointTolerence = 1f;
-        [SerializeField] float waypointDwellTime = 1.7f;
+        public PatrolPath patrolPath;    //Patrol & Idle  
+        [SerializeField] float suspicionTime = 3f;      //Attack  
+        [SerializeField] float waypointTolerence = 1f; //Patrol
+        [SerializeField] float waypointDwellTime = 1.7f; //Patrol
         [Range(0,1)]
-        [SerializeField] float patrolSpeedFraction = 0.2f;  
-        float timeSinceArrivedAtWaypoint
+        [SerializeField] float patrolSpeedFraction = 0.2f;  //Patrol
+        float timeSinceArrivedAtWaypoint  //Patrol
          = Mathf.Infinity;
-        float timeSinceLastSawPlayer
+        float timeSinceLastSawPlayer  //Attack
          = Mathf.Infinity;
-        public List<GameObject> playersList
+        public List<GameObject> targetList
         = new List<GameObject>();
-        CapsuleCollider capsuleCol;        
-        CombatTarget otherCombatTarget;         
-        int currentWaypointIndex = 0;  
-        public AIState currentState; 
-        float TimerForNextAttack; 
-        GameObject closestPlayer;
-        Vector3 nextPosition;
-        
-        Fighter fighter;
-        FieldOfView FOV;
-        float coolDown;
+        public GameObject closestTarget = null; //Attack
+        CapsuleCollider capsuleCol;        //Attack
+        CombatTarget otherCombatTarget;  //Attack   
+        int currentWaypointIndex = 0; //Patrol
+        StateMachine stateMachine;        
+        float TimerForNextAttack; //Attack
+        Vector3 nextPosition; //Patrol
+        GameObject player;
+        Fighter fighter; //Attack        
+        FieldOfView FOV; //Attack
+        float coolDown;  //Attack
         Health health;        
-        Mover mover;
-
-        public enum AIState
-        {
-            attack,
-            patrol,
-            retreat,
-            reloading,
-        }
+        Mover mover; //Attack & Patrol
         
-      
        void OnEnable() 
        {
-            Health.targetDeath += SearchForPlayer;
-            Health.playerDeath += PlayerDeath;
+            Health.targetDeath += UpdateTarget;
+            Health.playerDeath += PlayerDeath;  
        }
-
+ 
        void OnDisable() 
        {
-           Health.targetDeath -= SearchForPlayer;
+           Health.targetDeath -= UpdateTarget;
            Health.playerDeath -= PlayerDeath;
        }
 
-        private void Start()
+       void Awake()
+       {
+           if(this.gameObject.tag == "Player")
+           {
+              var playerCore = GameObject.Find("PlayerCore");
+              player = playerCore.transform.GetChild(1).gameObject;
+           }
+           else if(this.gameObject.tag == "Enemy")
+           {
+              player = null;
+           }
+           stateMachine = new StateMachine();
+           fighter = GetComponent<Fighter>();
+           health = GetComponent<Health>();            
+           mover = GetComponent<Mover>();  
+           FOV = GetComponent<FieldOfView>();   
+           AssignTargetList(); 
+           if(patrolPath != null) { nextPosition = patrolPath.GetWaypoint(1);}
+           coolDown = 2.5f;
+           TimerForNextAttack = coolDown; 
+           //States
+           var followPlayer = new FollowPlayer(this, player, mover);
+           var patrol = new Patrol(this, patrolPath, mover, waypointTolerence, waypointDwellTime, patrolSpeedFraction, timeSinceArrivedAtWaypoint, currentWaypointIndex, nextPosition);
+           var attack = new Attack(this, mover, FOV, TimerForNextAttack, timeSinceLastSawPlayer, suspicionTime, coolDown);
+           var idle = new Idle(this);
+           //Transitions
+           
+           At(attack, patrol, HasTarget());
+           At(attack, idle, HasTarget());
+           At(attack, followPlayer, HasTarget());
+           At(followPlayer, attack, IsCompanion());
+           At(patrol, idle, HasPath());
+           At(patrol, attack, HasNoTarget());
+           At(idle, attack, IsIdle());
+           
+        
+           //Initial State
+           if(this.gameObject.CompareTag("Enemy") && patrolPath != null)
+           {
+             stateMachine.SetState(patrol);
+           }
+           else if (this.gameObject.CompareTag("Enemy") && patrol == null)
+           {
+             stateMachine.SetState(idle);
+           } 
+           else if (this.gameObject.CompareTag("Player"))
+           {
+             stateMachine.SetState(followPlayer);
+           }        
+
+           //Transitions
+           void At(IState to, IState from, Func<bool> condition) => stateMachine.AddTransition(to, from, condition);
+
+           Func<bool> IsCompanion() => () => this.gameObject.CompareTag("Player") && closestTarget != null;
+           Func<bool> HasPath()   => () => patrolPath != null;
+           Func<bool> HasTarget() => () => FOV.canSeePlayer == true;
+           Func<bool> HasNoTarget() => () => this.gameObject.CompareTag("Enemy") && FOV.canSeePlayer == false;
+           Func<bool> IsIdle() => () => this.gameObject.CompareTag("Enemy") && patrolPath == null;
+       }        
+ 
+        void Update()
+        {
+            if (health.IsDead()) return;
+            stateMachine.Tick();
+        } 
+
+        public void TargetHealthCheck()
         { 
-            playersList.AddRange(collection: GameObject.FindGameObjectsWithTag("Player"));
-            fighter = GetComponent<Fighter>();
-            health = GetComponent<Health>();            
-            mover = GetComponent<Mover>();  
-            FOV = GetComponent<FieldOfView>();      
-            coolDown = 2.5f;
-            TimerForNextAttack = coolDown;  
-            SearchForPlayer();          
+           //if(closestTarget == null) return;
+           var targetIsDead = closestTarget.GetComponent<Health>().isDead; 
+           if(targetIsDead == true) {UpdateTarget();};  
         }
 
-        private void Update()
-        {   
-            if (health.IsDead()) return;           
-            
-            if(FOV.canSeePlayer == true)
-            {                  
-                currentState = AIState.attack;
-                if (TimerForNextAttack > 0)
-                {
-                    TimerForNextAttack -= Time.deltaTime;
-                }
-                else if (TimerForNextAttack <= 0)
-                {                    
-                    if(capsuleCol != null)
-                    { 
-                      TimerForNextAttack = coolDown;
-                    }
-                }                
-            }
-            else if (timeSinceLastSawPlayer < suspicionTime)
-            {
-                currentState = AIState.patrol;
-            }
-            UpdateTimers();   
-            
-            switch(currentState)
-            {
-               case AIState.attack:
-               {                   
-                   AttackBehaviour();
-               }   
-               break;
-
-               case AIState.patrol:
-               {
-                    PatrolBehaviour();
-               }
-               break;
-
-               case AIState.reloading:
-               {
-
-               }
-               break;
-
-               case AIState.retreat:
-               {
-                   //add retreat position   
-               }   
-               break;
-            }         
-            
+        public void AssignTarget()
+        {
+            fighter.TargetCap = capsuleCol;
+            fighter.Target = otherCombatTarget;         
+            fighter.Attack(combatTarget: closestTarget);
         }
 
         public void AttackBehaviour()
-        { 
-            var playerHealth = closestPlayer.GetComponent<Health>();  
-            bool isPlayerDead = playerHealth.isDead;             
-            if(isPlayerDead == true) return;                   
-            fighter.TargetCap = capsuleCol;
-            fighter.Target = otherCombatTarget;
-            timeSinceLastSawPlayer = 2f;
-            mover.Cancel();
-            fighter.Attack(combatTarget: closestPlayer);
-        } 
-
+        {  
+            var targetAlive = closestTarget.GetComponent<Health>().isDead;
+            if(targetAlive == false) {return;}
+            fighter.Attack(combatTarget: closestTarget);
+        }
+ 
         void PlayerDeath()
         {  
             fighter.TargetCap = null;
             fighter.Cancel();
-            SearchForPlayer();      
-        }     
+            UpdateTarget();    
+        } 
 
-        private void UpdateTimers()
+        void UpdateTarget() 
+        {     
+            StartCoroutine("RefreshEnemiesList"); 
+        }   
+
+        IEnumerator RefreshEnemiesList()
         {
-            timeSinceLastSawPlayer += Time.deltaTime;
-            timeSinceArrivedAtWaypoint += Time.deltaTime;
-        }        
+            targetList.Clear();
+            AssignTargetList();
+            FindNearestTarget();
+            yield return new WaitForSeconds(0.1f);
+        }             
 
-        private void PatrolBehaviour()
-        {         
-            if (patrolPath != null)
+        void AssignTargetList()
+        {
+            if(this.gameObject.tag == "Player") 
             {
-                if (AtWaypoint())
-                {
-                    timeSinceArrivedAtWaypoint = 0f;
-                    CycleWaypoint();
-                }
-                nextPosition = GetCurrentWaypoint();
+                targetList.AddRange(collection: GameObject.FindGameObjectsWithTag("Enemy"));
             }
-            if(timeSinceArrivedAtWaypoint > waypointDwellTime)
+            else if(this.gameObject.tag == "Enemy")
             {
-                mover.StartMoveAction(destination: nextPosition, speedFraction: patrolSpeedFraction);
-            }            
-        }  
-
-        void SearchForPlayer()
-        {
-            float distToClosestPlayer = Mathf.Infinity;
-            closestPlayer = null;
-            foreach(GameObject player in playersList) 
-            { 
-              float distanceToPlayer = (player.transform.position - this.transform.position).sqrMagnitude;
-              if(distanceToPlayer < distToClosestPlayer)
-              {
-                distToClosestPlayer = distanceToPlayer;
-                if(player == null)
-                {
-                    currentState = AIState.patrol;
-                }
-                else
-                {
-                    if(FOV.canSeePlayer == true)
-                    currentState = AIState.attack;
-                    closestPlayer = player;
-                    capsuleCol = closestPlayer.GetComponent<CapsuleCollider>();  
-                    otherCombatTarget = closestPlayer.GetComponent<CombatTarget>();                    
-                }               
-              }  
+                targetList.AddRange(collection: GameObject.FindGameObjectsWithTag("Player"));
             }
-        }
-
-
-        private bool AtWaypoint()
+        } 
+ 
+        public void FindNearestTarget()
         {
-            float distanceToWaypoint = Vector3.Distance(transform.position, GetCurrentWaypoint());
-            return distanceToWaypoint < waypointTolerence;
-        }       
+          float distToClosestTarget = Mathf.Infinity;
+          closestTarget = null;
+          foreach(GameObject target in targetList) 
+          { 
+            float distanceToTarget = (target.transform.position - this.transform.position).sqrMagnitude;
+            if(distanceToTarget < distToClosestTarget)
+            {
+              distToClosestTarget = distanceToTarget;
+              closestTarget = target;
+              if(closestTarget == null) return;
+              capsuleCol = closestTarget.GetComponent<CapsuleCollider>();  
+              otherCombatTarget = closestTarget.GetComponent<CombatTarget>();  
+            }  
+          }
+        } 
 
-        private void CycleWaypoint()
-        {
-            currentWaypointIndex = patrolPath.GetNextIndex(currentWaypointIndex);
-        }      
-
-        public Vector3 GetCurrentWaypoint()
-        {
-            return patrolPath.GetWaypoint(currentWaypointIndex);
-        }     
+        
     }
 }
