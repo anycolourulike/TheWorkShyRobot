@@ -22,8 +22,7 @@ namespace Rambler.Movement
         [SerializeField] Rig mainRig;        
         NavMeshAgent navMeshAgent;  
         bool rigWeaponEquipped;
-        Health health; 
-        
+        Health health;        
 
         public void Start()
         {
@@ -91,13 +90,13 @@ namespace Rambler.Movement
         }
 
         public void MoveTo(Vector3 destination, float speedFraction)
-        {         
+        {   
+            navMeshAgent.isStopped = false;      
             navMeshAgent.destination = destination; 
             navMeshAgent.speed = maxSpeed * Mathf.Clamp01(speedFraction);
-            navMeshAgent.isStopped = false;
         }
 
-        public void Cancel()
+        public void CancelNav()
         {            
             navMeshAgent.isStopped = true;
         }
@@ -110,7 +109,6 @@ namespace Rambler.Movement
             float speed = localVelocity.z;
             anim.SetFloat("forwardSpeed", speed);            
         }
-
 
         public object CaptureState()
         {   

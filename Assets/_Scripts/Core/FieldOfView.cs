@@ -14,19 +14,54 @@ namespace Rambler.Control
       public float angle;
     
       [SerializeField]
-      public Collider[] playerRefs; 
+      public List<Collider> playerRefs = new List<Collider>(); 
+      public List<GameObject> targetObjs = new List<GameObject>(); 
       public LayerMask targetMask;
+      public LayerMask playerLayer;
       public LayerMask obstructionMask; 
       public bool canSeePlayer;
       AIController aIController;
 
-      private void Start()
-      {        
-        aIController = GetComponent<AIController>();
-        StartCoroutine(FOVRoutine());
+      void OnEnable()
+      {
+        Health.targetDeath += FindColliders;
       }
 
-      private IEnumerator FOVRoutine()
+      void OnDisable()
+      {
+        Health.targetDeath -= FindColliders;
+      }
+
+      private void Start()
+        {
+            aIController = GetComponent<AIController>();
+            FindColliders();
+            StartCoroutine(FOVRoutine());
+        }
+
+        void FindColliders()
+        {
+            if (this.gameObject.CompareTag("Enemy"))
+            {
+                targetObjs.AddRange(collection: GameObject.FindGameObjectsWithTag("Player"));
+                foreach (var Target in targetObjs)
+                {
+                    var col = Target.GetComponent<Collider>();
+                    playerRefs.Add(col);
+                }
+            }
+            else if (this.gameObject.CompareTag("Player"))
+            {
+                targetObjs.AddRange(collection: GameObject.FindGameObjectsWithTag("Enemy"));
+                foreach (var Target in targetObjs)
+                {
+                    var col = Target.GetComponent<Collider>();
+                    playerRefs.Add(col);
+                }
+            }
+        }
+
+        private IEnumerator FOVRoutine()
       {
         WaitForSeconds wait = new WaitForSeconds(0.3f);
 
@@ -71,19 +106,12 @@ namespace Rambler.Control
         canSeePlayer = false; 
       } 
 
-      // bool PlayerDetect()
-      // { 
-      //   // if(this.gameObject.CompareTag("Player"))
-      //       // {
-      //       //   if(PlayerDetect() == true) 
-      //       //   {
-      //       //     canSeePlayer = false;
-      //       //   }
-      //       // }
+      // public bool PlayerDetect()
+      // {         
       //   RaycastHit hit;
       //   if(Physics.Raycast(transform.position, this.transform.forward, out hit, 300f, playerLayer))
       //   {
-      //     if(hit.transform.gameObject.name == "Rambler")
+      //     if(hit.transform.parent.name == "PlayerCore")
       //     {       
       //       return true;                  
       //     }    

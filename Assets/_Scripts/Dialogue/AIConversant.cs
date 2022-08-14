@@ -102,7 +102,7 @@ namespace Rambler.Dialogue
             }
         }
 
-        public void Cancel()
+        public void CancelNav()
         {
             throw new System.NotImplementedException();
         }

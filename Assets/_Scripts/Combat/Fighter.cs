@@ -16,7 +16,6 @@ namespace Rambler.Combat
         [SerializeField] float timeBetweenAttacks = 1.3f;    
         [SerializeField] Animator ShootAnim;          
         [SerializeField] Weapon unarmed;
-        [SerializeField] Mover mover;
         [SerializeField] ParticleSystem punchImpact; 
         [SerializeField] CapsuleCollider targetCapsule;
         public CapsuleCollider TargetCap {get{return targetCapsule;} set{targetCapsule = value;}}       
@@ -25,32 +24,31 @@ namespace Rambler.Combat
         public Animator rigController;  
         public Weapon weaponPickedUp;       
         public Weapon weaponConfig;  
-        public Weapon lastWeaponUsed;     
-        public Weapon SetLastWeapon{set{lastWeaponUsed = value;}}      
+        Weapon lastWeaponUsed;     
+        public Weapon SetLastWeapon{set{lastWeaponUsed = value;} get {return lastWeaponUsed;}}      
         float timeSinceLastAttack = 
         Mathf.Infinity;         
-        CombatTarget otherCombatTarget;   //other combat Target
-        public CombatTarget Target {get{return otherCombatTarget;} set{otherCombatTarget = value;}} 
+        CombatTarget otherCombatTarget;  
+        public CombatTarget CombatTarget {get{return otherCombatTarget;} set{otherCombatTarget = value;}} 
         PlayerController playerController; 
-        bool outOfAmmoCalled = false; 
-        float outOfAmmo = 0.0f;
-        float period = 3f;                   
         Vector3 hitPointVector;  
         GameObject weaponRef;
         Health targetHealth;                       
         Transform enemyPos; 
-        WeaponIK weaponIk;            
-        Animator anim;  
-
+        WeaponIK weaponIk;    
+        Animator anim;          
+        Mover mover;        
         
         void OnEnable()
         {
-            Health.targetDeath += Cancel;
+            Health.targetDeath += CancelTarget;
+            Health.playerDeath += StopMovement;
         }
 
         void OnDisable()
         {
-            Health.targetDeath += Cancel;
+            Health.targetDeath -= CancelTarget;
+            Health.playerDeath -= StopMovement;
         }
         
         void Start()
@@ -59,6 +57,7 @@ namespace Rambler.Combat
            {
               playerController = GetComponent<PlayerController>();
            }
+           mover = GetComponent<Mover>();
            rigController = GetComponent<Fighter>().rigController;  
            weaponIk = GetComponent<WeaponIK>();          
            anim = GetComponent<Animator>();             
@@ -69,8 +68,8 @@ namespace Rambler.Combat
         void Update()
         {                    
             timeSinceLastAttack += Time.deltaTime; 
-            if (TargetCap == null) return;                       
-            if (enemyPos.CompareTag("AIConversant")) return; 
+            if (TargetCap != null)                      
+            //if (enemyPos.CompareTag("AIConversant")) return; 
             if (!GetIsInRange())
             {
                 GetComponent<Mover>().MoveTo(enemyPos.transform.position, 1f);
@@ -181,16 +180,11 @@ namespace Rambler.Combat
         } 
 
         public void EquipUnarmed()
-        {
-            if(this.gameObject.name == "Companion") return; 
-                
-                if(this.gameObject.CompareTag("Player"))
-                {  
-                  playerController.DeactivateAmmoCounter();                  
-                  activeWeapon.AmmoUIInit();
-                }
+        {   
+            playerController.DeactivateAmmoCounter();                  
+            activeWeapon.AmmoUIInit();
             RigWeightToZero();
-            EquipWeapon(weapon: unarmed);                                              
+            EquipWeapon(weapon: unarmed);               
         }
 
         public void EquipLastWeapon() 
@@ -224,24 +218,42 @@ namespace Rambler.Combat
         public void Attack(GameObject combatTarget)
         {
             GetComponent<ActionScheduler>().StartAction(this); 
-            enemyPos = combatTarget.GetComponent<Transform>();           
+            if(combatTarget != null)
+            {
+              enemyPos = combatTarget.GetComponent<Transform>();    
+            }         
         }       
 
-        public void Cancel()
-        {    
-            Target = null;       
+        public void CancelTarget()
+        { 
+            CombatTarget = null; 
+            TargetCap = null;      
             enemyPos = null; 
-            TargetCap = null;
         }   
 
         public void AssignAmmo() 
         {
             activeWeapon.FullAmmo();
         } 
+
+         public void CancelNav()
+        {
+            mover.CancelNav();
+        }
+
+        public object CaptureState()
+        {
+            return lastWeaponUsed;
+        }
+
+        public void RestoreState(object state)
+        {
+            lastWeaponUsed = (Weapon)state;
+        } 
         
         Vector3 GetEnemyLocation()
         {              
-           return hitPointVector = Target.TargetFuturePos(activeWeapon.AimTransform().position);
+           return hitPointVector = CombatTarget.TargetFuturePos(activeWeapon.AimTransform().position);
         }        
 
         void Spawn(Transform handTransform, Animator animator)
@@ -344,6 +356,14 @@ namespace Rambler.Combat
         void ActiveWeaponInit()
         {            
             activeWeapon = weaponRef.GetComponentInChildren<ActiveWeapon>();
-        } 
-   }
+        }
+
+        void StopMovement()
+        {
+            CancelNav();
+            mover.enabled = false;
+            var aICon = GetComponent<AIController>();
+            aICon.enabled = false;
+        }              
+    }
 }

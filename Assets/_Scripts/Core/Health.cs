@@ -13,7 +13,7 @@ using UnityEngine.Events;
 
 namespace Rambler.Core // To Do Stop Movement
 {
-    public class Health : MonoBehaviour, ISaveable
+    public class Health : MonoBehaviour
     {        
         public float healthPoints = 100f; 
         float HealthPoints { get{return healthPoints;} set{healthPoints = value;}}  
@@ -40,7 +40,7 @@ namespace Rambler.Core // To Do Stop Movement
         float damage;        
         Animator anim;
         int dieRanNum;        
-        Rigidbody rb;  
+        Rigidbody rb;        
 
         void Start() 
         {   
@@ -68,7 +68,7 @@ namespace Rambler.Core // To Do Stop Movement
         {  
             if (isDead == true) return;          
             healthPoints = Mathf.Max(healthPoints - damage, 0);
-            mover.Cancel();
+            mover.CancelNav();
             HealthCheck();            
             HitAnim();
         }
@@ -85,8 +85,8 @@ namespace Rambler.Core // To Do Stop Movement
  
         public void Die()
         {            
-            targetDeath?.Invoke();             
-            capCol.enabled = false;
+            targetDeath?.Invoke();          
+            //capCol.enabled = false;
             isDead = true; 
             StopMovement();  
             EnemySpawn.count ++;          
@@ -152,19 +152,19 @@ namespace Rambler.Core // To Do Stop Movement
             AudioManager.PlayHumanSound(AudioManager.HumanSound.HumanHitGroundDeath, this.transform.position);
         }  
 
-        public object CaptureState()
-        {
-            return healthPoints;
-        }
+        // public object CaptureState()
+        // {
+        //     return healthPoints;
+        // }
 
-        public void RestoreState(object state)
-        {
-            healthPoints = (float)state;
-            if (healthPoints <= 0)
-            {
-                Die();
-            }
-        }
+        // public void RestoreState(object state)
+        // {
+        //     healthPoints = (float)state;
+        //     if (healthPoints <= 0)
+        //     {
+        //         Die();
+        //     }
+        // }
 
         void HitAnim()
         {  

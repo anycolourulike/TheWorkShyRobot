@@ -27,6 +27,7 @@ public class GameUI : MonoBehaviour
 
     public void LoadSavedGame() 
     {
+        levelManager.PlayerWeaponCheck();
         levelManager.StartCoroutine("LoadSavedGame");   
     }
 

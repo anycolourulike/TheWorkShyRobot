@@ -38,16 +38,26 @@ namespace Rambler.Control
         WeaponIK weaponIK;        
         Mover mover;
 
+        Transform targetStartPos;
         public bool isHolstered; 
-        Vector3 pickUpDirection;
+        Vector3 pickUpDirection;        
         GameObject interact;    
         GameObject weaponPU; 
         WeaponPickUp pickUp; 
-        Transform targetStartPos;
         float shakeTimer;        
         int interactions;    
-        bool shieldsUp;
-              
+        bool shieldsUp;  
+        bool isDead;   
+
+        void OnEnable()
+        {
+            Health.playerDeath += PlayerDied;
+        } 
+
+        void OnDisable()
+        {
+            Health.playerDeath -= PlayerDied;
+        }    
        
         private void Start()
         { 
@@ -102,7 +112,7 @@ namespace Rambler.Control
                 var thisCombatTarget = GetComponent<CombatTarget>();
                 if(otherCombatTarget == thisCombatTarget) return false;
                 Fighter fighter = GetComponent<Fighter>();
-                fighter.Target = otherCombatTarget;
+                fighter.CombatTarget = otherCombatTarget;
                 CapsuleCollider targetCapsule = hit.transform.GetComponent<CapsuleCollider>(); 
                 fighter.TargetCap = targetCapsule;
 
@@ -124,7 +134,8 @@ namespace Rambler.Control
         }   
 
         bool InteractWithMovement()
-        {            
+        {  
+           if(isDead == true) return false;          
            Vector3 target;
            bool hasHit = RaycastNavMesh(out target);
            
@@ -253,6 +264,11 @@ namespace Rambler.Control
            agent.enabled = true;
            mover.enabled = true;
         } 
+
+        void PlayerDied()
+        {
+            isDead = true;
+        }
 
         void OnTriggerExit(Collider other)
         {

@@ -16,6 +16,11 @@ namespace Rambler.Dialogue
 
         Dictionary<string, DialogueNode> nodeLookup = new Dictionary<string, DialogueNode>();
 
+        void Awake()
+        {
+            OnValidate();
+        }
+
         private void OnValidate() 
         {
             nodeLookup.Clear();

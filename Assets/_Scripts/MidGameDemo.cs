@@ -14,7 +14,7 @@ public class MidGameDemo : MonoBehaviour
     public GameObject[] Imgs;
     GameObject nextImg;
     public int numberOfImgs = 0;
-    GameObject curImg;    
+    public GameObject curImg;    
     int counter = 0;
     Fader fader;
 
@@ -61,12 +61,15 @@ public class MidGameDemo : MonoBehaviour
 
     public void PlayNextScene()
     {
-        curImg.SetActive(false);
+        if(curImg != null)
+        {
+          curImg.SetActive(false);
+        }
         fader.FadeOut(1);
         next.gameObject.SetActive(false);
         prev.gameObject.SetActive(false);                
         skip.gameObject.SetActive(false);
-        levelManager.LoadNextScene();
+        levelManager.StartCoroutine("LoadLivingQuarters");
     }
 
     void NextImg()

@@ -1309,6 +1309,7 @@ MonoBehaviour:
   - {fileID: 752058521}
   - {fileID: 1834425682}
   numberOfImgs: 5
+  curImg: {fileID: 0}
 --- !u!114 &1318954885
 MonoBehaviour:
   m_ObjectHideFlags: 0

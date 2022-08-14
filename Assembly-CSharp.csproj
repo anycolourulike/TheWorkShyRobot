@@ -174,7 +174,6 @@
      <Compile Include="Assets\_Scripts\Combat\WeaponPickUp.cs" />
      <Compile Include="Assets\_Scripts\Control\AIController.cs" />
      <Compile Include="Assets\_Scripts\Control\Attack.cs" />
-     <Compile Include="Assets\_Scripts\Control\Companion.cs" />
      <Compile Include="Assets\_Scripts\Control\EnemyDroneController.cs" />
      <Compile Include="Assets\_Scripts\Control\Follow Player.cs" />
      <Compile Include="Assets\_Scripts\Control\IState.cs" />

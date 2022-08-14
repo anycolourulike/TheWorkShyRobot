@@ -93,16 +93,14 @@ namespace Rambler.SceneManagement
 
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal: otherPortal); 
-
             wrapper.Save();
+            
             yield return new WaitForSeconds(fadeWaitTime);
             fader.FadeIn(fadeInTime);            
             newPlayerController.enabled = true;
 
             Destroy(gameObject);
         }
-
-           
 
         private void UpdatePlayer(Portal otherPortal)
         {

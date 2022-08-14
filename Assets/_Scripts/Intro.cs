@@ -80,7 +80,10 @@ public class Intro : MonoBehaviour
 
     public void PlayNextScene()
     {
-        curImg.SetActive(false);
+        if(curImg != null)
+        {
+          curImg.SetActive(false);
+        }  
         fader.FadeOut(1);
         next.gameObject.SetActive(false);
         prev.gameObject.SetActive(false);                

@@ -470,91 +470,97 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: meleeAttack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Die1
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Die2
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Die3
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: stopAttack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: armed
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: use
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: pickUp
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: gameOver
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: EMPAttack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: ShieldsUp
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: reload
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: HitAnim
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: PicKUPHead
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
+  - m_Name: isNotDead
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -600,7 +606,7 @@ AnimatorStateMachine:
     m_Position: {x: 560, y: 50, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1905239046899149037}
-    m_Position: {x: 590, y: -240, z: 0}
+    m_Position: {x: 320, y: -220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 650438210508596086}
     m_Position: {x: 80, y: -50, z: 0}
@@ -609,22 +615,22 @@ AnimatorStateMachine:
     m_Position: {x: 530, y: -50, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3197648069072845042}
-    m_Position: {x: 300, y: -380, z: 0}
+    m_Position: {x: 320, y: -270, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2152047940026409476}
-    m_Position: {x: 300, y: -330, z: 0}
+    m_Position: {x: 320, y: -320, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6602959432676547111}
-    m_Position: {x: 300, y: -280, z: 0}
+    m_Position: {x: 320, y: -370, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7060583611464332060}
-    m_Position: {x: 300, y: -130, z: 0}
+    m_Position: {x: 320, y: -120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8231884896551335877}
-    m_Position: {x: 300, y: -60, z: 0}
+    m_Position: {x: 310, y: -50, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5676417281592253805}
-    m_Position: {x: 450, y: -180, z: 0}
+    m_Position: {x: 320, y: -170, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 3375492273772137974}

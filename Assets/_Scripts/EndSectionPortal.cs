@@ -20,20 +20,10 @@ namespace Rambler.SceneManagement
         [SerializeField] int sceneToLoad;
         [SerializeField] GameObject rambler;
         [SerializeField] float fadeOutTime = 1f;
-        [SerializeField] float fadeInTime = 2f;
-        [SerializeField] float fadeWaitTime = 0.5f;
-        LevelManager levelManager;  
-        Fighter fighter;
-        Fighter newFighter;
-        Weapon equippedWeapon;
-        GameObject player;
+        PlayerController playerController;
+        Weapon equippedWeapon; 
         GameObject companion;
-        PlayerController playerController; 
-
-        void Start() 
-        {
-            levelManager = FindObjectOfType<LevelManager>();
-        }
+        GameObject player;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -50,8 +40,6 @@ namespace Rambler.SceneManagement
                 Debug.LogError("Scene To Load not Set");
                 yield break;
             }
-           
-            
 
             Fader fader = FindObjectOfType<Fader>();
             SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
@@ -67,7 +55,7 @@ namespace Rambler.SceneManagement
                 {
                     player = Item;
                     playerController = player.GetComponent<PlayerController>(); 
-                    fighter = player.GetComponent<Fighter>();
+                    var fighter = player.GetComponent<Fighter>();
                     equippedWeapon = fighter.weaponConfig;
                 }
                 else if(Item.name == "Companion")
@@ -85,4 +73,3 @@ namespace Rambler.SceneManagement
         } 
     }
 }
-

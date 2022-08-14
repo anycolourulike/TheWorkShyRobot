@@ -5,13 +5,18 @@ using UnityEngine.SceneManagement;
 using Rambler.Core;
 using Rambler.SceneManagement;
 using Rambler.Combat;
+using UnityEngine.AI;
 
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { set; get; }
-    public string targetScene; 
+    public Weapon lastEquippedWeapon;     
+    GameObject companionSpawnPoint;
+    GameObject playerSpawnPoint;
+    public string targetScene;
+    GameObject companion;
+    GameObject player;
     Fighter fighter;
-    public Weapon lastEquippedWeapon; 
     Fader fader;
 
     void OnEnable() 
@@ -67,7 +72,7 @@ public class LevelManager : MonoBehaviour
     }
 
     public IEnumerator LoadSavedGame() 
-    {   
+    {  
         SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
         yield return new WaitForSecondsRealtime(3);
         wrapper.ContinueGame();   
@@ -98,10 +103,24 @@ public class LevelManager : MonoBehaviour
         if(sceneIndex > 3)
         {
             if(sceneIndex == 6) return;
+            if(sceneIndex == 7)
+            {
+                playerSpawnPoint = GameObject.FindWithTag("PlayerSpawn");
+                companionSpawnPoint = GameObject.FindWithTag("CompanionSpawn");
+            }
             PlayerAssignWeapons();
             SavingWrapper wrapper = FindObjectOfType<SavingWrapper>(); 
-            wrapper.Load();  
-            fighter.EquipWeapon(lastEquippedWeapon);
+            wrapper.Load(); 
+            if(sceneIndex == 7) {PlayerStartPosition();}
+
+            if(lastEquippedWeapon != null)
+            {
+               fighter.EquipWeapon(lastEquippedWeapon);
+            }  
+            if(lastEquippedWeapon == null)
+            {
+               fighter.EquipUnarmed();
+            }
         } 
     } 
 
@@ -116,8 +135,24 @@ public class LevelManager : MonoBehaviour
     {
         var player = GameObject.Find("PlayerCore/Rambler");
         fighter = player.GetComponent<Fighter>();
-        fighter.weaponConfig =  lastEquippedWeapon;                
+        fighter.weaponConfig = lastEquippedWeapon;                
     }   
+
+    void PlayerStartPosition()
+    {  
+        player = GameObject.Find("/PlayerCore/Rambler");
+        companion = GameObject.Find("/Companion");
+        var navMeshAgent = player.GetComponent<NavMeshAgent>();
+        var navMeshAgentCompanion = companion.GetComponent<NavMeshAgent>(); 
+        navMeshAgent.enabled = false;
+        navMeshAgentCompanion.enabled = false;
+        player.transform.position = playerSpawnPoint.transform.position;
+        player.transform.rotation = playerSpawnPoint.transform.rotation;
+        companion.transform.position = companionSpawnPoint.transform.position;
+        companion.transform.rotation = companionSpawnPoint.transform.rotation;
+        navMeshAgent.enabled = true;
+        navMeshAgentCompanion.enabled = true;   
+    }
 
     void AmbientMusic()
     {

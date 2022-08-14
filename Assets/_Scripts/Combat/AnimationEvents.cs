@@ -6,13 +6,11 @@ using Rambler.Control;
 namespace Rambler.Combat
 {
     public class AnimationEvents : MonoBehaviour
-    {
-        [SerializeField] Animator anim;
-        [SerializeField] Fighter fighter;
+    {        
         [SerializeField] PlayerController playerController;
+        [SerializeField] Fighter fighter;
         public Transform playerHand;       
-        public Transform head;        
-        
+        public Transform head; 
       
         public void EquipUnarmed() 
         {

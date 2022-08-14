@@ -19,7 +19,6 @@ public class StateMachine
       var transition = GetTransition();
       if (transition != null)
          SetState(transition.To);
-         Debug.Log(_currentState);
       
       _currentState?.Tick();
    }

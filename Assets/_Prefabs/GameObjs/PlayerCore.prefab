@@ -26234,6 +26234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animatorOverride: {fileID: 0}
+  AIRigLayer: {fileID: 0}
   timeBetweenAttacks: 0.4
   ShootAnim: {fileID: 2810129383128120973}
   unarmed: {fileID: 11400000, guid: 2cee64217ec535a4393a743933fdeaea, type: 2}
@@ -26247,7 +26248,6 @@ MonoBehaviour:
   weaponPickedUp: {fileID: 0}
   weaponConfig: {fileID: 11400000, guid: 2cee64217ec535a4393a743933fdeaea, type: 2}
   lastWeaponUsed: {fileID: 0}
-  otherCombatTarget: {fileID: 0}
 --- !u!114 &2810129383371888309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120597,7 +120597,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2432240129810466303
 RectTransform:
   m_ObjectHideFlags: 0
@@ -120646,8 +120646,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Proceed To Next Area
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d1d7f9550b5eefe449d17b715817f8c9, type: 2}
-  m_sharedMaterial: {fileID: 3981711074741023767, guid: d1d7f9550b5eefe449d17b715817f8c9,
+  m_fontAsset: {fileID: 11400000, guid: 545cf08f1650aae41b17346e0ceaa03f, type: 2}
+  m_sharedMaterial: {fileID: -2655701484050421787, guid: 545cf08f1650aae41b17346e0ceaa03f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -122061,7 +122061,7 @@ RectTransform:
   m_GameObject: {fileID: 5922387353846440374}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5.25, y: 2.4751, z: 1}
+  m_LocalScale: {x: 18.29461, y: 24.572264, z: 1}
   m_Children:
   - {fileID: 2432240129810466303}
   m_Father: {fileID: 2810129384920218521}
@@ -122069,7 +122069,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -30, y: -114}
+  m_AnchoredPosition: {x: -66, y: -608}
   m_SizeDelta: {x: 125.88013, y: 45.93518}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!33 &7982515454462729788
@@ -122101,14 +122101,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
-  m_RaycastTarget: 1
-  m_Maskable: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2eb429c70b4da47a7a1b968ddbf602c1, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: e7e4db8e9671a264ca0b30105816d723, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

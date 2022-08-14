@@ -62,9 +62,8 @@ public class DoorOpen : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Enemy")
+        if((other.gameObject.CompareTag("Enemy")) || (other.gameObject == player))
         {
-            Debug.Log("Enemy Opened Door");
             anim.SetTrigger("Open");
             doorIsOpen = true;
         }
@@ -72,7 +71,6 @@ public class DoorOpen : MonoBehaviour
 
     void OpenDoor()
     {
-        Debug.Log("Open Door Called");
         anim.SetTrigger("Open");
         doorIsOpen = true;
     }

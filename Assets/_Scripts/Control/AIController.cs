@@ -115,9 +115,28 @@ namespace Rambler.Control
             stateMachine.Tick();
         } 
 
+        void FixedUpdate()
+        {
+            if(this.gameObject.CompareTag("Player"))
+            {
+                // if(FOV.PlayerDetect() == true) 
+                // {
+                //   FOV.canSeePlayer = false;
+                // }
+                if(FOV.canSeePlayer == false)
+                {
+                   fighter.TargetCap = null;
+                }
+                if(fighter.TargetCap == null)
+                {
+                   UpdateTarget();
+                }
+            }
+        }
+
         public void TargetHealthCheck()
         { 
-           //if(closestTarget == null) return;
+           if(closestTarget == null) return;
            var targetIsDead = closestTarget.GetComponent<Health>().isDead; 
            if(targetIsDead == true) {UpdateTarget();};  
         }
@@ -125,7 +144,7 @@ namespace Rambler.Control
         public void AssignTarget()
         {
             fighter.TargetCap = capsuleCol;
-            fighter.Target = otherCombatTarget;         
+            fighter.CombatTarget = otherCombatTarget;         
             fighter.Attack(combatTarget: closestTarget);
         }
 
@@ -139,7 +158,7 @@ namespace Rambler.Control
         void PlayerDeath()
         {  
             fighter.TargetCap = null;
-            fighter.Cancel();
+            fighter.CancelTarget();
             UpdateTarget();    
         } 
 
@@ -153,7 +172,7 @@ namespace Rambler.Control
             targetList.Clear();
             AssignTargetList();
             FindNearestTarget();
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.01f);
         }             
 
         void AssignTargetList()
@@ -185,7 +204,5 @@ namespace Rambler.Control
             }  
           }
         } 
-
-        
     }
 }

@@ -57,10 +57,10 @@ public class Attack : IState
 
     public void OnEnter()
     { 
-        //_aIController.TargetHealthCheck();
+        _aIController.TargetHealthCheck();
         _aIController.AssignTarget();
         _timeSinceLastSawPlayer = 2f;
-        _mover.Cancel();             
+        _mover.CancelNav();             
     }
 
     public void OnExit()
@@ -69,7 +69,7 @@ public class Attack : IState
     }
 
     public void Tick()
-    {
+    {        
         AttackTimer();
         UpdateTimers();
     }

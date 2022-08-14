@@ -23,7 +23,7 @@ public class HealthRegenScript : MonoBehaviour
            healthRegenFX.SetActive(true);
            playerVitals = other.GetComponent<PlayerVitals>();                           
            mover = other.GetComponent<Mover>();         
-           mover.Cancel();
+           mover.CancelNav();
            playerVitals.Restore();                      
        }     
    }

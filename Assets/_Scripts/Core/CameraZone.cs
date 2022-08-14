@@ -9,22 +9,22 @@ public class CameraZone : MonoBehaviour
     [SerializeField] GameObject player;
     public bool zoomOut;
     
-    [SerializeField] float zoomedOut = 47f;
-    [SerializeField] float zoomedIn  = 40f;
+    [SerializeField] float zoomedOutValue = 47f;
+    [SerializeField] float zoomedInValue  = 40f;
     float speed = 5f;
    
     void Update() 
     {           
         if(zoomOut == true)
         {
-            if(cineCamera.m_Lens.FieldOfView < zoomedOut)
+            if(cineCamera.m_Lens.FieldOfView < zoomedOutValue)
             {
               cineCamera.m_Lens.FieldOfView += speed * Time.deltaTime;
             } 
         }
         else if(zoomOut == false)
         {   
-            if(cineCamera.m_Lens.FieldOfView > zoomedIn)
+            if(cineCamera.m_Lens.FieldOfView > zoomedInValue)
             {
               cineCamera.m_Lens.FieldOfView -= speed * Time.deltaTime;
             } 
