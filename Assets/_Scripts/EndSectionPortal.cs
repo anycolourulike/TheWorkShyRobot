@@ -44,7 +44,8 @@ namespace Rambler.SceneManagement
             Fader fader = FindObjectOfType<Fader>();
             SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
             GameObject HUD = GameObject.FindWithTag("HUD");
-            HUD.SetActive(false); 
+            HUD.SetActive(false);
+            wrapper.Save(); 
 
             List<GameObject> playersList = new List<GameObject>();
             playersList.AddRange(collection: GameObject.FindGameObjectsWithTag("Player"));
@@ -67,7 +68,7 @@ namespace Rambler.SceneManagement
             playerController.enabled = false;
             yield return fader.FadeOut(fadeOutTime);            
             
-            wrapper.Save();
+            
             yield return SceneManager.LoadSceneAsync(sceneToLoad); 
             Destroy(gameObject);
         } 

@@ -76,7 +76,7 @@ namespace Rambler.Combat
             if (foundSlot)
             {      
                 fighter.weaponPickedUp = weaponConfig;
-                Destroy(gameObject, 0.1f);                                           
+                this.gameObject.SetActive(false);                                           
             } 
         }     
     }        

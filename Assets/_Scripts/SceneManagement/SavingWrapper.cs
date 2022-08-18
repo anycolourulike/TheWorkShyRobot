@@ -17,24 +17,10 @@ namespace Rambler.SceneManagement
         [SerializeField] float fadeOutTime = 0.2f;
         [SerializeField] int firstLevelBuildIndex = 2;
         [SerializeField] int menuLevelBuildIndex = 1;
-               
-        
 
         public void ContinueGame() 
         {
-            StartCoroutine(LoadLastScene());
-        }
-
-        public void NewGame(string saveFile)
-        {
-            SetCurrentSave(saveFile: saveFile);
-            StartCoroutine(LoadFirstScene());
-        }
-
-        public void LoadGame(string saveFile)
-        {
-            SetCurrentSave(saveFile: saveFile);
-            ContinueGame();
+            StartCoroutine("LoadLastScene");
         }
 
         public void LoadMenu()
@@ -42,21 +28,11 @@ namespace Rambler.SceneManagement
             StartCoroutine(LoadMenuScene());
         }
 
-        private void SetCurrentSave(string saveFile)
-        {
-            PlayerPrefs.SetString(currentSaveKey, saveFile);
-        }
-
-        private string GetCurrentSave()
-        {
-            return PlayerPrefs.GetString(currentSaveKey);
-        }
-
         private IEnumerator LoadLastScene()
         {
             Fader fader = FindObjectOfType<Fader>();
             yield return fader.FadeOut(fadeOutTime);
-            yield return GetComponent<SavingSystem>().LoadLastScene(GetCurrentSave());
+            yield return GetComponent<SavingSystem>().LoadLastScene(currentSaveKey);
             yield return fader.FadeIn(fadeInTime);
         }
 

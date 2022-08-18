@@ -6,17 +6,19 @@ using Rambler.Combat;
 using Rambler.Control;
 using Rambler.Core;
 using Rambler.Movement;
+using Rambler.Utils;
 using System;
 using Random = UnityEngine.Random;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.Events;
+using Rambler.Stats;
 
 namespace Rambler.Core // To Do Stop Movement
 {
     public class Health : MonoBehaviour
     {        
-        public float healthPoints = 100f; 
-        float HealthPoints { get{return healthPoints;} set{healthPoints = value;}}  
+        public LazyValue<float> healthPoints; 
+        LazyValue<float> HealthPoints { get{return healthPoints;} set{healthPoints = value;}}  
         [SerializeField] GameObject RigLayer;
         [SerializeField] GameObject headFX;
         [SerializeField] GameObject legFX; 
@@ -29,6 +31,8 @@ namespace Rambler.Core // To Do Stop Movement
         public static event TargetDeath targetDeath;
         public delegate void PlayerDied();
         public static event PlayerDied playerDeath;
+        public delegate void AIHit();
+        public static event AIHit aIHit;
         UnityEngine.AI.NavMeshAgent agent;
         CombatTarget combatTarget;
         GameObject hitScreenFX;
@@ -40,7 +44,12 @@ namespace Rambler.Core // To Do Stop Movement
         float damage;        
         Animator anim;
         int dieRanNum;        
-        Rigidbody rb;        
+        Rigidbody rb;  
+
+        void Awake() 
+        {
+            healthPoints = new LazyValue<float>(GetInitialHealth);
+        }      
 
         void Start() 
         {   
@@ -66,8 +75,12 @@ namespace Rambler.Core // To Do Stop Movement
 
         public void TakeDamage(float damage)
         {  
-            if (isDead == true) return;          
-            healthPoints = Mathf.Max(healthPoints - damage, 0);
+            if (isDead == true) return;   
+            if (this.gameObject.CompareTag("Enemy") || (this.gameObject.name == ("Companion")))
+            {
+                aIHit?.Invoke();
+            }       
+            healthPoints.value = Mathf.Max(healthPoints.value - damage, 0);
             mover.CancelNav();
             HealthCheck();            
             HitAnim();
@@ -75,9 +88,9 @@ namespace Rambler.Core // To Do Stop Movement
 
         public void HealthCheck()
         {
-            if (healthPoints <= 0)
+            if (healthPoints.value <= 0)
             {
-                healthPoints = 0;
+                healthPoints.value = 0f;
                 isDead = true;                
                 Die();
             }            
@@ -152,19 +165,24 @@ namespace Rambler.Core // To Do Stop Movement
             AudioManager.PlayHumanSound(AudioManager.HumanSound.HumanHitGroundDeath, this.transform.position);
         }  
 
-        // public object CaptureState()
-        // {
-        //     return healthPoints;
-        // }
+        public object CaptureState()
+        {
+            return healthPoints.value;
+        }
 
-        // public void RestoreState(object state)
-        // {
-        //     healthPoints = (float)state;
-        //     if (healthPoints <= 0)
-        //     {
-        //         Die();
-        //     }
-        // }
+        public void RestoreState(object state)
+        {
+            healthPoints.value = (float)state;
+            if (healthPoints.value <= 0)
+            {
+                Die();
+            }
+        }
+
+        float GetInitialHealth()
+        {
+            return GetComponent<BaseStats>().GetStat(Stat.Health);
+        }
 
         void HitAnim()
         {  
@@ -211,7 +229,7 @@ namespace Rambler.Core // To Do Stop Movement
             deathSplashScreen.SetActive(true);
             AudioManager.PlayHumanSound(AudioManager.HumanSound.Death4, transform.position); 
             AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.DeathScreen, transform.position);            
-            if(this.gameObject.name == "Rambler") {LevelManager.Instance.PlayerWeaponCheck();}
+            //if(this.gameObject.name == "Rambler") {LevelManager.Instance.PlayerWeaponCheck();}
         }
 
         IEnumerator HitFX()

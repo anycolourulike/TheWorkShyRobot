@@ -26,6 +26,7 @@ namespace Rambler.Combat
         {
             fighter.EquipPickedUpWeapon();
             playerController.EnableMover();
+            fighter.SetLastWeapon = fighter.weaponConfig;
         }
 
         public void HeadAttach()

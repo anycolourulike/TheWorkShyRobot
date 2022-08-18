@@ -111,7 +111,7 @@ namespace Rambler.Control
       //   RaycastHit hit;
       //   if(Physics.Raycast(transform.position, this.transform.forward, out hit, 300f, playerLayer))
       //   {
-      //     if(hit.transform.parent.name == "PlayerCore")
+      //     if(hit.transform.gameObject.CompareTag("Player"))
       //     {       
       //       return true;                  
       //     }    

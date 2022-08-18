@@ -10,13 +10,11 @@ using UnityEngine.AI;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { set; get; }
-    public Weapon lastEquippedWeapon;     
     GameObject companionSpawnPoint;
     GameObject playerSpawnPoint;
     public string targetScene;
     GameObject companion;
     GameObject player;
-    Fighter fighter;
     Fader fader;
 
     void OnEnable() 
@@ -57,9 +55,7 @@ public class LevelManager : MonoBehaviour
     }
 
     public IEnumerator LoadIntro() 
-    { 
-       SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
-       wrapper.Delete();
+    {        
        yield return new WaitForSecondsRealtime(3);
        SceneManager.LoadScene("IntroComic"); 
     }
@@ -95,48 +91,45 @@ public class LevelManager : MonoBehaviour
 
     public void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
+        System.GC.Collect();
         fader = FindObjectOfType<Fader>();
         fader.FadeIn(3);
         AmbientMusic();
         Time.timeScale = 1;
         int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+          
         if(sceneIndex > 3)
         {
             if(sceneIndex == 6) return;
             if(sceneIndex == 7)
             {
+                Debug.Log("Level 7");
                 playerSpawnPoint = GameObject.FindWithTag("PlayerSpawn");
                 companionSpawnPoint = GameObject.FindWithTag("CompanionSpawn");
+                SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
+                wrapper.Load();
+                PlayerStartPosition();                
             }
-            PlayerAssignWeapons();
-            SavingWrapper wrapper = FindObjectOfType<SavingWrapper>(); 
-            wrapper.Load(); 
-            if(sceneIndex == 7) {PlayerStartPosition();}
-
-            if(lastEquippedWeapon != null)
-            {
-               fighter.EquipWeapon(lastEquippedWeapon);
-            }  
-            if(lastEquippedWeapon == null)
-            {
-               fighter.EquipUnarmed();
-            }
+            //PlayerAssignWeapons();
+            //wrapper.Load(); 
+            //if(sceneIndex == 7) {PlayerStartPosition();}
         } 
     } 
 
-    public void PlayerWeaponCheck()
-    {  
-        var player = GameObject.Find("PlayerCore/Rambler");
-        fighter = player.GetComponent<Fighter>();
-        lastEquippedWeapon = fighter.weaponConfig;           
-    } 
+    // public void PlayerWeaponCheck()
+    // {  
+    //     var player = GameObject.Find("PlayerCore/Rambler");
+    //     fighter = player.GetComponent<Fighter>();
+    //     lastEquippedWeapon = fighter.weaponConfig;           
+    // } 
 
-    void PlayerAssignWeapons()
-    {
-        var player = GameObject.Find("PlayerCore/Rambler");
-        fighter = player.GetComponent<Fighter>();
-        fighter.weaponConfig = lastEquippedWeapon;                
-    }   
+    // void PlayerAssignWeapons()
+    // {
+    //     var player = GameObject.Find("PlayerCore/Rambler");
+    //     fighter = player.GetComponent<Fighter>();
+    //     fighter.weaponConfig = lastEquippedWeapon;
+    //     lastEquippedWeapon = fighter.SetLastWeapon;                 
+    // }   
 
     void PlayerStartPosition()
     {  

@@ -29,6 +29,7 @@ namespace Rambler.SceneManagement
         Fighter fighter;
         Fighter newFighter;
         Weapon equippedWeapon;
+        GameObject portalOpen;
         GameObject player;
         GameObject newPlayer; 
         GameObject companion;

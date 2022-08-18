@@ -13,11 +13,11 @@ using Rambler.Inventories;
 using Rambler.Combat;
 using Rambler.Core;
 using Cinemachine;
-
+using Rambler.Saving;
 
 namespace Rambler.Control
 {    
-    public class PlayerController : MonoBehaviour  
+    public class PlayerController : MonoBehaviour
     {              
         [SerializeField] float maxNavMeshProjectionDistance = 1f; 
         [SerializeField] GameObject ammoCounter; 
@@ -57,10 +57,13 @@ namespace Rambler.Control
         void OnDisable()
         {
             Health.playerDeath -= PlayerDied;
-        }    
+        } 
+
        
         private void Start()
         { 
+           interact = GameObject.FindGameObjectWithTag("Interact");             
+           interact.SetActive(false); 
            targetStartPos = target; 
            agent = GetComponent<NavMeshAgent>();         
            rigController = GetComponent<Fighter>().rigController;       
@@ -68,9 +71,7 @@ namespace Rambler.Control
            cineMachine = FindObjectOfType<CinemachineVirtualCamera>();
            playerAnim = GetComponent<Animator>();
            mover = GetComponent<Mover>();
-           weaponIK = GetComponent<WeaponIK>(); 
-           interact = GameObject.FindGameObjectWithTag("Interact");             
-           interact.SetActive(false);                                                                  
+           weaponIK = GetComponent<WeaponIK>();                             
         }
 
         private void Update()
@@ -194,6 +195,7 @@ namespace Rambler.Control
 
         void OnTriggerEnter(Collider other)
         {
+            GC.Collect(); 
             if (other.gameObject.CompareTag("weaponPU"))
             { 
                weaponPU = other.gameObject;
@@ -220,7 +222,8 @@ namespace Rambler.Control
         } 
 
         public void InteractPressed()
-        {            
+        {   
+           GC.Collect();         
            agent.enabled = false; 
            mover.enabled = false;
            Interact();
@@ -232,9 +235,8 @@ namespace Rambler.Control
         {
             switch(interactions)
             {
-                case 1: 
-                fighter.SetLastWeapon = fighter.weaponConfig; 
-                fighter.EquipUnarmed(); 
+                case 1:                
+                fighter.EquipUnarmed();  
                 playerAnim.SetTrigger("pickUp");
                 pickUp.PickUpItem();
                 break;
@@ -315,7 +317,10 @@ namespace Rambler.Control
 
         public void DeactivateAmmoCounter()
        {
-          ammoCounter.SetActive(false);
+            if(ammoCounter == true)
+           {
+               ammoCounter.SetActive(false);
+           }  
        }
 
         public void ReloadActiveWeapon() 

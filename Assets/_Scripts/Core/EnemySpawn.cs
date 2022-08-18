@@ -7,13 +7,14 @@ using Rambler.Control;
 namespace Rambler.Core
 {
     public class EnemySpawn : MonoBehaviour
-    {
-        public static int count;
-        public int npcCounterForNextWave;
+    {           
+        public GameObject fx;    
+        public static int count; 
         public int waveCount = 0;
         public GameObject[] waves;  
         public int numberOfAIKilled;
         public int aIKilledToShowText;
+        public int npcCounterForNextWave;
         [SerializeField] GameObject endLevelTxt;
 
         void OnEnable()
@@ -28,7 +29,8 @@ namespace Rambler.Core
 
         void Start()
         {
-            count = 0;           
+            count = 0;   
+            fx.SetActive(false);       
         }   
 
         void Update()
@@ -36,6 +38,7 @@ namespace Rambler.Core
             if(aIKilledToShowText == numberOfAIKilled)
             { 
                 endLevelTxt.SetActive(true);
+                fx.SetActive(true);
             }
             if(count == npcCounterForNextWave)
             {                  

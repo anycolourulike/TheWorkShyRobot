@@ -27,12 +27,11 @@ public class GameUI : MonoBehaviour
 
     public void LoadSavedGame() 
     {
-        levelManager.PlayerWeaponCheck();
         levelManager.StartCoroutine("LoadSavedGame");   
     }
 
     public void LoadMenu() 
-    {
+    {        
         levelManager.StartCoroutine("LoadMenu");
     }
 

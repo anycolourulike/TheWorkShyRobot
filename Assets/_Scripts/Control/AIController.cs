@@ -41,12 +41,14 @@ namespace Rambler.Control
        {
             Health.targetDeath += UpdateTarget;
             Health.playerDeath += PlayerDeath;  
+            //Health.aIHit += FindNearestTarget;
        }
  
        void OnDisable() 
        {
            Health.targetDeath -= UpdateTarget;
            Health.playerDeath -= PlayerDeath;
+           //Health.aIHit -= FindNearestTarget;
        }
 
        void Awake()

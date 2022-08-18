@@ -22,6 +22,8 @@ public class MenuScene : MonoBehaviour
 
     public void LoadNextLevel()
     {
+        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
+        wrapper.Delete();
         FindMusic();
         fader.FadeOut(3);
         levelManager.StartCoroutine("LoadIntro");
@@ -29,8 +31,8 @@ public class MenuScene : MonoBehaviour
 
     public void LoadSavedGame() 
     {
-        FindMusic();
         fader.FadeOut(3);
+        FindMusic();
         levelManager.StartCoroutine("LoadSavedGame");
     }
 

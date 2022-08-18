@@ -18,14 +18,13 @@ namespace Rambler.Combat
        public float SetEnergyBurnRate {set {energyBurnRate = value;}}
          
        float playerMaxEnergy = 100;              
-       float playerMaxHP = 100f;      
+       int playerMaxHP = 100;      
        float playerCurEnergy;  
-       float playerCurHP;       
-            
+       float playerCurHP;             
        
        void Start()
        {   
-           playerCurHP = health.healthPoints;
+           playerCurHP = health.healthPoints.value;
            MaxHealth();           
            MaxEnergy();
        }
@@ -69,7 +68,7 @@ namespace Rambler.Combat
 
         void MaxHealth()
         {
-            health.healthPoints = playerMaxHP;  
+            health.healthPoints.value = playerMaxHP;  
             healthbarFill.fillAmount = 1;         
         }        
 

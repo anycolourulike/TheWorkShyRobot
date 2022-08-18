@@ -331,7 +331,7 @@ RectTransform:
   m_Children:
   - {fileID: 342740930}
   m_Father: {fileID: 1364658273}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -829,8 +829,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1186588831}
-  - {fileID: 2222882399986135627}
   - {fileID: 455426602}
+  - {fileID: 2222882399986135627}
   - {fileID: 2112659636}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -974,6 +974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08024713cc9cb9844a33c60201d30291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastEquippedWeapon: {fileID: 0}
   targetScene: 
 --- !u!4 &1885591881
 Transform:
@@ -1501,7 +1502,7 @@ RectTransform:
   - {fileID: 2222882398401747561}
   - {fileID: 868114739}
   m_Father: {fileID: 1364658273}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

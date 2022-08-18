@@ -5,11 +5,13 @@ using Rambler.Control;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using System.Collections;
+using Rambler.Inventories;
+using Rambler.Utils;
 
 
 namespace Rambler.Combat
 {  
-    public class Fighter : MonoBehaviour, IAction 
+    public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField] AnimatorOverrideController animatorOverride;
         [SerializeField] Animator AIRigLayer;
@@ -24,8 +26,9 @@ namespace Rambler.Combat
         public Animator rigController;  
         public Weapon weaponPickedUp;       
         public Weapon weaponConfig;  
-        Weapon lastWeaponUsed;     
-        public Weapon SetLastWeapon{set{lastWeaponUsed = value;} get {return lastWeaponUsed;}}      
+        public Weapon lastWeaponUsed;     
+        public Weapon SetLastWeapon{set{lastWeaponUsed = value;} get {return lastWeaponUsed;}}   
+        LazyValue<Weapon> currentWeapon;   
         float timeSinceLastAttack = 
         Mathf.Infinity;         
         CombatTarget otherCombatTarget;  
@@ -55,14 +58,24 @@ namespace Rambler.Combat
         { 
            if(this.gameObject.name == "Rambler")
            {
+              currentWeapon = new LazyValue<Weapon>(SetupLastWeaponUsed);
               playerController = GetComponent<PlayerController>();
            }
            mover = GetComponent<Mover>();
            rigController = GetComponent<Fighter>().rigController;  
            weaponIk = GetComponent<WeaponIK>();          
-           anim = GetComponent<Animator>();             
+           anim = GetComponent<Animator>(); 
+           if(weaponConfig == null)
+           {
+              EquipWeapon(lastWeaponUsed);
+           }            
            EquipWeapon(weapon: weaponConfig);   
            ActiveWeaponInit();                                          
+        }
+
+        private Weapon SetupLastWeaponUsed()
+        {
+            return lastWeaponUsed;
         }
 
         void Update()
@@ -76,7 +89,7 @@ namespace Rambler.Combat
             }
             else
             {                
-                //GetComponent<Mover>().Cancel();  Blocks Multiple shots from player? 
+                GetComponent<Mover>().CancelNav();  //Blocks Multiple shots from player? 
                 AttackBehaviour();
             }
         } 
@@ -189,7 +202,7 @@ namespace Rambler.Combat
 
         public void EquipLastWeapon() 
         {
-            EquipWeapon(weapon: lastWeaponUsed);
+            EquipWeapon(lastWeaponUsed);
         }
 
         public void EquipPickedUpWeapon()
@@ -236,20 +249,22 @@ namespace Rambler.Combat
             activeWeapon.FullAmmo();
         } 
 
-         public void CancelNav()
+        public void CancelNav()
         {
             mover.CancelNav();
-        }
+        } 
 
         public object CaptureState()
         {
-            return lastWeaponUsed;
+            return lastWeaponUsed.name;
         }
 
         public void RestoreState(object state)
         {
-            lastWeaponUsed = (Weapon)state;
-        } 
+            string weaponName = (string)state;
+            Weapon weapon = UnityEngine.Resources.Load<Weapon>(weaponName);
+            EquipWeapon(weapon);
+        }       
         
         Vector3 GetEnemyLocation()
         {              

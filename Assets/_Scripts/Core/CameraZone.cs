@@ -41,7 +41,7 @@ public class CameraZone : MonoBehaviour
 
     void OnTriggerExit(Collider other)
    {
-       if(other.CompareTag("Player"))
+       if(other.gameObject == player)
         {
             zoomOut = false;
         }

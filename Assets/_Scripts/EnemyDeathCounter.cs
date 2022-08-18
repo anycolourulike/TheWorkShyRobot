@@ -7,13 +7,15 @@ namespace Rambler.Core
   
   public class EnemyDeathCounter : MonoBehaviour
   {
-    public int enemyWaveCount;
     public Collider col;
+    public GameObject fx;
+    public int enemyWaveCount;    
     public int numberToTriggerDialogue;
 
     void Start()
     {
       col.enabled = false;  
+      fx.SetActive(false);
     }
 
     void Update()
@@ -26,8 +28,8 @@ namespace Rambler.Core
       if(enemyWaveCount == numberToTriggerDialogue)
       {
         col.enabled = true;
+        fx.SetActive(true);
       } 
     }
-  }  
-
+  } 
 }

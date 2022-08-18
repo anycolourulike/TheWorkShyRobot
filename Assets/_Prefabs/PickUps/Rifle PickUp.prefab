@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6562821525114729059
+--- !u!1 &8875012283656870376
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,42 +8,101 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4099469050051669767}
-  - component: {fileID: 6144280478963117419}
+  - component: {fileID: 8872351621082961810}
+  - component: {fileID: 8550864746528940672}
+  - component: {fileID: 766117682639613811}
   m_Layer: 0
-  m_Name: Point Light
-  m_TagString: Untagged
+  m_Name: Rifle PickUp
+  m_TagString: weaponPU
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4099469050051669767
+--- !u!4 &8872351621082961810
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6562821525114729059}
-  m_LocalRotation: {x: -0.058885984, y: -0.7567338, z: 0.16166897, w: 0.6306739}
-  m_LocalPosition: {x: 0.008439967, y: 0.059381064, z: 0.007827093}
-  m_LocalScale: {x: 0.3032802, y: 0.38187757, z: 0.1595233}
+  m_GameObject: {fileID: 8875012283656870376}
+  m_LocalRotation: {x: -0.5219006, y: 0.45028946, z: 0.46607202, w: 0.5546496}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 5.203134, y: 3.4281359, z: 1.7786636}
+  m_Children:
+  - {fileID: 3580074277269125538}
+  - {fileID: 8526532900504642724}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 267.05402, y: 194.674, z: 246.13501}
+--- !u!114 &8550864746528940672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8875012283656870376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c3c0663011c2f047a4c3fa1c67fd020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!135 &766117682639613811
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8875012283656870376}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.56239355
+  m_Center: {x: -0.099945895, y: 0.13671722, z: -0.00314949}
+--- !u!1 &8934239931928201464
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8526532900504642724}
+  - component: {fileID: 4718874171564959953}
+  m_Layer: 0
+  m_Name: Point Light (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8526532900504642724
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8934239931928201464}
+  m_LocalRotation: {x: -0.05888599, y: -0.75673383, z: 0.16166902, w: 0.6306739}
+  m_LocalPosition: {x: 0.007, y: 0.063, z: 0.02}
+  m_LocalScale: {x: 0.3032802, y: 0.38187757, z: 0.15952328}
   m_Children: []
   m_Father: {fileID: 8872351621082961810}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!108 &6144280478963117419
+--- !u!108 &4718874171564959953
 Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6562821525114729059}
+  m_GameObject: {fileID: 8934239931928201464}
   m_Enabled: 1
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.9339623, g: 0.8394995, b: 0.5066305, a: 0.23921569}
-  m_Intensity: 2
+  m_Intensity: 0.61
   m_Range: 6
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -82,7 +141,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -92,65 +151,6 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!1 &8875012283656870376
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8872351621082961810}
-  - component: {fileID: 8550864746528940672}
-  - component: {fileID: 766117682639613811}
-  m_Layer: 0
-  m_Name: Rifle PickUp
-  m_TagString: weaponPU
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8872351621082961810
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8875012283656870376}
-  m_LocalRotation: {x: -0.5219006, y: 0.45028946, z: 0.46607202, w: 0.5546496}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5.203134, y: 3.4281359, z: 1.7786636}
-  m_Children:
-  - {fileID: 3580074277269125538}
-  - {fileID: 4099469050051669767}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 267.05402, y: 194.674, z: 246.13501}
---- !u!114 &8550864746528940672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8875012283656870376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c3c0663011c2f047a4c3fa1c67fd020, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!135 &766117682639613811
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8875012283656870376}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.56239355
-  m_Center: {x: -0.099945895, y: 0.13671722, z: -0.00314949}
 --- !u!1001 &3575968900994583048
 PrefabInstance:
   m_ObjectHideFlags: 0
