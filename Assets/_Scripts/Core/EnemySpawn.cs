@@ -38,7 +38,10 @@ namespace Rambler.Core
             if(aIKilledToShowText == numberOfAIKilled)
             { 
                 endLevelTxt.SetActive(true);
-                fx.SetActive(true);
+                if(fx != null)
+                {
+                  fx.SetActive(true);
+                }  
             }
             if(count == npcCounterForNextWave)
             {                  

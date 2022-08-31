@@ -1,22 +1,16 @@
-using System.ComponentModel.Design;
 using System;
-using UnityEngine.UI;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using System.Collections.Specialized;
-using System.Security.Cryptography;
-using UnityEngine.Animations.Rigging;
 using UnityEngine;
 using UnityEngine.AI;
 using Rambler.Movement;
-using Rambler.Inventories;
 using Rambler.Combat;
 using Rambler.Core;
 using Cinemachine;
-using Rambler.Saving;
+using Rambler.SceneManagement;
+using System.Collections;
 
 namespace Rambler.Control
-{    
+{
     public class PlayerController : MonoBehaviour
     {              
         [SerializeField] float maxNavMeshProjectionDistance = 1f; 
@@ -62,7 +56,7 @@ namespace Rambler.Control
        
         private void Start()
         { 
-           interact = GameObject.FindGameObjectWithTag("Interact");             
+           interact = GameObject.FindGameObjectWithTag("Interact");      
            interact.SetActive(false); 
            targetStartPos = target; 
            agent = GetComponent<NavMeshAgent>();         
@@ -71,7 +65,12 @@ namespace Rambler.Control
            cineMachine = FindObjectOfType<CinemachineVirtualCamera>();
            playerAnim = GetComponent<Animator>();
            mover = GetComponent<Mover>();
-           weaponIK = GetComponent<WeaponIK>();                             
+           weaponIK = GetComponent<WeaponIK>();     
+           var sceneRef = LevelManager.Instance.sceneRef;
+           if(sceneRef == 0) return;
+           if(sceneRef == 1) return;
+           if(sceneRef == 2) return;
+           if(sceneRef == 5) return;
         }
 
         private void Update()

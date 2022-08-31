@@ -2,32 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using Rambler.Core;
 using Rambler.SceneManagement;
+using Rambler.Saving;
 using Rambler.Combat;
 using UnityEngine.AI;
+using UnityEditor;
 
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { set; get; }
-    GameObject companionSpawnPoint;
-    GameObject playerSpawnPoint;
-    public string targetScene;
-    GameObject companion;
-    GameObject player;
-    Fader fader;
+    AsyncOperationHandle<SceneInstance> handle;
+    public AssetReference sceneToLoad;
+    public int sceneRef;
+    public AssetReference Loading;
+    public AssetReference Menu;   
+    public AssetReference Intro; 
+    public AssetReference Cave; 
+    public AssetReference Cliff;
+    public AssetReference Rig;
+    public AssetReference Inter;
+    public AssetReference Living;
+    public AssetReference Flight;
+    public AssetReference Outro;
+    Fader fader;    
 
-    void OnEnable() 
-    {
-        SceneManager.sceneLoaded += OnLevelFinishedLoading;
-    }
-
-    void OnDisable() 
-    {
-        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-    }
-
-    private void Awake()
+    void Awake()
     {        
         if (Instance != null && Instance != this)
         {
@@ -37,145 +40,158 @@ public class LevelManager : MonoBehaviour
         {
             Instance = this;
             GameObject.DontDestroyOnLoad(gameObject);
-        }
+        }            
+    }  
+
+    public IEnumerator LoadLoading() 
+    {  
+       FindAssetPath();
+       fader = FindObjectOfType<Fader>();
+       fader.FadeOut(3);      
+       yield return new WaitForSeconds(2);
+       Addressables.LoadSceneAsync(Loading, LoadSceneMode.Single).Completed += OnSceneLoadComplete; 
     } 
-
-    public IEnumerator LoadCaveLevel() 
-    {   
-       targetScene = "Cave";
-       yield return new WaitForSecondsRealtime(3);
-       SceneManager.LoadScene("Cave"); 
-    }
-
-    public IEnumerator LoadLivingQuarters() 
-    {   
-       targetScene = "LivingQuarters";
-       yield return new WaitForSecondsRealtime(3);
-       SceneManager.LoadScene("LivingQuarters"); 
-    }
-
-    public IEnumerator LoadIntro() 
-    {        
-       yield return new WaitForSecondsRealtime(3);
-       SceneManager.LoadScene("IntroComic"); 
-    }
-
+    
     public IEnumerator LoadMenu() 
     { 
        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
-       yield return new WaitForSecondsRealtime(3);
+       yield return new WaitForSeconds(1);
        wrapper.LoadMenu();       
     }
 
     public IEnumerator LoadSavedGame() 
-    {  
-        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
-        yield return new WaitForSecondsRealtime(3);
-        wrapper.ContinueGame();   
+    {          
+        yield return StartCoroutine("LoadLoading");
     } 
 
-    public IEnumerator LoadNextScene() 
-    {   
+    public IEnumerator LoadSavedFile() 
+    {                                  
         SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
-        yield return new WaitForSecondsRealtime(3);
-        wrapper.Save();
-        var currentScene = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentScene + 1);  
-    }    
+        yield return new WaitForSeconds(0.5f);
+        wrapper.Load(); 
+    }        
 
     public IEnumerator QuitApp()
     {   
-        yield return new WaitForSecondsRealtime(3);     
+        yield return new WaitForSecondsRealtime(2);     
         Application.Quit();
-    } 
+    }    
 
-    public void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
-    {
-        System.GC.Collect();
+    public void OnLevelFinishedLoading()
+    {    
+        FindAssetPath();     
+        System.GC.Collect();                
         fader = FindObjectOfType<Fader>();
         fader.FadeIn(3);
-        AmbientMusic();
-        Time.timeScale = 1;
-        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
-          
-        if(sceneIndex > 3)
-        {
-            if(sceneIndex == 6) return;
-            if(sceneIndex == 7)
-            {
-                Debug.Log("Level 7");
-                playerSpawnPoint = GameObject.FindWithTag("PlayerSpawn");
-                companionSpawnPoint = GameObject.FindWithTag("CompanionSpawn");
-                SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
-                wrapper.Load();
-                PlayerStartPosition();                
-            }
-            //PlayerAssignWeapons();
-            //wrapper.Load(); 
-            //if(sceneIndex == 7) {PlayerStartPosition();}
-        } 
+        AmbientMusic();                 
+        if(sceneToLoad == Loading) return;
+        if(sceneToLoad == Menu) return;
+        if(sceneToLoad == Intro) return; 
+        if(sceneToLoad == Cave) return;      
+        if(sceneToLoad == Inter) return;        
+        Time.timeScale = 1; 
+        StartCoroutine("LoadSavedFile");
     } 
 
-    // public void PlayerWeaponCheck()
-    // {  
-    //     var player = GameObject.Find("PlayerCore/Rambler");
-    //     fighter = player.GetComponent<Fighter>();
-    //     lastEquippedWeapon = fighter.weaponConfig;           
-    // } 
-
-    // void PlayerAssignWeapons()
-    // {
-    //     var player = GameObject.Find("PlayerCore/Rambler");
-    //     fighter = player.GetComponent<Fighter>();
-    //     fighter.weaponConfig = lastEquippedWeapon;
-    //     lastEquippedWeapon = fighter.SetLastWeapon;                 
-    // }   
-
-    void PlayerStartPosition()
+    void OnSceneLoadComplete(AsyncOperationHandle<SceneInstance>previousScene)
     {  
-        player = GameObject.Find("/PlayerCore/Rambler");
-        companion = GameObject.Find("/Companion");
-        var navMeshAgent = player.GetComponent<NavMeshAgent>();
-        var navMeshAgentCompanion = companion.GetComponent<NavMeshAgent>(); 
-        navMeshAgent.enabled = false;
-        navMeshAgentCompanion.enabled = false;
-        player.transform.position = playerSpawnPoint.transform.position;
-        player.transform.rotation = playerSpawnPoint.transform.rotation;
-        companion.transform.position = companionSpawnPoint.transform.position;
-        companion.transform.rotation = companionSpawnPoint.transform.rotation;
-        navMeshAgent.enabled = true;
-        navMeshAgentCompanion.enabled = true;   
+        if(previousScene.Status == AsyncOperationStatus.Succeeded)
+        {
+          handle = previousScene;
+          UnloadScene();
+        }  
     }
+
+    void UnloadScene()
+    {   
+       Addressables.UnloadSceneAsync(handle, true).Completed += op =>
+       {
+          if(op.Status == AsyncOperationStatus.Succeeded)
+          {                                 
+              
+          }
+       };
+    }  
+
+    public void FindAssetPath()
+    {
+       switch (sceneRef)
+       {
+         case 0:
+         sceneToLoad = Menu;
+         break;
+
+         case 1:
+         sceneToLoad = Intro;
+         break;
+
+         case 2:
+         sceneToLoad = Cave;
+         break;
+
+         case 3:
+         sceneToLoad = Cliff;
+         break;
+
+         case 4:
+         sceneToLoad = Rig;
+         break;
+
+         case 5:
+         sceneToLoad = Inter;
+         break;
+
+         case 6:
+         sceneToLoad = Living;
+         break;
+
+         case 7:
+         sceneToLoad = Flight;
+         break;
+
+         case 8:
+         sceneToLoad = Outro;
+         break;
+
+         default:
+         sceneToLoad = Menu;
+         break;
+       }       
+    }       
 
     void AmbientMusic()
     {
-        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
-
-        switch(sceneIndex)
+        switch(sceneRef)
         {
-            case 1:
+            case 0:
             AudioManager.PlayAmbientSound(AudioManager.AmbientSound.ambientMusic);                           
             break;
 
-            case 3:
+            case 1:                       
+            break;
+
+            case 2:
             AudioManager.PlayAmbientSound(AudioManager.AmbientSound.CaveBackground);                           
+            break;
+
+            case 3:
+            AudioManager.PlayAmbientSound(AudioManager.AmbientSound.SurfaceBackground);                           
             break;
 
             case 4:
             AudioManager.PlayAmbientSound(AudioManager.AmbientSound.SurfaceBackground);                           
             break;
 
-            case 5:
-            AudioManager.PlayAmbientSound(AudioManager.AmbientSound.SurfaceBackground);                           
+            case 5:                       
+            break;
+
+            case 6:
+            AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);                           
             break;
 
             case 7:
             AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);                           
             break;
-
-            case 8:
-            AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);                           
-            break;
-        }  
+        }        
     }
 }  

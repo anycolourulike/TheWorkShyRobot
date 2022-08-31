@@ -5,7 +5,12 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.SceneManagement;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceLocations;
+
 
 namespace Rambler.Saving
 {
@@ -17,6 +22,8 @@ namespace Rambler.Saving
     /// </summary>
     public class SavingSystem : MonoBehaviour
     {
+       int sceneRef;
+       string scene;
         /// <summary>
         /// Will load the last scene that was saved and restore the state. This
         /// must be run as a coroutine.
@@ -25,13 +32,19 @@ namespace Rambler.Saving
         public IEnumerator LoadLastScene(string saveFile)
         {
             Dictionary<string, object> state = LoadFile(saveFile);
-            int buildIndex = SceneManager.GetActiveScene().buildIndex;
+            
             if (state.ContainsKey("lastSceneBuildIndex"))
             {
-                buildIndex = (int)state["lastSceneBuildIndex"];
-            }
-            yield return SceneManager.LoadSceneAsync(buildIndex);
-            RestoreState(state);
+                sceneRef = (int)state["lastSceneBuildIndex"];
+                Debug.Log("LoadingsceneRef" + " " + sceneRef);
+                LevelManager.Instance.sceneRef = sceneRef + 1;
+                LevelManager.Instance.StartCoroutine("LoadLoading"); 
+            } 
+            else
+            {
+                LevelManager.Instance.StartCoroutine("LoadMenu");
+            }   
+            yield return new WaitForSeconds(3); 
         }
 
         /// <summary>
@@ -43,6 +56,7 @@ namespace Rambler.Saving
             CaptureState(state);
             SaveFile(saveFile, state);
         }
+        
 
         /// <summary>
         /// Delete the state in the given save file.
@@ -100,9 +114,8 @@ namespace Rambler.Saving
             foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
             {
                 state[saveable.GetUniqueIdentifier()] = saveable.CaptureState();
-            }
-
-            state["lastSceneBuildIndex"] = SceneManager.GetActiveScene().buildIndex;
+            }    
+            state["lastSceneBuildIndex"] = LevelManager.Instance.sceneRef;                    
         }
 
         private void RestoreState(Dictionary<string, object> state)

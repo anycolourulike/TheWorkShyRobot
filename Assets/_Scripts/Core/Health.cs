@@ -97,9 +97,7 @@ namespace Rambler.Core // To Do Stop Movement
         }  
  
         public void Die()
-        {            
-            targetDeath?.Invoke();          
-            //capCol.enabled = false;
+        {   
             isDead = true; 
             StopMovement();  
             EnemySpawn.count ++;          
@@ -121,7 +119,8 @@ namespace Rambler.Core // To Do Stop Movement
                 {
                   weaponAnim.SetTrigger("isDead");
                   AudioManager.PlayHumanSound(AudioManager.HumanSound.Death1, this.transform.position);
-                  this.tag = "DeadCharacter";
+                  this.tag = "Dead";                  
+                  targetDeath?.Invoke();
                 }
                 else
                 {
@@ -136,7 +135,9 @@ namespace Rambler.Core // To Do Stop Movement
                 {
                   weaponAnim.SetTrigger("isDead");
                   AudioManager.PlayHumanSound(AudioManager.HumanSound.Death2, this.transform.position); 
-                  this.tag = "DeadCharacter";
+                  this.tag = "Dead";
+                  targetDeath?.Invoke();
+                  
                 } 
                 else
                 {
@@ -151,7 +152,8 @@ namespace Rambler.Core // To Do Stop Movement
                 {
                   weaponAnim.SetTrigger("isDead");
                   AudioManager.PlayHumanSound(AudioManager.HumanSound.Death3, this.transform.position); 
-                  this.tag = "DeadCharacter";
+                  this.tag = "Dead";
+                  targetDeath?.Invoke();
                 }
                 else
                 {

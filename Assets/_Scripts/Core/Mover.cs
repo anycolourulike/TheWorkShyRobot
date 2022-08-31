@@ -15,7 +15,7 @@ using System.Collections;
 
 namespace Rambler.Movement
 {
-    public class Mover : MonoBehaviour, IAction, ISaveable
+    public class Mover : MonoBehaviour, IAction
     { 
         [SerializeField] float maxSpeed = 6f;  
         [SerializeField] WeaponIK weaponIK;         
@@ -110,18 +110,18 @@ namespace Rambler.Movement
             anim.SetFloat("forwardSpeed", speed);            
         }
 
-        public object CaptureState()
-        {   
-            return new SerializableVector3(transform.position);
-        }
+        // public object CaptureState()
+        // {   
+        //     return new SerializableVector3(transform.position);
+        // }
 
-        public void RestoreState(object state)
-        {
-            SerializableVector3 position = (SerializableVector3)state;
-            GetComponent<NavMeshAgent>().enabled = false;
-            transform.position = position.ToVector();
-            NavMeshDelay();
-        }
+        // public void RestoreState(object state)
+        // {
+        //     SerializableVector3 position = (SerializableVector3)state;
+        //     GetComponent<NavMeshAgent>().enabled = false;
+        //     transform.position = position.ToVector();
+        //     NavMeshDelay();
+        // }
 
         IEnumerator NavMeshDelay()
         {

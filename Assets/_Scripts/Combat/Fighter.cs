@@ -7,11 +7,12 @@ using UnityEngine.Animations.Rigging;
 using System.Collections;
 using Rambler.Inventories;
 using Rambler.Utils;
+using Rambler.Saving;
 
 
 namespace Rambler.Combat
 {  
-    public class Fighter : MonoBehaviour, IAction
+    public class Fighter : MonoBehaviour, IAction, ISaveable
     {
         [SerializeField] AnimatorOverrideController animatorOverride;
         [SerializeField] Animator AIRigLayer;
@@ -27,12 +28,12 @@ namespace Rambler.Combat
         public Weapon weaponPickedUp;       
         public Weapon weaponConfig;  
         public Weapon lastWeaponUsed;     
-        public Weapon SetLastWeapon{set{lastWeaponUsed = value;} get {return lastWeaponUsed;}}   
-        LazyValue<Weapon> currentWeapon;   
+        public Weapon SetLastWeapon{set{lastWeaponUsed = value;} get {return lastWeaponUsed;}}  
         float timeSinceLastAttack = 
         Mathf.Infinity;         
         CombatTarget otherCombatTarget;  
-        public CombatTarget CombatTarget {get{return otherCombatTarget;} set{otherCombatTarget = value;}} 
+        public CombatTarget CombatTarget {get{return otherCombatTarget;} set{otherCombatTarget = value;}}
+        
         PlayerController playerController; 
         Vector3 hitPointVector;  
         GameObject weaponRef;
@@ -58,7 +59,6 @@ namespace Rambler.Combat
         { 
            if(this.gameObject.name == "Rambler")
            {
-              currentWeapon = new LazyValue<Weapon>(SetupLastWeaponUsed);
               playerController = GetComponent<PlayerController>();
            }
            mover = GetComponent<Mover>();
@@ -68,15 +68,13 @@ namespace Rambler.Combat
            if(weaponConfig == null)
            {
               EquipWeapon(lastWeaponUsed);
-           }            
-           EquipWeapon(weapon: weaponConfig);   
+           } 
+           else
+           {           
+             EquipWeapon(weaponConfig);  
+           }  
            ActiveWeaponInit();                                          
-        }
-
-        private Weapon SetupLastWeaponUsed()
-        {
-            return lastWeaponUsed;
-        }
+        }        
 
         void Update()
         {                    
@@ -163,7 +161,8 @@ namespace Rambler.Combat
         public void EquipWeapon(Weapon weapon)
         { 
             DestroyOldWeapon(handTransform: handTransform);
-            weaponConfig = weapon;                                
+            weaponConfig = weapon;             
+                                          
             Spawn(handTransform: handTransform, animator: anim);  
             activeWeapon.SetRigController = rigController;  
             AssignAmmo();
@@ -198,12 +197,7 @@ namespace Rambler.Combat
             activeWeapon.AmmoUIInit();
             RigWeightToZero();
             EquipWeapon(weapon: unarmed);               
-        }
-
-        public void EquipLastWeapon() 
-        {
-            EquipWeapon(lastWeaponUsed);
-        }
+        }        
 
         public void EquipPickedUpWeapon()
         {
@@ -256,7 +250,8 @@ namespace Rambler.Combat
 
         public object CaptureState()
         {
-            return lastWeaponUsed.name;
+            Debug.Log("weaponSaved");
+            return weaponConfig.name;
         }
 
         public void RestoreState(object state)

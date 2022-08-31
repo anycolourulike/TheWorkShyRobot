@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class Preloader : MonoBehaviour
 {
     [SerializeField] CanvasGroup fadeGroup;
+    [SerializeField] AssetReference menuScene;
     float minLogoTime = 3f;
-    float loadTime;   
-
+    bool sceneLoaded;
+    float loadTime;  
 
     void Start() 
     {
@@ -31,8 +34,10 @@ public class Preloader : MonoBehaviour
         {
             fadeGroup.alpha = Time.time - minLogoTime;
             if(fadeGroup.alpha >= 1)
-            {
-                SceneManager.LoadScene(1);
+            {    
+                if(sceneLoaded == true) return;            
+                Addressables.LoadSceneAsync(menuScene, LoadSceneMode.Single); 
+                sceneLoaded = true;
             }
         }
     }

@@ -41,14 +41,14 @@ namespace Rambler.Control
        {
             Health.targetDeath += UpdateTarget;
             Health.playerDeath += PlayerDeath;  
-            //Health.aIHit += FindNearestTarget;
+            Health.aIHit += FindNearestTarget;
        }
  
        void OnDisable() 
        {
            Health.targetDeath -= UpdateTarget;
            Health.playerDeath -= PlayerDeath;
-           //Health.aIHit -= FindNearestTarget;
+           Health.aIHit -= FindNearestTarget;
        }
 
        void Awake()
@@ -171,7 +171,7 @@ namespace Rambler.Control
 
         IEnumerator RefreshEnemiesList()
         {
-            targetList.Clear();
+            targetList.Clear(); //not removing dead targets
             AssignTargetList();
             FindNearestTarget();
             yield return new WaitForSeconds(0.01f);

@@ -21,22 +21,13 @@ namespace Rambler.Control
       public LayerMask obstructionMask; 
       public bool canSeePlayer;
       AIController aIController;
-
-      void OnEnable()
-      {
-        Health.targetDeath += FindColliders;
-      }
-
-      void OnDisable()
-      {
-        Health.targetDeath -= FindColliders;
-      }
+    
 
       private void Start()
         {
-            aIController = GetComponent<AIController>();
-            FindColliders();
-            StartCoroutine(FOVRoutine());
+          aIController = GetComponent<AIController>();
+          FindColliders();
+          StartCoroutine(FOVRoutine());
         }
 
         void FindColliders()

@@ -243,7 +243,17 @@ PrefabInstance:
     - target: {fileID: 8642776631917605284, guid: 9d20fcdab434b404b89db3eab5453d8a,
         type: 3}
       propertyPath: fadeInTime
-      value: 0.5
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8642776631917605284, guid: 9d20fcdab434b404b89db3eab5453d8a,
+        type: 3}
+      propertyPath: fadeOutTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8642776631917605284, guid: 9d20fcdab434b404b89db3eab5453d8a,
+        type: 3}
+      propertyPath: menuLevelBuildIndex
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d20fcdab434b404b89db3eab5453d8a, type: 3}

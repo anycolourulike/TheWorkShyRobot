@@ -27,16 +27,19 @@ public class GameUI : MonoBehaviour
 
     public void LoadSavedGame() 
     {
+        ResumeGame();
         levelManager.StartCoroutine("LoadSavedGame");   
     }
 
     public void LoadMenu() 
-    {        
+    {  
+        ResumeGame();      
         levelManager.StartCoroutine("LoadMenu");
     }
 
     public void QuitApp()
     {
+        ResumeGame();
         levelManager.StartCoroutine("QuitApp");        
     } 
 }
