@@ -193,8 +193,8 @@ MonoBehaviour:
   m_Name: 3c076802-7ad9-4624-ad58-2ea95871094b
   m_EditorClassIdentifier: 
   isPlayerSpeaking: 0
-  text: The only way that is gonna happen is if we get to the flight deck and get
-    a ship out of here
+  text: The only way happen is if we get to the flight deck and get a ship outta
+    here
   children:
   - 9ccb55f1-4d06-49a4-abc6-2122ddf7e65d
   rect:
@@ -220,7 +220,8 @@ MonoBehaviour:
   m_Name: 4fc6fc88-fe0f-45b3-93e5-bfc9fdbcc52d
   m_EditorClassIdentifier: 
   isPlayerSpeaking: 0
-  text: So is working the mines, grab that SMG and make yourself a little dangerous
+  text: Not as dangerous as working the mines, grab that SMG. Don't forget, long
+    press to move and single press to shoot!
   children: []
   rect:
     serializedVersion: 2
