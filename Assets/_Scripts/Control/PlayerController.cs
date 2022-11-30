@@ -75,31 +75,32 @@ namespace Rambler.Control
 
         private void Update()
         {   
-           if(shakeTimer > 0)
-           { 
+            if(shakeTimer > 0)
+            { 
               shakeTimer -= Time.deltaTime;
               if(shakeTimer <= 0f) 
               {
                 CinemachineBasicMultiChannelPerlin cineMachinePerlin = 
                 cineMachine.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
                 cineMachinePerlin.m_AmplitudeGain = 0f;
               }
-           }       
+            }
 
-           if (InteractWithCombat()) return;
-           if (InteractWithMovement()) return;  
-           
-           if(shieldsUp == true) 
-           {
+
+
+            if (InteractWithMovement()) return;
+            if (InteractWithCombat()) return;
+
+            if (shieldsUp == true) 
+            {
             ShieldsUp();
             vitals.SetEnergyBurnRate = 1f;
-           } 
-           else
-           {              
-            ShieldsDown();
-            vitals.SetEnergyBurnRate = 0.1f; 
-           }
+            } 
+            else
+            {              
+              ShieldsDown();
+              vitals.SetEnergyBurnRate = 0.1f; 
+            }
         }              
 
         bool InteractWithCombat()

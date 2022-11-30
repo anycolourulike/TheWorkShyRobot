@@ -6,36 +6,45 @@ using Rambler.Core;
 using Rambler.Movement;
 using System;
 using UnityEngine.AI;
+using UnityEngine.UI;
  
 namespace Rambler.Control
 {
     public class AIController : MonoBehaviour
-    {          
-        public PatrolPath patrolPath;    //Patrol & Idle  
-        [SerializeField] float suspicionTime = 3f;      //Attack  
-        [SerializeField] float waypointTolerence = 1f; //Patrol
-        [SerializeField] float waypointDwellTime = 1.7f; //Patrol
+    {
+        [SerializeField] GameObject closestTarget = null;
+        [SerializeField] GameObject footFX1;
+        [SerializeField] GameObject footFX2;
+        [SerializeField] PatrolPath patrolPath;
+        [SerializeField] float suspicionTime = 3f;       
+        [SerializeField] float waypointTolerence = 1f; 
+        [SerializeField] float waypointDwellTime = 1.7f; 
         [Range(0,1)]
-        [SerializeField] float patrolSpeedFraction = 0.2f;  //Patrol
-        float timeSinceArrivedAtWaypoint  //Patrol
+        [SerializeField] float patrolSpeedFraction = 0.2f;  
+        float timeSinceArrivedAtWaypoint  
          = Mathf.Infinity;
-        float timeSinceLastSawPlayer  //Attack
+        float timeSinceLastSawPlayer  
          = Mathf.Infinity;
         public List<GameObject> targetList
         = new List<GameObject>();
-        public GameObject closestTarget = null; //Attack
-        CapsuleCollider capsuleCol;        //Attack
-        CombatTarget otherCombatTarget;  //Attack   
-        int currentWaypointIndex = 0; //Patrol
+
+        public bool isAttacking;
+        public bool isPatroling;
+        public bool isIdle;
+        public bool isFollowingPlayer;
+
         StateMachine stateMachine;        
-        float TimerForNextAttack; //Attack
-        Vector3 nextPosition; //Patrol
+        CapsuleCollider capsuleCol;        
+        CombatTarget otherCombatTarget;     
+        int currentWaypointIndex = 0;              
+        float TimerForNextAttack; 
+        Vector3 nextPosition; 
         GameObject player;
-        Fighter fighter; //Attack        
-        FieldOfView FOV; //Attack
-        float coolDown;  //Attack
+        Fighter fighter;        
+        FieldOfView FOV; 
+        float coolDown;  
         Health health;        
-        Mover mover; //Attack & Patrol
+        Mover mover; 
         
        void OnEnable() 
        {
@@ -71,21 +80,22 @@ namespace Rambler.Control
            if(patrolPath != null) { nextPosition = patrolPath.GetWaypoint(1);}
            coolDown = 2.5f;
            TimerForNextAttack = coolDown; 
+           
            //States
            var followPlayer = new FollowPlayer(this, player, mover);
            var patrol = new Patrol(this, patrolPath, mover, waypointTolerence, waypointDwellTime, patrolSpeedFraction, timeSinceArrivedAtWaypoint, currentWaypointIndex, nextPosition);
            var attack = new Attack(this, mover, FOV, TimerForNextAttack, timeSinceLastSawPlayer, suspicionTime, coolDown);
            var idle = new Idle(this);
-           //Transitions
            
+            //Transitions           
            At(attack, patrol, HasTarget());
            At(attack, idle, HasTarget());
            At(attack, followPlayer, HasTarget());
            At(followPlayer, attack, IsCompanion());
+           At(attack, followPlayer, CompanionHasNoTarget());
            At(patrol, idle, HasPath());
            At(patrol, attack, HasNoTarget());
-           At(idle, attack, IsIdle());
-           
+           At(idle, attack, IsIdle());           
         
            //Initial State
            if(this.gameObject.CompareTag("Enemy") && patrolPath != null)
@@ -105,6 +115,7 @@ namespace Rambler.Control
            void At(IState to, IState from, Func<bool> condition) => stateMachine.AddTransition(to, from, condition);
 
            Func<bool> IsCompanion() => () => this.gameObject.CompareTag("Player") && closestTarget != null;
+           Func<bool> CompanionHasNoTarget() => () => this.gameObject.CompareTag("Player") && closestTarget == null;
            Func<bool> HasPath()   => () => patrolPath != null;
            Func<bool> HasTarget() => () => FOV.canSeePlayer == true;
            Func<bool> HasNoTarget() => () => this.gameObject.CompareTag("Enemy") && FOV.canSeePlayer == false;
@@ -115,22 +126,16 @@ namespace Rambler.Control
         {
             if (health.IsDead()) return;
             stateMachine.Tick();
+            //Debug.Log(this.gameObject.name + " " + stateMachine._currentState);
         } 
 
         void FixedUpdate()
         {
             if(this.gameObject.CompareTag("Player"))
-            {
-                // if(FOV.PlayerDetect() == true) 
-                // {
-                //   FOV.canSeePlayer = false;
-                // }
+            {                
                 if(FOV.canSeePlayer == false)
                 {
-                   fighter.TargetCap = null;
-                }
-                if(fighter.TargetCap == null)
-                {
+                   fighter.TargetCap = null;              
                    UpdateTarget();
                 }
             }
@@ -156,7 +161,28 @@ namespace Rambler.Control
             if(targetAlive == false) {return;}
             fighter.Attack(combatTarget: closestTarget);
         }
- 
+
+        public void PlayFootFX1()
+        {
+            Debug.Log("ParticleEffect Called");
+            footFX1.SetActive(true);
+        }
+
+        public void DisablePlayFootFX1()
+        {
+            footFX1.SetActive(false);
+        }
+
+        public void PlayFootFX2()
+        {
+            footFX2.SetActive(true);
+        }
+
+        public void DisablePlayFootFX2()
+        {
+            footFX2.SetActive(false);
+        }
+
         void PlayerDeath()
         {  
             fighter.TargetCap = null;
@@ -171,7 +197,7 @@ namespace Rambler.Control
 
         IEnumerator RefreshEnemiesList()
         {
-            targetList.Clear(); //not removing dead targets
+            targetList.Clear();
             AssignTargetList();
             FindNearestTarget();
             yield return new WaitForSeconds(0.01f);
@@ -199,10 +225,10 @@ namespace Rambler.Control
             if(distanceToTarget < distToClosestTarget)
             {
               distToClosestTarget = distanceToTarget;
-              closestTarget = target;
-              if(closestTarget == null) return;
-              capsuleCol = closestTarget.GetComponent<CapsuleCollider>();  
-              otherCombatTarget = closestTarget.GetComponent<CombatTarget>();  
+              closestTarget = target;                                         
+              capsuleCol = closestTarget.GetComponent<CapsuleCollider>();
+              otherCombatTarget = closestTarget.GetComponent<CombatTarget>();
+                    
             }  
           }
         } 

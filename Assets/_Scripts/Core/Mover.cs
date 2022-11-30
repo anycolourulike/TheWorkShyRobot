@@ -21,7 +21,7 @@ namespace Rambler.Movement
         [SerializeField] WeaponIK weaponIK;         
         [SerializeField] Rig mainRig;        
         NavMeshAgent navMeshAgent;  
-        bool rigWeaponEquipped;
+        public bool rigWeaponEquipped;
         Health health;        
 
         public void Start()

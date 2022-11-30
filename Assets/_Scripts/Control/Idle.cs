@@ -17,12 +17,12 @@ public class Idle : IState
 
     public void OnEnter()
     {
-       
+        _aIController.isIdle = true;
     }
 
     public void OnExit()
     {
-        
+        _aIController.isIdle = false;
     }
 
     public void Tick()

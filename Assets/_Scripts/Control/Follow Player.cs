@@ -34,11 +34,13 @@ public class FollowPlayer : IState
 
     public void OnEnter()
     {
-        
-    }
+        _aIController.isFollowingPlayer = true;
+    }          
+     
 
     public void OnExit()
     {
+        _aIController.isFollowingPlayer = false;
     }
 
     public void Tick()

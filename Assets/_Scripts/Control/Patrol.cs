@@ -72,12 +72,12 @@ public class Patrol : IState
 
     public void OnEnter()
     {
-
+        _aIController.isPatroling = true;
     }
 
     public void OnExit()
     {
-        
+        _aIController.isPatroling = false;
     }
 
     public void Tick()

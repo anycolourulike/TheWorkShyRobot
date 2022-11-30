@@ -34,12 +34,14 @@ namespace Rambler.Combat
         CombatTarget otherCombatTarget;  
         public CombatTarget CombatTarget {get{return otherCombatTarget;} set{otherCombatTarget = value;}}
         
-        PlayerController playerController; 
+        PlayerController playerController;
         Vector3 hitPointVector;  
         GameObject weaponRef;
         Health targetHealth;                       
         Transform enemyPos; 
-        WeaponIK weaponIk;    
+        WeaponIK weaponIk;
+        FieldOfView FOV;
+        FieldOfView fov;
         Animator anim;          
         Mover mover;        
         
@@ -56,10 +58,14 @@ namespace Rambler.Combat
         }
         
         void Start()
-        { 
-           if(this.gameObject.name == "Rambler")
+        {
+           if (this.gameObject.name == "Rambler")
            {
               playerController = GetComponent<PlayerController>();
+           }
+           else
+           {
+              FOV = GetComponent<FieldOfView>();
            }
            mover = GetComponent<Mover>();
            rigController = GetComponent<Fighter>().rigController;  
@@ -77,23 +83,29 @@ namespace Rambler.Combat
         }        
 
         void Update()
-        {                    
+        {          
             timeSinceLastAttack += Time.deltaTime; 
-            if (TargetCap != null)                      
-            //if (enemyPos.CompareTag("AIConversant")) return; 
+            if (TargetCap != null) { enemyPos = TargetCap.transform; }
+            if (enemyPos == null) { return; }
+            if (enemyPos.CompareTag("AIConversant")) return; 
             if (!GetIsInRange())
             {
                 GetComponent<Mover>().MoveTo(enemyPos.transform.position, 1f);
             }
-            else
+            else 
             {                
-                GetComponent<Mover>().CancelNav();  //Blocks Multiple shots from player? 
+                GetComponent<Mover>().CancelNav();  
                 AttackBehaviour();
             }
-        } 
-        
+
+        }         
         void AttackBehaviour()
-        {                    
+        {            
+            if (this.name != "Rambler")
+            {
+                if (FOV.canSeePlayer == false) { return; }
+            }
+
             transform.LookAt(enemyPos.transform);            
             AssignIKTarget();
             if(gameObject.tag == "Player" && enemyPos.gameObject.tag == "Player") return;          
@@ -328,7 +340,11 @@ namespace Rambler.Combat
 
         bool GetIsInRange()
         {
-            return Vector3.Distance(transform.position, enemyPos.position) < activeWeapon.GetRange();
+            if (enemyPos != null)
+            {
+                return Vector3.Distance(transform.position, enemyPos.position) < activeWeapon.GetRange();
+            }
+            return false;
         } 
 
         void MeleeAttack(Transform target)

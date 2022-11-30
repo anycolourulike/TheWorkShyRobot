@@ -58,14 +58,14 @@ public class Attack : IState
     public void OnEnter()
     { 
         _aIController.TargetHealthCheck();
-        _aIController.AssignTarget();
+        _aIController.isAttacking = true;
         _timeSinceLastSawPlayer = 2f;
         _mover.CancelNav();             
     }
 
     public void OnExit()
     {
-        
+        _aIController.isAttacking = false;
     }
 
     public void Tick()
