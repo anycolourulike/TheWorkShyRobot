@@ -79,8 +79,9 @@ namespace Rambler.Movement
 
         public void RotateTowards(Transform target)
         {
+            int rotSpeed = 120;
             var targetToLook = Quaternion.LookRotation(target.transform.position - this.transform.position);
-            this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetToLook, Time.deltaTime);            
+            this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetToLook, rotSpeed * Time.deltaTime);            
         }       
 
         public void StartMoveAction(Vector3 destination, float speedFraction)

@@ -10,17 +10,24 @@ public class IFindRocks : IState
 {
     private readonly AIController aIController;
     private readonly BoulderGennie boulderGennie;
+    private readonly Mover mover;
 
-    public IFindRocks(AIController aIController, BoulderGennie boulderGennie)
+    public IFindRocks(AIController aIController, BoulderGennie boulderGennie, Mover mover)
     {
         aIController = aIController;
         boulderGennie = boulderGennie;
-        
+        mover = mover;        
     }
 
     public void OnEnter()
-    {
-       
+    { 
+       //As soon as boulders land assign nearestBoulder
+       mover.StartMoveAction(boulderGennie.nearestBoulder.transform.position, 5);
+       //pick up boulder
+       //remove picked up boulder from gennie list
+       //throw boulder at player
+       //repeat until no boulders left
+       //jump attack
     }
 
     public void OnExit()
@@ -30,7 +37,7 @@ public class IFindRocks : IState
 
     public void Tick()
     {
-        //Play Idle Anim or Guard Anim
-    }
+       
+    }  
 
 }

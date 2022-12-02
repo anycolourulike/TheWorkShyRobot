@@ -4,34 +4,76 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class BoulderGennie : MonoBehaviour
-{
-    int count = 2;
-    
-    public bool spawnBoulders = false;
+{  
     [SerializeField] ParticleSystem boulderDust;
+    [SerializeField] GameObject jumpLandFx;
     [SerializeField] GameObject boulderPoint;
-    [SerializeField] float radius = 5;
+    [SerializeField] GameObject boulder;
+    [SerializeField] float radius = 30;
+
+    public GameObject nearestBoulder;
+    public bool spawnBoulders;
+    public Vector3 newPos;
+    
+    int listSize = 3;
     public List<Vector3> positions = new List<Vector3>();
+    public List<GameObject> boulders = new List<GameObject>();
 
     private void Update()
     {
         if(spawnBoulders == true)
+        {           
+            for (int j = 0; j < listSize; j++)
+            {                
+                newPos = RandomNavmeshLocation(radius);
+                positions.Insert(0, newPos);                                
+            }
+            StartCoroutine(SpawnBoulders());
+        }
+        spawnBoulders = false;
+    }
+
+    IEnumerator SpawnBoulders()
+    {
+        //Shake screen & phone
+        foreach(Vector3 newPos in positions)
+        {
+            Instantiate(boulderPoint, newPos + new Vector3(0,15,0), boulderPoint.transform.rotation);
+            //SoundFX
+        }
+
+        yield return new WaitForSeconds(1f);
+        foreach(Vector3 newPos in positions)
         {            
-            for (int j = 0; j < positions.Count; j++)
+            Instantiate(boulderDust, newPos + new Vector3(0, 15, 0), boulderPoint.transform.rotation);
+            //SoundFX
+        }
+
+        yield return new WaitForSeconds(4f);
+        foreach(Vector3 newPos in positions)
+        {
+            int height = Random.Range(15, 35);
+            Instantiate(boulder, newPos + new Vector3(0, height, 0), boulderPoint.transform.rotation);
+            //SoundFX
+        }        
+    }
+
+    public void FindNearestBoulder()
+    {
+        boulders.AddRange(collection: GameObject.FindGameObjectsWithTag("Boulder"));
+        float distToClosestTarget = Mathf.Infinity;
+        nearestBoulder = null;
+
+        foreach (GameObject boulder in boulders)
+        {
+            float distanceToTarget = (boulder.transform.position - this.transform.position).sqrMagnitude;
+            if (distanceToTarget < distToClosestTarget)
             {
-                var newPos = RandomNavmeshLocation(radius);
-                positions.Add(newPos);
-                SpawnBoulders();
+                distToClosestTarget = distanceToTarget;
+                nearestBoulder = boulder;
             }
         }
     }
-
-    void SpawnBoulders()
-    {
-        //loop through positions & spawn dust / boulder 
-        //Clear positions list
-    }
-
 
     //Returns Ramdom Pos on Nav Mesh
     public Vector3 RandomNavmeshLocation(float radius)
@@ -45,5 +87,11 @@ public class BoulderGennie : MonoBehaviour
             finalPosition = hit.position;
         }
         return finalPosition;
+    }
+
+    public void SpawnBouldersIsTrue()
+    {
+        spawnBoulders = true;
+        jumpLandFx.SetActive(true);
     }
 }

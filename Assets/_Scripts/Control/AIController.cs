@@ -32,7 +32,12 @@ namespace Rambler.Control
         public bool isPatroling;
         public bool isIdle;
         public bool isFollowingPlayer;
-
+        public bool isRocks;
+        public bool isRocker;
+        public bool standUp;
+        
+        BoulderGennie boulderGennie;
+        Animator animator;
         StateMachine stateMachine;        
         CapsuleCollider capsuleCol;        
         CombatTarget otherCombatTarget;     
@@ -62,6 +67,13 @@ namespace Rambler.Control
 
        void Awake()
        {
+           if(this.transform.name == "Rocker")
+           {
+                isRocker = true;
+                this.isRocks = false;
+                boulderGennie = GetComponent<BoulderGennie>();
+                animator = GetComponent<Animator>();
+           }
            if(this.gameObject.tag == "Player")
            {
               var playerCore = GameObject.Find("PlayerCore");
@@ -86,7 +98,10 @@ namespace Rambler.Control
            var patrol = new Patrol(this, patrolPath, mover, waypointTolerence, waypointDwellTime, patrolSpeedFraction, timeSinceArrivedAtWaypoint, currentWaypointIndex, nextPosition);
            var attack = new Attack(this, mover, FOV, TimerForNextAttack, timeSinceLastSawPlayer, suspicionTime, coolDown);
            var idle = new Idle(this);
-           
+           var causeCaveIn = new ICauseCaveIn(this, mover, animator, boulderGennie);
+           var sitting = new ISitting(this, animator);
+           var collectRocks = new IFindRocks(this, boulderGennie, mover);
+            
             //Transitions           
            At(attack, patrol, HasTarget());
            At(attack, idle, HasTarget());
@@ -95,12 +110,21 @@ namespace Rambler.Control
            At(attack, followPlayer, CompanionHasNoTarget());
            At(patrol, idle, HasPath());
            At(patrol, attack, HasNoTarget());
-           At(idle, attack, IsIdle());           
-        
-           //Initial State
-           if(this.gameObject.CompareTag("Enemy") && patrolPath != null)
+           At(idle, attack, IsIdle());
+           At(causeCaveIn, idle, CanCauseCaveIn());
+           At(idle, sitting, StandUp());
+           At(collectRocks, idle, hasRocks());
+           At(collectRocks, causeCaveIn, hasRocks());
+
+
+            //Initial State
+            if (this.gameObject.CompareTag("Enemy") && patrolPath != null)
            {
              stateMachine.SetState(patrol);
+           }
+           else if ((this.transform.name == "Rocker") && this.gameObject.CompareTag("Enemy"))
+           {
+                stateMachine.SetState(sitting);
            }
            else if (this.gameObject.CompareTag("Enemy") && patrol == null)
            {
@@ -120,13 +144,16 @@ namespace Rambler.Control
            Func<bool> HasTarget() => () => FOV.canSeePlayer == true;
            Func<bool> HasNoTarget() => () => this.gameObject.CompareTag("Enemy") && FOV.canSeePlayer == false;
            Func<bool> IsIdle() => () => this.gameObject.CompareTag("Enemy") && patrolPath == null;
-       }        
+           Func<bool> CanCauseCaveIn() => () => isRocker == true && isRocks == false;
+           Func<bool> StandUp() => () => isRocker == true && standUp == true;
+           Func<bool> hasRocks() => () => isRocker == true && isRocks == true;
+        }        
  
         void Update()
         {
             if (health.IsDead()) return;
             stateMachine.Tick();
-            //Debug.Log(this.gameObject.name + " " + stateMachine._currentState);
+            Debug.Log(this.gameObject.name + " " + stateMachine._currentState);
         } 
 
         void FixedUpdate()
@@ -164,7 +191,6 @@ namespace Rambler.Control
 
         public void PlayFootFX1()
         {
-            Debug.Log("ParticleEffect Called");
             footFX1.SetActive(true);
         }
 
@@ -182,6 +208,23 @@ namespace Rambler.Control
         {
             footFX2.SetActive(false);
         }
+
+        public void NoRocks()
+        {
+            isRocks = false;
+            standUp = true;
+        }
+
+        public void IsRocks()
+        {
+            isRocks = true;
+        }
+
+        public void FacePlayer()
+        {
+            var player = GameObject.Find("/PlayerCore/Rambler");            
+            mover.RotateTowards(player.transform);
+        }       
 
         void PlayerDeath()
         {  
@@ -214,7 +257,33 @@ namespace Rambler.Control
                 targetList.AddRange(collection: GameObject.FindGameObjectsWithTag("Player"));
             }
         } 
- 
+
+        public void OnTriggerEnter(Collider other)
+        {
+            if(other.tag == "boulder")
+            {
+                PickUpBoulder();
+            }
+        }
+        
+        public void PickUpBoulder()
+        {
+            mover.RigWeightToZero();
+            mover.CancelNav();
+            animator.SetTrigger("isPickingUP");
+        }
+
+        public void AttachBoulderToHand()
+        {
+            //Fix Rocker Rotation to Player
+            //Fix LandFX
+            //Add SFX
+            //Destroy Boulder On Ground
+            //ActivateBoulder in Hand
+            //Remove Boulder From Gennie List
+            //Set State To attack
+        }
+
         public void FindNearestTarget()
         {
           float distToClosestTarget = Mathf.Infinity;
