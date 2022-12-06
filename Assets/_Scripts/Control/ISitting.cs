@@ -29,6 +29,6 @@ public class ISitting : IState
 
     public void Tick()
     {
-        //Play Idle Anim or Guard Anim
+        
     }
 }

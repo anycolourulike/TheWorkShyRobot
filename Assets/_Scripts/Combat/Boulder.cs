@@ -1,33 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using Rambler.Control;
 
 public class Boulder : MonoBehaviour
 {
 
-    [SerializeField] GameObject landFx;    
+    [SerializeField] GameObject landFx;
+    Rigidbody rb;
 
+    void OnEnable()
+    {
+        rb = GetComponent<Rigidbody>();        
+    }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "plane")
+        if (other.CompareTag("plane"))
         {
             landFx.SetActive(true);
-            StartCoroutine("DisableFX");
         }
 
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             landFx.SetActive(true);
-            StartCoroutine("DisableFX");
         }
+        StartCoroutine("DisableFX");
     }
 
     IEnumerator DisableFX()
     {
         yield return new WaitForSeconds(7);
         landFx.SetActive(false);
+        rb.constraints = RigidbodyConstraints.FreezePosition;
+        AIController.rocksHaveLanded.Invoke();
     }
 
-    //boulder disentagrates when hits player
+    public void DestroyThisObj()
+    {
+        Destroy(this.gameObject);
+    }
 }

@@ -20,14 +20,8 @@ public class IFindRocks : IState
     }
 
     public void OnEnter()
-    { 
-       //As soon as boulders land assign nearestBoulder
-       mover.StartMoveAction(boulderGennie.nearestBoulder.transform.position, 5);
-       //pick up boulder
-       //remove picked up boulder from gennie list
-       //throw boulder at player
-       //repeat until no boulders left
-       //jump attack
+    {
+        BoulderGennie.findRocks.Invoke();
     }
 
     public void OnExit()

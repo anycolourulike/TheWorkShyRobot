@@ -7,6 +7,7 @@ using Rambler.Movement;
 using System;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.Events;
  
 namespace Rambler.Control
 {
@@ -20,7 +21,12 @@ namespace Rambler.Control
         [SerializeField] float waypointTolerence = 1f; 
         [SerializeField] float waypointDwellTime = 1.7f; 
         [Range(0,1)]
-        [SerializeField] float patrolSpeedFraction = 0.2f;  
+        [SerializeField] float patrolSpeedFraction = 0.2f;
+        [SerializeField] GameObject boulderWeapon;
+
+        public delegate void RocksLanded();
+        public static RocksLanded rocksHaveLanded;
+
         float timeSinceArrivedAtWaypoint  
          = Mathf.Infinity;
         float timeSinceLastSawPlayer  
@@ -44,10 +50,14 @@ namespace Rambler.Control
         int currentWaypointIndex = 0;              
         float TimerForNextAttack; 
         Vector3 nextPosition; 
+
         GameObject player;
+        NavMeshAgent nav;
         Fighter fighter;        
-        FieldOfView FOV; 
-        float coolDown;  
+        FieldOfView FOV;
+
+        Boulder boulder;
+        float coolDown;        
         Health health;        
         Mover mover; 
         
@@ -56,6 +66,7 @@ namespace Rambler.Control
             Health.targetDeath += UpdateTarget;
             Health.playerDeath += PlayerDeath;  
             Health.aIHit += FindNearestTarget;
+            rocksHaveLanded += IsRocks;
        }
  
        void OnDisable() 
@@ -69,8 +80,10 @@ namespace Rambler.Control
        {
            if(this.transform.name == "Rocker")
            {
+                rocksHaveLanded = IsRocks;
                 isRocker = true;
-                this.isRocks = false;
+                isRocks = false;
+                nav = GetComponent<NavMeshAgent>();
                 boulderGennie = GetComponent<BoulderGennie>();
                 animator = GetComponent<Animator>();
            }
@@ -217,7 +230,8 @@ namespace Rambler.Control
 
         public void IsRocks()
         {
-            isRocks = true;
+            Debug.Log("IsRocksCalled");
+            isRocks = true;            
         }
 
         public void FacePlayer()
@@ -260,28 +274,27 @@ namespace Rambler.Control
 
         public void OnTriggerEnter(Collider other)
         {
-            if(other.tag == "boulder")
+            if(other.CompareTag("boulder"))
             {
-                PickUpBoulder();
+                mover.CancelNav();
+                nav.velocity = Vector3.zero;
+                animator.SetTrigger("isPickingUP");
             }
         }
-        
-        public void PickUpBoulder()
-        {
-            mover.RigWeightToZero();
-            mover.CancelNav();
-            animator.SetTrigger("isPickingUP");
-        }
-
+       
         public void AttachBoulderToHand()
         {
-            //Fix Rocker Rotation to Player
-            //Fix LandFX
-            //Add SFX
-            //Destroy Boulder On Ground
+            var boulder = boulderGennie.nearestBoulder;
+            var firstBoulder = boulder.GetComponentInChildren<Boulder>();
+            //remove from list
+            firstBoulder.DestroyThisObj();
             //ActivateBoulder in Hand
-            //Remove Boulder From Gennie List
-            //Set State To attack
+            //Find next nearest boulder
+
+            //throw boulder at player
+            //repeat until no boulders left
+            //jump attack
+            //SFX
         }
 
         public void FindNearestTarget()
@@ -296,8 +309,7 @@ namespace Rambler.Control
               distToClosestTarget = distanceToTarget;
               closestTarget = target;                                         
               capsuleCol = closestTarget.GetComponent<CapsuleCollider>();
-              otherCombatTarget = closestTarget.GetComponent<CombatTarget>();
-                    
+              otherCombatTarget = closestTarget.GetComponent<CombatTarget>();                    
             }  
           }
         } 

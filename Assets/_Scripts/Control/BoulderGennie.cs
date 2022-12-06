@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Rambler.Movement;
 
 public class BoulderGennie : MonoBehaviour
 {  
@@ -9,7 +10,12 @@ public class BoulderGennie : MonoBehaviour
     [SerializeField] GameObject jumpLandFx;
     [SerializeField] GameObject boulderPoint;
     [SerializeField] GameObject boulder;
+    [SerializeField] Mover mover;
+    [SerializeField] Animator anim;
     [SerializeField] float radius = 30;
+
+    public delegate void FindRocks();
+    public static FindRocks findRocks;
 
     public GameObject nearestBoulder;
     public bool spawnBoulders;
@@ -18,6 +24,18 @@ public class BoulderGennie : MonoBehaviour
     int listSize = 3;
     public List<Vector3> positions = new List<Vector3>();
     public List<GameObject> boulders = new List<GameObject>();
+
+    void OnEnable()
+    {
+        anim = GetComponent<Animator>();
+        mover = GetComponent<Mover>();
+        findRocks += FindNearestBoulder;
+    }
+
+    private void OnDisable()
+    {
+        findRocks -= FindNearestBoulder;        
+    }
 
     private void Update()
     {
@@ -31,6 +49,10 @@ public class BoulderGennie : MonoBehaviour
             StartCoroutine(SpawnBoulders());
         }
         spawnBoulders = false;
+        if(nearestBoulder != null)
+        {            
+            mover.StartMoveAction(nearestBoulder.transform.position, 5);
+        }        
     }
 
     IEnumerator SpawnBoulders()
@@ -60,7 +82,7 @@ public class BoulderGennie : MonoBehaviour
 
     public void FindNearestBoulder()
     {
-        boulders.AddRange(collection: GameObject.FindGameObjectsWithTag("Boulder"));
+        boulders.AddRange(GameObject.FindGameObjectsWithTag("boulder"));         
         float distToClosestTarget = Mathf.Infinity;
         nearestBoulder = null;
 
@@ -74,8 +96,7 @@ public class BoulderGennie : MonoBehaviour
             }
         }
     }
-
-    //Returns Ramdom Pos on Nav Mesh
+        
     public Vector3 RandomNavmeshLocation(float radius)
     {
         Vector3 randomDirection = Random.insideUnitSphere * radius;
@@ -87,6 +108,20 @@ public class BoulderGennie : MonoBehaviour
             finalPosition = hit.position;
         }
         return finalPosition;
+    }
+
+    public void RemoveFromBoulder(GameObject boulderToRemove)
+    {
+        boulders.Remove(boulderToRemove);
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("boulder"))
+        {
+            mover.CancelNav();
+            anim.SetTrigger("isPickingUp");
+        }
     }
 
     public void SpawnBouldersIsTrue()
