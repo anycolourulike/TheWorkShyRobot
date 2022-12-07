@@ -17,10 +17,10 @@ MonoBehaviour:
     type: 3}
   equippedPrefab: {fileID: 4040529665515307777, guid: 8a76d3b898100904d83ad2e37c824e99,
     type: 3}
-  projectile: {fileID: 4287304663912672958, guid: cd085b3be29ae6248ada4a9443ab519d,
+  projectile: {fileID: 4287304663912672958, guid: e9250910483d79a49afa980d92c69d91,
     type: 3}
   weaponTitle: npcGun
-  isPistol: 0
+  isPistol: 1
   isRifle: 0
   isMelee: 0
   isEMP: 0

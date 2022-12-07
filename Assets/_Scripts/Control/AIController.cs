@@ -19,10 +19,10 @@ namespace Rambler.Control
         [SerializeField] PatrolPath patrolPath;
         [SerializeField] float suspicionTime = 3f;       
         [SerializeField] float waypointTolerence = 1f; 
-        [SerializeField] float waypointDwellTime = 1.7f; 
+        [SerializeField] float waypointDwellTime = 1.7f;
+        [SerializeField] Mover mover;
         [Range(0,1)]
         [SerializeField] float patrolSpeedFraction = 0.2f;
-        [SerializeField] GameObject boulderWeapon;
 
         public delegate void RocksLanded();
         public static RocksLanded rocksHaveLanded;
@@ -41,6 +41,7 @@ namespace Rambler.Control
         public bool isRocks;
         public bool isRocker;
         public bool standUp;
+        public bool hasRock;
         
         BoulderGennie boulderGennie;
         Animator animator;
@@ -58,8 +59,7 @@ namespace Rambler.Control
 
         Boulder boulder;
         float coolDown;        
-        Health health;        
-        Mover mover; 
+        Health health; 
         
        void OnEnable() 
        {
@@ -114,6 +114,7 @@ namespace Rambler.Control
            var causeCaveIn = new ICauseCaveIn(this, mover, animator, boulderGennie);
            var sitting = new ISitting(this, animator);
            var collectRocks = new IFindRocks(this, boulderGennie, mover);
+           var hasTarget = new IThrowRock(this, boulderGennie);
             
             //Transitions           
            At(attack, patrol, HasTarget());
@@ -128,6 +129,7 @@ namespace Rambler.Control
            At(idle, sitting, StandUp());
            At(collectRocks, idle, hasRocks());
            At(collectRocks, causeCaveIn, hasRocks());
+            At(hasTarget, collectRocks, throwRocks());
 
 
             //Initial State
@@ -160,6 +162,7 @@ namespace Rambler.Control
            Func<bool> CanCauseCaveIn() => () => isRocker == true && isRocks == false;
            Func<bool> StandUp() => () => isRocker == true && standUp == true;
            Func<bool> hasRocks() => () => isRocker == true && isRocks == true;
+           Func<bool> throwRocks() => () => isRocker == true && hasRock == true;
         }        
  
         void Update()
@@ -222,6 +225,16 @@ namespace Rambler.Control
             footFX2.SetActive(false);
         }
 
+        public void HasRock()
+        {
+            hasRock = true;            
+        }
+
+        public void EmptyHand()
+        {
+            hasRock = false;
+        }
+
         public void NoRocks()
         {
             isRocks = false;
@@ -230,7 +243,6 @@ namespace Rambler.Control
 
         public void IsRocks()
         {
-            Debug.Log("IsRocksCalled");
             isRocks = true;            
         }
 
@@ -285,16 +297,14 @@ namespace Rambler.Control
         public void AttachBoulderToHand()
         {
             var boulder = boulderGennie.nearestBoulder;
-            var firstBoulder = boulder.GetComponentInChildren<Boulder>();
-            //remove from list
-            firstBoulder.DestroyThisObj();
-            //ActivateBoulder in Hand
-            //Find next nearest boulder
-
-            //throw boulder at player
-            //repeat until no boulders left
-            //jump attack
-            //SFX
+            if (boulder != null)
+            {
+                var firstBoulder = boulder.GetComponentInChildren<Boulder>();
+                boulderGennie.boulders.Remove(boulder);
+                firstBoulder.DestroyThisObj();
+                boulderGennie.ActivateBoulderProj();
+                NoRocks();
+            }            
         }
 
         public void FindNearestTarget()

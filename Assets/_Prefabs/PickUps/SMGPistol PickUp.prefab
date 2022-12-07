@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0.019821133, y: -0.11140794, z: 0.780619, w: 0.6146783}
   m_LocalPosition: {x: -0.026, y: 0.06, z: 0.007}
   m_LocalScale: {x: 1.3676616, y: 1.4162396, z: 1.1541162}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6714531665589889063}
   m_Father: {fileID: 0}
@@ -56,7 +57,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2.1818948
+  m_Radius: 0.5
   m_Center: {x: 0.0012480046, y: 0.13872167, z: 0.08395952}
 --- !u!1 &7260150362684032769
 GameObject:
@@ -68,6 +69,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6628476739995099241}
   - component: {fileID: 4329838856758737267}
+  - component: {fileID: 2245407331320128267}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -85,6 +87,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.131, y: 0, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6714531665589889063}
   m_RootOrder: 4
@@ -148,8 +151,29 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &2245407331320128267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7260150362684032769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1001 &6710475675216834521
 PrefabInstance:
   m_ObjectHideFlags: 0

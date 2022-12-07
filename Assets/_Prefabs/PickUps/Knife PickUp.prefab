@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0.5219006, y: 0.45028946, z: 0.46607202, w: 0.5546496}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5.203134, y: 2.3194423, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3148158861091796692}
   m_Father: {fileID: 0}
@@ -44,7 +45,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2243185
+  m_Radius: 2
   m_Center: {x: -0.035005294, y: 0.19258823, z: 1.3514723e-10}
 --- !u!114 &5339499891209824739
 MonoBehaviour:

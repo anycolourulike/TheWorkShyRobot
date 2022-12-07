@@ -8,7 +8,7 @@ public class Boulder : MonoBehaviour
 {
 
     [SerializeField] GameObject landFx;
-    Rigidbody rb;
+    public Rigidbody rb;
 
     void OnEnable()
     {
@@ -35,7 +35,7 @@ public class Boulder : MonoBehaviour
         landFx.SetActive(false);
         rb.constraints = RigidbodyConstraints.FreezePosition;
         AIController.rocksHaveLanded.Invoke();
-    }
+    }    
 
     public void DestroyThisObj()
     {

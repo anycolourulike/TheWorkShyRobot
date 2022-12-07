@@ -19,8 +19,8 @@ namespace Rambler.Movement
     { 
         [SerializeField] float maxSpeed = 6f;  
         [SerializeField] WeaponIK weaponIK;         
-        [SerializeField] Rig mainRig;        
-        NavMeshAgent navMeshAgent;  
+        [SerializeField] Rig mainRig;
+        NavMeshAgent navMeshAgent;
         public bool rigWeaponEquipped;
         Health health;        
 

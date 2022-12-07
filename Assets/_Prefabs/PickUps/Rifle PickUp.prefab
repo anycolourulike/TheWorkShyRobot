@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0.5219006, y: 0.45028946, z: 0.46607202, w: 0.5546496}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5.203134, y: 3.4281359, z: 1.7786636}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3580074277269125538}
   - {fileID: 8526532900504642724}
@@ -57,7 +58,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.56239355
+  m_Radius: 0.5
   m_Center: {x: -0.099945895, y: 0.13671722, z: -0.00314949}
 --- !u!1 &8934239931928201464
 GameObject:
@@ -86,6 +87,7 @@ Transform:
   m_LocalRotation: {x: -0.05888599, y: -0.75673383, z: 0.16166902, w: 0.6306739}
   m_LocalPosition: {x: 0.007, y: 0.063, z: 0.02}
   m_LocalScale: {x: 0.3032802, y: 0.38187757, z: 0.15952328}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8872351621082961810}
   m_RootOrder: 1
@@ -149,6 +151,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1001 &3575968900994583048
