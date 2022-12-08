@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using Rambler.Movement;
 using Rambler.Combat;
 using Rambler.Control;
+using System.Linq;
 
 public class BoulderGennie : MonoBehaviour
 {  
@@ -19,6 +20,7 @@ public class BoulderGennie : MonoBehaviour
     [SerializeField] Fighter fighter;
     [SerializeField] Animator anim;
     [SerializeField] float radius = 30;
+    public GameObject player;
 
     public delegate void FindRocks();
     public static FindRocks findRocks;
@@ -26,6 +28,10 @@ public class BoulderGennie : MonoBehaviour
     public GameObject nearestBoulder;
     public bool spawnBoulders;
     public Vector3 newPos;
+    Projectile boulderScript;
+    bool rocksOnGround;
+    bool hasStoodUp;
+    bool firstCaveIn;
     
     int listSize = 3;
     AIController aiCon;
@@ -50,7 +56,7 @@ public class BoulderGennie : MonoBehaviour
     private void Update()
     {
         if(spawnBoulders == true)
-        {           
+        {               
             for (int j = 0; j < listSize; j++)
             {                
                 newPos = RandomNavmeshLocation(radius, this.transform);
@@ -59,14 +65,24 @@ public class BoulderGennie : MonoBehaviour
             StartCoroutine(SpawnBoulders());
         }
         spawnBoulders = false;
-        if(nearestBoulder != null && this.gameObject.tag == "Enemy")
-        {            
-            mover.StartMoveAction(nearestBoulder.transform.position, 5);
-        }        
+        
+        if (hasStoodUp == false)
+        { 
+            return; 
+        } 
+        else 
+        {
+            //if(firstCaveIn == false) { return; }
+            //int i = boulders.Count;
+            //if(i <= 0)
+            //{
+            //    StartFlex();
+            //}
+        }
     }
 
     IEnumerator SpawnBoulders()
-    {
+    {        
         //Shake screen & phone
         foreach(Vector3 newPos in positions)
         {
@@ -87,11 +103,17 @@ public class BoulderGennie : MonoBehaviour
             int height = Random.Range(15, 35);
             Instantiate(boulder, newPos + new Vector3(0, height, 0), boulderPoint.transform.rotation);
             //SoundFX
-        }        
+        }
+        yield return new WaitForSeconds(3f);
+        FindNearestBoulder();
+        aiCon.IsRocks();
+        aiCon.CaveInFalse();
+        firstCaveIn = true;
+        mover.StartMoveAction(nearestBoulder.transform.position, 5);
     }
 
     public void FindNearestBoulder()
-    {
+    {       
         boulders.AddRange(GameObject.FindGameObjectsWithTag("boulder"));         
         float distToClosestTarget = Mathf.Infinity;
         nearestBoulder = null;
@@ -118,20 +140,37 @@ public class BoulderGennie : MonoBehaviour
             finalPosition = hit.position;
         }
         return finalPosition;
-    }
-
-    public void ThrowRocks()
-    {        
-        var player = transform.Find("/PlayerCore/Rambler");
-        var mover = GetComponent<Mover>();
-        mover.RotateTowards(player);
-        anim.SetTrigger("meleeAttack");        
     }    
 
-    //boulderGennie.FindNearestBoulder();
-    //throw boulder at player
-    //repeat until no boulders left
-    //jump attack
+    public void ThrowRocks()
+    {
+        player = GameObject.Find("/PlayerCore/Rambler");
+        anim.SetTrigger("meleeAttack");
+        aiCon.EmptyHand();
+    }
+
+
+    public void SetTarget()
+    {
+        boulderScript.SetTarget(player.transform.position);
+    }
+
+    public void StandUp()
+    {
+        aiCon.StandingUp();
+        aiCon.FacePlayer();
+        aiCon.CaveInFalse();
+        hasStoodUp = true;
+    }
+
+    public void StartFlex()
+    {
+        anim.SetTrigger("isFlexing");
+        aiCon.NoRocksOnGround();
+        FindNearestBoulder();
+    }
+
+   
     //Death
     //SFX
     //Intro
@@ -140,6 +179,7 @@ public class BoulderGennie : MonoBehaviour
     public void RemoveFromBoulder(GameObject boulderToRemove)
     {
         boulders.Remove(boulderToRemove);
+        positions.Remove(boulderToRemove.transform.position);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -147,7 +187,22 @@ public class BoulderGennie : MonoBehaviour
         if(other.CompareTag("boulder"))
         {
             mover.CancelNav();
+            var nav = GetComponent<NavMeshAgent>();
+            nav.velocity = Vector3.zero;
             anim.SetTrigger("isPickingUp");
+        }
+    }
+
+    public void AttachBoulderToHand()
+    {
+        mover.CancelNav();
+        var boulder = nearestBoulder;
+        if (boulder != null)
+        {
+            var firstBoulder = boulder.GetComponentInChildren<Boulder>();
+            ActivateBoulderProj();
+            RemoveFromBoulder(boulder);
+            firstBoulder.DestroyThisObj();
         }
     }
 
@@ -164,17 +219,19 @@ public class BoulderGennie : MonoBehaviour
     }
 
     public void ThrowBoulder()
-    {  
+    {        
+        var mover = GetComponent<Mover>();
+        //mover.CancelNav();
+        mover.RotateTowards(player.transform);
         var proj = Instantiate(boulderProj, this.transform);        
-        var boulderScript = boulderProj.GetComponent<Boulder>();
-        //Create boulder projectile script
+        var boulderScript = boulderProj.GetComponent<Projectile>();
         UnarmedRocker();
     }
 
     public void UnarmedRocker()
     {
+        aiCon.EmptyHand();
         FindNearestBoulder();
         handBoulder.SetActive(false);
-        aiCon.NoRocks();
     }
 }

@@ -23,10 +23,6 @@ namespace Rambler.Control
         [SerializeField] Mover mover;
         [Range(0,1)]
         [SerializeField] float patrolSpeedFraction = 0.2f;
-
-        public delegate void RocksLanded();
-        public static RocksLanded rocksHaveLanded;
-
         float timeSinceArrivedAtWaypoint  
          = Mathf.Infinity;
         float timeSinceLastSawPlayer  
@@ -38,10 +34,12 @@ namespace Rambler.Control
         public bool isPatroling;
         public bool isIdle;
         public bool isFollowingPlayer;
-        public bool isRocks;
+        public bool rocksOnGround;
+        public bool caveIn;
         public bool isRocker;
         public bool standUp;
         public bool hasRock;
+        public bool readyToThrow;
         
         BoulderGennie boulderGennie;
         Animator animator;
@@ -66,7 +64,6 @@ namespace Rambler.Control
             Health.targetDeath += UpdateTarget;
             Health.playerDeath += PlayerDeath;  
             Health.aIHit += FindNearestTarget;
-            rocksHaveLanded += IsRocks;
        }
  
        void OnDisable() 
@@ -79,10 +76,9 @@ namespace Rambler.Control
        void Awake()
        {
            if(this.transform.name == "Rocker")
-           {
-                rocksHaveLanded = IsRocks;
+           {              
                 isRocker = true;
-                isRocks = false;
+                rocksOnGround = false;
                 nav = GetComponent<NavMeshAgent>();
                 boulderGennie = GetComponent<BoulderGennie>();
                 animator = GetComponent<Animator>();
@@ -125,12 +121,12 @@ namespace Rambler.Control
            At(patrol, idle, HasPath());
            At(patrol, attack, HasNoTarget());
            At(idle, attack, IsIdle());
-           At(causeCaveIn, idle, CanCauseCaveIn());
+            /////Rocker/////
            At(idle, sitting, StandUp());
-           At(collectRocks, idle, hasRocks());
-           At(collectRocks, causeCaveIn, hasRocks());
-            At(hasTarget, collectRocks, throwRocks());
-
+           At(causeCaveIn, idle, CanCauseCaveIn());
+           At(hasTarget, causeCaveIn, throwRocks());
+           At(collectRocks, hasTarget, nextRock());
+           At(causeCaveIn, hasTarget, rocksUnAvailable());
 
             //Initial State
             if (this.gameObject.CompareTag("Enemy") && patrolPath != null)
@@ -159,10 +155,12 @@ namespace Rambler.Control
            Func<bool> HasTarget() => () => FOV.canSeePlayer == true;
            Func<bool> HasNoTarget() => () => this.gameObject.CompareTag("Enemy") && FOV.canSeePlayer == false;
            Func<bool> IsIdle() => () => this.gameObject.CompareTag("Enemy") && patrolPath == null;
-           Func<bool> CanCauseCaveIn() => () => isRocker == true && isRocks == false;
-           Func<bool> StandUp() => () => isRocker == true && standUp == true;
-           Func<bool> hasRocks() => () => isRocker == true && isRocks == true;
-           Func<bool> throwRocks() => () => isRocker == true && hasRock == true;
+            ////ROCKER////
+           Func<bool> StandUp() => () => isRocker == true && standUp == true && caveIn == false;
+           Func<bool> CanCauseCaveIn() => () => isRocker == true && rocksOnGround == false && caveIn == true;
+            Func<bool> rocksUnAvailable() => () => isRocker == true && rocksOnGround == true && caveIn == false && rocksOnGround == false;
+           Func<bool> throwRocks() => () => isRocker == true && hasRock == true && caveIn == false && readyToThrow == true;
+           Func<bool> nextRock() => () => isRocker == true && hasRock == false && rocksOnGround == true && caveIn == false && readyToThrow == false;
         }        
  
         void Update()
@@ -196,6 +194,11 @@ namespace Rambler.Control
             fighter.TargetCap = capsuleCol;
             fighter.CombatTarget = otherCombatTarget;         
             fighter.Attack(combatTarget: closestTarget);
+        }
+
+        public void ReadyToThrow()
+        {
+            readyToThrow = true;
         }
 
         public void AttackBehaviour()
@@ -235,22 +238,43 @@ namespace Rambler.Control
             hasRock = false;
         }
 
-        public void NoRocks()
+        public void CaveInTrue()
         {
-            isRocks = false;
+            caveIn = true;
+        }
+
+        public void CaveInFalse()
+        {
+            caveIn = false;
+        } 
+
+        public void StandingUp()
+        {
             standUp = true;
+        }
+
+        public void NotStandingUp()
+        {
+            standUp = false;
+        }
+
+        public void NoRocksOnGround()
+        {
+            rocksOnGround = false;
         }
 
         public void IsRocks()
         {
-            isRocks = true;            
-        }
+            rocksOnGround = true;
+            CaveInTrue();
+        }        
 
         public void FacePlayer()
         {
-            var player = GameObject.Find("/PlayerCore/Rambler");            
+            player = GameObject.Find("/PlayerCore/Rambler");            
             mover.RotateTowards(player.transform);
-        }       
+        }   
+       
 
         void PlayerDeath()
         {  
@@ -283,29 +307,8 @@ namespace Rambler.Control
                 targetList.AddRange(collection: GameObject.FindGameObjectsWithTag("Player"));
             }
         } 
-
-        public void OnTriggerEnter(Collider other)
-        {
-            if(other.CompareTag("boulder"))
-            {
-                mover.CancelNav();
-                nav.velocity = Vector3.zero;
-                animator.SetTrigger("isPickingUP");
-            }
-        }
        
-        public void AttachBoulderToHand()
-        {
-            var boulder = boulderGennie.nearestBoulder;
-            if (boulder != null)
-            {
-                var firstBoulder = boulder.GetComponentInChildren<Boulder>();
-                boulderGennie.boulders.Remove(boulder);
-                firstBoulder.DestroyThisObj();
-                boulderGennie.ActivateBoulderProj();
-                NoRocks();
-            }            
-        }
+       
 
         public void FindNearestTarget()
         {

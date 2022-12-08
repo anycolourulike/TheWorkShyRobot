@@ -22,8 +22,7 @@ namespace Rambler.Combat
 
     void Start()
     {
-      Rb = GetComponent<Rigidbody>();       
-      transform.LookAt(target);               
+      Rb = GetComponent<Rigidbody>();         
     }   
 
     void Update() 
@@ -34,7 +33,8 @@ namespace Rambler.Combat
 
     public void SetTarget(Vector3 target)
     {
-      this.target = target;      
+      this.target = target;
+      transform.LookAt(target);
     }
 
     public float GetDamage() 

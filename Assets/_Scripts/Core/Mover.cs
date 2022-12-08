@@ -21,13 +21,15 @@ namespace Rambler.Movement
         [SerializeField] WeaponIK weaponIK;         
         [SerializeField] Rig mainRig;
         NavMeshAgent navMeshAgent;
+        Rigidbody rb;
         public bool rigWeaponEquipped;
         Health health;        
 
         public void Start()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
-            health = GetComponent<Health>();       
+            health = GetComponent<Health>();
+            rb = GetComponent<Rigidbody>();
         }
 
         void Update()
@@ -100,6 +102,7 @@ namespace Rambler.Movement
         public void CancelNav()
         {            
             navMeshAgent.isStopped = true;
+            rb.velocity = Vector3.zero;
         }
                
         private void UpdateAnimator()

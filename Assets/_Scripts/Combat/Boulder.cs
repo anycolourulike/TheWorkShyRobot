@@ -33,8 +33,9 @@ public class Boulder : MonoBehaviour
     {
         yield return new WaitForSeconds(7);
         landFx.SetActive(false);
-        rb.constraints = RigidbodyConstraints.FreezePosition;
-        AIController.rocksHaveLanded.Invoke();
+        
+        //rb.constraints = RigidbodyConstraints.FreezePosition;
+        //FInd Rocker Set State To Find Rocks
     }    
 
     public void DestroyThisObj()
