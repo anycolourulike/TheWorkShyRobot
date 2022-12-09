@@ -38,20 +38,20 @@ public class BoulderGennie : MonoBehaviour
     public List<Vector3> positions = new List<Vector3>();
     public List<GameObject> boulders = new List<GameObject>();
 
-   void Start()
-    {
-        aiCon = GetComponent<AIController>();
-    }
-
     void OnEnable()
     {
         findRocks += FindNearestBoulder;
-    } 
+    }
 
     private void OnDisable()
     {
-        findRocks -= FindNearestBoulder;        
+        findRocks -= FindNearestBoulder;
     }
+
+    void Start()
+    {
+        aiCon = GetComponent<AIController>();
+    }    
 
     private void Update()
     {
@@ -72,12 +72,12 @@ public class BoulderGennie : MonoBehaviour
         } 
         else 
         {
-            //if(firstCaveIn == false) { return; }
-            //int i = boulders.Count;
-            //if(i <= 0)
-            //{
-            //    StartFlex();
-            //}
+            if (firstCaveIn == false) { return; }
+            int i = boulders.Count;
+            if (i <= 0)
+            {
+                StartFlex();
+            }
         }
     }
 
@@ -104,16 +104,13 @@ public class BoulderGennie : MonoBehaviour
             Instantiate(boulder, newPos + new Vector3(0, height, 0), boulderPoint.transform.rotation);
             //SoundFX
         }
-        yield return new WaitForSeconds(3f);
-        FindNearestBoulder();
-        aiCon.IsRocks();
-        aiCon.CaveInFalse();
-        firstCaveIn = true;
-        mover.StartMoveAction(nearestBoulder.transform.position, 5);
+        BoulderGennie.findRocks.Invoke();
+        aiCon.RocksOnGround(); //changes state
     }
 
     public void FindNearestBoulder()
-    {       
+    {
+        Debug.Log("NearestBoulder Called");
         boulders.AddRange(GameObject.FindGameObjectsWithTag("boulder"));         
         float distToClosestTarget = Mathf.Infinity;
         nearestBoulder = null;
@@ -127,6 +124,7 @@ public class BoulderGennie : MonoBehaviour
                 nearestBoulder = boulder;
             }
         }
+        findRocks -= FindNearestBoulder;
     }
         
     public Vector3 RandomNavmeshLocation(float radius, Transform thisTransform)
@@ -140,15 +138,23 @@ public class BoulderGennie : MonoBehaviour
             finalPosition = hit.position;
         }
         return finalPosition;
-    }    
+    }   
+    
+    //check if boulder count is <= zero and execute flex amimation
 
     public void ThrowRocks()
     {
         player = GameObject.Find("/PlayerCore/Rambler");
         anim.SetTrigger("meleeAttack");
         aiCon.EmptyHand();
+        
+        //var proj =
+        Instantiate(boulderProj, this.transform);
+        //proj.transform.SetParent(null); 
+        //var boulderScript = proj.GetComponent<Projectile>();
+        FindNearestBoulder();
+        UnarmedRocker();
     }
-
 
     public void SetTarget()
     {
@@ -166,15 +172,8 @@ public class BoulderGennie : MonoBehaviour
     public void StartFlex()
     {
         anim.SetTrigger("isFlexing");
-        aiCon.NoRocksOnGround();
-        FindNearestBoulder();
-    }
-
-   
-    //Death
-    //SFX
-    //Intro
-    //Enviroment
+        aiCon.NoRocksOnGround(); //ChangesState
+    }     
 
     public void RemoveFromBoulder(GameObject boulderToRemove)
     {
@@ -206,6 +205,19 @@ public class BoulderGennie : MonoBehaviour
         }
     }
 
+    public void MoveToNearestRock()
+    {
+        aiCon.RocksOnGround();
+        aiCon.CaveInFalse();
+        firstCaveIn = true;
+        var nearestRock = nearestBoulder;
+        if (nearestBoulder != null)
+        {
+            //mover.RotateTowards(nearestBoulder.transform);
+            mover.StartMoveAction(nearestBoulder.transform.position, 5);
+        } 
+    }
+
     public void SpawnBouldersIsTrue()
     {
         spawnBoulders = true;
@@ -215,23 +227,12 @@ public class BoulderGennie : MonoBehaviour
     public void ActivateBoulderProj()
     {
         handBoulder.SetActive(true);
-        aiCon.HasRock();
-    }
-
-    public void ThrowBoulder()
-    {        
-        var mover = GetComponent<Mover>();
-        //mover.CancelNav();
-        mover.RotateTowards(player.transform);
-        var proj = Instantiate(boulderProj, this.transform);        
-        var boulderScript = boulderProj.GetComponent<Projectile>();
-        UnarmedRocker();
+        aiCon.RockInHand();
     }
 
     public void UnarmedRocker()
     {
         aiCon.EmptyHand();
-        FindNearestBoulder();
         handBoulder.SetActive(false);
     }
 }

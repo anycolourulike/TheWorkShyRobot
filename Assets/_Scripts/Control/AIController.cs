@@ -124,9 +124,10 @@ namespace Rambler.Control
             /////Rocker/////
            At(idle, sitting, StandUp());
            At(causeCaveIn, idle, CanCauseCaveIn());
-           At(hasTarget, causeCaveIn, throwRocks());
+           At(hasTarget, collectRocks, throwRocks());
            At(collectRocks, hasTarget, nextRock());
-           At(causeCaveIn, hasTarget, rocksUnAvailable());
+           At(causeCaveIn, collectRocks, CanCauseCaveIn());
+           At(collectRocks, causeCaveIn, nextRock());
 
             //Initial State
             if (this.gameObject.CompareTag("Enemy") && patrolPath != null)
@@ -136,6 +137,7 @@ namespace Rambler.Control
            else if ((this.transform.name == "Rocker") && this.gameObject.CompareTag("Enemy"))
            {
                 stateMachine.SetState(sitting);
+                closestTarget = GameObject.Find("/PlayerCore/Rambler");
            }
            else if (this.gameObject.CompareTag("Enemy") && patrol == null)
            {
@@ -157,8 +159,8 @@ namespace Rambler.Control
            Func<bool> IsIdle() => () => this.gameObject.CompareTag("Enemy") && patrolPath == null;
             ////ROCKER////
            Func<bool> StandUp() => () => isRocker == true && standUp == true && caveIn == false;
-           Func<bool> CanCauseCaveIn() => () => isRocker == true && rocksOnGround == false && caveIn == true;
-            Func<bool> rocksUnAvailable() => () => isRocker == true && rocksOnGround == true && caveIn == false && rocksOnGround == false;
+           Func<bool> CanCauseCaveIn() => () => isRocker == true && rocksOnGround == false && caveIn == true; //no rocks on ground, no rocks in hand, starts jump / cave in sequence
+           
            Func<bool> throwRocks() => () => isRocker == true && hasRock == true && caveIn == false && readyToThrow == true;
            Func<bool> nextRock() => () => isRocker == true && hasRock == false && rocksOnGround == true && caveIn == false && readyToThrow == false;
         }        
@@ -195,12 +197,7 @@ namespace Rambler.Control
             fighter.CombatTarget = otherCombatTarget;         
             fighter.Attack(combatTarget: closestTarget);
         }
-
-        public void ReadyToThrow()
-        {
-            readyToThrow = true;
-        }
-
+        
         public void AttackBehaviour()
         {  
             var targetAlive = closestTarget.GetComponent<Health>().isDead;
@@ -208,73 +205,32 @@ namespace Rambler.Control
             fighter.Attack(combatTarget: closestTarget);
         }
 
-        public void PlayFootFX1()
-        {
-            footFX1.SetActive(true);
-        }
+        ///ROCKER///
+        public void PlayFootFX1(){footFX1.SetActive(true);}
+        public void DisablePlayFootFX1(){footFX1.SetActive(false);}
+        public void PlayFootFX2(){footFX2.SetActive(true);}
+        public void DisablePlayFootFX2(){footFX2.SetActive(false);}
 
-        public void DisablePlayFootFX1()
-        {
-            footFX1.SetActive(false);
-        }
+        public void ReadyToThrow(){readyToThrow = true; mover.RotateTowards(closestTarget.transform); }
+        public void NotReadyToThrow(){readyToThrow = false;}
 
-        public void PlayFootFX2()
-        {
-            footFX2.SetActive(true);
-        }
+        public void RockInHand(){hasRock = true;}
+        public void EmptyHand(){hasRock = false;}
 
-        public void DisablePlayFootFX2()
-        {
-            footFX2.SetActive(false);
-        }
+        public void CaveInTrue(){caveIn = true;}
+        public void CaveInFalse(){caveIn = false;} 
 
-        public void HasRock()
-        {
-            hasRock = true;            
-        }
-
-        public void EmptyHand()
-        {
-            hasRock = false;
-        }
-
-        public void CaveInTrue()
-        {
-            caveIn = true;
-        }
-
-        public void CaveInFalse()
-        {
-            caveIn = false;
-        } 
-
-        public void StandingUp()
-        {
-            standUp = true;
-        }
-
-        public void NotStandingUp()
-        {
-            standUp = false;
-        }
-
-        public void NoRocksOnGround()
-        {
-            rocksOnGround = false;
-        }
-
-        public void IsRocks()
-        {
-            rocksOnGround = true;
-            CaveInTrue();
-        }        
+        public void StandingUp(){standUp = true;}
+        public void NotStandingUp(){standUp = false;}
+        
+        public void RocksOnGround(){rocksOnGround = true;}
+        public void NoRocksOnGround() { rocksOnGround = false; }
 
         public void FacePlayer()
         {
             player = GameObject.Find("/PlayerCore/Rambler");            
             mover.RotateTowards(player.transform);
-        }   
-       
+        }          
 
         void PlayerDeath()
         {  
@@ -307,8 +263,6 @@ namespace Rambler.Control
                 targetList.AddRange(collection: GameObject.FindGameObjectsWithTag("Player"));
             }
         } 
-       
-       
 
         public void FindNearestTarget()
         {

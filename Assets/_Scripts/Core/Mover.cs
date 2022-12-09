@@ -63,6 +63,11 @@ namespace Rambler.Movement
                     
         }
 
+        public float MaxSpeed()
+        {
+            return maxSpeed;
+        }
+
         public void RigWeaponEquipped()
         {            
             rigWeaponEquipped = true;

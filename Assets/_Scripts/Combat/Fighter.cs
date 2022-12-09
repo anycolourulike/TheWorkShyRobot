@@ -85,7 +85,7 @@ namespace Rambler.Combat
         void Update()
         {          
             timeSinceLastAttack += Time.deltaTime; 
-            if (TargetCap != null) { enemyPos = TargetCap.transform; }
+            if (TargetCap != null && this.gameObject.CompareTag("Enemy")) { enemyPos = TargetCap.transform; }
             if (enemyPos == null) { return; }
             if (enemyPos.CompareTag("AIConversant")) return; 
             if (!GetIsInRange())

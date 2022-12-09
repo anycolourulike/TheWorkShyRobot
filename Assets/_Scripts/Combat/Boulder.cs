@@ -9,33 +9,36 @@ public class Boulder : MonoBehaviour
 
     [SerializeField] GameObject landFx;
     public Rigidbody rb;
+    bool FXStarted;
 
-    void OnEnable()
+    void Start()
     {
-        rb = GetComponent<Rigidbody>();        
+        rb = GetComponent<Rigidbody>();          
     }
 
-    void OnTriggerEnter(Collider other)
+       public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("plane"))
         {
             landFx.SetActive(true);
+            StartCoroutine("DisableFX");
         }
-
         if (other.CompareTag("Player"))
         {
-            landFx.SetActive(true);
+            landFx.SetActive(true);            
         }
-        StartCoroutine("DisableFX");
+        if (FXStarted == false)
+        {
+            StartCoroutine("DisableFX");
+        }
+        
     }
 
     IEnumerator DisableFX()
     {
+        FXStarted = true;
         yield return new WaitForSeconds(7);
-        landFx.SetActive(false);
-        
-        //rb.constraints = RigidbodyConstraints.FreezePosition;
-        //FInd Rocker Set State To Find Rocks
+        landFx.SetActive(false);    
     }    
 
     public void DestroyThisObj()

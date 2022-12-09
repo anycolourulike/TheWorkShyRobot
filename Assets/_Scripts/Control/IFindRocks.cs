@@ -8,20 +8,20 @@ using Rambler.Control;
 
 public class IFindRocks : IState
 {
-    private readonly AIController aIController;
-    private readonly BoulderGennie boulderGennie;
-    private readonly Mover mover;
+    private readonly AIController _aIController;
+    private readonly BoulderGennie _boulderGennie;
+    private readonly Mover _mover;
 
     public IFindRocks(AIController aIController, BoulderGennie boulderGennie, Mover mover)
     {
-        aIController = aIController;
-        boulderGennie = boulderGennie;
-        mover = mover;        
+        _aIController = aIController;
+        _boulderGennie = boulderGennie;
+        _mover = mover;        
     }
 
     public void OnEnter()
     {
-        BoulderGennie.findRocks.Invoke();
+        
     }
 
     public void OnExit()
@@ -30,8 +30,7 @@ public class IFindRocks : IState
     }
 
     public void Tick()
-    {
-       
-    }  
-
+    {        
+        _boulderGennie.MoveToNearestRock();
+    }     
 }
