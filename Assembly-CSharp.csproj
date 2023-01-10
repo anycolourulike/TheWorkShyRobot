@@ -212,6 +212,7 @@
     <Compile Include="Assets\Unity\ConstraintSamples\Scripts\mParent.cs" />
     <Compile Include="Assets\_Scripts\Core\FieldOfView.cs" />
     <Compile Include="Assets\_Scripts\Core\EnemySpawn.cs" />
+    <Compile Include="Assets\_Scripts\Combat\DisableFX.cs" />
     <Compile Include="Assets\_AssetPacks\JMO Assets\WarFX\Demo\Assets\CFX_Demo_Translate.cs" />
     <Compile Include="Assets\_Scripts\Combat\DebugDrawLine.cs" />
     <Compile Include="Assets\_AssetPacks\GabrielAguiarProductions\Unique_Projectiles_Volume_1\Scripts\UniqueProjectiles\ProjectileMoveScript.cs" />

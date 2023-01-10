@@ -22,7 +22,8 @@ namespace Rambler.Combat
 
     void Start()
     {
-      Rb = GetComponent<Rigidbody>();         
+      Rb = GetComponent<Rigidbody>();
+      transform.parent = null;      
     }   
 
     void Update() 

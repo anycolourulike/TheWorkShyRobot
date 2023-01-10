@@ -147,10 +147,7 @@ public class BoulderGennie : MonoBehaviour
         player = GameObject.Find("/PlayerCore/Rambler");
         anim.SetTrigger("meleeAttack");
         aiCon.EmptyHand();
-        
-        //var proj =
-        Instantiate(boulderProj, this.transform);
-        //proj.transform.SetParent(null); 
+        Instantiate(boulderProj, rightHand.transform.position, Quaternion.identity);
         //var boulderScript = proj.GetComponent<Projectile>();
         FindNearestBoulder();
         UnarmedRocker();

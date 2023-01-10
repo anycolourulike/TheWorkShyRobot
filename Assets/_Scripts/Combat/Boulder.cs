@@ -16,24 +16,28 @@ public class Boulder : MonoBehaviour
         rb = GetComponent<Rigidbody>();          
     }
 
-       public void OnTriggerEnter(Collider other)
+    //Find land point and instantiate landFX
+    public void OnTriggerEnter(Collider other)
     {
+        Vector3 pointOfIntersection = other.ClosestPoint(transform.position);
+
         if (other.CompareTag("plane"))
         {
-            landFx.SetActive(true);
-            StartCoroutine("DisableFX");
+            InstantiateLandFX(pointOfIntersection);
         }
-        if (other.CompareTag("Player"))
+        else if (other.CompareTag("Player"))
         {
-            landFx.SetActive(true);            
-        }
-        if (FXStarted == false)
-        {
-            StartCoroutine("DisableFX");
-        }
-        
+            InstantiateLandFX(pointOfIntersection);
+        } 
     }
 
+
+    void InstantiateLandFX(Vector3 FXPoint)
+    {
+        Instantiate(landFx, FXPoint, Quaternion.identity);
+    }
+
+    //Add DisableFX Script to landFX object
     IEnumerator DisableFX()
     {
         FXStarted = true;
