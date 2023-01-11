@@ -15,21 +15,19 @@ namespace Rambler.Combat
     [SerializeField] float maxLifeTime = 0.8f; 
     [SerializeField] float speed = 5f; 
     [SerializeField] float damage;     
-    Vector3 target;
+    public Vector3 target;
     Rigidbody Rb;  
-      
-        
 
     void Start()
     {
       Rb = GetComponent<Rigidbody>();
       transform.parent = null;      
-    }   
+    }
 
     void Update() 
-    {      
-      Rb.AddForce(transform.forward * Time.deltaTime * speed);
-      Invoke("ObjActiveFalse", maxLifeTime);
+    {
+        Rb.AddForce(transform.forward * Time.deltaTime * speed);
+        Invoke("ObjActiveFalse", maxLifeTime);
     }  
 
     public void SetTarget(Vector3 target)
