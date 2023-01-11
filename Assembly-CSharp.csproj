@@ -207,6 +207,7 @@
     <Compile Include="Assets\_AssetPacks\EffectCore\scripts\ECdestroyMe.cs" />
     <Compile Include="Assets\_AssetPacks\Loading Effect\Content\Scripts\Internal\Utils\bl_LoadingUtils.cs" />
     <Compile Include="Assets\_AssetPacks\EnergyShield\Demo\Scripts\ToggleButton.cs" />
+    <Compile Include="Assets\RockerImpact.cs" />
     <Compile Include="Assets\_Scripts\Saving\SerializableVector3.cs" />
     <Compile Include="Assets\_Scripts\Combat\Shield.cs" />
     <Compile Include="Assets\Unity\ConstraintSamples\Scripts\mParent.cs" />

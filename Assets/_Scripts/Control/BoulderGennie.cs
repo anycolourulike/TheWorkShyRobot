@@ -117,11 +117,14 @@ public class BoulderGennie : MonoBehaviour
 
         foreach (GameObject boulder in boulders)
         {
-            float distanceToTarget = (boulder.transform.position - this.transform.position).sqrMagnitude;
-            if (distanceToTarget < distToClosestTarget)
+            if (boulder != null)
             {
-                distToClosestTarget = distanceToTarget;
-                nearestBoulder = boulder;
+                float distanceToTarget = (boulder.transform.position - this.transform.position).sqrMagnitude;
+                if (distanceToTarget < distToClosestTarget)
+                {
+                    distToClosestTarget = distanceToTarget;
+                    nearestBoulder = boulder;
+                }
             }
         }
         findRocks -= FindNearestBoulder;
@@ -146,6 +149,10 @@ public class BoulderGennie : MonoBehaviour
     {
         player = GameObject.Find("/PlayerCore/Rambler");
         anim.SetTrigger("meleeAttack");
+    }
+
+    public void InstantiateRock()
+    {
         aiCon.EmptyHand();
         var proj = Instantiate(boulderProj, rightHand.transform.position, Quaternion.identity);
         boulderScript = proj.GetComponent<Projectile>();
