@@ -239,6 +239,7 @@
     <Compile Include="Assets\_Scripts\Control\Follow Player.cs" />
     <Compile Include="Assets\_Scripts\Stats\Experience.cs" />
     <Compile Include="Assets\_Scripts\Stats\Stats.cs" />
+    <Compile Include="Assets\ResetFX.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

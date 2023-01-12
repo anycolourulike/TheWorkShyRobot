@@ -31,20 +31,11 @@ public class Boulder : MonoBehaviour
         } 
     }
 
-
     void InstantiateLandFX(Vector3 FXPoint)
     {
         Instantiate(landFx, FXPoint, Quaternion.identity);
     }
-
-    //Add DisableFX Script to landFX object
-    IEnumerator DisableFX()
-    {
-        FXStarted = true;
-        yield return new WaitForSeconds(7);
-        landFx.SetActive(false);    
-    }    
-
+    
     public void DestroyThisObj()
     {
         Destroy(this.gameObject);

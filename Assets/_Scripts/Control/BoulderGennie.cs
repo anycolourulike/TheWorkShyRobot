@@ -19,31 +19,33 @@ public class BoulderGennie : MonoBehaviour
     [SerializeField] Mover mover;
     [SerializeField] Fighter fighter;
     [SerializeField] Animator anim;
-    [SerializeField] float radius = 30;
-    public GameObject player;
+    [SerializeField] float radius = 30;   
 
     public delegate void FindRocks();
     public static FindRocks findRocks;
 
     public GameObject nearestBoulder;
     public bool spawnBoulders;
+    public GameObject player;
     public Vector3 newPos;
-    Projectile boulderScript;
-    bool rocksOnGround;
-    bool hasStoodUp;
-    bool firstCaveIn;
     
-    int listSize = 3;
-    AIController aiCon;
+    public bool hasStoodUp;
+    public bool firstCaveIn;
+    public bool canCauseCaveIn;
+    
+    public int listSize = 3;    
     public List<Vector3> positions = new List<Vector3>();
     public List<GameObject> boulders = new List<GameObject>();
+
+    AIController aiCon;
+    Projectile boulderScript;
 
     void OnEnable()
     {
         findRocks += FindNearestBoulder;
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
         findRocks -= FindNearestBoulder;
     }
@@ -72,10 +74,11 @@ public class BoulderGennie : MonoBehaviour
         } 
         else 
         {
-            if (firstCaveIn == false) { return; }
+            if (firstCaveIn == false || canCauseCaveIn == true) { return; }            
             int i = boulders.Count;
             if (i <= 0)
             {
+                positions.Clear();
                 StartFlex();
             }
         }
@@ -97,20 +100,21 @@ public class BoulderGennie : MonoBehaviour
             //SoundFX
         }
 
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(5f);
         foreach(Vector3 newPos in positions)
         {
             int height = Random.Range(15, 35);
             Instantiate(boulder, newPos + new Vector3(0, height, 0), boulderPoint.transform.rotation);
             //SoundFX
-        }
-        BoulderGennie.findRocks.Invoke();
+        }          
         aiCon.RocksOnGround(); //changes state
+        canCauseCaveIn = false;
+        BoulderGennie.findRocks.Invoke();
     }
 
     public void FindNearestBoulder()
     {
-        Debug.Log("NearestBoulder Called");
+        boulders.Clear();
         boulders.AddRange(GameObject.FindGameObjectsWithTag("boulder"));         
         float distToClosestTarget = Mathf.Infinity;
         nearestBoulder = null;
@@ -127,7 +131,7 @@ public class BoulderGennie : MonoBehaviour
                 }
             }
         }
-        findRocks -= FindNearestBoulder;
+        aiCon.readyToThrow = false;
     }
         
     public Vector3 RandomNavmeshLocation(float radius, Transform thisTransform)
@@ -141,9 +145,7 @@ public class BoulderGennie : MonoBehaviour
             finalPosition = hit.position;
         }
         return finalPosition;
-    }   
-    
-    //check if boulder count is <= zero and execute flex amimation
+    } 
 
     public void ThrowRocks()
     {
@@ -161,8 +163,6 @@ public class BoulderGennie : MonoBehaviour
         UnarmedRocker();
     }
 
-    
-
     public void SetTarget()
     {
         boulderScript.SetTarget(player.transform.position);
@@ -178,15 +178,10 @@ public class BoulderGennie : MonoBehaviour
 
     public void StartFlex()
     {
+        canCauseCaveIn = true;
         anim.SetTrigger("isFlexing");
         aiCon.NoRocksOnGround(); //ChangesState
-    }     
-
-    public void RemoveFromBoulder(GameObject boulderToRemove)
-    {
-        boulders.Remove(boulderToRemove);
-        positions.Remove(boulderToRemove.transform.position);
-    }
+    } 
 
     public void OnTriggerEnter(Collider other)
     {
@@ -207,26 +202,29 @@ public class BoulderGennie : MonoBehaviour
         {
             var firstBoulder = boulder.GetComponentInChildren<Boulder>();
             ActivateBoulderProj();
-            RemoveFromBoulder(boulder);
             firstBoulder.DestroyThisObj();
         }
     }
 
     public void MoveToNearestRock()
-    {
+    {  
         aiCon.RocksOnGround();
         aiCon.CaveInFalse();
         firstCaveIn = true;
-        var nearestRock = nearestBoulder;
         if (nearestBoulder != null)
         {
-            //mover.RotateTowards(nearestBoulder.transform);
-            mover.StartMoveAction(nearestBoulder.transform.position, 5);
-        } 
+            StartCoroutine("MoveDelay");
+        }
+    }
+
+    IEnumerator MoveDelay()
+    {
+        yield return new WaitForSeconds(1.9f);
+        mover.StartMoveAction(nearestBoulder.transform.position, 5);
     }
 
     public void SpawnBouldersIsTrue()
-    {
+    {        
         spawnBoulders = true;
         jumpLandFx.SetActive(true);
     }

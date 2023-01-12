@@ -30,7 +30,7 @@ public class IFindRocks : IState
     }
 
     public void Tick()
-    {        
+    {
         _boulderGennie.MoveToNearestRock();
     }     
 }

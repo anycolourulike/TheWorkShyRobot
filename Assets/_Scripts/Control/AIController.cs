@@ -42,7 +42,7 @@ namespace Rambler.Control
         public bool readyToThrow;
         
         BoulderGennie boulderGennie;
-        Animator animator;
+        public Animator animator;
         StateMachine stateMachine;        
         CapsuleCollider capsuleCol;        
         CombatTarget otherCombatTarget;     
