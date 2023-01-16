@@ -134,6 +134,7 @@
     <Compile Include="Assets\_AssetPacks\Santuary\Scripts\controler.cs" />
     <Compile Include="Assets\_Scripts\Quest\Quest.cs" />
     <Compile Include="Assets\_AssetPacks\GabrielAguiarProductions\Unique_Projectiles_Volume_1\Scripts\ParticleSystemController\ParticleSystemControllerEditor.cs" />
+    <Compile Include="Assets\_Scripts\Combat\ResetFX.cs" />
     <Compile Include="Assets\_Scripts\Combat\Traps.cs" />
     <Compile Include="Assets\_AssetPacks\Loading Effect\Example\Scripts\bl_LEExampleManager.cs" />
     <Compile Include="Assets\_AssetPacks\JMO Assets\WarFX\Scripts\CFX_AutoDestructShuriken.cs" />
@@ -207,7 +208,7 @@
     <Compile Include="Assets\_AssetPacks\EffectCore\scripts\ECdestroyMe.cs" />
     <Compile Include="Assets\_AssetPacks\Loading Effect\Content\Scripts\Internal\Utils\bl_LoadingUtils.cs" />
     <Compile Include="Assets\_AssetPacks\EnergyShield\Demo\Scripts\ToggleButton.cs" />
-    <Compile Include="Assets\RockerImpact.cs" />
+    <Compile Include="Assets\_Scripts\Combat\RockerImpact.cs" />
     <Compile Include="Assets\_Scripts\Saving\SerializableVector3.cs" />
     <Compile Include="Assets\_Scripts\Combat\Shield.cs" />
     <Compile Include="Assets\Unity\ConstraintSamples\Scripts\mParent.cs" />
@@ -239,7 +240,6 @@
     <Compile Include="Assets\_Scripts\Control\Follow Player.cs" />
     <Compile Include="Assets\_Scripts\Stats\Experience.cs" />
     <Compile Include="Assets\_Scripts\Stats\Stats.cs" />
-    <Compile Include="Assets\ResetFX.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

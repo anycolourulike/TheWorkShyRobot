@@ -31,6 +31,9 @@ public class Boulder : MonoBehaviour
         } 
     }
 
+    //add damage to player if hit
+
+
     void InstantiateLandFX(Vector3 FXPoint)
     {
         Instantiate(landFx, FXPoint, Quaternion.identity);

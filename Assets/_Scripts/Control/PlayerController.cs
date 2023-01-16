@@ -324,34 +324,34 @@ namespace Rambler.Control
        }
 
         public void ReloadActiveWeapon() 
-       {
+        {
            anim.SetTrigger("Reload");
            activeWeapon = fighter.activeWeapon;
            activeWeapon.Reload();
-       }
+        }
 
         void ShieldsUp() 
-       {           
-          shield.SetActive(true);
-          shieldsUp = true;
-       } 
+        {           
+           shield.SetActive(true);
+           shieldsUp = true;
+        }  
 
         public void ToggelShields()
-       { 
-        if(shieldsUp == false)
-        {
-          AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.ShieldUp, transform.position);
-        }        
-          shieldsUp = !shieldsUp;
-       } 
+        { 
+            if(shieldsUp == false)
+            {
+               AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.ShieldUp, transform.position);
+            }        
+               shieldsUp = !shieldsUp;
+        } 
 
         void ShieldsDown() 
-       {  
-          shield.SetActive(false);
-          shieldsUp = false;
-       } 
+        {  
+           shield.SetActive(false);
+           shieldsUp = false;
+        } 
 
-        void ShakeCamera(float intensity, float time)
+       void ShakeCamera(float intensity, float time)
        {
           if(fighter.activeWeapon.weaponType == ActiveWeapon.WeaponType.melee) return;
           CinemachineBasicMultiChannelPerlin cineMachinePerlin = 

@@ -6,10 +6,12 @@ using Rambler.Movement;
 using Rambler.Combat;
 using Rambler.Control;
 using System.Linq;
+using Cinemachine;
 
 public class BoulderGennie : MonoBehaviour
 {  
     [SerializeField] ParticleSystem boulderDust;
+    [SerializeField] Transform targetTransform;
     [SerializeField] GameObject rightHand;
     [SerializeField] GameObject jumpLandFx;
     [SerializeField] GameObject boulderPoint;
@@ -19,7 +21,10 @@ public class BoulderGennie : MonoBehaviour
     [SerializeField] Mover mover;
     [SerializeField] Fighter fighter;
     [SerializeField] Animator anim;
-    [SerializeField] float radius = 30;   
+    [SerializeField] float radius = 30;
+
+    CinemachineVirtualCamera cineMachine;
+    float shakeTimer;
 
     public delegate void FindRocks();
     public static FindRocks findRocks;
@@ -40,6 +45,9 @@ public class BoulderGennie : MonoBehaviour
     AIController aiCon;
     Projectile boulderScript;
 
+    float moveDelayTimer = 0f;
+    float moveInterval = 1.9f;
+
     void OnEnable()
     {
         findRocks += FindNearestBoulder;
@@ -53,11 +61,25 @@ public class BoulderGennie : MonoBehaviour
     void Start()
     {
         aiCon = GetComponent<AIController>();
+        cineMachine = FindObjectOfType<CinemachineVirtualCamera>();
+        player = GameObject.Find("/PlayerCore/Rambler");
     }    
 
-    private void Update()
+    void Update()
     {
-        if(spawnBoulders == true)
+        moveDelayTimer += Time.deltaTime;
+        if (shakeTimer > 0)
+        {
+            shakeTimer -= Time.deltaTime;
+            if (shakeTimer <= 0f)
+            {
+                CinemachineBasicMultiChannelPerlin cineMachinePerlin =
+                cineMachine.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+                cineMachinePerlin.m_AmplitudeGain = 0f;
+            }
+        }
+
+        if (spawnBoulders == true)
         {               
             for (int j = 0; j < listSize; j++)
             {                
@@ -96,14 +118,14 @@ public class BoulderGennie : MonoBehaviour
         yield return new WaitForSeconds(1f);
         foreach(Vector3 newPos in positions)
         {            
-            Instantiate(boulderDust, newPos + new Vector3(0, 15, 0), boulderPoint.transform.rotation);
+            Instantiate(boulderDust, newPos + new Vector3(0, 35, 0), boulderPoint.transform.rotation);
             //SoundFX
         }
 
         yield return new WaitForSeconds(5f);
         foreach(Vector3 newPos in positions)
         {
-            int height = Random.Range(15, 35);
+            int height = Random.Range(25, 45);
             Instantiate(boulder, newPos + new Vector3(0, height, 0), boulderPoint.transform.rotation);
             //SoundFX
         }          
@@ -148,8 +170,7 @@ public class BoulderGennie : MonoBehaviour
     } 
 
     public void ThrowRocks()
-    {
-        player = GameObject.Find("/PlayerCore/Rambler");
+    {        
         anim.SetTrigger("meleeAttack");
     }
 
@@ -165,7 +186,15 @@ public class BoulderGennie : MonoBehaviour
 
     public void SetTarget()
     {
-        boulderScript.SetTarget(player.transform.position);
+        targetTransform.position = player.transform.position;
+        boulderScript.SetTarget(targetTransform.position);
+        Debug.Log("RockerTarget" + " " + targetTransform.position);
+    }
+
+    public void FacePlayer()
+    {
+        targetTransform.position = player.transform.position;
+        this.gameObject.transform.LookAt(targetTransform);
     }
 
     public void StandUp()
@@ -177,11 +206,11 @@ public class BoulderGennie : MonoBehaviour
     }
 
     public void StartFlex()
-    {
+    {        
         canCauseCaveIn = true;
         anim.SetTrigger("isFlexing");
         aiCon.NoRocksOnGround(); //ChangesState
-    } 
+    }    
 
     public void OnTriggerEnter(Collider other)
     {
@@ -213,14 +242,33 @@ public class BoulderGennie : MonoBehaviour
         firstCaveIn = true;
         if (nearestBoulder != null)
         {
-            StartCoroutine("MoveDelay");
+            if (moveDelayTimer >= moveInterval)
+            {
+                MoveDelay();
+            } 
         }
     }
 
-    IEnumerator MoveDelay()
+    void MoveDelay()
     {
-        yield return new WaitForSeconds(1.9f);
+        //(1.9f);
         mover.StartMoveAction(nearestBoulder.transform.position, 5);
+        moveDelayTimer = 0f;
+
+    }
+
+    public void RockerLandShake()
+    {
+        ShakeCamera(1.5f, 0.2f);
+    }
+
+    void ShakeCamera(float intensity, float time)
+    {
+        CinemachineBasicMultiChannelPerlin cineMachinePerlin =
+        cineMachine.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+        cineMachinePerlin.m_AmplitudeGain = intensity;
+        shakeTimer = time;
     }
 
     public void SpawnBouldersIsTrue()

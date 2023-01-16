@@ -26,8 +26,8 @@ namespace Rambler.Combat
 
     void Update() 
     {
-        Rb.AddForce(transform.forward * Time.deltaTime * speed);
-        Invoke("ObjActiveFalse", maxLifeTime);
+       Rb.AddForce(transform.forward * Time.deltaTime * speed);
+       Invoke("ObjActiveFalse", maxLifeTime);
     }  
 
     public void SetTarget(Vector3 target)
