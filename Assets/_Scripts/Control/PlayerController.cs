@@ -12,15 +12,16 @@ using System.Collections;
 namespace Rambler.Control
 {
     public class PlayerController : MonoBehaviour
-    {              
-        [SerializeField] float maxNavMeshProjectionDistance = 1f; 
-        [SerializeField] GameObject ammoCounter; 
-        [SerializeField] PlayerVitals vitals;                
-        [SerializeField] GameObject shield; 
-        [SerializeField] Fighter fighter;          
-        [SerializeField] Animator anim; 
-        [SerializeField] Transform target;       
-        CinemachineVirtualCamera cineMachine; 
+    {
+        [SerializeField] float maxNavMeshProjectionDistance = 1f;
+        [SerializeField] LineRenderer lineRenderer;
+        [SerializeField] GameObject ammoCounter;
+        [SerializeField] PlayerVitals vitals;
+        [SerializeField] GameObject shield;
+        [SerializeField] Fighter fighter;
+        [SerializeField] Animator anim;
+        [SerializeField] Transform target;
+        CinemachineVirtualCamera cineMachine;              
                    
         ActiveWeapon activeWeapon;             
         float holdDuration = 1f;               
@@ -52,20 +53,26 @@ namespace Rambler.Control
         {
             Health.playerDeath -= PlayerDied;
         } 
-
        
-        private void Start()
-        { 
+        void Start()
+        {           
            interact = GameObject.FindGameObjectWithTag("Interact");      
            interact.SetActive(false); 
-           targetStartPos = target; 
-           agent = GetComponent<NavMeshAgent>();         
-           rigController = GetComponent<Fighter>().rigController;       
-           handTransform = GetComponent<Fighter>().handTransform;
+           targetStartPos = target;
+
            cineMachine = FindObjectOfType<CinemachineVirtualCamera>();
+           rigController = GetComponent<Fighter>().rigController;
+           handTransform = GetComponent<Fighter>().handTransform;
+           lineRenderer = GetComponent<LineRenderer>();
+           lineRenderer.positionCount = 0;
+           lineRenderer.startWidth = 0.1f;
+           lineRenderer.endWidth = 0.1f;
+
            playerAnim = GetComponent<Animator>();
+           agent = GetComponent<NavMeshAgent>();
+           weaponIK = GetComponent<WeaponIK>();
            mover = GetComponent<Mover>();
-           weaponIK = GetComponent<WeaponIK>();     
+
            var sceneRef = LevelManager.Instance.sceneRef;
            if(sceneRef == 0) return;
            if(sceneRef == 1) return;
@@ -73,7 +80,7 @@ namespace Rambler.Control
            if(sceneRef == 5) return;
         }
 
-        private void Update()
+        void Update()
         {   
             if(shakeTimer > 0)
             { 
@@ -85,8 +92,6 @@ namespace Rambler.Control
                 cineMachinePerlin.m_AmplitudeGain = 0f;
               }
             }
-
-
 
             if (InteractWithMovement()) return;
             if (InteractWithCombat()) return;
@@ -189,9 +194,37 @@ namespace Rambler.Control
             if (!hasCastToNavMesh) return false;
 
             target = navMeshHit.position;
+            if( agent.hasPath)
+            {
+                DisplayLine();
+            }
+            else
+            {
+                lineRenderer.enabled = false;
+            }
 
             return true;
         }
+
+        void DisplayLine()
+        {
+            lineRenderer.enabled = true;
+            lineRenderer.positionCount = agent.path.corners.Length;
+            lineRenderer.SetPosition(0, transform.position);
+
+            if(agent.path.corners.Length < 2)
+            {
+                return;
+            }
+
+            for(int i = 1; i < agent.path.corners.Length; i++)
+            {
+              Vector3 pointPosition = new Vector3(agent.path.corners[i].x, agent.path.corners[i].y, agent.path.corners[i].z);
+              lineRenderer.SetPosition(i, pointPosition);
+            }            
+        }       
+
+      
 
         void OnTriggerEnter(Collider other)
         {
@@ -199,7 +232,6 @@ namespace Rambler.Control
             if (other.gameObject.CompareTag("weaponPU"))
             { 
                weaponPU = other.gameObject;
-              // pickUpDirection = Vector3.RotateTowards(transform.position, other.transform.position, 1f * Time.deltaTime, 0.0f);
                pickUp = weaponPU.GetComponent<WeaponPickUp>();                                               
                interact.SetActive(true);
                interactions = 1;                            
