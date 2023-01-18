@@ -247,7 +247,10 @@ namespace Rambler.Core // To Do Stop Movement
             mover.RigWeaponUnequipped();
             var rigWeight = RigLayer.GetComponent<Rig>();
             fighter.enabled = false;
-            rigWeight.weight = 0;
+            if (rigWeight != null)
+            {
+                rigWeight.weight = 0;
+            } 
             agent.enabled = false;
             rb.detectCollisions = false;
             rb.velocity = Vector3.zero;            

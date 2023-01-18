@@ -98,7 +98,8 @@ namespace Rambler.Combat
                 AttackBehaviour();
             }
 
-        }         
+        }   
+        
         void AttackBehaviour()
         {            
             if (this.name != "Rambler")

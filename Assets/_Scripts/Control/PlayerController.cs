@@ -21,14 +21,14 @@ namespace Rambler.Control
         [SerializeField] Fighter fighter;
         [SerializeField] Animator anim;
         [SerializeField] Transform target;
-        CinemachineVirtualCamera cineMachine;              
-                   
+        CinemachineVirtualCamera cineMachine;
+
         ActiveWeapon activeWeapon;             
         float holdDuration = 1f;               
         Transform handTransform;
         Animator rigController;
          
-        Animator playerAnim;        
+        Animator playerAnim;          
         NavMeshAgent agent; 
         WeaponIK weaponIK;        
         Mover mover;
@@ -40,9 +40,12 @@ namespace Rambler.Control
         GameObject weaponPU; 
         WeaponPickUp pickUp; 
         float shakeTimer;        
-        int interactions;    
-        bool shieldsUp;  
-        bool isDead;   
+        int interactions; 
+        
+        bool shieldsUp;
+        bool isMoving;
+        bool isDead;
+       
 
         void OnEnable()
         {
@@ -93,9 +96,8 @@ namespace Rambler.Control
               }
             }
 
-            if (InteractWithMovement()) return;
-            if (InteractWithCombat()) return;
-
+            if (InteractWithCombat() || InteractWithMovement()) return;
+            
             if (shieldsUp == true) 
             {
             ShieldsUp();
@@ -109,10 +111,10 @@ namespace Rambler.Control
         }              
 
         bool InteractWithCombat()
-        {           
+        {            
             RaycastHit[] hits = Physics.RaycastAll(GetRay());
             foreach (RaycastHit hit in hits)
-            {
+            {                
                 CombatTarget otherCombatTarget = hit.transform.GetComponent<CombatTarget>();
                 GameObject objTarget = hit.transform.gameObject;
                 var thisCombatTarget = GetComponent<CombatTarget>();
@@ -121,27 +123,33 @@ namespace Rambler.Control
                 fighter.CombatTarget = otherCombatTarget;
                 CapsuleCollider targetCapsule = hit.transform.GetComponent<CapsuleCollider>(); 
                 fighter.TargetCap = targetCapsule;
+                DisplayAttackLine();
 
                 if (otherCombatTarget == null) continue;                
                 if (!GetComponent<Fighter>().CanAttack(otherCombatTarget.gameObject))
                 {
                     continue;
-                }
+                }                
+                
                 fighter.Attack(combatTarget: otherCombatTarget.gameObject);
+                isMoving = false;
 
-                if(objTarget.tag == "Enemy") 
+                if (objTarget.tag == "Enemy") 
                 {
                     ShakeCamera(1.5f, 0.2f);
                 }    
                 
                 return true;
-            }
+            }            
             return false;
+            
         }   
 
         bool InteractWithMovement()
-        {  
-           if(isDead == true) return false;          
+        {          
+           if(isDead == true) return false;
+           Fighter fighter = GetComponent<Fighter>();
+           fighter.CancelTarget();
            Vector3 target;
            bool hasHit = RaycastNavMesh(out target);
            
@@ -167,7 +175,7 @@ namespace Rambler.Control
                 }
                 return true;              
             }
-            return false;
+            return false;           
         }              
 
         Transform GetHandTransform(Transform handTransform)
@@ -194,9 +202,9 @@ namespace Rambler.Control
             if (!hasCastToNavMesh) return false;
 
             target = navMeshHit.position;
-            if( agent.hasPath)
+            if(agent.hasPath)
             {
-                DisplayLine();
+                DisplayMovementLine();
             }
             else
             {
@@ -206,9 +214,10 @@ namespace Rambler.Control
             return true;
         }
 
-        void DisplayLine()
+        void DisplayMovementLine()
         {
             lineRenderer.enabled = true;
+            lineRenderer.material.color = Color.red;
             lineRenderer.positionCount = agent.path.corners.Length;
             lineRenderer.SetPosition(0, transform.position);
 
@@ -222,9 +231,26 @@ namespace Rambler.Control
               Vector3 pointPosition = new Vector3(agent.path.corners[i].x, agent.path.corners[i].y, agent.path.corners[i].z);
               lineRenderer.SetPosition(i, pointPosition);
             }            
-        }       
+        }
 
-      
+        void DisplayAttackLine()
+        {
+            lineRenderer.enabled = true;
+            lineRenderer.material.color = Color.red;
+            lineRenderer.positionCount = agent.path.corners.Length;
+            lineRenderer.SetPosition(0, transform.position);
+
+            if (agent.path.corners.Length < 2)
+            {
+                return;
+            }
+
+            for (int i = 1; i < agent.path.corners.Length; i++)
+            {
+                Vector3 pointPosition = new Vector3(agent.path.corners[i].x, agent.path.corners[i].y, agent.path.corners[i].z);
+                lineRenderer.SetPosition(i, pointPosition);
+            }
+        }
 
         void OnTriggerEnter(Collider other)
         {

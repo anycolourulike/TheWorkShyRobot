@@ -26281,12 +26281,12 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.66
   m_Speed: 5
-  m_Acceleration: 100
+  m_Acceleration: 12
   avoidancePriority: 50
-  m_AngularSpeed: 3000
-  m_StoppingDistance: 0.9
+  m_AngularSpeed: 300
+  m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 0
-  m_AutoBraking: 0
+  m_AutoBraking: 1
   m_AutoRepath: 0
   m_Height: 2.05
   m_BaseOffset: 0
@@ -26358,8 +26358,6 @@ MonoBehaviour:
   fighter: {fileID: 2810129383371888294}
   anim: {fileID: 2810129383371888297}
   target: {fileID: 0}
-  LRStart: {fileID: 0}
-  LREnd: {x: 0, y: 0, z: 0}
   isHolstered: 0
 --- !u!114 &2810129383371888294
 MonoBehaviour:
@@ -26634,7 +26632,7 @@ LineRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2810129383371888314}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -26646,7 +26644,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cb6be07fa43dd2f41938fd08f0e05b86, type: 2}
+  - {fileID: 2100000, guid: c7865290b3957b04189180d0f5c1e234, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -26690,7 +26688,7 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 0.20283675, b: 1, a: 1}
+      key0: {r: 1, g: 1, b: 1, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -26714,7 +26712,7 @@ LineRenderer:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
+      m_Mode: 1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
