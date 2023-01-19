@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Rambler.Control;
+using Rambler.Core;
 
 public class Boulder : MonoBehaviour
 {
@@ -24,15 +25,14 @@ public class Boulder : MonoBehaviour
         if (other.CompareTag("plane"))
         {
             InstantiateLandFX(pointOfIntersection);
+           
         }
         else if (other.CompareTag("Player"))
         {
             InstantiateLandFX(pointOfIntersection);
+            AudioManager.PlayRockerSound(AudioManager.RockerSound.BoulderHit, pointOfIntersection);
         } 
     }
-
-    //add damage to player if hit
-
 
     void InstantiateLandFX(Vector3 FXPoint)
     {

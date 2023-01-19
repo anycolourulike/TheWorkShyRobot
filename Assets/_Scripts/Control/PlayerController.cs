@@ -11,6 +11,7 @@ using System.Collections;
 
 namespace Rambler.Control
 {
+    //[RequireComponent(typeof(NavMeshAgent))]
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] float maxNavMeshProjectionDistance = 1f;
@@ -19,16 +20,16 @@ namespace Rambler.Control
         [SerializeField] PlayerVitals vitals;
         [SerializeField] GameObject shield;
         [SerializeField] Fighter fighter;
-        [SerializeField] Animator anim;
         [SerializeField] Transform target;
         CinemachineVirtualCamera cineMachine;
 
+        GameObject selectionUIObj;
         ActiveWeapon activeWeapon;             
         float holdDuration = 1f;               
         Transform handTransform;
-        Animator rigController;
-         
-        Animator playerAnim;          
+        Animator rigController;         
+        Animator anim;
+
         NavMeshAgent agent; 
         WeaponIK weaponIK;        
         Mover mover;
@@ -43,7 +44,6 @@ namespace Rambler.Control
         int interactions; 
         
         bool shieldsUp;
-        bool isMoving;
         bool isDead;
        
 
@@ -71,7 +71,7 @@ namespace Rambler.Control
            lineRenderer.startWidth = 0.1f;
            lineRenderer.endWidth = 0.1f;
 
-           playerAnim = GetComponent<Animator>();
+           anim = GetComponent<Animator>();
            agent = GetComponent<NavMeshAgent>();
            weaponIK = GetComponent<WeaponIK>();
            mover = GetComponent<Mover>();
@@ -117,22 +117,29 @@ namespace Rambler.Control
             {                
                 CombatTarget otherCombatTarget = hit.transform.GetComponent<CombatTarget>();
                 GameObject objTarget = hit.transform.gameObject;
+
+                Transform selectionUI = objTarget.transform.Find("SelectionIcon");
+                if (selectionUI != null)
+                {
+                    selectionUIObj = selectionUI.gameObject;
+                    selectionUIObj.SetActive(true);
+                }
+                
                 var thisCombatTarget = GetComponent<CombatTarget>();
                 if(otherCombatTarget == thisCombatTarget) return false;
                 Fighter fighter = GetComponent<Fighter>();
                 fighter.CombatTarget = otherCombatTarget;
                 CapsuleCollider targetCapsule = hit.transform.GetComponent<CapsuleCollider>(); 
                 fighter.TargetCap = targetCapsule;
-                DisplayAttackLine();
 
                 if (otherCombatTarget == null) continue;                
                 if (!GetComponent<Fighter>().CanAttack(otherCombatTarget.gameObject))
                 {
                     continue;
-                }                
-                
+                }
+
+                RemoveMovementLine();
                 fighter.Attack(combatTarget: otherCombatTarget.gameObject);
-                isMoving = false;
 
                 if (objTarget.tag == "Enemy") 
                 {
@@ -148,9 +155,16 @@ namespace Rambler.Control
         bool InteractWithMovement()
         {          
            if(isDead == true) return false;
-           Fighter fighter = GetComponent<Fighter>();
+           RemoveMovementLine();
+           Fighter fighter = GetComponent<Fighter>();           
            fighter.CancelTarget();
+           if (selectionUIObj != null)
+           {
+              selectionUIObj.SetActive(false);
+           }
            Vector3 target;
+
+
            bool hasHit = RaycastNavMesh(out target);
            
             if (Input.touchCount > 0 && (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)))
@@ -208,7 +222,7 @@ namespace Rambler.Control
             }
             else
             {
-                lineRenderer.enabled = false;
+                RemoveMovementLine();
             }
 
             return true;
@@ -233,23 +247,10 @@ namespace Rambler.Control
             }            
         }
 
-        void DisplayAttackLine()
+        void RemoveMovementLine()
         {
-            lineRenderer.enabled = true;
-            lineRenderer.material.color = Color.red;
-            lineRenderer.positionCount = agent.path.corners.Length;
-            lineRenderer.SetPosition(0, transform.position);
-
-            if (agent.path.corners.Length < 2)
-            {
-                return;
-            }
-
-            for (int i = 1; i < agent.path.corners.Length; i++)
-            {
-                Vector3 pointPosition = new Vector3(agent.path.corners[i].x, agent.path.corners[i].y, agent.path.corners[i].z);
-                lineRenderer.SetPosition(i, pointPosition);
-            }
+            lineRenderer.enabled = false;
+            lineRenderer.positionCount = 0;
         }
 
         void OnTriggerEnter(Collider other)
@@ -295,14 +296,14 @@ namespace Rambler.Control
             {
                 case 1:                
                 fighter.EquipUnarmed();  
-                playerAnim.SetTrigger("pickUp");
+                anim.SetTrigger("pickUp");
                 pickUp.PickUpItem();
                 break;
 
                 case 2:
                 fighter.SetLastWeapon = fighter.weaponConfig; 
                 fighter.EquipUnarmed();  
-                playerAnim.SetTrigger("PicKUPHead");
+                anim.SetTrigger("PicKUPHead");
                 pickUp.PickUpItem(); 
                 break;
 
@@ -310,7 +311,7 @@ namespace Rambler.Control
                 target.position = weaponPU.transform.position;
                 fighter.SetLastWeapon = fighter.weaponConfig; 
                 fighter.EquipUnarmed();                
-                playerAnim.SetTrigger("use");
+                anim.SetTrigger("use");
                 DoorOpen.doorUnlocked();
                 //notify doors to open
                 //play SFX

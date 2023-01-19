@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -44,23 +45,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponAudioClipArray:
-  - weaponEnum: 0
+  - weaponSFX: 0
     weaponClip: {fileID: 8300000, guid: f6cb1f581b7444b23a05b613a16420d5, type: 3}
-  - weaponEnum: 0
+  - weaponSFX: 0
     weaponClip: {fileID: 8300000, guid: c764387129bbfb240b6517e26c3adfd7, type: 3}
-  - weaponEnum: 0
+  - weaponSFX: 0
     weaponClip: {fileID: 8300000, guid: 31b671add4416b849bdb80fe9a988668, type: 3}
-  - weaponEnum: 0
+  - weaponSFX: 0
     weaponClip: {fileID: 8300000, guid: b0f8e09ec4b9fa049bd610bc555bf445, type: 3}
-  - weaponEnum: 0
+  - weaponSFX: 0
     weaponClip: {fileID: 8300000, guid: 6897bcb188e4dfe4a8b9892269450696, type: 3}
-  - weaponEnum: 0
+  - weaponSFX: 0
     weaponClip: {fileID: 8300000, guid: 653d50a3f05c359498151ed5c9365c5f, type: 3}
-  - weaponEnum: 0
+  - weaponSFX: 0
     weaponClip: {fileID: 8300000, guid: 90115a0fe3e8b4e098b1111cc014a9cc, type: 3}
-  - weaponEnum: 0
+  - weaponSFX: 0
     weaponClip: {fileID: 8300000, guid: 3db1284c00dd04218991196e8edbee63, type: 3}
-  - weaponEnum: 0
+  - weaponSFX: 0
     weaponClip: {fileID: 8300000, guid: f6727888a13262d44acfcc216821d28b, type: 3}
   enviromentAudioClipArray:
   - enviromentSFX: 0
@@ -128,3 +129,29 @@ MonoBehaviour:
     humanClip: {fileID: 8300000, guid: e42a377cbfd39d542a8ea6a75767b391, type: 3}
   - humanSFX: 7
     humanClip: {fileID: 8300000, guid: bf74ef955ec9e0145a7c5e2559de8a5d, type: 3}
+  ambientAudioClipArray:
+  - ambientSFX: 0
+    ambientClip: {fileID: 0}
+  - ambientSFX: 0
+    ambientClip: {fileID: 0}
+  - ambientSFX: 0
+    ambientClip: {fileID: 0}
+  - ambientSFX: 0
+    ambientClip: {fileID: 0}
+  - ambientSFX: 0
+    ambientClip: {fileID: 0}
+  rockerAudioClipArray:
+  - rockerSFX: 0
+    rockerClip: {fileID: 8300000, guid: 095f27cf5dedb6a429887efdb4f46730, type: 3}
+  - rockerSFX: 1
+    rockerClip: {fileID: 8300000, guid: 5766473afdd296a4da666664c626ea1e, type: 3}
+  - rockerSFX: 2
+    rockerClip: {fileID: 8300000, guid: 51231a854b0e6a94c99dd05acf1295c5, type: 3}
+  - rockerSFX: 3
+    rockerClip: {fileID: 8300000, guid: e6dc14845f2b1c140ad962e929e899de, type: 3}
+  - rockerSFX: 4
+    rockerClip: {fileID: 8300000, guid: a9a8ef542e85e374680cb964b919338c, type: 3}
+  - rockerSFX: 5
+    rockerClip: {fileID: 8300000, guid: 77a1c7e2b198c574d806564cbcf0760c, type: 3}
+  - rockerSFX: 6
+    rockerClip: {fileID: 8300000, guid: f5fc81880bd02934b88e4852993409d4, type: 3}

@@ -50,11 +50,23 @@ namespace Rambler.Core
         Hit2,
         Hit3,
         Hit4,
+
         HumanHitSFX1,
         HumanHitSFX2,
         HumanAlert1,
         HumanAlert2,
         HumanHitGroundDeath,
+    }
+
+    public enum RockerSound
+    {
+        Flex,
+        Jump,
+        JumpLand,
+        BoulderDust,
+        BoulderLand,
+        BoulderThrow,
+        BoulderHit,
     }
 
     public enum AmbientSound
@@ -88,10 +100,37 @@ namespace Rambler.Core
         }
         Debug.Log(ambientSound + " not found!");
         return null;
-    }     
-    
-       
-   public static void PlayWeaponSound(WeaponSound weaponSFX, Vector3 position)
+    }
+
+    public static void PlayRockerSound(RockerSound rockerSFX, Vector3 position)
+    {
+        GameObject soundGameObject = new GameObject("RockerSFX");
+        soundGameObject.transform.position = position;
+        AudioSource rockeraudioSource = soundGameObject.AddComponent<AudioSource>();
+        rockeraudioSource.clip = GetRockerClip(rockerSFX);
+        rockeraudioSource.maxDistance = 100f;
+        rockeraudioSource.spatialBlend = 1f;
+        rockeraudioSource.rolloffMode = AudioRolloffMode.Linear;
+        rockeraudioSource.dopplerLevel = 0f;
+        rockeraudioSource.Play();
+        UnityEngine.Object.Destroy(rockeraudioSource, 5f);
+    }
+
+    private static AudioClip GetRockerClip(RockerSound rockerSound)
+    {
+        foreach (GameAssets.RockerAudioClip rockerClip in GameAssets.i.rockerAudioClipArray)
+        {
+            if (rockerClip.rockerSFX == rockerSound)
+            {
+                return rockerClip.rockerClip;
+            }
+        }
+        Debug.Log(rockerSound + " not found!");
+        return null;
+    }
+
+
+    public static void PlayWeaponSound(WeaponSound weaponSFX, Vector3 position)
     {
         GameObject soundGameObject = new GameObject("WeaponSFX");
         soundGameObject.transform.position = position;

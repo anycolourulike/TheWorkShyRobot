@@ -26334,10 +26334,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.3714058
+  m_Radius: 0.3481638
   m_Height: 2.1254625
   m_Direction: 1
-  m_Center: {x: -7.433596e-10, y: 1.0278296, z: -0.12859422}
+  m_Center: {x: -0.0000000030541583, y: 1.0278302, z: -0.15183622}
 --- !u!114 &2810129383371888293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26356,7 +26356,6 @@ MonoBehaviour:
   vitals: {fileID: 2810129383371888319}
   shield: {fileID: 2810129383464833643}
   fighter: {fileID: 2810129383371888294}
-  anim: {fileID: 2810129383371888297}
   target: {fileID: 0}
   isHolstered: 0
 --- !u!114 &2810129383371888294

@@ -7,6 +7,7 @@ using Rambler.Combat;
 using Rambler.Control;
 using System.Linq;
 using Cinemachine;
+using Rambler.Core;
 
 public class BoulderGennie : MonoBehaviour
 {  
@@ -106,28 +107,45 @@ public class BoulderGennie : MonoBehaviour
         }
     }
 
+    public void StartFlex()
+    {
+        canCauseCaveIn = true;
+        anim.SetTrigger("isFlexing");
+        aiCon.NoRocksOnGround(); //ChangesState
+    }
+
+    public void PlayFlexSFX()
+    {
+        //Triggered by animator Rocker Roar
+        AudioManager.PlayRockerSound(AudioManager.RockerSound.Flex, this.transform.position);
+    }
+
+    public void PlayJumpSFX()
+    {
+        //Triggered by animator Rocker Roar
+        AudioManager.PlayRockerSound(AudioManager.RockerSound.Jump, this.transform.position);
+    }
+
     IEnumerator SpawnBoulders()
     {        
         //Shake screen & phone
         foreach(Vector3 newPos in positions)
         {
             Instantiate(boulderPoint, newPos + new Vector3(0,15,0), boulderPoint.transform.rotation);
-            //SoundFX
+            AudioManager.PlayRockerSound(AudioManager.RockerSound.BoulderDust, this.transform.position);
         }
 
         yield return new WaitForSeconds(1f);
         foreach(Vector3 newPos in positions)
         {            
             Instantiate(boulderDust, newPos + new Vector3(0, 35, 0), boulderPoint.transform.rotation);
-            //SoundFX
         }
 
         yield return new WaitForSeconds(5f);
         foreach(Vector3 newPos in positions)
         {
             int height = Random.Range(25, 45);
-            Instantiate(boulder, newPos + new Vector3(0, height, 0), boulderPoint.transform.rotation);
-            //SoundFX
+            Instantiate(boulder, newPos + new Vector3(0, height, 0), boulderPoint.transform.rotation);            
         }          
         aiCon.RocksOnGround(); //changes state
         canCauseCaveIn = false;
@@ -177,6 +195,7 @@ public class BoulderGennie : MonoBehaviour
     public void InstantiateRock()
     {
         aiCon.EmptyHand();
+        AudioManager.PlayRockerSound(AudioManager.RockerSound.BoulderThrow, this.transform.position);
         var proj = Instantiate(boulderProj, rightHand.transform.position, Quaternion.identity);
         boulderScript = proj.GetComponent<Projectile>();
         SetTarget();
@@ -203,14 +222,7 @@ public class BoulderGennie : MonoBehaviour
         aiCon.FacePlayer();
         aiCon.CaveInFalse();
         hasStoodUp = true;
-    }
-
-    public void StartFlex()
-    {        
-        canCauseCaveIn = true;
-        anim.SetTrigger("isFlexing");
-        aiCon.NoRocksOnGround(); //ChangesState
-    }    
+    }        
 
     public void OnTriggerEnter(Collider other)
     {
@@ -250,8 +262,7 @@ public class BoulderGennie : MonoBehaviour
     }
 
     void MoveDelay()
-    {
-        //(1.9f);
+    {        
         mover.StartMoveAction(nearestBoulder.transform.position, 5);
         moveDelayTimer = 0f;
 
@@ -260,6 +271,7 @@ public class BoulderGennie : MonoBehaviour
     public void RockerLandShake()
     {
         ShakeCamera(1.5f, 0.2f);
+        AudioManager.PlayRockerSound(AudioManager.RockerSound.JumpLand, this.transform.position);
     }
 
     void ShakeCamera(float intensity, float time)

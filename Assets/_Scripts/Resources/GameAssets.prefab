@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -12, y: 0, z: -1.0391335}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -155,3 +156,18 @@ MonoBehaviour:
     ambientClip: {fileID: 8300000, guid: b4411a042aaea554b8ad110c078b4207, type: 3}
   - ambientSFX: 5
     ambientClip: {fileID: 8300000, guid: 810ecb2b87caefc408922b93ca71d1d1, type: 3}
+  rockerAudioClipArray:
+  - rockerSFX: 0
+    rockerClip: {fileID: 8300000, guid: 095f27cf5dedb6a429887efdb4f46730, type: 3}
+  - rockerSFX: 1
+    rockerClip: {fileID: 8300000, guid: 5766473afdd296a4da666664c626ea1e, type: 3}
+  - rockerSFX: 2
+    rockerClip: {fileID: 8300000, guid: 51231a854b0e6a94c99dd05acf1295c5, type: 3}
+  - rockerSFX: 3
+    rockerClip: {fileID: 8300000, guid: e6dc14845f2b1c140ad962e929e899de, type: 3}
+  - rockerSFX: 4
+    rockerClip: {fileID: 8300000, guid: a9a8ef542e85e374680cb964b919338c, type: 3}
+  - rockerSFX: 5
+    rockerClip: {fileID: 8300000, guid: 77a1c7e2b198c574d806564cbcf0760c, type: 3}
+  - rockerSFX: 6
+    rockerClip: {fileID: 8300000, guid: f5fc81880bd02934b88e4852993409d4, type: 3}

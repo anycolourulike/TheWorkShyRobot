@@ -155,10 +155,7 @@ namespace Rambler.Combat
        public void LaunchProjectile(Transform muzzleTransform, Vector3 target)
         {     
             if((curClip > 0)  && (reloading = true))
-            {              
-            //MF_AutoPool.Spawn(prefab, muzzleTransform.position, muzzleTransform.rotation);  
-            //projectile = prefab.GetComponent<Projectile>();
-            //projectile.SetTarget(target);
+            { 
             ShootAnim();          
                 
             Projectile Firedprojectile = Instantiate(projectile, muzzleTransform.position, muzzleTransform.rotation);            

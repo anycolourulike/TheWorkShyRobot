@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rambler.Combat;
+using Rambler.Core;
 
 public class RockerImpact : MonoBehaviour
 {
@@ -18,12 +20,17 @@ public class RockerImpact : MonoBehaviour
     {
 
         if (other.CompareTag("Player"))
-        {
-            //SFX
+        {           
+            AudioManager.PlayRockerSound(AudioManager.RockerSound.BoulderHit, this.transform.position);
             meshRenderer.enabled = false;
             Instantiate(impactFX, this.transform.position, Quaternion.identity);
             Instantiate(boulderShards, this.transform.position, Quaternion.identity);
             Destroy(this.gameObject);
+            Projectile thisProj = GetComponent<Projectile>();
+            var damage = thisProj.GetDamage();
+            var player = other.gameObject;
+            var playerHealth = player.GetComponent<Health>();
+            playerHealth.TakeDamage(damage);
         }
 
         if(other.CompareTag("plane"))

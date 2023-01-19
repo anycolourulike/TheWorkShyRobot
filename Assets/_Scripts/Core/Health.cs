@@ -79,7 +79,17 @@ namespace Rambler.Core // To Do Stop Movement
             if (this.gameObject.CompareTag("Enemy") || (this.gameObject.name == ("Companion")))
             {
                 aIHit?.Invoke();
-            }       
+            }            
+
+            if ((this.gameObject.name == "Rambler") && vitals != null)
+            {
+                StartCoroutine("HitFX");
+                vitals.TakeDamage(damage);
+                if (!isDead)
+                {
+                    anim.SetTrigger("HitAnim");
+                }
+            }
             healthPoints.value = Mathf.Max(healthPoints.value - damage, 0);
             mover.CancelNav();
             HealthCheck();            
@@ -113,7 +123,8 @@ namespace Rambler.Core // To Do Stop Movement
 
             if(dieRanNum == 1)
             {                
-                anim.SetTrigger("Die1"); 
+                anim.SetTrigger("Die1");
+                armFX.transform.SetParent(null);
                 armFX.SetActive(true);
                 if(this.CompareTag("Enemy"))
                 {
@@ -129,7 +140,8 @@ namespace Rambler.Core // To Do Stop Movement
             }
             else if (dieRanNum == 2)
             {                 
-                anim.SetTrigger("Die2"); 
+                anim.SetTrigger("Die2");
+                headFX.transform.SetParent(null);
                 headFX.SetActive(true);
                 if(this.CompareTag("Enemy"))
                 {
@@ -147,6 +159,7 @@ namespace Rambler.Core // To Do Stop Movement
             else if (dieRanNum == 3)
             {               
                 anim.SetTrigger("Die3");
+                legFX.transform.SetParent(null);
                 legFX.SetActive(true); 
                 if(this.CompareTag("Enemy"))
                 {
@@ -199,22 +212,12 @@ namespace Rambler.Core // To Do Stop Movement
         void OnParticleCollision(GameObject particleProj)
         {           
             var proj = particleProj.GetComponent<Projectile>();
-            damage = proj.GetDamage(); 
-                                     
+            damage = proj.GetDamage();
+            TakeDamage(damage);
+
             if (proj.HitEffect() != null)
             {                    
-              var cloneProjectile = Instantiate(proj.HitEffect(), proj.GetAimLocation(), particleProj.transform.rotation); 
-              TakeDamage(damage: damage);              
-
-              if((this.gameObject.name == "Rambler") && vitals != null)
-              {
-                StartCoroutine("HitFX");
-                vitals.TakeDamage(damage);  
-                if(!isDead)
-                { 
-                   anim.SetTrigger("HitAnim");
-                }                                
-              }                
+              var cloneProjectile = Instantiate(proj.HitEffect(), proj.GetAimLocation(), particleProj.transform.rotation);                      
               
               Destroy(proj.gameObject);
                //MF_AutoPool.Despawn(gameObject);     
@@ -224,7 +227,7 @@ namespace Rambler.Core // To Do Stop Movement
               Destroy(proj.gameObject);
                //MF_AutoPool.Despawn(gameObject);
             }       
-        }      
+        }  
 
         void PlayerDeath() 
         {
