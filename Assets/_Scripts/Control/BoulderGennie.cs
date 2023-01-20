@@ -132,20 +132,22 @@ public class BoulderGennie : MonoBehaviour
         foreach(Vector3 newPos in positions)
         {
             Instantiate(boulderPoint, newPos + new Vector3(0,15,0), boulderPoint.transform.rotation);
-            AudioManager.PlayRockerSound(AudioManager.RockerSound.BoulderDust, this.transform.position);
         }
 
         yield return new WaitForSeconds(1f);
-        foreach(Vector3 newPos in positions)
+        
+        foreach (Vector3 newPos in positions)
         {            
             Instantiate(boulderDust, newPos + new Vector3(0, 35, 0), boulderPoint.transform.rotation);
+            AudioManager.PlayRockerSound(AudioManager.RockerSound.SandFall, this.transform.position);
         }
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
         foreach(Vector3 newPos in positions)
         {
             int height = Random.Range(25, 45);
-            Instantiate(boulder, newPos + new Vector3(0, height, 0), boulderPoint.transform.rotation);            
+            Instantiate(boulder, newPos + new Vector3(0, height, 0), boulderPoint.transform.rotation);
+            AudioManager.PlayRockerSound(AudioManager.RockerSound.BoulderDust, this.transform.position);
         }          
         aiCon.RocksOnGround(); //changes state
         canCauseCaveIn = false;

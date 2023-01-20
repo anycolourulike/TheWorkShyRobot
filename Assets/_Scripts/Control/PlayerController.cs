@@ -155,7 +155,6 @@ namespace Rambler.Control
         bool InteractWithMovement()
         {          
            if(isDead == true) return false;
-           RemoveMovementLine();
            Fighter fighter = GetComponent<Fighter>();           
            fighter.CancelTarget();
            if (selectionUIObj != null)
@@ -163,7 +162,6 @@ namespace Rambler.Control
               selectionUIObj.SetActive(false);
            }
            Vector3 target;
-
 
            bool hasHit = RaycastNavMesh(out target);
            
@@ -216,7 +214,7 @@ namespace Rambler.Control
             if (!hasCastToNavMesh) return false;
 
             target = navMeshHit.position;
-            if(agent.hasPath)
+            if(agent.hasPath && agent.speed > 3.5f)
             {
                 DisplayMovementLine();
             }
@@ -229,7 +227,7 @@ namespace Rambler.Control
         }
 
         void DisplayMovementLine()
-        {
+        {           
             lineRenderer.enabled = true;
             lineRenderer.material.color = Color.red;
             lineRenderer.positionCount = agent.path.corners.Length;
@@ -249,8 +247,8 @@ namespace Rambler.Control
 
         void RemoveMovementLine()
         {
-            lineRenderer.enabled = false;
             lineRenderer.positionCount = 0;
+            lineRenderer.enabled = false;
         }
 
         void OnTriggerEnter(Collider other)

@@ -18,16 +18,43 @@ public class LevelManager : MonoBehaviour
     AsyncOperationHandle<SceneInstance> handle;
     public AssetReference sceneToLoad;
     public int sceneRef;
+    //Menu Scenes
     public AssetReference Loading;
-    public AssetReference Menu;   
-    public AssetReference Intro; 
-    public AssetReference Cave; 
-    public AssetReference Cliff;
-    public AssetReference Rig;
-    public AssetReference Inter;
+    public AssetReference Menu;  
+    //Comic Scenes
+    public AssetReference Intro;
+    public AssetReference Intro1;
+    public AssetReference Intro2;
+    public AssetReference Intro3;
+    public AssetReference Intro4;
+    public AssetReference Intro5;
+    //Freighter
+    public AssetReference RobotLab; 
+    public AssetReference Corridor;
+    public AssetReference Armoury;
+    public AssetReference Storage;
     public AssetReference Living;
-    public AssetReference Flight;
-    public AssetReference Outro;
+    public AssetReference EngineRoom;
+    public AssetReference FlightDeck;
+    public AssetReference Bridge;
+    //Surface
+    public AssetReference Crash;
+    public AssetReference Canyon;
+    public AssetReference Cliff1;
+    public AssetReference Cliff2;
+    public AssetReference Cliff3;
+    public AssetReference Canyon1;
+    public AssetReference Canyon2;
+    public AssetReference CaveEntrance;
+    //Cave
+    public AssetReference Tunnel;
+    public AssetReference Tunnel1;
+    public AssetReference Workshop;
+    public AssetReference SpareParts;
+    public AssetReference LivingQtrs;
+    public AssetReference PortalRoom;
+    public AssetReference TreeShrine;
+    public AssetReference Rocker;
     Fader fader;    
 
     void Awake()
@@ -87,8 +114,8 @@ public class LevelManager : MonoBehaviour
         if(sceneToLoad == Loading) return;
         if(sceneToLoad == Menu) return;
         if(sceneToLoad == Intro) return; 
-        if(sceneToLoad == Cave) return;      
-        if(sceneToLoad == Inter) return;        
+        if(sceneToLoad == CaveEntrance) return;      
+        if(sceneToLoad == Intro) return;        
         Time.timeScale = 1; 
         StartCoroutine("LoadSavedFile");
     } 
@@ -126,19 +153,19 @@ public class LevelManager : MonoBehaviour
          break;
 
          case 2:
-         sceneToLoad = Cave;
+         sceneToLoad = CaveEntrance;
          break;
 
          case 3:
-         sceneToLoad = Cliff;
+         sceneToLoad = Cliff1;
          break;
 
          case 4:
-         sceneToLoad = Rig;
+         sceneToLoad = Cliff2;
          break;
 
          case 5:
-         sceneToLoad = Inter;
+         sceneToLoad = Intro;
          break;
 
          case 6:
@@ -146,11 +173,11 @@ public class LevelManager : MonoBehaviour
          break;
 
          case 7:
-         sceneToLoad = Flight;
+         sceneToLoad = FlightDeck;
          break;
 
          case 8:
-         sceneToLoad = Outro;
+         sceneToLoad = Intro2;
          break;
 
          default:

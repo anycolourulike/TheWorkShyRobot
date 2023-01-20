@@ -174,8 +174,8 @@
     <Compile Include="Assets\_Scripts\Combat\ActivateFirstWave.cs" />
     <Compile Include="Assets\_Scripts\Control\ISitting.cs" />
     <Compile Include="Assets\_Scripts\Stats\Progression.cs" />
-    <Compile Include="Assets\_AssetPacks\UI\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\_Scripts\Core\HealthRegenScript.cs" />
+    <Compile Include="Assets\_AssetPacks\UI\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\_Scripts\SceneManagement\Portal.cs" />
     <Compile Include="Assets\_Scripts\Saving\SaveableEntity.cs" />
     <Compile Include="Assets\_AssetPacks\EffectCore\packs\WebDemoAssets\scripts\ECExplodingProjectile.cs" />

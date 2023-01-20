@@ -25,7 +25,8 @@ public class Boulder : MonoBehaviour
         if (other.CompareTag("plane"))
         {
             InstantiateLandFX(pointOfIntersection);
-           
+            AudioManager.PlayRockerSound(AudioManager.RockerSound.BoulderLand, pointOfIntersection);
+
         }
         else if (other.CompareTag("Player"))
         {
@@ -41,6 +42,7 @@ public class Boulder : MonoBehaviour
     
     public void DestroyThisObj()
     {
+        AudioManager.PlayRockerSound(AudioManager.RockerSound.BoulderLand, transform.position);
         Destroy(this.gameObject);
     }
 }

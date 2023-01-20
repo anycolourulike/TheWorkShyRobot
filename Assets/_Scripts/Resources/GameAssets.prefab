@@ -90,19 +90,19 @@ MonoBehaviour:
     enviromentClip: {fileID: 8300000, guid: d25f3ac75cb1ba1488e512b532791153, type: 3}
   - enviromentSFX: 10
     enviromentClip: {fileID: 8300000, guid: 7b7d666e88f9a254cacbe4244e0f45dc, type: 3}
-  - enviromentSFX: 13
+  - enviromentSFX: 7
     enviromentClip: {fileID: 8300000, guid: 9cdb9d9ac451fdb4694a8a7ada086da5, type: 3}
-  - enviromentSFX: 14
+  - enviromentSFX: 8
     enviromentClip: {fileID: 8300000, guid: fafcbfbd41dd7c14ab184b17d76106a8, type: 3}
-  - enviromentSFX: 15
+  - enviromentSFX: 9
     enviromentClip: {fileID: 8300000, guid: c4b1e37adfd94ab42867606270514873, type: 3}
-  - enviromentSFX: 16
+  - enviromentSFX: 10
     enviromentClip: {fileID: 8300000, guid: d723aa3f7543c6749862e7c8ed193614, type: 3}
   - enviromentSFX: 17
     enviromentClip: {fileID: 8300000, guid: c4b1e37adfd94ab42867606270514873, type: 3}
   - enviromentSFX: 16
     enviromentClip: {fileID: 8300000, guid: d723aa3f7543c6749862e7c8ed193614, type: 3}
-  - enviromentSFX: 17
+  - enviromentSFX: 11
     enviromentClip: {fileID: 8300000, guid: 113d2ff204a994ef8848ff0d54548bc9, type: 3}
   - enviromentSFX: 18
     enviromentClip: {fileID: 8300000, guid: f7c73eb9b5b8af24b87031b591566444, type: 3}
@@ -158,7 +158,7 @@ MonoBehaviour:
     ambientClip: {fileID: 8300000, guid: 810ecb2b87caefc408922b93ca71d1d1, type: 3}
   rockerAudioClipArray:
   - rockerSFX: 0
-    rockerClip: {fileID: 8300000, guid: 095f27cf5dedb6a429887efdb4f46730, type: 3}
+    rockerClip: {fileID: 8300000, guid: bf1e67b8b04c7454d936bac52ff37c16, type: 3}
   - rockerSFX: 1
     rockerClip: {fileID: 8300000, guid: 5766473afdd296a4da666664c626ea1e, type: 3}
   - rockerSFX: 2
@@ -166,8 +166,10 @@ MonoBehaviour:
   - rockerSFX: 3
     rockerClip: {fileID: 8300000, guid: e6dc14845f2b1c140ad962e929e899de, type: 3}
   - rockerSFX: 4
-    rockerClip: {fileID: 8300000, guid: a9a8ef542e85e374680cb964b919338c, type: 3}
+    rockerClip: {fileID: 8300000, guid: 92f4e011137b6a64b9ca9ed15254e33a, type: 3}
   - rockerSFX: 5
     rockerClip: {fileID: 8300000, guid: 77a1c7e2b198c574d806564cbcf0760c, type: 3}
   - rockerSFX: 6
     rockerClip: {fileID: 8300000, guid: f5fc81880bd02934b88e4852993409d4, type: 3}
+  - rockerSFX: 7
+    rockerClip: {fileID: 8300000, guid: 71ec02b5415f1c14ba2fb639b86bbcae, type: 3}

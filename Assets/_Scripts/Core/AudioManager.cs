@@ -67,6 +67,7 @@ namespace Rambler.Core
         BoulderLand,
         BoulderThrow,
         BoulderHit,
+        SandFall
     }
 
     public enum AmbientSound
@@ -76,6 +77,7 @@ namespace Rambler.Core
         RigBackground,
         CaveBackground,
         SurfaceBackground,
+        SuspenseMusic
     }
 
     public static void PlayAmbientSound(AmbientSound ambientSFX)
