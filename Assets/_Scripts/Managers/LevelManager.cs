@@ -20,14 +20,8 @@ public class LevelManager : MonoBehaviour
     public int sceneRef;
     //Menu Scenes
     public AssetReference Loading;
-    public AssetReference Menu;  
-    //Comic Scenes
-    public AssetReference Intro;
-    public AssetReference Intro1;
-    public AssetReference Intro2;
-    public AssetReference Intro3;
-    public AssetReference Intro4;
-    public AssetReference Intro5;
+    public AssetReference Menu; 
+    public AssetReference Intro;  
     //Freighter
     public AssetReference RobotLab; 
     public AssetReference Corridor;
@@ -36,7 +30,7 @@ public class LevelManager : MonoBehaviour
     public AssetReference Living;
     public AssetReference EngineRoom;
     public AssetReference FlightDeck;
-    public AssetReference Bridge;
+    public AssetReference Bridge; //Boss
     //Surface
     public AssetReference Crash;
     public AssetReference Canyon;
@@ -45,16 +39,16 @@ public class LevelManager : MonoBehaviour
     public AssetReference Cliff3;
     public AssetReference Canyon1;
     public AssetReference Canyon2;
-    public AssetReference CaveEntrance;
+    public AssetReference CaveEntrance; //Boss
     //Cave
-    public AssetReference Tunnel;
     public AssetReference Tunnel1;
+    public AssetReference Tunnel2;
     public AssetReference Workshop;
     public AssetReference SpareParts;
     public AssetReference LivingQtrs;
     public AssetReference PortalRoom;
     public AssetReference TreeShrine;
-    public AssetReference Rocker;
+    public AssetReference Rocker; //Boss
     Fader fader;    
 
     void Awake()
