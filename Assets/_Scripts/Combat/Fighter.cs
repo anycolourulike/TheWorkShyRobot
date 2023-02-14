@@ -30,18 +30,20 @@ namespace Rambler.Combat
         public Weapon lastWeaponUsed;     
         public Weapon SetLastWeapon{set{lastWeaponUsed = value;} get {return lastWeaponUsed;}}  
         float timeSinceLastAttack = 
-        Mathf.Infinity;         
-        CombatTarget otherCombatTarget;  
+        Mathf.Infinity;
+
+        Transform enemyPos;
+        public Transform EnemyPos {get{return enemyPos; } set{enemyPos = value;}}
+        public CombatTarget otherCombatTarget;  
         public CombatTarget CombatTarget {get{return otherCombatTarget;} set{otherCombatTarget = value;}}
         
         PlayerController playerController;
         Vector3 hitPointVector;  
         GameObject weaponRef;
         Health targetHealth;                       
-        Transform enemyPos; 
+        
         WeaponIK weaponIk;
         FieldOfView FOV;
-        FieldOfView fov;
         Animator anim;          
         Mover mover;        
         
@@ -372,12 +374,12 @@ namespace Rambler.Combat
 
         void EMPEnd()
         {
-                      
+                          
         }
 
         void EndMelee()
         {
-
+           
         }
         
         void ActiveWeaponInit()
@@ -390,6 +392,7 @@ namespace Rambler.Combat
             CancelNav();
             mover.enabled = false;
             var aICon = GetComponent<AIController>();
+            if(this.CompareTag("Player"))
             aICon.enabled = false;
         }              
     }

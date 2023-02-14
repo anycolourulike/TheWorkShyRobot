@@ -26235,8 +26235,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2810129383371888314}
-  m_LocalRotation: {x: 0.0024123508, y: -0.99091804, z: 0.017940467, w: 0.13324304}
-  m_LocalPosition: {x: -35.18131, y: -1.4548919, z: 21.081741}
+  m_LocalRotation: {x: 0.017306028, y: -0.5352953, z: 0.0053085927, w: -0.844471}
+  m_LocalPosition: {x: -32.71, y: 1.2, z: 20.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -26249,7 +26249,7 @@ Transform:
   - {fileID: 1509769974899657471}
   m_Father: {fileID: 2810129384455667936}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 2.074, y: -164.683, z: 0}
+  m_LocalEulerAnglesHint: {x: -1.349, y: -295.242, z: -1.576}
 --- !u!95 &2810129383371888297
 Animator:
   serializedVersion: 4
@@ -26289,7 +26289,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 0
   m_Height: 2.05
-  m_BaseOffset: 0
+  m_BaseOffset: 0.02
   m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
 --- !u!114 &6021023248469033459
@@ -26418,7 +26418,6 @@ MonoBehaviour:
   armFX: {fileID: 2810129383828159727}
   shield: {fileID: 2810129384596486582}
   deathSplashScreen: {fileID: 6318095116626786374}
-  weaponAnim: {fileID: 0}
   mover: {fileID: 6021023248469033459}
   isDead: 0
 --- !u!114 &2810129383371888319
@@ -26618,7 +26617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74653f855c168be4bbd372bd01d13bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingLevel: 1
+  startingLevel: 2
   characterClass: 0
   progression: {fileID: 11400000, guid: 275d302973478e04d8bd1b10196b539d, type: 2}
   levelUpParticleEffect: {fileID: 0}
@@ -79013,7 +79012,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2810129384139939968}
   m_LocalRotation: {x: -0.0068714186, y: -0.9080986, z: 0.41834915, w: 0.017142301}
-  m_LocalPosition: {x: -33.433804, y: 25.16259, z: 43.746056}
+  m_LocalPosition: {x: -31.600082, y: 27.543667, z: 43.330803}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -106206,7 +106205,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2810129384893715159}
   m_LocalRotation: {x: -0.0068714186, y: -0.9080986, z: 0.41834915, w: 0.017142301}
-  m_LocalPosition: {x: -33.433804, y: 25.16259, z: 43.746056}
+  m_LocalPosition: {x: -31.600082, y: 27.543667, z: 43.330803}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -123846,7 +123845,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5922387353846440374}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -123859,7 +123858,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: e7e4db8e9671a264ca0b30105816d723, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -40,6 +40,7 @@ namespace Rambler.Control
         public bool standUp;
         public bool hasRock;
         public bool readyToThrow;
+      
         
         BoulderGennie boulderGennie;
         public Animator animator;
@@ -48,7 +49,7 @@ namespace Rambler.Control
         CombatTarget otherCombatTarget;     
         int currentWaypointIndex = 0;              
         float TimerForNextAttack; 
-        Vector3 nextPosition; 
+        public Vector3 nextPosition; 
 
         GameObject player;
         NavMeshAgent nav;
@@ -105,7 +106,7 @@ namespace Rambler.Control
            //States
            var followPlayer = new FollowPlayer(this, player, mover);
            var patrol = new Patrol(this, patrolPath, mover, waypointTolerence, waypointDwellTime, patrolSpeedFraction, timeSinceArrivedAtWaypoint, currentWaypointIndex, nextPosition);
-           var attack = new Attack(this, mover, FOV, TimerForNextAttack, timeSinceLastSawPlayer, suspicionTime, coolDown);
+           var attack = new Attack(this, fighter, mover, FOV, TimerForNextAttack, timeSinceLastSawPlayer, suspicionTime, coolDown);
            var idle = new Idle(this);
            var causeCaveIn = new ICauseCaveIn(this, mover, animator, boulderGennie);
            var sitting = new ISitting(this, animator);
@@ -130,7 +131,7 @@ namespace Rambler.Control
            At(collectRocks, causeCaveIn, nextRock());
 
             //Initial State
-            if (this.gameObject.CompareTag("Enemy") && patrolPath != null)
+           if (this.gameObject.CompareTag("Enemy") && patrolPath != null)
            {
              stateMachine.SetState(patrol);
            }

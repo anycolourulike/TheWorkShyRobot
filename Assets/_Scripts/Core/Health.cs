@@ -23,9 +23,8 @@ namespace Rambler.Core // To Do Stop Movement
         [SerializeField] GameObject headFX;
         [SerializeField] GameObject legFX; 
         [SerializeField] GameObject armFX;
-        [SerializeField] GameObject shield;        
+        [SerializeField] GameObject shield;
         [SerializeField] GameObject deathSplashScreen;
-        [SerializeField] Animator weaponAnim; 
         [SerializeField] Mover mover;       
         public delegate void TargetDeath();
         public static event TargetDeath targetDeath;
@@ -38,7 +37,7 @@ namespace Rambler.Core // To Do Stop Movement
         GameObject hitScreenFX;
         CapsuleCollider capCol;
         PlayerVitals vitals;
-        public bool isDead; 
+        public bool isDead;
         FieldOfView FOV;        
         Fighter fighter;        
         float damage;        
@@ -63,7 +62,7 @@ namespace Rambler.Core // To Do Stop Movement
             if(this.gameObject.name == "Rambler")
             {
                 hitScreenFX = GameObject.Find(name: "/PlayerCore/HUD/DamageScreen");
-                hitScreenFX.SetActive(value: false);
+                hitScreenFX.SetActive(false);
                 vitals = GetComponent<PlayerVitals>();
             }
         }       
@@ -75,25 +74,24 @@ namespace Rambler.Core // To Do Stop Movement
 
         public void TakeDamage(float damage)
         {  
-            if (isDead == true) return;   
+            if (isDead == true) return;
             if (this.gameObject.CompareTag("Enemy") || (this.gameObject.name == ("Companion")))
             {
                 aIHit?.Invoke();
             }            
 
-            if ((this.gameObject.name == "Rambler") && vitals != null)
-            {
+            if ((this.gameObject.name == "Rambler") && (vitals != null))
+            {               
                 StartCoroutine("HitFX");
                 vitals.TakeDamage(damage);
-                if (!isDead)
-                {
-                    anim.SetTrigger("HitAnim");
-                }
-            }
+                if (isDead == true) return;
+                anim.SetTrigger("HitAnim");
+            }          
+
             healthPoints.value = Mathf.Max(healthPoints.value - damage, 0);
             mover.CancelNav();
-            HealthCheck();            
             HitAnim();
+            HealthCheck();
         }
 
         public void HealthCheck()
@@ -101,7 +99,6 @@ namespace Rambler.Core // To Do Stop Movement
             if (healthPoints.value <= 0)
             {
                 healthPoints.value = 0f;
-                isDead = true;                
                 Die();
             }            
         }  
@@ -110,25 +107,22 @@ namespace Rambler.Core // To Do Stop Movement
         {   
             isDead = true; 
             StopMovement();  
-            EnemySpawn.count ++;          
-                   
+            EnemySpawn.count ++;
+            anim.SetBool("HitAnim", false);
             dieRanNum = Random.Range(1, 4);     
             if (this.gameObject.name == "Rambler")
             {              
                 playerDeath?.Invoke();
-                mover = GetComponent<Mover>();
-                mover.enabled = false;
                 shield.SetActive(false);                
             }            
 
             if(dieRanNum == 1)
-            {                
+            {
                 anim.SetTrigger("Die1");
                 armFX.transform.SetParent(null);
                 armFX.SetActive(true);
                 if(this.CompareTag("Enemy"))
-                {
-                  weaponAnim.SetTrigger("isDead");
+                {                  
                   AudioManager.PlayHumanSound(AudioManager.HumanSound.Death1, this.transform.position);
                   this.tag = "Dead";                  
                   targetDeath?.Invoke();
@@ -139,17 +133,15 @@ namespace Rambler.Core // To Do Stop Movement
                 }                              
             }
             else if (dieRanNum == 2)
-            {                 
+            {
                 anim.SetTrigger("Die2");
-                headFX.transform.SetParent(null);
+                //headFX.transform.SetParent(null);
                 headFX.SetActive(true);
                 if(this.CompareTag("Enemy"))
-                {
-                  weaponAnim.SetTrigger("isDead");
+                {                  
                   AudioManager.PlayHumanSound(AudioManager.HumanSound.Death2, this.transform.position); 
                   this.tag = "Dead";
-                  targetDeath?.Invoke();
-                  
+                  targetDeath?.Invoke();                  
                 } 
                 else
                 {
@@ -157,13 +149,12 @@ namespace Rambler.Core // To Do Stop Movement
                 }                                            
             }
             else if (dieRanNum == 3)
-            {               
+            { 
                 anim.SetTrigger("Die3");
-                legFX.transform.SetParent(null);
+                //legFX.transform.SetParent(null);
                 legFX.SetActive(true); 
                 if(this.CompareTag("Enemy"))
                 {
-                  weaponAnim.SetTrigger("isDead");
                   AudioManager.PlayHumanSound(AudioManager.HumanSound.Death3, this.transform.position); 
                   this.tag = "Dead";
                   targetDeath?.Invoke();
@@ -206,7 +197,7 @@ namespace Rambler.Core // To Do Stop Movement
             anim.SetTrigger("HitAnim");
             if(gameObject.CompareTag("Player")) return;            
             FOV.radius = 40f;
-            AudioManager.PlayHumanSound(humanSound: AudioManager.HumanSound.Hit1, position: this.transform.position); 
+            AudioManager.PlayHumanSound(AudioManager.HumanSound.Hit1, position: this.transform.position); 
         }
         
         void OnParticleCollision(GameObject particleProj)
@@ -231,9 +222,10 @@ namespace Rambler.Core // To Do Stop Movement
 
         void PlayerDeath() 
         {
+            this.tag = "Dead";
             deathSplashScreen.SetActive(true);
             AudioManager.PlayHumanSound(AudioManager.HumanSound.Death4, transform.position); 
-            AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.DeathScreen, transform.position);            
+            AudioManager.PlayAmbientSound(AudioManager.AmbientSound.DeathScreen);            
             //if(this.gameObject.name == "Rambler") {LevelManager.Instance.PlayerWeaponCheck();}
         }
 
@@ -247,13 +239,12 @@ namespace Rambler.Core // To Do Stop Movement
         void StopMovement()
         {  
             combatTarget.enabled = false;
-            mover.RigWeaponUnequipped();
-            var rigWeight = RigLayer.GetComponent<Rig>();
+            var rigBuilder = GetComponent<RigBuilder>();
+            rigBuilder.enabled = false;
+            var capCol = GetComponent<CapsuleCollider>();
+            capCol.enabled = false;
+            mover.enabled = false;
             fighter.enabled = false;
-            if (rigWeight != null)
-            {
-                rigWeight.weight = 0;
-            } 
             agent.enabled = false;
             rb.detectCollisions = false;
             rb.velocity = Vector3.zero;            

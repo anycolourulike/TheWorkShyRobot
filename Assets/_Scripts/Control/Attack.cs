@@ -19,8 +19,9 @@ public class Attack : IState
     private readonly float _suspicionTime;
     private readonly float _coolDown;
     public CapsuleCollider _capsuleCol;
+    public Fighter _fighter;
 
-    public Attack(AIController aIController, Mover mover, FieldOfView FOV, float TimerForNextAttack, float timeSinceLastSawPlayer, float suspicionTime, float coolDown)
+    public Attack(AIController aIController, Fighter fighter, Mover mover, FieldOfView FOV, float TimerForNextAttack, float timeSinceLastSawPlayer, float suspicionTime, float coolDown)
     {
         _aIController = aIController;
         _FOV = FOV;
@@ -28,6 +29,7 @@ public class Attack : IState
         _timeSinceLastSawPlayer = timeSinceLastSawPlayer;
         _suspicionTime = suspicionTime;
         _coolDown = coolDown;
+        _fighter = fighter;
         _mover = mover; 
     }
 
@@ -66,6 +68,9 @@ public class Attack : IState
     public void OnExit()
     {
         _aIController.isAttacking = false;
+        _fighter.TargetCap = null;
+        _fighter.CombatTarget = null;
+        _fighter.EnemyPos = null;
     }
 
     public void Tick()

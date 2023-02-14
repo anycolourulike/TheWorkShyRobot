@@ -1,4 +1,0 @@
-repository "WSR@Fuckyou@cloud"
-  path "/"
-    br "/main"
-    co "/main"

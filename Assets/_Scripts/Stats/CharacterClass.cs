@@ -2,11 +2,12 @@
 {
     public enum CharacterClass
     {
-        Player,
-        Security,
-        Aux,
+        Rambler,
+        Human,
         Soldier,
-        Boss,
-        Robot
+        Rocker,
+        Robot,
+        Warbot,
+        Timbertoes
     }
 }

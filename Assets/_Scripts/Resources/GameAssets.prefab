@@ -156,6 +156,8 @@ MonoBehaviour:
     ambientClip: {fileID: 8300000, guid: b4411a042aaea554b8ad110c078b4207, type: 3}
   - ambientSFX: 5
     ambientClip: {fileID: 8300000, guid: 810ecb2b87caefc408922b93ca71d1d1, type: 3}
+  - ambientSFX: 6
+    ambientClip: {fileID: 8300000, guid: 521dd5f113658f44089772546deefe8b, type: 3}
   rockerAudioClipArray:
   - rockerSFX: 0
     rockerClip: {fileID: 8300000, guid: bf1e67b8b04c7454d936bac52ff37c16, type: 3}

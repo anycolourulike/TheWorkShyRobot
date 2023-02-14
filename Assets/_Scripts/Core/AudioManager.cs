@@ -77,7 +77,8 @@ namespace Rambler.Core
         RigBackground,
         CaveBackground,
         SurfaceBackground,
-        SuspenseMusic
+        SuspenseMusic,
+        DeathScreen
     }
 
     public static void PlayAmbientSound(AmbientSound ambientSFX)

@@ -29,7 +29,7 @@ namespace Rambler.Control
         Transform handTransform;
         Animator rigController;         
         Animator anim;
-
+       
         NavMeshAgent agent; 
         WeaponIK weaponIK;        
         Mover mover;
@@ -71,9 +71,9 @@ namespace Rambler.Control
            lineRenderer.startWidth = 0.1f;
            lineRenderer.endWidth = 0.1f;
 
-           anim = GetComponent<Animator>();
            agent = GetComponent<NavMeshAgent>();
            weaponIK = GetComponent<WeaponIK>();
+           anim = GetComponent<Animator>();
            mover = GetComponent<Mover>();
 
            var sceneRef = LevelManager.Instance.sceneRef;
@@ -84,8 +84,8 @@ namespace Rambler.Control
         }
 
         void Update()
-        {   
-            if(shakeTimer > 0)
+        { 
+            if (shakeTimer > 0)
             { 
               shakeTimer -= Time.deltaTime;
               if(shakeTimer <= 0f) 
@@ -94,60 +94,77 @@ namespace Rambler.Control
                 cineMachine.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
                 cineMachinePerlin.m_AmplitudeGain = 0f;
               }
-            }
-
-            if (InteractWithCombat() || InteractWithMovement()) return;
+            }            
             
             if (shieldsUp == true) 
             {
-            ShieldsUp();
-            vitals.SetEnergyBurnRate = 1f;
+                ShieldsUp();
+                vitals.SetEnergyBurnRate = 1f;
             } 
             else
             {              
-              ShieldsDown();
-              vitals.SetEnergyBurnRate = 0.1f; 
+                ShieldsDown();
+                vitals.SetEnergyBurnRate = 0.1f; 
             }
-        }              
+            
+            if (InteractWithCombat() || InteractWithMovement()) return;
+        }
+
+        void FixedUpdate()
+        {
+            if (agent.isStopped)
+            {
+                RemoveMovementLine();
+            }
+            else
+            {
+                DisplayMovementLine();
+            }
+        }
+
 
         bool InteractWithCombat()
-        {            
-            RaycastHit[] hits = Physics.RaycastAll(GetRay());
-            foreach (RaycastHit hit in hits)
-            {                
-                CombatTarget otherCombatTarget = hit.transform.GetComponent<CombatTarget>();
-                GameObject objTarget = hit.transform.gameObject;
-
-                Transform selectionUI = objTarget.transform.Find("SelectionIcon");
-                if (selectionUI != null)
+        {
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
+                Ray ray = Camera.main.ScreenPointToRay(touch.position);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity))
                 {
-                    selectionUIObj = selectionUI.gameObject;
-                    selectionUIObj.SetActive(true);
+                    CombatTarget otherCombatTarget = hit.transform.GetComponent<CombatTarget>();
+                    GameObject objTarget = hit.transform.gameObject;
+
+                    Transform selectionUI = objTarget.transform.Find("SelectionIcon");
+                    if ((selectionUI != null) && (objTarget.CompareTag("Enemy")))
+                    {                        
+                        selectionUIObj = selectionUI.gameObject;
+                        selectionUIObj.SetActive(true);
+                    }
+
+                    var thisCombatTarget = GetComponent<CombatTarget>();
+                    if (otherCombatTarget == thisCombatTarget) return false;
+                    Fighter fighter = GetComponent<Fighter>();
+                    fighter.CombatTarget = otherCombatTarget;
+                    CapsuleCollider targetCapsule = hit.transform.GetComponent<CapsuleCollider>();
+                    fighter.TargetCap = targetCapsule;
+
+                    if (otherCombatTarget == null) return false; // continue;                
+                    if (!GetComponent<Fighter>().CanAttack(otherCombatTarget.gameObject))
+                    {
+                        return false; //continue;
+                    }
+                    
+                    fighter.Attack(otherCombatTarget.gameObject);
+
+                    if ((objTarget.tag == "Enemy") || (!this.CompareTag("Dead")))
+                    {
+                        ShakeCamera(1.5f, 0.2f);
+                    }
+
+                    return true;
                 }
-                
-                var thisCombatTarget = GetComponent<CombatTarget>();
-                if(otherCombatTarget == thisCombatTarget) return false;
-                Fighter fighter = GetComponent<Fighter>();
-                fighter.CombatTarget = otherCombatTarget;
-                CapsuleCollider targetCapsule = hit.transform.GetComponent<CapsuleCollider>(); 
-                fighter.TargetCap = targetCapsule;
-
-                if (otherCombatTarget == null) continue;                
-                if (!GetComponent<Fighter>().CanAttack(otherCombatTarget.gameObject))
-                {
-                    continue;
-                }
-
-                RemoveMovementLine();
-                fighter.Attack(combatTarget: otherCombatTarget.gameObject);
-
-                if (objTarget.tag == "Enemy") 
-                {
-                    ShakeCamera(1.5f, 0.2f);
-                }    
-                
-                return true;
-            }            
+            }
             return false;
             
         }   
@@ -214,14 +231,8 @@ namespace Rambler.Control
             if (!hasCastToNavMesh) return false;
 
             target = navMeshHit.position;
-            if(agent.hasPath && agent.speed > 3.5f)
-            {
-                DisplayMovementLine();
-            }
-            else
-            {
-                RemoveMovementLine();
-            }
+
+            
 
             return true;
         }

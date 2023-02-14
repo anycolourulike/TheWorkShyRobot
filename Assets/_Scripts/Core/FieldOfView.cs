@@ -17,7 +17,6 @@ namespace Rambler.Control
       public List<Collider> playerRefs = new List<Collider>(); 
       public List<GameObject> targetObjs = new List<GameObject>(); 
       public LayerMask targetMask;
-      public LayerMask playerLayer;
       public LayerMask obstructionMask; 
       public bool canSeePlayer;
       AIController aIController;
@@ -28,29 +27,30 @@ namespace Rambler.Control
         aIController = GetComponent<AIController>();
         FindColliders();
         StartCoroutine(FOVRoutine());
-      }
+      }      
 
-      void FindColliders()
-      {
+    void FindColliders()
+    {
         if (this.gameObject.CompareTag("Enemy"))
         {
             targetObjs.AddRange(collection: GameObject.FindGameObjectsWithTag("Player"));
             foreach (var Target in targetObjs)
             {
-                var col = Target.GetComponent<Collider>();
+                var col = Target.GetComponent<CapsuleCollider>();
                 playerRefs.Add(col);
             }
+            
         }
         else if (this.gameObject.CompareTag("Player"))
         {
             targetObjs.AddRange(collection: GameObject.FindGameObjectsWithTag("Enemy"));
             foreach (var Target in targetObjs)
             {
-                var col = Target.GetComponent<Collider>();
+                var col = Target.GetComponent<CapsuleCollider>();
                 playerRefs.Add(col);
             }
         }
-      }
+    }
 
       private IEnumerator FOVRoutine()
       {
@@ -59,6 +59,7 @@ namespace Rambler.Control
         while (true)
         {
           yield return wait;
+          canSeePlayer = false;
           FieldOfViewCheck();
         }
       }      
@@ -77,7 +78,10 @@ namespace Rambler.Control
           { 
             float distanceToTarget = Vector3.Distance(transform.position, target.position); 
             
-            if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
+            if (!Physics.Raycast(origin: transform.position,
+                                 direction: directionToTarget, 
+                                 maxDistance: distanceToTarget,
+                                 layerMask: obstructionMask))
             {
               canSeePlayer = true;
               aIController.AssignTarget();
@@ -91,6 +95,7 @@ namespace Rambler.Control
           else                       
           canSeePlayer = false;
           aIController.FindNearestTarget();
+          
         } 
         //else if(canSeePlayer)
         //aIController.FindNearestTarget();

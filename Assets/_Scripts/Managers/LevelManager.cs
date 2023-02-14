@@ -23,32 +23,33 @@ public class LevelManager : MonoBehaviour
     public AssetReference Menu; 
     public AssetReference Intro;  
     //Freighter
-    public AssetReference RobotLab; 
+    public AssetReference RobotLab; //Seq
     public AssetReference Corridor;
-    public AssetReference Armoury;
-    public AssetReference Storage;
+    public AssetReference Corridor1;
+    public AssetReference Armoury; //Dial
+    public AssetReference Storage; //Seq
     public AssetReference Living;
-    public AssetReference EngineRoom;
+    public AssetReference Living1;
+    public AssetReference EngineRoom; //Seq
     public AssetReference FlightDeck;
-    public AssetReference Bridge; //Boss
+    public AssetReference Bridge; //Boss Timbertoes
     //Surface
-    public AssetReference Crash;
-    public AssetReference Canyon;
+    public AssetReference Crash; //Dial
+    public AssetReference Canyon1;
     public AssetReference Cliff1;
     public AssetReference Cliff2;
-    public AssetReference Cliff3;
-    public AssetReference Canyon1;
-    public AssetReference Canyon2;
-    public AssetReference CaveEntrance; //Boss
+    public AssetReference Cliff3; 
+    public AssetReference Canyon2; //Seq Ambush
+    public AssetReference Canyon3;
+    public AssetReference CaveEntrance; //Boss Player dodges 3 cannon seq fixed camera
     //Cave
     public AssetReference Tunnel1;
-    public AssetReference Tunnel2;
-    public AssetReference Workshop;
-    public AssetReference SpareParts;
+    public AssetReference TreeShrine; //Dial
     public AssetReference LivingQtrs;
-    public AssetReference PortalRoom;
-    public AssetReference TreeShrine;
-    public AssetReference Rocker; //Boss
+    public AssetReference PortalRoom; //Seq
+    public AssetReference Tunnel2;
+    public AssetReference Rocker; //Boss Rocker
+    //Outro
     Fader fader;    
 
     void Awake()
@@ -108,8 +109,7 @@ public class LevelManager : MonoBehaviour
         if(sceneToLoad == Loading) return;
         if(sceneToLoad == Menu) return;
         if(sceneToLoad == Intro) return; 
-        if(sceneToLoad == CaveEntrance) return;      
-        if(sceneToLoad == Intro) return;        
+        if(sceneToLoad == CaveEntrance) return;  
         Time.timeScale = 1; 
         StartCoroutine("LoadSavedFile");
     } 
@@ -139,44 +139,112 @@ public class LevelManager : MonoBehaviour
        switch (sceneRef)
        {
          case 0:
-         sceneToLoad = Menu;
-         break;
+             sceneToLoad = Menu;
+            break;
 
          case 1:
-         sceneToLoad = Intro;
-         break;
+            sceneToLoad = Intro;
+            break;
 
          case 2:
-         sceneToLoad = CaveEntrance;
-         break;
+            sceneToLoad = RobotLab;
+            break;
 
          case 3:
-         sceneToLoad = Cliff1;
-         break;
+            sceneToLoad = Corridor;
+            break;
 
          case 4:
-         sceneToLoad = Cliff2;
-         break;
+            sceneToLoad = Armoury;
+            break;
 
          case 5:
-         sceneToLoad = Intro;
-         break;
+            sceneToLoad = FlightDeck;
+            break;
 
          case 6:
-         sceneToLoad = Living;
-         break;
+            sceneToLoad = Living;
+            break;
 
          case 7:
-         sceneToLoad = FlightDeck;
-         break;
+            sceneToLoad = Living1;
+            break;
 
          case 8:
-         sceneToLoad = Intro2;
-         break;
+            sceneToLoad = Corridor1;
+            break;
+
+         case 9:
+            sceneToLoad = Storage;
+            break;
+
+         case 10:
+            sceneToLoad = EngineRoom;
+            break;
+
+         case 11:
+            sceneToLoad = Bridge;
+            break;
+
+         case 12:
+            sceneToLoad = Crash;
+            break;
+
+         case 13:
+            sceneToLoad = Canyon1;
+             break;
+
+         case 14:
+            sceneToLoad = Cliff1;
+            break;
+
+         case 15:
+            sceneToLoad = Cliff2;
+            break;
+
+         case 16:
+            sceneToLoad = Cliff3;
+            break;
+
+         case 17:
+            sceneToLoad = Canyon2;
+            break;
+
+         case 18:
+            sceneToLoad = Canyon3;
+            break;
+
+         case 19:
+            sceneToLoad = CaveEntrance;
+            break;
+
+         case 20:
+            sceneToLoad = Tunnel1;
+            break;
+    
+         case 21:
+            sceneToLoad = TreeShrine;
+            break;
+
+         case 22:
+            sceneToLoad = LivingQtrs;
+            break;
+
+         case 23:
+            sceneToLoad = PortalRoom;
+            break;
+
+         case 24:
+             sceneToLoad = Tunnel2;
+            break;
+
+         case 25:
+            sceneToLoad = Rocker;
+            break;
 
          default:
-         sceneToLoad = Menu;
-         break;
+            sceneToLoad = Menu;
+            break;
        }       
     }       
 
@@ -185,34 +253,109 @@ public class LevelManager : MonoBehaviour
         switch(sceneRef)
         {
             case 0:
-            AudioManager.PlayAmbientSound(AudioManager.AmbientSound.ambientMusic);                           
-            break;
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.ambientMusic);                           
+                break;
 
-            case 1:                       
-            break;
+            case 1:   
+                
+                break;
 
             case 2:
-            AudioManager.PlayAmbientSound(AudioManager.AmbientSound.CaveBackground);                           
-            break;
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);                           
+                break;
 
             case 3:
-            AudioManager.PlayAmbientSound(AudioManager.AmbientSound.SurfaceBackground);                           
-            break;
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);                           
+                break;
 
             case 4:
-            AudioManager.PlayAmbientSound(AudioManager.AmbientSound.SurfaceBackground);                           
-            break;
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);
+                break;
 
-            case 5:                       
-            break;
+            case 5:
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);
+                break;
 
             case 6:
-            AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);                           
-            break;
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);                           
+                break;
 
             case 7:
-            AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);                           
-            break;
+                 AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);                           
+                 break;
+
+            case 8:
+                 AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);
+                 break;
+
+            case 9:
+                 AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);
+                 break;
+
+            case 10:
+                 AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);
+                 break;
+
+            case 11:
+                 AudioManager.PlayAmbientSound(AudioManager.AmbientSound.RigBackground);
+                 break;
+
+            case 12:
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.SurfaceBackground);
+                break;
+
+            case 13:
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.SurfaceBackground);
+                break;
+
+            case 14:
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.SurfaceBackground);
+                break;
+
+            case 15:
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.SurfaceBackground);
+                break;
+
+            case 16:
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.SurfaceBackground);
+                break;
+
+            case 17:
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.SurfaceBackground);
+                break;
+
+            case 18:
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.SurfaceBackground);
+                break;
+
+            case 19:
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.SurfaceBackground);
+                break;
+
+            case 20:
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.CaveBackground);
+                break;
+
+            case 21:
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.CaveBackground);
+                break;
+
+            case 22:
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.CaveBackground);
+                break;
+
+            case 23:
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.CaveBackground);
+                break;
+
+            case 24:
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.CaveBackground);
+                break;
+
+            case 25:
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.CaveBackground);
+                break;
+
         }        
     }
 }  

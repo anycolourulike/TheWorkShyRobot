@@ -33,7 +33,7 @@ public class Patrol : IState
    }
 
     void PatrolBehaviour()
-    {  
+    {        
         if (_patrolPath != null)
         {
             if (AtWaypoint())
@@ -45,7 +45,7 @@ public class Patrol : IState
         }
         if(_timeSinceArrivedAtWaypoint > _waypointDwellTime)
         {
-            _mover.StartMoveAction(destination: _nextPosition, speedFraction: _patrolSpeedFraction);
+            _mover.StartMoveAction(_nextPosition, _patrolSpeedFraction);
         }            
     }  
  
@@ -57,7 +57,7 @@ public class Patrol : IState
  
     private void CycleWaypoint() 
     {
-        _currentWaypointIndex = _patrolPath.GetNextIndex(_currentWaypointIndex);        
+        _currentWaypointIndex = _patrolPath.GetNextIndex(_currentWaypointIndex);
     }                
  
     public Vector3 GetCurrentWaypoint() 
