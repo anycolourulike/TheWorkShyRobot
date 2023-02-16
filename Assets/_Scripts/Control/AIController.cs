@@ -8,7 +8,8 @@ using System;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine.Events;
- 
+using UnityEngine.Animations.Rigging;
+
 namespace Rambler.Control
 {
     public class AIController : MonoBehaviour
@@ -33,6 +34,7 @@ namespace Rambler.Control
         public bool isAttacking;
         public bool isPatroling;
         public bool isIdle;
+        public bool isDead;
         public bool isFollowingPlayer;
         public bool rocksOnGround;
         public bool caveIn;
@@ -55,6 +57,7 @@ namespace Rambler.Control
         NavMeshAgent nav;
         Fighter fighter;        
         FieldOfView FOV;
+        CombatTarget combatTarget;
 
         Boulder boulder;
         float coolDown;        
@@ -97,7 +100,8 @@ namespace Rambler.Control
            fighter = GetComponent<Fighter>();
            health = GetComponent<Health>();            
            mover = GetComponent<Mover>();  
-           FOV = GetComponent<FieldOfView>();   
+           FOV = GetComponent<FieldOfView>();
+           combatTarget = GetComponent<CombatTarget>();
            AssignTargetList(); 
            if(patrolPath != null) { nextPosition = patrolPath.GetWaypoint(1);}
            coolDown = 2.5f;
@@ -112,16 +116,26 @@ namespace Rambler.Control
            var sitting = new ISitting(this, animator);
            var collectRocks = new IFindRocks(this, boulderGennie, mover);
            var hasTarget = new IThrowRock(this, boulderGennie);
+           var dead = new Dead(this, combatTarget, mover, fighter);
             
             //Transitions           
            At(attack, patrol, HasTarget());
            At(attack, idle, HasTarget());
            At(attack, followPlayer, HasTarget());
+
            At(followPlayer, attack, IsCompanion());
            At(attack, followPlayer, CompanionHasNoTarget());
+
            At(patrol, idle, HasPath());
            At(patrol, attack, HasNoTarget());
+
            At(idle, attack, IsIdle());
+
+           At(dead, patrol, IsDead());
+           At(dead, idle, IsDead());
+           At(dead, attack, IsDead());
+           At(dead, followPlayer, IsDead());
+
             /////Rocker/////
            At(idle, sitting, StandUp());
            At(causeCaveIn, idle, CanCauseCaveIn());
@@ -152,12 +166,14 @@ namespace Rambler.Control
            //Transitions
            void At(IState to, IState from, Func<bool> condition) => stateMachine.AddTransition(to, from, condition);
 
-           Func<bool> IsCompanion() => () => this.gameObject.CompareTag("Player") && closestTarget != null;
-           Func<bool> CompanionHasNoTarget() => () => this.gameObject.CompareTag("Player") && closestTarget == null;
-           Func<bool> HasPath()   => () => patrolPath != null;
-           Func<bool> HasTarget() => () => FOV.canSeePlayer == true;
+           Func<bool> IsDead() => () => isDead == true;
+           Func<bool> HasPath() => () => patrolPath != null && isDead == false;
+           Func<bool> HasTarget() => () => FOV.canSeePlayer == true && isDead == false;
+           Func<bool> IsIdle() => () => this.gameObject.CompareTag("Enemy") && patrolPath == null && isDead == false;
+           Func<bool> IsCompanion() => () => this.gameObject.CompareTag("Player") && closestTarget != null && isDead == false;
            Func<bool> HasNoTarget() => () => this.gameObject.CompareTag("Enemy") && FOV.canSeePlayer == false;
-           Func<bool> IsIdle() => () => this.gameObject.CompareTag("Enemy") && patrolPath == null;
+           Func<bool> CompanionHasNoTarget() => () => this.gameObject.CompareTag("Player") && closestTarget == null;
+           
             ////ROCKER////
            Func<bool> StandUp() => () => isRocker == true && standUp == true && caveIn == false;
            Func<bool> CanCauseCaveIn() => () => isRocker == true && rocksOnGround == false && caveIn == true; //no rocks on ground, no rocks in hand, starts jump / cave in sequence
@@ -168,7 +184,7 @@ namespace Rambler.Control
  
         void Update()
         {
-            if (health.IsDead()) return;
+            //if (health.IsDead()) return;
             stateMachine.Tick();
             Debug.Log(this.gameObject.name + " " + stateMachine._currentState);
         } 

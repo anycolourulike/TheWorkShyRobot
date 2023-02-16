@@ -105,9 +105,19 @@ namespace Rambler.Core // To Do Stop Movement
  
         public void Die()
         {   
-            isDead = true; 
-            StopMovement();  
-            EnemySpawn.count ++;
+            isDead = true;
+            if (this.CompareTag("Enemy"))
+            {
+                var aiCon = GetComponent<AIController>();
+                aiCon.isDead = true;
+                EnemySpawn.count++;
+            }
+
+            var rigBuilder = GetComponent<RigBuilder>();
+            rigBuilder.enabled = false;
+            var capCol = GetComponent<CapsuleCollider>();
+            capCol.enabled = false;
+
             anim.SetBool("HitAnim", false);
             dieRanNum = Random.Range(1, 4);     
             if (this.gameObject.name == "Rambler")
@@ -235,19 +245,6 @@ namespace Rambler.Core // To Do Stop Movement
             yield return new WaitForSeconds(0.2f);
             hitScreenFX.SetActive(false);
         }
-
-        void StopMovement()
-        {  
-            combatTarget.enabled = false;
-            var rigBuilder = GetComponent<RigBuilder>();
-            rigBuilder.enabled = false;
-            var capCol = GetComponent<CapsuleCollider>();
-            capCol.enabled = false;
-            mover.enabled = false;
-            fighter.enabled = false;
-            agent.enabled = false;
-            rb.detectCollisions = false;
-            rb.velocity = Vector3.zero;            
-        }
+       
     }
 }

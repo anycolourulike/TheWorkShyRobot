@@ -390,10 +390,7 @@ namespace Rambler.Combat
         void StopMovement()
         {
             CancelNav();
-            mover.enabled = false;
-            var aICon = GetComponent<AIController>();
-            if(this.CompareTag("Player"))
-            aICon.enabled = false;
+            mover.enabled = false;          
         }              
     }
 }
