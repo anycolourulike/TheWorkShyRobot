@@ -19153,6 +19153,7 @@ MonoBehaviour:
   isAttacking: 0
   isPatroling: 0
   isIdle: 0
+  isDead: 0
   isFollowingPlayer: 0
   rocksOnGround: 0
   caveIn: 0
@@ -26123,6 +26124,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2529457603978691841, guid: a86c7436c1bda0140a2ac0fbb7db34ee,
+        type: 3}
+      propertyPath: characterClass
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529457603978691841, guid: a86c7436c1bda0140a2ac0fbb7db34ee,
+        type: 3}
+      propertyPath: shouldUseModifiers
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2670370914368230208, guid: a86c7436c1bda0140a2ac0fbb7db34ee,
         type: 3}
       propertyPath: m_RootOrder
@@ -26271,7 +26282,7 @@ PrefabInstance:
     - target: {fileID: 2670370914368230235, guid: a86c7436c1bda0140a2ac0fbb7db34ee,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a86c7436c1bda0140a2ac0fbb7db34ee, type: 3}

@@ -4842,7 +4842,7 @@ MonoBehaviour:
     type: 3}
   maxLifeTime: 1.1
   speed: 7
-  damage: 200
+  damage: 50
   target: {x: 0, y: 0, z: 0}
 --- !u!54 &8610534491016684527
 Rigidbody:

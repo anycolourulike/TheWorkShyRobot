@@ -185,15 +185,15 @@ namespace Rambler.Combat
             {
                 activeWeapon.FullAmmo();
             }              
-           if(weaponConfig.isMelee)
-           {                
+            if(weaponConfig.isMelee)
+            {                
                 mover.RigWeaponUnequipped();
                 RigWeightToZero();
                 rigController.Play("equip_" + weapon.weaponTitle);   
                 StartCoroutine(AimInit());             
-           }
-           else
-           {                                                   
+            }
+            else
+            {                                                   
                 RigWeightToOne();
                 rigController.Play("equip_" + weapon.weaponTitle);  
                 mover.RigWeaponEquipped(); 

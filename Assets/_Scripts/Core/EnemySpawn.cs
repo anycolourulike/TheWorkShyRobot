@@ -7,8 +7,7 @@ using Rambler.Control;
 namespace Rambler.Core
 {
     public class EnemySpawn : MonoBehaviour
-    {           
-        public GameObject fx;    
+    {         
         public static int count; 
         public int waveCount = 0;
         public GameObject[] waves;  
@@ -16,6 +15,7 @@ namespace Rambler.Core
         public int aIKilledToShowText;
         public int npcCounterForNextWave;
         [SerializeField] GameObject endLevelTxt;
+        public List<GameObject> portals = new List<GameObject>();
 
         void OnEnable()
         {
@@ -29,8 +29,8 @@ namespace Rambler.Core
 
         void Start()
         {
-            count = 0;   
-            fx.SetActive(false);       
+            count = 0;
+            SetFXInactive();    
         }   
 
         void Update()
@@ -38,10 +38,7 @@ namespace Rambler.Core
             if(aIKilledToShowText == numberOfAIKilled)
             { 
                 endLevelTxt.SetActive(true);
-                if(fx != null)
-                {
-                  fx.SetActive(true);
-                }  
+                SetFXActive();  
             }
             if(count == npcCounterForNextWave)
             {                  
@@ -52,6 +49,28 @@ namespace Rambler.Core
                   count = 0;
                   break;     
                 }                
+            }
+        }
+
+        void SetFXInactive()
+        {
+            GameObject[] taggedPortals = GameObject.FindGameObjectsWithTag("Portal");
+            foreach(GameObject obj in taggedPortals)
+            {
+                portals.Add(obj);
+                foreach( GameObject taggedObj in portals)
+                {
+                    taggedObj.SetActive(false);
+                }
+            }
+        }
+
+        void SetFXActive()
+        {
+            Debug.Log("SetActive Called");
+            foreach(GameObject taggedobj in portals)
+            {
+                taggedobj.SetActive(true);
             }
         }
         

@@ -24,8 +24,8 @@ public class LevelManager : MonoBehaviour
     public AssetReference Intro;  
     //Freighter
     public AssetReference RobotLab; //Seq
-    public AssetReference Corridor;
     public AssetReference Corridor1;
+    public AssetReference Corridor2;
     public AssetReference Armoury; //Dial
     public AssetReference Storage; //Seq
     public AssetReference Living;
@@ -151,7 +151,7 @@ public class LevelManager : MonoBehaviour
             break;
 
          case 3:
-            sceneToLoad = Corridor;
+            sceneToLoad = Corridor1;
             break;
 
          case 4:
@@ -171,7 +171,7 @@ public class LevelManager : MonoBehaviour
             break;
 
          case 8:
-            sceneToLoad = Corridor1;
+            sceneToLoad = Corridor2;
             break;
 
          case 9:
