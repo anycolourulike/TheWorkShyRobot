@@ -8,7 +8,7 @@ using System.Collections;
 using Rambler.Inventories;
 using Rambler.Utils;
 using Rambler.Saving;
-
+using Rambler.Attributes;
 
 namespace Rambler.Combat
 {  
@@ -390,7 +390,6 @@ namespace Rambler.Combat
         void StopMovement()
         {
             CancelNav();
-            mover.enabled = false;          
         }              
     }
 }

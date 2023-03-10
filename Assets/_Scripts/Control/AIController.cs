@@ -4,6 +4,7 @@ using UnityEngine;
 using Rambler.Combat;
 using Rambler.Core;
 using Rambler.Movement;
+using Rambler.Attributes;
 using System;
 using UnityEngine.AI;
 using UnityEngine.UI;

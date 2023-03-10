@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.AI;
 using Rambler.Core;
+using Rambler.Attributes;
 using Rambler.Control;
 using Rambler.Saving;
 using Rambler.Combat;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Rambler.Combat;
+using Rambler.Attributes;
 using Rambler.Core;
 
 public class RockerImpact : MonoBehaviour

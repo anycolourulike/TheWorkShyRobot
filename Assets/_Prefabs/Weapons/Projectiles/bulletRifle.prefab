@@ -9709,7 +9709,7 @@ MonoBehaviour:
   hitEffect: {fileID: 1879272669879180, guid: 9aef5c2b44fcd9a45b7789e47f954670, type: 3}
   maxLifeTime: 0.7
   speed: 4
-  damage: 25
+  damage: 100
   target: {x: 0, y: 0, z: 0}
 --- !u!1 &3034218700162014174
 GameObject:

@@ -4,6 +4,7 @@ using Rambler.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Rambler.Attributes;
 
 namespace Rambler.Combat
 {
@@ -18,12 +19,13 @@ namespace Rambler.Combat
        public float SetEnergyBurnRate {set {energyBurnRate = value;}}
          
        float playerMaxEnergy = 100;              
-       int playerMaxHP = 100;      
+       float playerMaxHP;      
        float playerCurEnergy;  
        float playerCurHP;             
        
        void Start()
-       {   
+       {
+           playerMaxHP = health.healthPoints.value;
            playerCurHP = health.healthPoints.value;
            MaxHealth();           
            MaxEnergy();
@@ -62,7 +64,7 @@ namespace Rambler.Combat
 
         public void TakeDamage(float weaponDamage)
         {
-            var fillDecrease = weaponDamage / 100;
+            var fillDecrease = weaponDamage / playerMaxHP;
             healthbarFill.fillAmount -= fillDecrease;
         }      
 

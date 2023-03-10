@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Rambler.Control;
+using Rambler.Attributes;
 
 
 namespace Rambler.Core

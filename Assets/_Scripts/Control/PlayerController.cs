@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Rambler.Movement;
 using Rambler.Combat;
+using Rambler.Attributes;
 using Rambler.Core;
 using Cinemachine;
 using Rambler.SceneManagement;
@@ -119,7 +120,7 @@ namespace Rambler.Control
             else
             {
                 DisplayMovementLine();
-            }
+            }            
         }
 
 
@@ -152,7 +153,7 @@ namespace Rambler.Control
                     if (otherCombatTarget == null) return false; // continue;                
                     if (!GetComponent<Fighter>().CanAttack(otherCombatTarget.gameObject))
                     {
-                        return false; //continue;
+                        return false;
                     }
                     
                     fighter.Attack(otherCombatTarget.gameObject);
@@ -173,11 +174,7 @@ namespace Rambler.Control
         {          
            if(isDead == true) return false;
            Fighter fighter = GetComponent<Fighter>();           
-           fighter.CancelTarget();
-           if (selectionUIObj != null)
-           {
-              selectionUIObj.SetActive(false);
-           }
+           fighter.CancelTarget();          
            Vector3 target;
 
            bool hasHit = RaycastNavMesh(out target);

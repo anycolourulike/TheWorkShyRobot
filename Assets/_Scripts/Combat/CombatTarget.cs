@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Rambler.Movement;
 using UnityEngine;
 using Rambler.Core;
+using Rambler.Attributes;
 using Rambler.Control;
 
 namespace Rambler.Combat 
