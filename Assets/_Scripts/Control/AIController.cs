@@ -184,10 +184,8 @@ namespace Rambler.Control
         }        
  
         void Update()
-        {
-            //if (health.IsDead()) return;
+        {            
             stateMachine.Tick();
-            Debug.Log(this.gameObject.name + " " + stateMachine._currentState);
         } 
 
         void FixedUpdate()
