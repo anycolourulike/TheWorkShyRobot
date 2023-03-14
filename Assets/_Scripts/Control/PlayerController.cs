@@ -32,8 +32,11 @@ namespace Rambler.Control
         Animator anim;
        
         NavMeshAgent agent; 
-        WeaponIK weaponIK;        
+        WeaponIK weaponIK;
         Mover mover;
+
+        float doubleTapTimeThreshold = 0.25f;
+        float lastTapTime;
 
         Transform targetStartPos;
         public bool isHolstered; 
@@ -72,8 +75,11 @@ namespace Rambler.Control
            lineRenderer.startWidth = 0.1f;
            lineRenderer.endWidth = 0.1f;
 
+           
            agent = GetComponent<NavMeshAgent>();
            weaponIK = GetComponent<WeaponIK>();
+
+           fighter = GetComponent<Fighter>();
            anim = GetComponent<Animator>();
            mover = GetComponent<Mover>();
 
@@ -173,7 +179,7 @@ namespace Rambler.Control
         bool InteractWithMovement()
         {          
            if(isDead == true) return false;
-           Fighter fighter = GetComponent<Fighter>();           
+                     
            fighter.CancelTarget();          
            Vector3 target;
 
@@ -194,12 +200,25 @@ namespace Rambler.Control
                         var holdTime = holdDuration -= Time.deltaTime;
                         if (holdTime < .6f)
                         {                                                  
-                            GetComponent<Mover>().StartMoveAction(target, 1f);                                                     
+                            mover.StartMoveAction(target, 1f);                                                     
                             holdDuration = 1f;                           
                         }
                     }
                 }
-                return true;              
+
+                if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
+                {
+                    float timeSinceLastTap = Time.time - lastTapTime;
+                    if (timeSinceLastTap < doubleTapTimeThreshold)
+                    {
+                        Debug.Log("Double tap detected!");
+                        transform.LookAt(target);
+                        anim.SetTrigger("Jump");
+                        mover.StartMoveAction(target, 1f);
+                    }
+                    lastTapTime = Time.time;
+                }
+                return true;
             }
             return false;           
         }              
@@ -356,7 +375,7 @@ namespace Rambler.Control
                 pickUp = null;
                 interact.SetActive(false);      
             }
-        }         
+        } 
 
         public void HolsterWeapon()
         { 

@@ -67,12 +67,15 @@ namespace Rambler.Core
         }
 
         void SetFXActive()
-        {
-            Debug.Log("SetActive Called");
-            foreach(GameObject taggedobj in portals)
+        {            
+            foreach (GameObject taggedobj in portals)
             {
-                taggedobj.SetActive(true);
+                if (taggedobj != null)
+                {
+                    taggedobj.SetActive(true);
+                }
             }
+            
         }
         
         void UpdateTarget()
