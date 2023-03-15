@@ -5,10 +5,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Rambler.Attributes;
+using Rambler.Saving;
 
 namespace Rambler.Combat
 {
-     public class PlayerVitals : MonoBehaviour
+     public class PlayerVitals : MonoBehaviour, ISaveable
     {
        [SerializeField] TextMeshProUGUI healthText;
        [SerializeField] TextMeshProUGUI energyText;      
@@ -21,7 +22,8 @@ namespace Rambler.Combat
        float playerMaxEnergy = 100;              
        float playerMaxHP;      
        float playerCurEnergy;  
-       float playerCurHP;             
+       float playerCurHP;
+       float fillDecrease;
        
        void Start()
        {
@@ -64,7 +66,7 @@ namespace Rambler.Combat
 
         public void TakeDamage(float weaponDamage)
         {
-            var fillDecrease = weaponDamage / playerMaxHP;
+            fillDecrease = weaponDamage / playerMaxHP;
             healthbarFill.fillAmount -= fillDecrease;
         }      
 
@@ -85,6 +87,16 @@ namespace Rambler.Combat
             playerCurEnergy -= energyBurnRate * Time.deltaTime;
             var fillEnergy = playerCurEnergy / 100;
             energybarFill.fillAmount = fillEnergy;             
-        }  
+        }
+
+        public object CaptureState()
+        {
+            return healthbarFill.fillAmount;
+        }
+
+        public void RestoreState(object state)
+        {
+            healthbarFill.fillAmount = (float)state;
+        }
     }
 }

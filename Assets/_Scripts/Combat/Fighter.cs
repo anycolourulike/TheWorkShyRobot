@@ -175,6 +175,13 @@ namespace Rambler.Combat
 
         public void EquipWeapon(Weapon weapon)
         { 
+            if(weapon.isMedKit)
+            {
+                var health = GetComponent<Health>();
+                health.RestoreHealth();
+                return;
+            }
+
             DestroyOldWeapon(handTransform: handTransform);
             weaponConfig = weapon;             
                                           

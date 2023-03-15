@@ -14,9 +14,11 @@ namespace Rambler.Combat
         public Projectile projectile;
         public string weaponTitle; 
         public bool isPistol;
+        public bool isMedKit;
         public bool isRifle;        
         public bool isMelee;
-        public bool isEMP;  
+        public bool isEMP;
+        
          
         // CONFIG DATA
         [Tooltip("Auto-generated UUID for saving/loading. Clear this field if you want to generate a new one.")]
@@ -27,7 +29,7 @@ namespace Rambler.Combat
         [SerializeField] [TextArea] string description = null;
         [Tooltip("The UI icon to represent this item in the inventory.")]
         [SerializeField] public Sprite icon = null;
-        [Tooltip("If true, multiple items of this type can be stacked in the same inventory slot.")]
+        [Tooltip("Item In the World To Be PickedUp.")]
         [SerializeField] WeaponPickUp pickup = null;
         [Tooltip("If true, multiple items of this type can be stacked in the same inventory slot.")]
         [SerializeField] bool stackable = false;

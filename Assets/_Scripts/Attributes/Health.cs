@@ -85,7 +85,6 @@ namespace Rambler.Attributes // To Do Stop Movement
             {               
                 StartCoroutine("HitFX");
                 vitals.TakeDamage(damage);
-                Debug.Log(damage);
                 if (isDead == true) return;
                 anim.SetTrigger("HitAnim");
             }          
@@ -101,9 +100,15 @@ namespace Rambler.Attributes // To Do Stop Movement
             if (healthPoints.value <= 0)
             {
                 healthPoints.value = 0f;
-                Die();
+                Die(); 
             }            
-        }  
+        } 
+        
+        public void RestoreHealth()
+        {
+            healthPoints = new LazyValue<float>(GetInitialHealth);
+            vitals.Restore();
+        }
  
         public void Die()
         {   
