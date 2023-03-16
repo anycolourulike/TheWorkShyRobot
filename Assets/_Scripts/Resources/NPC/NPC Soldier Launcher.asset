@@ -1,32 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67ac1fc26386361409ab3b23631f0673, type: 3}
-  m_Name: NPC Soldier Launcher
-  m_EditorClassIdentifier: 
-  animatorOverride: {fileID: 22100000, guid: d7cf76fb48c166148a49cebf6495d847, type: 2}
-  activeWeapon: {fileID: 4511129398201284633, guid: e4d58a2fef7b2964994e21df56f37c62,
-    type: 3}
-  equippedPrefab: {fileID: 3739691616630857126, guid: e4d58a2fef7b2964994e21df56f37c62,
-    type: 3}
-  projectile: {fileID: -5846359617922092927, guid: 502287e93b383df478408c604fc1b675,
-    type: 3}
-  weaponTitle: npcGun
-  isPistol: 0
-  isRifle: 1
-  isMelee: 0
-  isEMP: 0
-  itemID: d6371915-e384-4aab-83c0-3dadd5f42694
-  displayName: 
-  description: 
-  icon: {fileID: 0}
-  pickup: {fileID: 0}
-  stackable: 0
+version https://git-lfs.github.com/spec/v1
+oid sha256:9ff1f149e8824aa79fdd04a9316e29743028fc2bc92f5a01ca4266f4bb067ffb
+size 1004

@@ -1,32 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!1 &5857571585069371777
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2157681324130188082}
-  m_Layer: 0
-  m_Name: projectilePos
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2157681324130188082
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5857571585069371777}
-  m_LocalRotation: {x: 0.681896, y: 0.19349557, z: 0.22164759, w: 0.66966385}
-  m_LocalPosition: {x: -0.006, y: 0.131, z: 0.573}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 55.843002, y: 90.494, z: 92.881004}
+version https://git-lfs.github.com/spec/v1
+oid sha256:ee9da3a2f761eea8f9377fb1c454821cca9ccab2b3c87f67916d478e8d2ae88b
+size 939

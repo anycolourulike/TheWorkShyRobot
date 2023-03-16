@@ -175,11 +175,15 @@ namespace Rambler.Combat
 
         public void EquipWeapon(Weapon weapon)
         { 
-            if(weapon.isMedKit)
+            if(weapon.isMedKit == true)
             {
                 var health = GetComponent<Health>();
                 health.RestoreHealth();
-                return;
+                var inv = GetComponent<Inventory>();
+                var slot = inv.FindSlot(weapon);
+                Debug.Log(slot);
+                inv.RemoveFromSlot(slot, 1);
+
             }
 
             DestroyOldWeapon(handTransform: handTransform);
@@ -224,6 +228,7 @@ namespace Rambler.Combat
         public void EquipPickedUpWeapon()
         {
             weaponConfig = weaponPickedUp;
+            if (weaponConfig.isMedKit == true) return;
             EquipWeapon(weaponConfig);
         }
 

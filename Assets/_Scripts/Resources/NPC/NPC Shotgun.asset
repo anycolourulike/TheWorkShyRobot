@@ -1,32 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67ac1fc26386361409ab3b23631f0673, type: 3}
-  m_Name: NPC Shotgun
-  m_EditorClassIdentifier: 
-  animatorOverride: {fileID: 22100000, guid: d7cf76fb48c166148a49cebf6495d847, type: 2}
-  activeWeapon: {fileID: 3200202727593284925, guid: 43ef36c9d8ac5454db3ff592fdc98642,
-    type: 3}
-  equippedPrefab: {fileID: 7999039559666998161, guid: 43ef36c9d8ac5454db3ff592fdc98642,
-    type: 3}
-  projectile: {fileID: -5846359617922092927, guid: f5c72e996a84eb24fb61120896fba377,
-    type: 3}
-  weaponTitle: npcGun
-  isPistol: 0
-  isRifle: 1
-  isMelee: 0
-  isEMP: 0
-  itemID: 95f789f2-2b2e-4ab3-8278-35d45ff0cbe7
-  displayName: 
-  description: 
-  icon: {fileID: 0}
-  pickup: {fileID: 0}
-  stackable: 0
+version https://git-lfs.github.com/spec/v1
+oid sha256:8bb7ce96501744bcb309728f0a8185e1f416394b1a11304540a84d78f6c916a5
+size 995

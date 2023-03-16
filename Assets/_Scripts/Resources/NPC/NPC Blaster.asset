@@ -1,32 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67ac1fc26386361409ab3b23631f0673, type: 3}
-  m_Name: NPC Blaster
-  m_EditorClassIdentifier: 
-  animatorOverride: {fileID: 22100000, guid: d7cf76fb48c166148a49cebf6495d847, type: 2}
-  activeWeapon: {fileID: 5705576287910393805, guid: f9fe3a24534e4604e92d3d6f8b51c08b,
-    type: 3}
-  equippedPrefab: {fileID: 5705576287910393804, guid: f9fe3a24534e4604e92d3d6f8b51c08b,
-    type: 3}
-  projectile: {fileID: 308589798998051928, guid: e538411b1ba0a08478fd4daff9094010,
-    type: 3}
-  weaponTitle: npcGun
-  isPistol: 0
-  isRifle: 1
-  isMelee: 0
-  isEMP: 0
-  itemID: 7b76cfa2-7d48-45ce-8af6-29793a774116
-  displayName: 
-  description: 
-  icon: {fileID: 0}
-  pickup: {fileID: 0}
-  stackable: 0
+version https://git-lfs.github.com/spec/v1
+oid sha256:5f1983f8e68610ad9d7da279fadd6d7994256692a70e1dbec414982d6f30af06
+size 993

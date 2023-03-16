@@ -16,10 +16,10 @@ namespace Rambler.Inventories
     public class InventoryItemIcon : MonoBehaviour
     {
         [SerializeField] Button equipBtn;
-        [SerializeField] Button dropBtn;                
+        [SerializeField] Button dropBtn;
         Inventory inventory;                 
         GameObject player;  
-        Weapon thisWeapon; 
+        Weapon thisWeapon;
         int slotIndex;  
  
         void Start() 
@@ -48,12 +48,18 @@ namespace Rambler.Inventories
         public void OnEquipBtnClick(Weapon equipWeapon)
         {
             player.GetComponent<Fighter>().EquipWeapon(equipWeapon);
+            if(equipWeapon.isMedKit == true)
+            {
+                slotIndex = inventory.FindSlot(thisWeapon);
+                inventory.RemoveFromSlot(slotIndex, 1);
+            }
         }
  
         public void OnDropBtnClick(Weapon dropWeapon, int number)
         {           
             player.GetComponent<ItemDropper>().DropItem(thisWeapon, number);  
-            player.GetComponent<Fighter>().EquipUnarmed(); 
+            player.GetComponent<Fighter>().EquipUnarmed();
+
             slotIndex = inventory.FindSlot(thisWeapon);          
             inventory.RemoveFromSlot(slotIndex, number);
         }

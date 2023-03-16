@@ -116,7 +116,7 @@ namespace Rambler.Inventories
 
         /// <summary>
         /// Remove a number of items from the given slot. Will never remove more
-        /// that there are.
+        /// than there are.
         /// </summary>
         public void RemoveFromSlot(int slot, int number)
         {

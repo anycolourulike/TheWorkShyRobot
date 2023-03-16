@@ -1,30 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67ac1fc26386361409ab3b23631f0673, type: 3}
-  m_Name: NPC Knife
-  m_EditorClassIdentifier: 
-  animatorOverride: {fileID: 22100000, guid: 0d6cf4c2f89b36149b49ec6779ab249c, type: 2}
-  activeWeapon: {fileID: 0}
-  equippedPrefab: {fileID: 9116641165875686846, guid: 3cbdef88981711740b168f87314bcb96,
-    type: 3}
-  projectile: {fileID: 0}
-  weaponTitle: knife
-  isPistol: 0
-  isRifle: 0
-  isMelee: 1
-  isEMP: 0
-  itemID: 30551808-3955-493e-a4f7-e4acd55e1ad8
-  displayName: 
-  description: 
-  icon: {fileID: 0}
-  pickup: {fileID: 0}
-  stackable: 0
+version https://git-lfs.github.com/spec/v1
+oid sha256:4deadff876b41eba1364e6506b3c51dd74b3ebe94f343ed4f5038e5103e1cc10
+size 849

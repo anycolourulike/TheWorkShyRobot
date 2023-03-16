@@ -213,8 +213,8 @@ namespace Rambler.Control
                     {
                         Debug.Log("Double tap detected!");
                         transform.LookAt(target);
-                        anim.SetTrigger("Jump");
-                        mover.StartMoveAction(target, 1f);
+                        anim.SetTrigger("Roll");
+                        mover.StartMoveAction(target, 3f);
                     }
                     lastTapTime = Time.time;
                 }

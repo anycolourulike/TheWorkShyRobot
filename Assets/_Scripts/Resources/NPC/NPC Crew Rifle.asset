@@ -1,32 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67ac1fc26386361409ab3b23631f0673, type: 3}
-  m_Name: NPC Crew Rifle
-  m_EditorClassIdentifier: 
-  animatorOverride: {fileID: 22100000, guid: d7cf76fb48c166148a49cebf6495d847, type: 2}
-  activeWeapon: {fileID: 1279460058020236004, guid: e14ffcb898a1ff94a80435fd1879d7ef,
-    type: 3}
-  equippedPrefab: {fileID: 2070886014218071899, guid: 19b93c13c607a924c8bdb82294b9970d,
-    type: 3}
-  projectile: {fileID: -5846359617922092927, guid: 502287e93b383df478408c604fc1b675,
-    type: 3}
-  weaponTitle: npcGun
-  isPistol: 0
-  isRifle: 1
-  isMelee: 0
-  isEMP: 0
-  itemID: 9a9f0c48-cdc9-4e02-aa5f-8c36d134527c
-  displayName: 
-  description: 
-  icon: {fileID: 0}
-  pickup: {fileID: 0}
-  stackable: 0
+version https://git-lfs.github.com/spec/v1
+oid sha256:3955db9d282b8de0415e38f9dbde2a47ab03123b8756aece95c6cb720259d09f
+size 998
