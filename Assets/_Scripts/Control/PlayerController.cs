@@ -15,6 +15,7 @@ namespace Rambler.Control
     //[RequireComponent(typeof(NavMeshAgent))]
     public class PlayerController : MonoBehaviour
     {
+        public Portal.DestinationIdentifier destinationID;
         [SerializeField] float maxNavMeshProjectionDistance = 1f;
         [SerializeField] LineRenderer lineRenderer;
         [SerializeField] GameObject ammoCounter;
@@ -211,10 +212,9 @@ namespace Rambler.Control
                     float timeSinceLastTap = Time.time - lastTapTime;
                     if (timeSinceLastTap < doubleTapTimeThreshold)
                     {
-                        Debug.Log("Double tap detected!");
                         transform.LookAt(target);
-                        anim.SetTrigger("Roll");
                         mover.StartMoveAction(target, 3f);
+                        anim.SetTrigger("Roll");
                     }
                     lastTapTime = Time.time;
                 }

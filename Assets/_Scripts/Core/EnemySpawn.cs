@@ -21,17 +21,18 @@ namespace Rambler.Core
         void OnEnable()
         {
             Health.targetDeath += UpdateTarget;
+            LevelManager.disablePortal += SetFXInactive;
         }
 
         void OnDisable()
         {
             Health.targetDeath -= UpdateTarget;
+            LevelManager.disablePortal -= SetFXInactive;
         }
 
         void Start()
         {
             count = 0;
-            SetFXInactive();    
         }   
 
         void Update()
@@ -53,7 +54,7 @@ namespace Rambler.Core
             }
         }
 
-        void SetFXInactive()
+        public void SetFXInactive()
         {
             GameObject[] taggedPortals = GameObject.FindGameObjectsWithTag("Portal");
             foreach(GameObject obj in taggedPortals)

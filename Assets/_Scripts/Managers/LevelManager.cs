@@ -11,13 +11,25 @@ using Rambler.Saving;
 using Rambler.Combat;
 using UnityEngine.AI;
 using UnityEditor;
+using Rambler.Saving;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : MonoBehaviour, ISaveable
 {
     public static LevelManager Instance { set; get; }
     AsyncOperationHandle<SceneInstance> handle;
     public AssetReference sceneToLoad;
+
+    public delegate void DisablePortal();
+    public static event DisablePortal disablePortal;
+
+    public delegate void EnablePortal();
+    public static event EnablePortal enablePortal;
+
+
+    public Portal.DestinationIdentifier destinationID;
+    public int introNum;
     public int sceneRef;
+    public Transform spawnPoint;
     //Menu Scenes
     public AssetReference Loading;
     public AssetReference Menu; 
@@ -100,17 +112,29 @@ public class LevelManager : MonoBehaviour
     }    
 
     public void OnLevelFinishedLoading()
-    {    
+    {
+        List<GameObject> portals = FindPortals();
+        
         FindAssetPath();     
         System.GC.Collect();                
         fader = FindObjectOfType<Fader>();
-        fader.FadeIn(3);
-        AmbientMusic();                 
-        if(sceneToLoad == Loading) return;
-        if(sceneToLoad == Menu) return;
-        if(sceneToLoad == Intro) return; 
-        if(sceneToLoad == CaveEntrance) return;  
-        Time.timeScale = 1; 
+        AmbientMusic();
+        fader.FadeIn(5);
+        
+        if (sceneToLoad == Loading) return;
+        if (sceneToLoad == Intro) return;
+        if (sceneToLoad == Menu)
+        {
+            StartCoroutine("LoadSavedFile");
+            return;
+        }
+
+        if (DestinationCheck() == true)
+        {
+            disablePortal?.Invoke();
+        }
+        
+        Time.timeScale = 1;      
         StartCoroutine("LoadSavedFile");
     } 
 
@@ -358,4 +382,57 @@ public class LevelManager : MonoBehaviour
 
         }        
     }
-}  
+
+    public List<GameObject> FindPortals()
+    {
+        List<GameObject> foundPortals = new List<GameObject>();
+        Portal[] portals = FindObjectsOfType<Portal>();
+
+        foreach (Portal portal in portals)
+        {
+            foundPortals.Add(portal.gameObject);
+        }
+
+        return foundPortals;
+    }
+
+
+    bool DestinationCheck()
+    {
+        List<GameObject> portals = FindPortals();
+
+        foreach (GameObject portal in portals)
+        {
+            Portal portalScript = portal.GetComponent<Portal>();
+            if (portalScript.destination == destinationID)
+            {
+                Debug.Log("Found portal to destination: " + destinationID);
+                spawnPoint = portalScript.spawnPoint;
+                var player = portalScript.rambler;
+                player.GetComponent<NavMeshAgent>().enabled = false;
+                player.transform.position = spawnPoint.transform.position;
+                player.GetComponent<NavMeshAgent>().enabled = true;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public object CaptureState()
+    {
+        Dictionary<string, object> data = new Dictionary<string, object>();
+        data["destination"] = destinationID;
+        data["introNum"] = introNum;
+        data["sceneRef"] = sceneRef;
+        return data;
+    }
+
+    public void RestoreState(object state)
+    {
+        Dictionary<string, object> data = (Dictionary<string, object>)state;
+        destinationID = (Portal.DestinationIdentifier)data["destination"];
+        introNum = (int)data["introNum"];
+        sceneRef = (int)data["sceneRef"];
+    }
+}
+

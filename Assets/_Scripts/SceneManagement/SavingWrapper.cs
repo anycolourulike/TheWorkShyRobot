@@ -54,13 +54,13 @@ namespace Rambler.SceneManagement
         
         public void Save()
         {
-            print("Game Saved");
+            Debug.Log("Game Saved");
             GetComponent<SavingSystem>().Save(currentSaveKey);
         }
 
         public void Load()
         {
-            print("Game Loaded");
+            Debug.Log("Game Loaded");
             GetComponent<SavingSystem>().Load(currentSaveKey);
         }
 

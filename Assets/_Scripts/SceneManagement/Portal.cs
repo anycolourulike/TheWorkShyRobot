@@ -14,21 +14,25 @@ namespace Rambler.SceneManagement
 {
     public class Portal : MonoBehaviour
     {
-        enum DestinationIdentifier
+        public enum DestinationIdentifier
         {
             A, B, C, D, E
-        }
+        }        
 
-        [SerializeField] GameObject rambler;
-        [SerializeField] Transform spawnPoint;
         [SerializeField] Transform companionSpawnPoint;
-        [SerializeField] DestinationIdentifier destination;
         [SerializeField] float fadeOutTime = 2f;
         [SerializeField] float fadeInTime = 2f;
         [SerializeField] float fadeWaitTime = 2f;
+
+        PlayerController playerController;
         LevelManager levelManager;       
-        PlayerController playerController; 
+        
+        public DestinationIdentifier destination;
+        public Transform spawnPoint;
+        public GameObject rambler;
         public int sceneRef;
+        public int introNum;
+
 
         void Start() 
         {
@@ -44,13 +48,16 @@ namespace Rambler.SceneManagement
         }
         
         private IEnumerator Transition()
-        { 
+        {
+            levelManager.destinationID = destination;
+            levelManager.sceneRef = sceneRef;
+            levelManager.introNum = introNum;
+
             Fader fader = FindObjectOfType<Fader>();
             SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
             fader.FadeOut(fadeOutTime); 
             wrapper.Save();
-                        
-            levelManager.sceneRef = sceneRef;
+           
             yield return levelManager.StartCoroutine("LoadLoading"); 
             Destroy(gameObject);
         }
