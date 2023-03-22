@@ -34,6 +34,7 @@ namespace Rambler.Control
 
         public bool isAttacking;
         public bool isPatroling;
+        public bool isReloading;
         public bool isIdle;
         public bool isDead;
         public bool isFollowingPlayer;
@@ -118,19 +119,22 @@ namespace Rambler.Control
            var collectRocks = new IFindRocks(this, boulderGennie, mover);
            var hasTarget = new IThrowRock(this, boulderGennie);
            var dead = new Dead(this, combatTarget, mover, fighter);
+           var reloading = new IReload(this, fighter);
             
             //Transitions           
            At(attack, patrol, HasTarget());
            At(attack, idle, HasTarget());
            At(attack, followPlayer, HasTarget());
-
-           At(followPlayer, attack, IsCompanion());
+           At(attack, reloading, Reloaded());
            At(attack, followPlayer, CompanionHasNoTarget());
 
-           At(patrol, idle, HasPath());
-           At(patrol, attack, HasNoTarget());
-
+           At(reloading, attack, IsReloading());
+           At(followPlayer, attack, IsCompanion());
            At(idle, attack, IsIdle());
+           At(idle, patrol, IsIdle());
+
+           At(patrol, idle, HasPath());
+           At(patrol, attack, HasNoTarget());           
 
            At(dead, patrol, IsDead());
            At(dead, idle, IsDead());
@@ -150,12 +154,12 @@ namespace Rambler.Control
            {
              stateMachine.SetState(patrol);
            }
-           else if ((this.transform.name == "Rocker") && this.gameObject.CompareTag("Enemy"))
+           if ((this.transform.name == "Rocker") && this.gameObject.CompareTag("Enemy"))
            {
                 stateMachine.SetState(sitting);
                 closestTarget = GameObject.Find("/PlayerCore/Rambler");
            }
-           else if (this.gameObject.CompareTag("Enemy") && patrol == null)
+           if (this.gameObject.CompareTag("Enemy"))
            {
              stateMachine.SetState(idle);
            } 
@@ -168,9 +172,11 @@ namespace Rambler.Control
            void At(IState to, IState from, Func<bool> condition) => stateMachine.AddTransition(to, from, condition);
 
            Func<bool> IsDead() => () => isDead == true;
+           Func<bool> IsReloading() => () => isReloading == true;
+           Func<bool> Reloaded() => () => isReloading == false;
            Func<bool> HasPath() => () => patrolPath != null && isDead == false;
-           Func<bool> HasTarget() => () => FOV.canSeePlayer == true && isDead == false;
-           Func<bool> IsIdle() => () => this.gameObject.CompareTag("Enemy") && patrolPath == null && isDead == false;
+           Func<bool> HasTarget() => () => FOV.canSeePlayer == true && isDead == false && isReloading == false && isAttacking == true;
+           Func<bool> IsIdle() => () => this.gameObject.CompareTag("Enemy") && patrolPath == null && isDead == false && FOV.canSeePlayer == false;
            Func<bool> IsCompanion() => () => this.gameObject.CompareTag("Player") && closestTarget != null && isDead == false;
            Func<bool> HasNoTarget() => () => this.gameObject.CompareTag("Enemy") && FOV.canSeePlayer == false;
            Func<bool> CompanionHasNoTarget() => () => this.gameObject.CompareTag("Player") && closestTarget == null;
@@ -186,6 +192,7 @@ namespace Rambler.Control
         void Update()
         {            
             stateMachine.Tick();
+            Debug.Log(this.gameObject.name + " " + stateMachine._currentState);
         } 
 
         void FixedUpdate()
@@ -234,7 +241,16 @@ namespace Rambler.Control
         public void EmptyHand(){hasRock = false;}
 
         public void CaveInTrue(){caveIn = true;}
-        public void CaveInFalse(){caveIn = false;} 
+        public void CaveInFalse(){caveIn = false;}
+
+        public void IsIdle() { isIdle = true; }
+        public void NotIdle() { isIdle = false; }
+
+        public void ReloadingTrue() { isReloading = true; }
+        public void ReloadingFalse() { isReloading = false; }
+
+        public void AttackingTrue() { isAttacking = true; }
+        public void AttackingFalse() { isAttacking = false; }
 
         public void StandingUp(){standUp = true;}
         public void NotStandingUp(){standUp = false;}
@@ -246,7 +262,7 @@ namespace Rambler.Control
         {
             player = GameObject.Find("/PlayerCore/Rambler");            
             mover.RotateTowards(player.transform);
-        }          
+        } 
 
         void PlayerDeath()
         {  

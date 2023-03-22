@@ -33,5 +33,10 @@ namespace Rambler.Combat
         {
            head.transform.SetParent(playerHand);
         }
+
+        public void ReloadFinished()
+        {
+            fighter.ReloadFin();
+        }
     }
 }

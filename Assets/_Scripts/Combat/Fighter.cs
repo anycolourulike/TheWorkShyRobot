@@ -38,9 +38,10 @@ namespace Rambler.Combat
         public CombatTarget CombatTarget {get{return otherCombatTarget;} set{otherCombatTarget = value;}}
         
         PlayerController playerController;
-        Vector3 hitPointVector;  
+        Vector3 hitPointVector;
         GameObject weaponRef;
-        Health targetHealth;                       
+        Health targetHealth;
+        AIController aiCon;
         
         WeaponIK weaponIk;
         FieldOfView FOV;
@@ -68,6 +69,7 @@ namespace Rambler.Combat
            else
            {
               FOV = GetComponent<FieldOfView>();
+              aiCon = GetComponent<AIController>();
            }
            mover = GetComponent<Mover>();
            rigController = GetComponent<Fighter>().rigController;  
@@ -103,12 +105,20 @@ namespace Rambler.Combat
         }   
         
         void AttackBehaviour()
-        {            
+        {
             if (this.name != "Rambler")
             {
+                if (activeWeapon.curClip <= 0)
+                {
+                    aiCon.AttackingFalse();
+                    aiCon.ReloadingTrue();
+                    activeWeapon.IsAmmo = false;
+                    return;
+                } 
+
                 if (FOV.canSeePlayer == false) { return; }
             }
-
+            
             transform.LookAt(enemyPos.transform);            
             AssignIKTarget();
             if(gameObject.tag == "Player" && enemyPos.gameObject.tag == "Player") return;          
@@ -144,29 +154,14 @@ namespace Rambler.Combat
                                 case "shotgun":
                                 AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.ShotgunShoot, activeWeapon.transform.position);
                                    break;
-                            } 
+                            }
+                            return;
                         }
-                        else
-                        {
-                            activeWeapon.Reload();
-                            AIRigLayer.SetTrigger("Reload");
-                        }
-                        // else
-                        // {                                  
-                        //     if(Time.time > outOfAmmo && outOfAmmoCalled == false)
-                        //     {
-                        //        outOfAmmo += period;
-                        //        outOfAmmoCalled = true;
-                        //        AudioManager.PlayWeaponSound(weaponSFX: AudioManager.WeaponSound.outOfAmmo, activeWeapon.transform.position);
-                        //        outOfAmmoCalled = false;
-                        //        if(this.gameObject.name == "Rambler") return;
-                        //        ShootAnim.SetTrigger("Reload");                                   
-                        //     }   
-                        // }                                         
                     }                    
-                }
+                }                
                 else
-                {                    
+                {
+                    mover.MoveTo(enemyPos.transform.position, 10);
                     MeleeAttack(target: enemyPos);
                     timeSinceLastAttack = 0f;
                 }
@@ -286,7 +281,22 @@ namespace Rambler.Combat
             string weaponName = (string)state;
             Weapon weapon = UnityEngine.Resources.Load<Weapon>(weaponName);
             EquipWeapon(weapon);
-        }       
+        } 
+        
+        public void ReloadSeq()
+        {
+            CancelTarget();
+            AIRigLayer.SetTrigger("Reload");
+            activeWeapon.Reload();
+        }
+
+        public void ReloadFin()
+        {
+            Debug.Log("ReloadFinCalled");
+            activeWeapon.IsAmmo = true;
+            aiCon.ReloadingFalse();
+            aiCon.AttackingTrue();
+        }
         
         Vector3 GetEnemyLocation()
         {              

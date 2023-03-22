@@ -17,12 +17,12 @@ public class Idle : IState
 
     public void OnEnter()
     {
-        _aIController.isIdle = true;
+        _aIController.IsIdle();
     }
 
     public void OnExit()
     {
-        _aIController.isIdle = false;
+        _aIController.NotIdle();
     }
 
     public void Tick()

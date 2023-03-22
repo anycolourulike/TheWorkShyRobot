@@ -22,11 +22,13 @@ namespace Rambler.Combat
         public TextMeshProUGUI totalAmmoDisplay;  
         public TextMeshProUGUI magDisplay;
         Animator rigController;
-        public Animator SetRigController {get{return rigController;} set{rigController = value; }}  
+        public Animator SetRigController { get{return rigController;} set{rigController = value;} }  
         bool reloadAmmoSFX;
         float weaponDamage;        
         int magAmount;
-        int totalAmmo; 
+        int totalAmmo;
+        bool isAmmo = true;
+        public bool IsAmmo { get {return isAmmo;} set {isAmmo = value;} }
         bool reloading;  
         public int maxClip;  
         int ammoSpent;                   
@@ -51,8 +53,8 @@ namespace Rambler.Combat
             else if(this.CompareTag("NPCWeapon"))
             {
                if(curClip == 0)
-               { 
-                  Reload();
+               {
+                    isAmmo = false;
                }
             }            
         } 
