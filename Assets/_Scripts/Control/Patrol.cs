@@ -72,12 +72,13 @@ public class Patrol : IState
 
     public void OnEnter()
     {
-        _aIController.isPatroling = true;
+        _aIController.IsPatrolling();
+        _aIController.NotIdle();
     }
 
     public void OnExit()
     {
-        _aIController.isPatroling = false;
+        _aIController.NotPatrolling();
     }
 
     public void Tick()

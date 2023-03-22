@@ -58,16 +58,17 @@ public class Attack : IState
     }
 
     public void OnEnter()
-    { 
+    {
+        _aIController.NotIdle();
         _aIController.TargetHealthCheck();
-        _aIController.isAttacking = true;
+        _aIController.AttackingTrue();
         _timeSinceLastSawPlayer = 2f;
         _mover.CancelNav();             
     }
 
     public void OnExit()
     {
-        _aIController.isAttacking = false;
+        _aIController.AttackingFalse();
         _fighter.TargetCap = null;
         _fighter.CombatTarget = null;
         _fighter.EnemyPos = null;

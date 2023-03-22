@@ -113,7 +113,7 @@ namespace Rambler.Control
            var followPlayer = new FollowPlayer(this, player, mover);
            var patrol = new Patrol(this, patrolPath, mover, waypointTolerence, waypointDwellTime, patrolSpeedFraction, timeSinceArrivedAtWaypoint, currentWaypointIndex, nextPosition);
            var attack = new Attack(this, fighter, mover, FOV, TimerForNextAttack, timeSinceLastSawPlayer, suspicionTime, coolDown);
-           var idle = new Idle(this);
+           var idle = new Idle(this, fighter);
            var causeCaveIn = new ICauseCaveIn(this, mover, animator, boulderGennie);
            var sitting = new ISitting(this, animator);
            var collectRocks = new IFindRocks(this, boulderGennie, mover);
@@ -237,11 +237,17 @@ namespace Rambler.Control
         public void ReadyToThrow(){readyToThrow = true; mover.RotateTowards(closestTarget.transform); }
         public void NotReadyToThrow(){readyToThrow = false;}
 
-        public void RockInHand(){hasRock = true;}
-        public void EmptyHand(){hasRock = false;}
+        public void RockInHand() { hasRock = true; }
+        public void EmptyHand() { hasRock = false; }
 
-        public void CaveInTrue(){caveIn = true;}
-        public void CaveInFalse(){caveIn = false;}
+        public void IsPatrolling() { isPatroling = true; }
+        public void NotPatrolling() { isPatroling = false; }
+
+        public void FolllowingPlayer() { isFollowingPlayer = true; }
+        public void NotFollowingPlayer() { isFollowingPlayer = false; }
+
+        public void CaveInTrue() { caveIn = true; }
+        public void CaveInFalse() { caveIn = false; }
 
         public void IsIdle() { isIdle = true; }
         public void NotIdle() { isIdle = false; }

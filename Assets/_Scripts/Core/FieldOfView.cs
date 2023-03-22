@@ -85,6 +85,7 @@ namespace Rambler.Control
             {
               canSeePlayer = true;
               aIController.AssignTarget();
+              aIController.AttackingTrue();
             }              
             else
             {

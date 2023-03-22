@@ -36,7 +36,7 @@ namespace Rambler.Combat
         public Transform EnemyPos {get{return enemyPos; } set{enemyPos = value;}}
         public CombatTarget otherCombatTarget;  
         public CombatTarget CombatTarget {get{return otherCombatTarget;} set{otherCombatTarget = value;}}
-        
+        public bool canAttack = false;
         PlayerController playerController;
         Vector3 hitPointVector;
         GameObject weaponRef;
@@ -108,15 +108,14 @@ namespace Rambler.Combat
         {
             if (this.name != "Rambler")
             {
+                if (canAttack == false) return;
                 if (activeWeapon.curClip <= 0)
                 {
                     aiCon.AttackingFalse();
                     aiCon.ReloadingTrue();
-                    activeWeapon.IsAmmo = false;
-                    return;
+                    if (activeWeapon.IsAmmo == false) return;
                 } 
-
-                if (FOV.canSeePlayer == false) { return; }
+                if (FOV.canSeePlayer == false)  return; 
             }
             
             transform.LookAt(enemyPos.transform);            
