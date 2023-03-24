@@ -13,7 +13,7 @@ public class RewardedAds : MonoBehaviour
         MobileAds.Initialize(initialize => { });
         RequestRewardedVideo();
 
-        if (rewardedAd.IsLoaded())
+        if (rewardedAd.CanShowAd())
             rewardedAd.Show();
     }
 

@@ -8,9 +8,11 @@ namespace Rambler.Combat
     public class AnimationEvents : MonoBehaviour
     {        
         [SerializeField] PlayerController playerController;
+        [SerializeField] AIController aICon;
         [SerializeField] Fighter fighter;
         public Transform playerHand;       
         public Transform head; 
+
       
         public void EquipUnarmed() 
         {
@@ -36,7 +38,10 @@ namespace Rambler.Combat
 
         public void ReloadFinished()
         {
+            Debug.Log("ReloadFinished");
             fighter.ReloadFin();
+            aICon.ReloadingFalse();
         }
+        
     }
 }

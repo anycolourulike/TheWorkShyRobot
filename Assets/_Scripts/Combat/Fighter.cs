@@ -15,12 +15,12 @@ namespace Rambler.Combat
     public class Fighter : MonoBehaviour, IAction, ISaveable
     {
         [SerializeField] AnimatorOverrideController animatorOverride;
-        [SerializeField] Animator AIRigLayer;
         [SerializeField] float timeBetweenAttacks = 1.3f;    
         [SerializeField] Animator ShootAnim;          
         [SerializeField] Weapon unarmed;
         [SerializeField] ParticleSystem punchImpact; 
         [SerializeField] CapsuleCollider targetCapsule;
+        [SerializeField] GameObject ramblerRig;
         public CapsuleCollider TargetCap {get{return targetCapsule;} set{targetCapsule = value;}}       
         public ActiveWeapon activeWeapon; 
         public Transform handTransform;        
@@ -285,7 +285,7 @@ namespace Rambler.Combat
         public void ReloadSeq()
         {
             CancelTarget();
-            AIRigLayer.SetTrigger("Reload");
+            rigController.SetTrigger("Reload");
             activeWeapon.Reload();
         }
 
@@ -401,6 +401,13 @@ namespace Rambler.Combat
         void EndMelee()
         {
            
+        }
+
+        public void EndRoll()
+        {
+            Debug.Log("EndRollCalled");
+            this.gameObject.transform.position = ramblerRig.transform.position;
+            
         }
         
         void ActiveWeaponInit()

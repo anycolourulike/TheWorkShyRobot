@@ -22,7 +22,7 @@ namespace Rambler.Control
         [SerializeField] PlayerVitals vitals;
         [SerializeField] GameObject shield;
         [SerializeField] Fighter fighter;
-        [SerializeField] Transform target;
+        public Transform target;
         CinemachineVirtualCamera cineMachine;
 
         GameObject selectionUIObj;
@@ -213,7 +213,7 @@ namespace Rambler.Control
                     if (timeSinceLastTap < doubleTapTimeThreshold)
                     {
                         transform.LookAt(target);
-                        mover.StartMoveAction(target, 3f);
+                        mover.StartMoveAction(target, 100f);
                         anim.SetTrigger("Roll");
                     }
                     lastTapTime = Time.time;

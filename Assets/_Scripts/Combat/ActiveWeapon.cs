@@ -269,8 +269,8 @@ namespace Rambler.Combat
                  maxClip = 45;                     
                  break;
                 case WeaponType.smg:
-                 magAmount = 30;
-                 maxClip = 90;
+                 magAmount = 20;
+                 maxClip = 80;
                  break;
                 case WeaponType.rifle:
                  magAmount = 25;

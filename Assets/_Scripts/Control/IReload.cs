@@ -23,10 +23,9 @@ public class IReload : IState
     {
         _fighter.canAttack = false;
         _aIController.AttackingFalse();
+        _aIController.ReloadingTrue();
         _aIController.NotIdle();
         _fighter.ReloadSeq();
-        //ActiveWeapon.Reload();
-        //AIRigLayer.SetTrigger("Reload");
     }
 
     public void OnExit()
