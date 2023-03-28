@@ -9,6 +9,7 @@ using Rambler.Inventories;
 using Rambler.Utils;
 using Rambler.Saving;
 using Rambler.Attributes;
+using UnityEngine.Animations;
 
 namespace Rambler.Combat
 {  
@@ -20,14 +21,16 @@ namespace Rambler.Combat
         [SerializeField] Weapon unarmed;
         [SerializeField] ParticleSystem punchImpact; 
         [SerializeField] CapsuleCollider targetCapsule;
-        [SerializeField] GameObject ramblerRig;
+        
         public CapsuleCollider TargetCap {get{return targetCapsule;} set{targetCapsule = value;}}       
         public ActiveWeapon activeWeapon; 
         public Transform handTransform;        
         public Animator rigController;  
-        public Weapon weaponPickedUp;       
+        public Weapon weaponPickedUp;
+        public Weapon lastWeaponUsed;
+        public Transform ramblerRig;
         public Weapon weaponConfig;  
-        public Weapon lastWeaponUsed;     
+             
         public Weapon SetLastWeapon{set{lastWeaponUsed = value;} get {return lastWeaponUsed;}}  
         float timeSinceLastAttack = 
         Mathf.Infinity;
@@ -81,7 +84,7 @@ namespace Rambler.Combat
            } 
            else
            {           
-             EquipWeapon(weaponConfig);  
+              EquipWeapon(weaponConfig);  
            }  
            ActiveWeaponInit();                                          
         }        
@@ -101,7 +104,6 @@ namespace Rambler.Combat
                 GetComponent<Mover>().CancelNav();  
                 AttackBehaviour();
             }
-
         }   
         
         void AttackBehaviour()
@@ -177,7 +179,6 @@ namespace Rambler.Combat
                 var slot = inv.FindSlot(weapon);
                 Debug.Log(slot);
                 inv.RemoveFromSlot(slot, 1);
-
             }
 
             DestroyOldWeapon(handTransform: handTransform);
@@ -296,7 +297,7 @@ namespace Rambler.Combat
             aiCon.ReloadingFalse();
             aiCon.AttackingTrue();
         }
-        
+
         Vector3 GetEnemyLocation()
         {              
            return hitPointVector = CombatTarget.TargetFuturePos(activeWeapon.AimTransform().position);
@@ -401,13 +402,6 @@ namespace Rambler.Combat
         void EndMelee()
         {
            
-        }
-
-        public void EndRoll()
-        {
-            Debug.Log("EndRollCalled");
-            this.gameObject.transform.position = ramblerRig.transform.position;
-            
         }
         
         void ActiveWeaponInit()

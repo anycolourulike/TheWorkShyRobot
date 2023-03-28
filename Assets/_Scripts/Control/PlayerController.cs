@@ -22,14 +22,15 @@ namespace Rambler.Control
         [SerializeField] PlayerVitals vitals;
         [SerializeField] GameObject shield;
         [SerializeField] Fighter fighter;
-        public Transform target;
-        CinemachineVirtualCamera cineMachine;
+        public Vector3 target;
 
+        CinemachineVirtualCamera cineMachine;
         GameObject selectionUIObj;
-        ActiveWeapon activeWeapon;             
+        ActiveWeapon activeWeapon;
+        Transform interactTarget;
         float holdDuration = 1f;               
         Transform handTransform;
-        Animator rigController;         
+        Animator rigController;        
         Animator anim;
        
         NavMeshAgent agent; 
@@ -66,7 +67,7 @@ namespace Rambler.Control
         {           
            interact = GameObject.FindGameObjectWithTag("Interact");      
            interact.SetActive(false); 
-           targetStartPos = target;
+           targetStartPos = interactTarget;
 
            cineMachine = FindObjectOfType<CinemachineVirtualCamera>();
            rigController = GetComponent<Fighter>().rigController;
@@ -180,10 +181,7 @@ namespace Rambler.Control
         bool InteractWithMovement()
         {          
            if(isDead == true) return false;
-                     
-           fighter.CancelTarget();          
-           Vector3 target;
-
+           fighter.CancelTarget(); 
            bool hasHit = RaycastNavMesh(out target);
            
             if (Input.touchCount > 0 && (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)))
@@ -192,7 +190,7 @@ namespace Rambler.Control
             }
             if (hasHit)
             {              
-                if (Input.touchCount > 0)
+                if (Input.touchCount > 0 && Input.touchCount < 2)
                 {
                     Touch touchInfo = Input.GetTouch(0);
 
@@ -211,17 +209,17 @@ namespace Rambler.Control
                 {
                     float timeSinceLastTap = Time.time - lastTapTime;
                     if (timeSinceLastTap < doubleTapTimeThreshold)
-                    {
+                    { 
                         transform.LookAt(target);
-                        mover.StartMoveAction(target, 100f);
                         anim.SetTrigger("Roll");
+                        mover.StartMoveAction(target, 5f);
                     }
                     lastTapTime = Time.time;
                 }
                 return true;
             }
             return false;           
-        }              
+        }
 
         Transform GetHandTransform(Transform handTransform)
         {
@@ -247,8 +245,6 @@ namespace Rambler.Control
             if (!hasCastToNavMesh) return false;
 
             target = navMeshHit.position;
-
-            
 
             return true;
         }
@@ -303,7 +299,7 @@ namespace Rambler.Control
                 weaponPU = other.gameObject;                                                              
                 interact.SetActive(true);
             }
-        } 
+        }
 
         public void InteractPressed()
         {   
@@ -333,7 +329,7 @@ namespace Rambler.Control
                 break;
 
                 case 3:
-                target.position = weaponPU.transform.position;
+                interactTarget.position = weaponPU.transform.position;
                 fighter.SetLastWeapon = fighter.weaponConfig; 
                 fighter.EquipUnarmed();                
                 anim.SetTrigger("use");

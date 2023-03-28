@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Rambler.Control;
+using Rambler.Attributes;
 
 namespace Rambler.Combat
 {
@@ -41,7 +42,6 @@ namespace Rambler.Combat
             Debug.Log("ReloadFinished");
             fighter.ReloadFin();
             aICon.ReloadingFalse();
-        }
-        
+        }        
     }
 }

@@ -135,10 +135,13 @@ namespace Rambler.Attributes // To Do Stop Movement
             {              
                 playerDeath?.Invoke();
                 shield.SetActive(false);                
-            }            
+            }
 
+            //this.transform.Translate(0, 0, 15f * Time.deltaTime);
+            transform.position += new Vector3(0,0,-5f) * 20f * Time.deltaTime;
             if(dieRanNum == 1)
             {
+                anim.speed = 3.5f;
                 anim.SetTrigger("Die1");
                 armFX.transform.SetParent(null);
                 armFX.SetActive(true);
@@ -155,6 +158,7 @@ namespace Rambler.Attributes // To Do Stop Movement
             }
             else if (dieRanNum == 2)
             {
+                anim.speed = 3.5f;
                 anim.SetTrigger("Die2");
                 //headFX.transform.SetParent(null);
                 headFX.SetActive(true);
@@ -170,7 +174,8 @@ namespace Rambler.Attributes // To Do Stop Movement
                 }                                            
             }
             else if (dieRanNum == 3)
-            { 
+            {
+                anim.speed = 3.5f;
                 anim.SetTrigger("Die3");
                 //legFX.transform.SetParent(null);
                 legFX.SetActive(true); 
@@ -205,6 +210,12 @@ namespace Rambler.Attributes // To Do Stop Movement
             {
                 Die();
             }
+        }
+
+        public void DeathSpeedNormal()
+        {
+            Debug.Log("healthSpeedNormal");
+            anim.speed = 1f;
         }
 
         float GetInitialHealth()
