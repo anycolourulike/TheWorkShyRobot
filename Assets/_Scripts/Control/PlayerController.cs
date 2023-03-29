@@ -211,6 +211,7 @@ namespace Rambler.Control
                     if (timeSinceLastTap < doubleTapTimeThreshold)
                     { 
                         transform.LookAt(target);
+                        anim.speed = 3f;
                         anim.SetTrigger("Roll");
                         mover.StartMoveAction(target, 5f);
                     }

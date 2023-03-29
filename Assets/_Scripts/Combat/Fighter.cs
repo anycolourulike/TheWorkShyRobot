@@ -298,6 +298,11 @@ namespace Rambler.Combat
             aiCon.AttackingTrue();
         }
 
+        public void SlowRollAnim()
+        {
+            anim.speed = 1;
+        }
+
         Vector3 GetEnemyLocation()
         {              
            return hitPointVector = CombatTarget.TargetFuturePos(activeWeapon.AimTransform().position);

@@ -38,28 +38,28 @@ public class LevelManager : MonoBehaviour, ISaveable
     public AssetReference Corridor1;
     public AssetReference Corridor2;
     public AssetReference Armoury; //Dial
-    public AssetReference Storage; //Seq
+    public AssetReference Storage; 
     public AssetReference Living;
     public AssetReference Living1;
     public AssetReference EngineRoom; //Seq
     public AssetReference FlightDeck;
     public AssetReference Bridge; //Boss Timbertoes
     //Surface
-    public AssetReference Crash; //Dial
+    public AssetReference Crash; //Dial Warbots
     public AssetReference Canyon1;
     public AssetReference Cliff1;
     public AssetReference Cliff2;
     public AssetReference Cliff3; 
     public AssetReference Canyon2; //Seq Ambush
     public AssetReference Canyon3;
-    public AssetReference CaveEntrance; //Boss Player dodges 3 cannon seq fixed camera
+    public AssetReference CaveEntrance; //Turrets
     //Cave
     public AssetReference Tunnel1;
     public AssetReference TreeShrine; //Dial
     public AssetReference LivingQtrs;
-    public AssetReference PortalRoom; //Seq
+    public AssetReference PortalRoom; 
     public AssetReference Tunnel2;
-    public AssetReference Rocker; //Boss Rocker
+    public AssetReference Rocker; //Boss Rocker...to be continued...
     //Outro
     Fader fader;    
 
