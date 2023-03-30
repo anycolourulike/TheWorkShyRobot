@@ -37,14 +37,15 @@ namespace Rambler.Attributes // To Do Stop Movement
         CombatTarget combatTarget;
         GameObject hitScreenFX;
         CapsuleCollider capCol;
+        float isDeadTimer = 0f;
         PlayerVitals vitals;
         public bool isDead;
         FieldOfView FOV;        
-        Fighter fighter;        
+        Fighter fighter;
         float damage;        
         Animator anim;
         int dieRanNum;        
-        Rigidbody rb;  
+        Rigidbody rb;        
 
         void Awake() 
         {
@@ -66,7 +67,12 @@ namespace Rambler.Attributes // To Do Stop Movement
                 hitScreenFX.SetActive(false);
                 vitals = GetComponent<PlayerVitals>();
             }
-        }       
+        }  
+        
+        void Update()
+        {
+            isDeadTimer += Time.deltaTime;
+        }
 
         public bool IsDead()
         {
@@ -100,7 +106,14 @@ namespace Rambler.Attributes // To Do Stop Movement
             if (healthPoints.value <= 0)
             {
                 healthPoints.value = 0f;
-                Die(); 
+                if(isDeadTimer <= 2.5f)
+                {
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    Die();
+                }
             }            
         } 
         
@@ -137,7 +150,7 @@ namespace Rambler.Attributes // To Do Stop Movement
                 shield.SetActive(false);                
             }
 
-            //this.transform.Translate(0, 0, 15f * Time.deltaTime);
+            
             transform.position += new Vector3(0,0,-5f) * 20f * Time.deltaTime;
             if(dieRanNum == 1)
             {
