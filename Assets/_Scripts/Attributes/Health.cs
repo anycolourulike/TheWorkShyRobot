@@ -27,6 +27,7 @@ namespace Rambler.Attributes // To Do Stop Movement
         [SerializeField] GameObject armFX;
         [SerializeField] GameObject shield;
         [SerializeField] GameObject deathSplashScreen;
+        SerializeField] GameObject gameOverSplashScreen;
         [SerializeField] Mover mover;       
         public delegate void TargetDeath();
         public static event TargetDeath targetDeath;
@@ -295,11 +296,19 @@ namespace Rambler.Attributes // To Do Stop Movement
 
         void PlayerDeath() 
         {
+            
             this.tag = "Dead";
             fighter.enabled = false;
-            deathSplashScreen.SetActive(true);
-            AudioManager.PlayHumanSound(AudioManager.HumanSound.Death4, transform.position); 
-            AudioManager.PlayAmbientSound(AudioManager.AmbientSound.DeathScreen);            
+            if (lives > 0)
+            {
+                deathSplashScreen.SetActive(true);
+            }
+            else
+            {
+                gameOverSplashScreen.SetActive(true);
+            }
+                AudioManager.PlayHumanSound(AudioManager.HumanSound.Death4, transform.position); 
+                AudioManager.PlayAmbientSound(AudioManager.AmbientSound.DeathScreen);            
             //if(this.gameObject.name == "Rambler") {LevelManager.Instance.PlayerWeaponCheck();}
         }
 
