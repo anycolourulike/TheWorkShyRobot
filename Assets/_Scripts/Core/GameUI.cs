@@ -25,6 +25,14 @@ public class GameUI : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    public void DefeatedByTimbertoes()
+    {
+        ResumeGame();
+        levelManager.sceneRef = 1;
+        levelManager.introNum = 2;
+        levelManager.StartCoroutine("LoadLoading");
+    }
+
     public void LoadSavedGame() 
     {
         ResumeGame();

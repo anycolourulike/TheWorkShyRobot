@@ -12,13 +12,15 @@ using Random = UnityEngine.Random;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.Events;
 using Rambler.Stats;
+using TMPro;
 
 namespace Rambler.Attributes // To Do Stop Movement
 {
     public class Health : MonoBehaviour, ISaveable
     {        
         public LazyValue<float> healthPoints; 
-        LazyValue<float> HealthPoints { get{return healthPoints;} set{healthPoints = value;}}  
+        LazyValue<float> HealthPoints { get{return healthPoints;} set{healthPoints = value;}}
+        [SerializeField] TextMeshProUGUI displayLives;
         [SerializeField] GameObject RigLayer;
         [SerializeField] GameObject headFX;
         [SerializeField] GameObject legFX; 
@@ -40,12 +42,14 @@ namespace Rambler.Attributes // To Do Stop Movement
         float isDeadTimer = 0f;
         PlayerVitals vitals;
         public bool isDead;
+        TimbertoesFOV TFOV;
         FieldOfView FOV;        
         Fighter fighter;
         float damage;        
         Animator anim;
         int dieRanNum;        
-        Rigidbody rb;        
+        Rigidbody rb;
+        int lives;
 
         void Awake() 
         {
@@ -66,9 +70,10 @@ namespace Rambler.Attributes // To Do Stop Movement
                 hitScreenFX = GameObject.Find(name: "/PlayerCore/HUD/DamageScreen");
                 hitScreenFX.SetActive(false);
                 vitals = GetComponent<PlayerVitals>();
+                LivesUpdate();
             }
-        }  
-        
+        }       
+
         void Update()
         {
             isDeadTimer += Time.deltaTime;
@@ -147,7 +152,9 @@ namespace Rambler.Attributes // To Do Stop Movement
             if (this.gameObject.name == "Rambler")
             {              
                 playerDeath?.Invoke();
-                shield.SetActive(false);                
+                shield.SetActive(false);
+                lives--;
+                displayLives.text = lives.ToString();
             }
 
             
@@ -212,23 +219,44 @@ namespace Rambler.Attributes // To Do Stop Movement
 
         public object CaptureState()
         {
-            return healthPoints.value;
+            Dictionary<string, object> data = new Dictionary<string, object>();
+            data["healthPoints.value"] = healthPoints.value;
+            if (this.gameObject.name == "Rambler")
+            {
+                data["lives"] = lives;
+            }
+            return data;
         }
 
         public void RestoreState(object state)
         {
-            Debug.Log("RestoreStateHealthCalled");
-            healthPoints.value = (float)state;
-            if (healthPoints.value <= 0)
+            Dictionary<string, object> data = (Dictionary<string, object>)state;
+            healthPoints.value = (float)data["healthPoints.value"];
+            if (this.gameObject.name == "Rambler")
             {
-                Die();
+                lives = (int)data["lives"];
+                LivesUpdate();
             }
+            
+            HealthCheck();
+
         }
 
         public void DeathSpeedNormal()
         {
             Debug.Log("healthSpeedNormal");
             anim.speed = 1f;
+        }
+
+        public void StartingLives()
+        {
+            lives = 10;
+            displayLives.text = lives.ToString();
+        }
+       
+        public void LivesUpdate()
+        {
+            displayLives.text = lives.ToString();
         }
 
         float GetInitialHealth()
@@ -239,9 +267,8 @@ namespace Rambler.Attributes // To Do Stop Movement
         void HitAnim()
         {  
             if(isDead) return;
-            if(this.gameObject.name == "Rambler") return;
             anim.SetTrigger("HitAnim");
-            if(gameObject.CompareTag("Player")) return;            
+            if(gameObject.CompareTag("Player")) return; 
             FOV.radius = 40f;
             AudioManager.PlayHumanSound(AudioManager.HumanSound.Hit1, position: this.transform.position); 
         }

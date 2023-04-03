@@ -16,8 +16,7 @@ namespace Rambler.Combat
     public class Fighter : MonoBehaviour, IAction, ISaveable
     {
         [SerializeField] AnimatorOverrideController animatorOverride;
-        [SerializeField] float timeBetweenAttacks = 1.3f;    
-        [SerializeField] Animator ShootAnim;          
+        [SerializeField] float timeBetweenAttacks = 1.3f; 
         [SerializeField] Weapon unarmed;
         [SerializeField] ParticleSystem punchImpact; 
         [SerializeField] CapsuleCollider targetCapsule;

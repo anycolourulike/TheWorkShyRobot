@@ -24,18 +24,18 @@ namespace Rambler.Movement
         NavMeshAgent navMeshAgent;
         Rigidbody rb;
         public bool rigWeaponEquipped;
-        Health health;        
+        //Health health;        
 
         public void Start()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
-            health = GetComponent<Health>();
+            //health = GetComponent<Health>();
             rb = GetComponent<Rigidbody>();
         }
 
         void Update()
         {            
-            navMeshAgent.enabled = !health.IsDead();            
+            //navMeshAgent.enabled = !health.IsDead();            
             UpdateAnimator();
             if(rigWeaponEquipped == true)
             { 

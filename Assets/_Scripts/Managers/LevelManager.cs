@@ -11,6 +11,8 @@ using Rambler.Saving;
 using Rambler.Combat;
 using UnityEngine.AI;
 using UnityEditor;
+using Rambler.Attributes;
+
 
 public class LevelManager : MonoBehaviour, ISaveable
 {
@@ -24,6 +26,8 @@ public class LevelManager : MonoBehaviour, ISaveable
     public delegate void EnablePortal();
     public static event EnablePortal enablePortal;
 
+    GameObject player;
+    Health playerHealth;
 
     public Portal.DestinationIdentifier destinationID;
     public int introNum;
@@ -128,6 +132,13 @@ public class LevelManager : MonoBehaviour, ISaveable
             return;
         }
 
+        if (sceneToLoad == RobotLab)
+        {
+            player = GameObject.Find("/PlayerCore/Rambler");
+            playerHealth = player.GetComponent<Health>();
+            playerHealth.StartingLives();
+        }
+
         if (DestinationCheck() == true)
         {
             disablePortal?.Invoke();
@@ -143,6 +154,7 @@ public class LevelManager : MonoBehaviour, ISaveable
         {
           handle = previousScene;
           UnloadScene();
+         
         }  
     }
 
@@ -151,8 +163,8 @@ public class LevelManager : MonoBehaviour, ISaveable
        Addressables.UnloadSceneAsync(handle, true).Completed += op =>
        {
           if(op.Status == AsyncOperationStatus.Succeeded)
-          {                                 
-              
+          {
+               
           }
        };
     }  

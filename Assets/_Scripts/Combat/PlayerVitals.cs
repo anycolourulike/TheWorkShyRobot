@@ -29,7 +29,6 @@ namespace Rambler.Combat
        {
            playerMaxHP = health.healthPoints.value;
            playerCurHP = health.healthPoints.value;
-           MaxHealth();           
            MaxEnergy();
        }
 

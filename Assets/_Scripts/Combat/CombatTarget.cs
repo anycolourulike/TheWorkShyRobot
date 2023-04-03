@@ -7,8 +7,7 @@ using Rambler.Attributes;
 using Rambler.Control;
 
 namespace Rambler.Combat 
-{
-    [RequireComponent(typeof(Health))]
+{ 
     public class CombatTarget : MonoBehaviour
     {   
        float targetSpeed;
