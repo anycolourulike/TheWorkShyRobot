@@ -1,31 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Rambler.Control;
-using System;
-
-public class IThrowRock : IState
-{
-    BoulderGennie _boulderGennie;
-
-    public IThrowRock(AIController aiController, BoulderGennie boulderGennie)
-    {
-        _boulderGennie = boulderGennie;
-    }
-
-    public void OnEnter()
-    {
-      _boulderGennie.ThrowRocks();
-    }
-
-    public void OnExit()
-    {
-        
-    }
-
-    public void Tick()
-    {
-        
-    }
-    
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:081dbb7f2edf3ace4b126cae37854dfd5c736945b5a7c86f23250c8afd50753d
+size 521

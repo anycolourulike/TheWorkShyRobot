@@ -1,34 +1,3 @@
-﻿using UnityEngine;
-using Rambler.Saving;
-using System;
-
-namespace Rambler.Stats
-{
-    public class Experience : MonoBehaviour, ISaveable
-    {
-        [SerializeField] float experiencePoints = 0;
-
-        public event Action onExperienceGained;
-
-        public void GainExperience(float experience)
-        {
-            experiencePoints += experience;
-            onExperienceGained();
-        }
-
-        public float GetPoints()
-        {
-            return experiencePoints;
-        }
-
-        public object CaptureState()
-        {
-            return experiencePoints;
-        }
-
-        public void RestoreState(object state)
-        {
-            experiencePoints = (float)state;
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:6cc04fd7b2912c70a538b2ea1d01536f0a7d7de3483c7d6ca5a8575652778b29
+size 739

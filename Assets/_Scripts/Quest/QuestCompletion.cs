@@ -1,18 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Rambler.Quests
-{
-    public class QuestCompletion : MonoBehaviour
-    {
-        [SerializeField] Quest quest;
-        [SerializeField] string objective;
-
-        public void CompleteObjective()
-        {
-            QuestList questList = GameObject.FindGameObjectWithTag("Player").GetComponent<QuestList>();
-            questList.CompleteObjective(quest, objective);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:cc02846a9bab424b9ef12aff387df5c0d3eb001f9f9074aef298957c1cf6c63e
+size 494

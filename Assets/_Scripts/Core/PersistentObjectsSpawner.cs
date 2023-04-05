@@ -1,29 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-namespace Rambler.Core
-{
-    public class PersistentObjectsSpawner : MonoBehaviour
-    {
-        [SerializeField] GameObject persistentObjecetPrefab;
-
-        static bool hasSpawned = false;
-
-        private void Awake()
-        {
-            if (hasSpawned) return;
-
-            SpawnPersistentObjects();
-
-            hasSpawned = true;
-        }
-
-        private void SpawnPersistentObjects()
-        {
-            GameObject persistentObject = Instantiate(persistentObjecetPrefab);
-            DontDestroyOnLoad(persistentObject);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:4974c2bf43f9590d324a2981118d13306f47fe60fd80982638688ef5c66b797d
+size 665

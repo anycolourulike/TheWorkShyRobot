@@ -1,20 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class DisableSelectionUI : MonoBehaviour
-{
-    
-    float timer = 3f;
-  
-
-    void Update()
-    {
-        timer -= Time.deltaTime;
-        if (timer <= 0)
-        {
-            var selectionUI = this.gameObject;
-            selectionUI.SetActive(false);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:a8d29e4cc5ab52b297de80681ef574fc3dd1b633f6c098267113510b3027d86a
+size 377

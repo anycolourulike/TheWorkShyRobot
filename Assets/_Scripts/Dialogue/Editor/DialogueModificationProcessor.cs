@@ -1,29 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using UnityEditor;
-using UnityEngine;
-
-namespace Rambler.Dialogue.Editor
-{
-    public class DialogueModificationProcessor : UnityEditor.AssetModificationProcessor
-    {
-        private static AssetMoveResult OnWillMoveAsset(string sourcePath, string destinationPath)
-        {
-            Dialogue dialogue = AssetDatabase.LoadMainAssetAtPath(sourcePath) as Dialogue;
-            if (dialogue == null)
-            {
-                return AssetMoveResult.DidNotMove;
-            }
-
-            if (Path.GetDirectoryName(sourcePath) != Path.GetDirectoryName(destinationPath))
-            {
-                return AssetMoveResult.DidNotMove;
-            }
-
-            dialogue.name = Path.GetFileNameWithoutExtension(destinationPath);
-
-            return AssetMoveResult.DidNotMove;
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:706678443fca10273630fe403c876a6c9b1b5a545608401979c38f90d4a5cfab
+size 907

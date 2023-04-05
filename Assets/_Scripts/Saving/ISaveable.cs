@@ -1,26 +1,3 @@
-namespace Rambler.Saving
-{
-    /// <summary>
-    /// Implement in any component that has state to save/restore.
-    /// </summary>
-    public interface ISaveable
-    {
-        /// <summary>
-        /// Called when saving to capture the state of the component.
-        /// </summary>
-        /// <returns>
-        /// Return a `System.Serializable` object that represents the state of the
-        /// component.
-        /// </returns>
-        object CaptureState();
-
-        /// <summary>
-        /// Called when restoring the state of a scene.
-        /// </summary>
-        /// <param name="state">
-        /// The same `System.Serializable` object that was returned by
-        /// CaptureState when saving.
-        /// </param>
-        void RestoreState(object state);
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:d041e1650b27acebb094f06cc5fa937d5caf55538206d8a07d70c44cb2643cdf
+size 778

@@ -1,20 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ResetFX : MonoBehaviour
-{
-    [SerializeField] GameObject jumpFX;
-
-    // Start is called before the first frame update
-    void OnEnable()
-    {
-        StartCoroutine("ResetJumpFX");
-    }
-
-   IEnumerator ResetJumpFX()
-    {
-        yield return new WaitForSeconds(7);
-        jumpFX.SetActive(false);
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:7cc36ace99cd9923df74ab06bade37ae6d13467c12fc5bf921b77cef6f684224
+size 425

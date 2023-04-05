@@ -1,36 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Rambler.Control 
-{
-    public class PatrolPath : MonoBehaviour
-    {        
-        const float waypointGizmoRadius = 0.4f;       
-
-        private void OnDrawGizmos()
-        {
-            for(int i = 0; i < transform.childCount; i++)
-            {
-                int j = GetNextIndex(i);
-                Gizmos.DrawSphere(GetWaypoint(i), waypointGizmoRadius);
-                Gizmos.DrawLine(GetWaypoint(i), GetWaypoint(j));
-            }
-        }
-
-        public int GetNextIndex(int i)
-        {
-            if(i + 1 == transform.childCount)
-            {
-                return 0;
-            }
-            return i + 1;
-        }
-
-        public Vector3 GetWaypoint(int i)
-        {
-            return transform.GetChild(i).position;            
-        }      
-        
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:d403132e58329d95632a888cc426479c27a9b0e6e69a6fd3a0537e0d666b7518
+size 917

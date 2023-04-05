@@ -1,29 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using Rambler.Inventories;
-using Rambler.Combat;
-
-namespace Rambler.Inventories
-{
-    /// <summary>
-    /// Handles spawning pickups when item dropped into the world.
-    /// 
-    /// Must be placed on the root canvas where items can be dragged. Will be
-    /// called if dropped over empty space. 
-    /// </summary>
-    public class InventoryDropTarget : MonoBehaviour
-    {
-        public void AddItems(Weapon item)
-        {
-            var player = GameObject.FindGameObjectWithTag("Player");
-            player.GetComponent<ItemDropper>().DropItem(item, 1);
-        }
-
-        public int MaxAcceptable(Weapon item)
-        {
-            return int.MaxValue;
-        }       
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:4c578fb3917b2e6f05f60bd6d1eacd53d0a3bb6037feff955b15596ebe9b03da
+size 820

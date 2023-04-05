@@ -1,23 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class PortalActivate : MonoBehaviour
-{
-   public Collider col;
-
-   void OnEnable()
-    {
-        DoorOpen.doorUnlocked += activatePortal;
-    }
-    
-    void OnDisable()
-    {
-        DoorOpen.doorUnlocked -= activatePortal;
-    }
-
-    void activatePortal()
-    {
-        col.enabled = true;
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:0bb7adb52f3e158a3797efbfb345fd41b2302996bcc27988c3768f9c36159ac7
+size 413

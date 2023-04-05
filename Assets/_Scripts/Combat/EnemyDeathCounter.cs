@@ -1,35 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Rambler.Core 
-{  
-  
-  public class EnemyDeathCounter : MonoBehaviour
-  {
-    public Collider col;
-    public GameObject fx;
-    public int enemyWaveCount;    
-    public int numberToTriggerDialogue;
-
-    void Start()
-    {
-      col.enabled = false;  
-      fx.SetActive(false);
-    }
-
-    void Update()
-    {
-      var enemiesKilled = EnemySpawn.count;
-      if(enemiesKilled == 3)
-      {
-        enemyWaveCount ++;
-      }   
-      if(enemyWaveCount == numberToTriggerDialogue)
-      {
-        col.enabled = true;
-        fx.SetActive(true);
-      } 
-    }
-  } 
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:c71cb5fb4ff66bef4c887f53a3ffb831837a1110735834113b98a64e1f6896f3
+size 696

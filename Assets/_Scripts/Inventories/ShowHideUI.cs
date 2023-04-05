@@ -1,29 +1,3 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
-namespace Rambler.UI
-{
-    public class ShowHideUI : MonoBehaviour
-    {        
-        [SerializeField] GameObject uiContainer = null;     
-
-       
-        void Start()
-        {
-            uiContainer.SetActive(false);            
-        }   
-      
-        public void ShowInv()
-        {                 
-            uiContainer.SetActive(true);
-        }
-
-        public void HideInv()
-        {                 
-            uiContainer.SetActive(false);
-        }
-    }
-}    
+version https://git-lfs.github.com/spec/v1
+oid sha256:64750c56bf5dfc1835842b129cbf512b8939618d78c5e7819a8b7ec81046ef25
+size 634

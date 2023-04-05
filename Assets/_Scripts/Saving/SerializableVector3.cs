@@ -1,32 +1,3 @@
-using UnityEngine;
-
-namespace Rambler.Saving
-{
-    /// <summary>
-    /// A `System.Serializable` wrapper for the `Vector3` class.
-    /// </summary>
-    [System.Serializable]
-    public class SerializableVector3
-    {
-        float x, y, z;
-
-        /// <summary>
-        /// Copy over the state from an existing Vector3.
-        /// </summary>
-        public SerializableVector3(Vector3 vector)
-        {
-            x = vector.x;
-            y = vector.y;
-            z = vector.z;
-        }
-
-        /// <summary>
-        /// Create a Vector3 from this class' state.
-        /// </summary>
-        /// <returns></returns>
-        public Vector3 ToVector()
-        {
-            return new Vector3(x, y, z);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:0c1712b50c0f4971fd3ac74229e1416f3893cff43c90c63ec51a685c9a1faace
+size 727

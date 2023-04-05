@@ -1,28 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Rambler.Quests;
-using TMPro;
-using UnityEngine;
-
-namespace Rambler.Quests
-{
-  public class QuestItemUI : MonoBehaviour
-  {
-    [SerializeField] TextMeshProUGUI title;
-    [SerializeField] TextMeshProUGUI progress;
-
-      QuestStatus status;
-
-      public void Setup(QuestStatus status)
-      {
-        this.status = status;
-        title.text = status.GetQuest().GetTitle();
-        progress.text = status.GetCompletedCount() + "/" + status.GetQuest().GetObjectiveCount();
-      }    
-
-      public QuestStatus GetQuestStatus()
-      {
-        return status;
-      }
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:f2c70d0571b0870e9bee8be877a0a1b9a7f7a3a5679755367bfb0d7408bc3d81
+size 668

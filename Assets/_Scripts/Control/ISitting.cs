@@ -1,34 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Rambler.Combat;
-using Rambler.Core;
-using Rambler.Movement;
-using Rambler.Control;
-
-public class ISitting : IState
-{
-    private readonly AIController _aIController;
-    private readonly Animator _animator;
-
-    public ISitting(AIController aIController, Animator animator)
-    {
-        _aIController = aIController;
-        _animator = animator;
-    }
-
-    public void OnEnter()
-    {
-
-    }
-
-    public void OnExit()
-    {
-        
-    }
-
-    public void Tick()
-    {
-        
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:fbee1422b570abda9e8a0d8e787b709c07abd896a503f7777ad292ef520b4212
+size 607

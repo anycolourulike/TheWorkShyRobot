@@ -1,31 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Rambler.Control;
-
-namespace Rambler.Combat
-{
-    public class AggroGroup : MonoBehaviour
-    {
-        [SerializeField] Fighter[] fighters;
-        [SerializeField] bool activateOnStart = false;
-
-        private void Start() 
-        {
-            Activate(shouldActivate: activateOnStart);
-        }
-
-        public void Activate(bool shouldActivate)
-        {
-            foreach (Fighter fighter in fighters)
-            {
-                FieldOfView target = fighter.GetComponent<FieldOfView>();
-                if (target != null)
-                {
-                    target.enabled = shouldActivate;
-                }
-                fighter.enabled = shouldActivate;
-            }
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:3e3f5f7643e8767dcb741b481c903b6c53ebfdebbc2bd7196dbec028a2811b35
+size 824
