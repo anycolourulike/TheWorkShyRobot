@@ -27,7 +27,7 @@ namespace Rambler.Attributes // To Do Stop Movement
         [SerializeField] GameObject armFX;
         [SerializeField] GameObject shield;
         [SerializeField] GameObject deathSplashScreen;
-        SerializeField] GameObject gameOverSplashScreen;
+        [SerializeField] GameObject gameOverSplashScreen;
         [SerializeField] Mover mover;       
         public delegate void TargetDeath();
         public static event TargetDeath targetDeath;
@@ -114,6 +114,10 @@ namespace Rambler.Attributes // To Do Stop Movement
                 healthPoints.value = 0f;
                 if(isDeadTimer <= 2.5f)
                 {
+                    var enemySpawnScript = FindObjectOfType<EnemySpawn>();
+                    enemySpawnScript.SetPortalsActive();
+                    //activate portals
+                    Die();
                     Destroy(gameObject);
                 }
                 else
@@ -159,10 +163,10 @@ namespace Rambler.Attributes // To Do Stop Movement
             }
 
             
-            transform.position += new Vector3(0,0,-5f) * 20f * Time.deltaTime;
+            transform.position += new Vector3(0,0,-2f) * 10f * Time.deltaTime;
             if(dieRanNum == 1)
             {
-                anim.speed = 3.5f;
+                anim.speed = 1.5f;
                 anim.SetTrigger("Die1");
                 armFX.transform.SetParent(null);
                 armFX.SetActive(true);
@@ -179,7 +183,7 @@ namespace Rambler.Attributes // To Do Stop Movement
             }
             else if (dieRanNum == 2)
             {
-                anim.speed = 3.5f;
+                anim.speed = 1.5f;
                 anim.SetTrigger("Die2");
                 //headFX.transform.SetParent(null);
                 headFX.SetActive(true);
@@ -196,7 +200,7 @@ namespace Rambler.Attributes // To Do Stop Movement
             }
             else if (dieRanNum == 3)
             {
-                anim.speed = 3.5f;
+                anim.speed = 1.5f;
                 anim.SetTrigger("Die3");
                 //legFX.transform.SetParent(null);
                 legFX.SetActive(true); 

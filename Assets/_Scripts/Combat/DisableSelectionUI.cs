@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class DisableSelectionUI : MonoBehaviour
 {
-    float timeToDisable = 3f;
-    float timer;
+    
+    float timer = 3f;
   
 
     void Update()
     {
-        timer += Time.deltaTime;
-        if (timer <= timeToDisable)
+        timer -= Time.deltaTime;
+        if (timer <= 0)
         {
             var selectionUI = this.gameObject;
             selectionUI.SetActive(false);

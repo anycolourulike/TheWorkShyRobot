@@ -43,8 +43,8 @@ public class LevelManager : MonoBehaviour, ISaveable
     public AssetReference Corridor2;
     public AssetReference Armoury; //Dial
     public AssetReference Storage; 
-    public AssetReference Living;
     public AssetReference Living1;
+    public AssetReference Living2;
     public AssetReference EngineRoom; //Seq
     public AssetReference FlightDeck;
     public AssetReference Bridge; //Boss Timbertoes
@@ -141,7 +141,10 @@ public class LevelManager : MonoBehaviour, ISaveable
 
         if (DestinationCheck() == true)
         {
-            disablePortal?.Invoke();
+            if (sceneToLoad != Armoury)
+            {
+                disablePortal?.Invoke();
+            }
         }
         
         Time.timeScale = 1;      
@@ -198,11 +201,11 @@ public class LevelManager : MonoBehaviour, ISaveable
             break;
 
          case 6:
-            sceneToLoad = Living;
+            sceneToLoad = Living1;
             break;
 
          case 7:
-            sceneToLoad = Living1;
+            sceneToLoad = Living2;
             break;
 
          case 8:

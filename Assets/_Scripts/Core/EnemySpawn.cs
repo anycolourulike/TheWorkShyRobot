@@ -67,6 +67,12 @@ namespace Rambler.Core
             }
         }
 
+        public void SetPortalsActive()
+        {
+            endLevelTxt.SetActive(true);
+            SetFXActive();
+        }
+
         void SetFXActive()
         {            
             foreach (GameObject taggedobj in portals)
