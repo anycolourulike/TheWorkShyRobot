@@ -1,22 +1,3 @@
-fileFormatVersion: 2
-guid: 4632e69f7f7016d459140eb4c524ec0d
-TrueTypeFontImporter:
-  externalObjects: {}
-  serializedVersion: 4
-  fontSize: 16
-  forceTextureCase: -2
-  characterSpacing: 0
-  characterPadding: 1
-  includeFontData: 1
-  fontName: Normalcomicfont
-  fontNames:
-  - Normalcomicfont
-  fallbackFontReferences: []
-  customCharacters: 
-  fontRenderingMode: 0
-  ascentCalculationMode: 1
-  useLegacyBoundsCalculation: 0
-  shouldRoundAdvanceValue: 1
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+version https://git-lfs.github.com/spec/v1
+oid sha256:6c99a7c5c9965b1b8b1b90e5ac9df3bf12728f1420f8463531e3c021e3040afc
+size 530

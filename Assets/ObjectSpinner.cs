@@ -1,20 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ObjectSpinner : MonoBehaviour
-{
-    GameObject obj;
-
-
-    void Start()
-    {
-        obj = this.gameObject;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        obj.transform.Rotate(new Vector3(0, 0, 90) * Time.deltaTime);
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:a890b5f6092fffce2c101d6a80ecb41c7d5b31fe81306cb7d335b17d7c1b8287
+size 369

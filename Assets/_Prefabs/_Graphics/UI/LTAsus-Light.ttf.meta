@@ -1,22 +1,3 @@
-fileFormatVersion: 2
-guid: a4e325be882f7e348b26f03d46b03f44
-TrueTypeFontImporter:
-  externalObjects: {}
-  serializedVersion: 4
-  fontSize: 16
-  forceTextureCase: -2
-  characterSpacing: 0
-  characterPadding: 1
-  includeFontData: 1
-  fontName: LT Asus
-  fontNames:
-  - LT Asus
-  fallbackFontReferences: []
-  customCharacters: 
-  fontRenderingMode: 0
-  ascentCalculationMode: 1
-  useLegacyBoundsCalculation: 0
-  shouldRoundAdvanceValue: 1
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+version https://git-lfs.github.com/spec/v1
+oid sha256:425de3abd1d59d84cbcfeb4d4199b670293f0c54a34041b784346665c00453c3
+size 492

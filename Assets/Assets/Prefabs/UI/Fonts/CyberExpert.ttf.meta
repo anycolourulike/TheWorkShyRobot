@@ -1,22 +1,3 @@
-fileFormatVersion: 2
-guid: 039910ac5e73664439280880890ac35e
-TrueTypeFontImporter:
-  externalObjects: {}
-  serializedVersion: 4
-  fontSize: 16
-  forceTextureCase: -2
-  characterSpacing: 0
-  characterPadding: 1
-  includeFontData: 1
-  fontName: Cyber Expert
-  fontNames:
-  - Cyber Expert
-  fallbackFontReferences: []
-  customCharacters: 
-  fontRenderingMode: 0
-  ascentCalculationMode: 1
-  useLegacyBoundsCalculation: 0
-  shouldRoundAdvanceValue: 1
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+version https://git-lfs.github.com/spec/v1
+oid sha256:62fe67b726142d8f02d6e8a2bc9a97fc0281f6e9151f1ecbf8315ed5f28af75f
+size 524

@@ -1,13 +1,3 @@
-fileFormatVersion: 2
-guid: be11ab6aad4338d4d8ad965540935796
-labels:
-- LowPoly
-- Low-Poly
-- Storage
-- Pallet
-timeCreated: 1504885146
-licenseType: Store
-NativeFormatImporter:
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+version https://git-lfs.github.com/spec/v1
+oid sha256:a7e6907310d89c4575d2ce73c507b0563aa025b6649ddb2bee2863ca043d771b
+size 229
