@@ -1056,11 +1056,6 @@ PrefabInstance:
       propertyPath: fadeGroup
       value: 
       objectReference: {fileID: 4380811484371802573}
-    - target: {fileID: 6972168513087058493, guid: 6633301525297b04595b61794cdd658b,
-        type: 3}
-      propertyPath: menuScene.m_AssetGUID
-      value: e0456788cc7f06a4fbd1379ae7dfb2e8
-      objectReference: {fileID: 0}
     - target: {fileID: 9222454046960444513, guid: 6633301525297b04595b61794cdd658b,
         type: 3}
       propertyPath: fadeGroup
