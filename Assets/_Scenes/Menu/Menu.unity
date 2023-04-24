@@ -1796,10 +1796,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 087884421c0edc84a96da8eb8b741c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveCount: 0
-  waves: []
-  numberOfAIKilled: 0
-  aIKilledToShowText: 0
-  npcCounterForNextWave: 0
+  secTeamsCount: 0
+  deadEnemyCount: 0
+  enemiesToBeKilled: 0
+  enemyCounterForNextWave: 0
+  activeSecTeam: {fileID: 0}
   endLevelTxt: {fileID: 0}
+  secTeamObjects: []
   portals: []
+  secTeam: []
+  enemies: []
