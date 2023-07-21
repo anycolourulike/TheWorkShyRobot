@@ -1098,6 +1098,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -2.14
       objectReference: {fileID: 0}
+    - target: {fileID: 2810129383371888297, guid: 25c1d1d02b71cb44d97b5f0acab18ddf,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2810129383371888297, guid: 25c1d1d02b71cb44d97b5f0acab18ddf,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2810129383440568420, guid: 25c1d1d02b71cb44d97b5f0acab18ddf,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -3014,7 +3024,7 @@ PrefabInstance:
     - target: {fileID: 1524341300399771651, guid: 74fbfe6b193b62f47ab6c59e4b2fb449,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1524341300399771660, guid: 74fbfe6b193b62f47ab6c59e4b2fb449,
         type: 3}
