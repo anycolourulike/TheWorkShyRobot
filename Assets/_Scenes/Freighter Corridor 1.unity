@@ -986,6 +986,16 @@ PrefabInstance:
       propertyPath: patrolPath
       value: 
       objectReference: {fileID: 1025454784}
+    - target: {fileID: 2775926317096183532, guid: d0794f3472f8f3c419dc59728cbf2445,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: 02a5b1e4-5b0e-41f5-a9c5-beebd9cc4e5f
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161980473390111190, guid: d0794f3472f8f3c419dc59728cbf2445,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: c4bcb23c-0700-431b-974c-20474a3a8afe
+      objectReference: {fileID: 0}
     - target: {fileID: 4648525370652021088, guid: d0794f3472f8f3c419dc59728cbf2445,
         type: 3}
       propertyPath: m_Name
@@ -1045,6 +1055,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -2.627
+      objectReference: {fileID: 0}
+    - target: {fileID: 6527708487066314267, guid: d0794f3472f8f3c419dc59728cbf2445,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: e245b891-dbce-48c9-be14-7a7944375f7d
       objectReference: {fileID: 0}
     - target: {fileID: 7819636681315540418, guid: d0794f3472f8f3c419dc59728cbf2445,
         type: 3}
@@ -3026,6 +3041,16 @@ PrefabInstance:
       propertyPath: patrolPath
       value: 
       objectReference: {fileID: 1025454784}
+    - target: {fileID: 2775926317096183532, guid: d0794f3472f8f3c419dc59728cbf2445,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: 99b5c09a-df77-4c60-9d6f-19335a53e8c6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161980473390111190, guid: d0794f3472f8f3c419dc59728cbf2445,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: f2143d8f-1c34-4f5e-89d4-4a709cd54c12
+      objectReference: {fileID: 0}
     - target: {fileID: 4648525370652021088, guid: d0794f3472f8f3c419dc59728cbf2445,
         type: 3}
       propertyPath: m_Name
@@ -3085,6 +3110,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -2.627
+      objectReference: {fileID: 0}
+    - target: {fileID: 6527708487066314267, guid: d0794f3472f8f3c419dc59728cbf2445,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: e5a80e4c-90c0-42f8-a516-7bb843ce6ff0
       objectReference: {fileID: 0}
     - target: {fileID: 7819636681315540418, guid: d0794f3472f8f3c419dc59728cbf2445,
         type: 3}
