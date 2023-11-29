@@ -1770,5 +1770,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3646116104845438799, guid: 1fe3bd6118fe13f4ebf88072a77542fa,
+        type: 3}
+      propertyPath: f1.m_AssetGUID
+      value: 81771e47d08521c498ba5b5766221b3b
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646116104845438799, guid: 1fe3bd6118fe13f4ebf88072a77542fa,
+        type: 3}
+      propertyPath: f2.m_AssetGUID
+      value: 594d1b3e606da7949b39439c5240795c
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646116104845438799, guid: 1fe3bd6118fe13f4ebf88072a77542fa,
+        type: 3}
+      propertyPath: f3.m_AssetGUID
+      value: 336d19d7888ec8c4a932ddda883c6eba
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646116104845438799, guid: 1fe3bd6118fe13f4ebf88072a77542fa,
+        type: 3}
+      propertyPath: Cavern.m_AssetGUID
+      value: 63dcf35674f5a934d942406a1966ea1c
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646116104845438799, guid: 1fe3bd6118fe13f4ebf88072a77542fa,
+        type: 3}
+      propertyPath: Cliffs.m_AssetGUID
+      value: 04e81f5ce7778124ba640a623c498ac0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646116104845438799, guid: 1fe3bd6118fe13f4ebf88072a77542fa,
+        type: 3}
+      propertyPath: Canyons.m_AssetGUID
+      value: bc8cf12a7f0c0e24e9eed87e3aba3483
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646116104845438799, guid: 1fe3bd6118fe13f4ebf88072a77542fa,
+        type: 3}
+      propertyPath: Tunnels.m_AssetGUID
+      value: 2c97b98253b5f6a4abc362a316e75651
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646116104845438799, guid: 1fe3bd6118fe13f4ebf88072a77542fa,
+        type: 3}
+      propertyPath: outside.m_AssetGUID
+      value: da9396ee4b9080c4085654ba9f281a5a
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fe3bd6118fe13f4ebf88072a77542fa, type: 3}
