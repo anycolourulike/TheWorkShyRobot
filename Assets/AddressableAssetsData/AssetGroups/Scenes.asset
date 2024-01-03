@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Scenes
+  m_EditorClassIdentifier: 
+  m_GroupName: Scenes
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 2066dd114d29c6b4aa1b896ca2656de3
+  m_SerializeEntries:
+  - m_GUID: e0456788cc7f06a4fbd1379ae7dfb2e8
+    m_Address: Assets/_Scenes/Menu/Menu.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8d39f06c7d044f24cbc22f1086fce694
+    m_Address: Assets/_Scenes/Menu/Loading.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 39d2faf6d54f1ad4e805e406d409c1cf
+    m_Address: Intro
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 336d19d7888ec8c4a932ddda883c6eba
+    m_Address: Assets/_Scenes/Freighter RobotLab.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c76182bba141c6f48b859bdd279e2d80
+    m_Address: Assets/_Scenes/F3 1.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 112f0755acee4e540917f13c16f2df23, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: e96c8afa898c5d34695834047a6743ee, type: 2}
+    - {fileID: 11400000, guid: 8ea8125d1c60f6045834c864d27f1299, type: 2}
